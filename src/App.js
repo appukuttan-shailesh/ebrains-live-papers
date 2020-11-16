@@ -115,7 +115,7 @@ class App extends React.Component {
           <br />
           Live papers are often not produced in one go, and might require
           revisions over time. Keeping this in mind, we allow users to download
-          "live paper projects" during each session. These sessions can be
+          "live paper projects" at any point of development. These projects can be
           uploaded later, to continue from where you had left off. Please note,
           that these project files should not be manually edited as it could
           render them unreadable by the tool.

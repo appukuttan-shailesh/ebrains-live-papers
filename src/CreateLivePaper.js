@@ -412,9 +412,10 @@ class CreateLivePaper extends React.Component {
               }}
             >
               <div>
-                Please enter the information in the fields below. You can
+                Follow the steps listed below to create the live paper. You can
                 generate the live paper and/or save the project at any time by
-                clicking on the buttons on the bottom of the page.
+                clicking on the buttons on the bottom of the page. It also
+                provides you an option to preview any changes before proceeding.
                 <br />
                 <br />
                 When saving the project, a file with extension '.lpp' will be
