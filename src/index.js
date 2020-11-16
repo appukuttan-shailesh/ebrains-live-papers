@@ -1,15 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-// import App from './App';
-import CreateLivePaper from "./CreateLivePaper";
+import App from "./App";
+// import CreateLivePaper from "./CreateLivePaper";
 import reportWebVitals from "./reportWebVitals";
 import { SnackbarProvider } from "notistack";
 
 ReactDOM.render(
   <React.StrictMode>
     <SnackbarProvider maxSnack={3}>
-      <CreateLivePaper />
+      <App />
+      {/* <CreateLivePaper /> */}
     </SnackbarProvider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -67,6 +67,11 @@
             <p>
                 <strong>Corresponding author:
                 </strong>
+                {% if corresponding_author %}
+                    {{ corresponding_author.firstname }} {{ corresponding_author.lastname }} ( <em><a href="mailto:{{corresponding_author.email}}"">{{ corresponding_author.email }}</a></em> )
+                {% else %}
+                    To be filled...
+                {% endif %}
             </p>
         </div>
         <div class="rainbow-row">

@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import CreateLivePaper from "./CreateLivePaper";
-import LivePaper from './LivePaper.template';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,66 +8,59 @@ class App extends React.Component {
 
     this.state = {
       createLivePaperOpen: false,
+      projectData: {},
     };
+
+    this.inputFileRef = React.createRef();
 
     this.handleCreateLivePaperOpen = this.handleCreateLivePaperOpen.bind(this);
     this.handleCreateLivePaperClose = this.handleCreateLivePaperClose.bind(
       this
     );
+    this.handleLoadProject = this.handleLoadProject.bind(this);
+    this.onFileSelect = this.onFileSelect.bind(this);
   }
 
   handleCreateLivePaperOpen() {
-    // this.setState({ createLivePaperOpen: true });
-    var nunjucks = require("nunjucks")
-    // const Handlebars = require("handlebars");
-
-    function render(data) {
-        fetch(LivePaper)
-        .then(r => r.text())
-        .then(source => {
-
-            var output = nunjucks.renderString(source, data)
-
-            // var template = Handlebars.compile(source);
-            // var output = template(data);
-            
-            // console.log('text decoded:', output);
-
-            const element = document.createElement("a");
-            const file = new Blob([output], {type: 'text/html'});
-            element.href = URL.createObjectURL(file);
-            element.download = "livepaper_demo.html";
-            document.body.appendChild(element); // Required for this to work in FireFox
-            element.click();
-        });
-      
-    }
-    // var data = JSON.parse(fs.readFileSync("./data/strings.json", 'utf8'));
-    var data = { paper_title: "Namaste" };
-    render(data);
-
-    // console.log(nunjucks.render(
-    //     ".njk", {
-    //         paper_title: "Namaste"
-    //     }
-    // ));
+    this.setState({ projectData: "", createLivePaperOpen: true });
   }
 
   handleCreateLivePaperClose() {
     this.setState({ createLivePaperOpen: false });
   }
 
+  handleLoadProject() {
+    this.inputFileRef.current.click();
+  }
+
+  onFileSelect(event) {
+    if (event.target.files.length === 1) {
+      var data = "";
+      const scope = this;
+      const reader = new FileReader();
+      reader.onload = function (that) {
+        data = JSON.parse(reader.result);
+        // console.log(data);
+        scope.setState({ projectData: data, createLivePaperOpen: true });
+      };
+      reader.readAsText(event.target.files[0]);
+    } else {
+      this.setState({ projectData: {} });
+    }
+  }
+
   render() {
-    var createLivePaper = "";
+    var createLivePaperContent = "";
     if (this.state.createLivePaperOpen) {
-      createLivePaper = (
+      createLivePaperContent = (
         <CreateLivePaper
           open={this.state.createLivePaperOpen}
           onClose={this.handleCreateLivePaperClose}
+          data={this.state.projectData}
         />
       );
     }
-    console.log(this.state.createLivePaperOpen);
+
     return (
       <div className="container" style={{ textAlign: "left" }}>
         <br />
@@ -159,6 +151,7 @@ class App extends React.Component {
               backgroundColor: "#01579b",
               fontWeight: "bold",
             }}
+            onClick={this.handleLoadProject}
           >
             Load Existing Project
           </Button>
@@ -177,7 +170,17 @@ class App extends React.Component {
         </div>
         <br />
         <br />
-        <div>{createLivePaper}</div>
+        <div>{createLivePaperContent}</div>
+        <div>
+          <input
+            id="fileInput"
+            type="file"
+            ref={this.inputFileRef}
+            style={{ display: "none" }}
+            accept=".lpp"
+            onChange={this.onFileSelect}
+          />
+        </div>
       </div>
     );
   }

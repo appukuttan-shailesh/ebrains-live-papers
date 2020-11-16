@@ -75,6 +75,26 @@ function showNotification(enqueueSnackbar, message, type = "default") {
   });
 }
 
+function getFormattedTime() {
+  var today = new Date();
+  var y = today.getFullYear();
+  // JavaScript months are 0-based.
+  var m = today.getMonth() + 1;
+  var d = today.getDate();
+  var h = today.getHours();
+  var mi = today.getMinutes();
+  var s = today.getSeconds();
+  return (
+    y.toString() +
+    m.toString() +
+    d.toString() +
+    "_" +
+    h.toString() +
+    mi.toString() +
+    s.toString()
+  );
+}
+
 const MyDialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
@@ -93,180 +113,53 @@ const MyDialogTitle = withStyles(styles)((props) => {
   );
 });
 
+const popular_licenses = [
+  "None",
+  "Apache License 2.0",
+  'BSD 2-Clause "Simplified" License',
+  'BSD 3-Clause "New" or "Revised" License',
+  "Creative Commons Attribution 4.0 International",
+  "Creative Commons Attribution Non Commercial 4.0 International",
+  "Creative Commons Attribution Share Alike 4.0 International",
+  "Creative Commons Zero v1.0 Universal",
+  "GNU General Public License v2.0 or later",
+  "GNU General Public License v3.0 or later",
+  "GNU Lesser General Public License v3.0 or later",
+  "MIT License",
+];
+
 class CreateLivePaper extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      popular_licenses: [
-        "None",
-        "Apache License 2.0",
-        'BSD 2-Clause "Simplified" License',
-        'BSD 3-Clause "New" or "Revised" License',
-        "Creative Commons Attribution 4.0 International",
-        "Creative Commons Attribution Non Commercial 4.0 International",
-        "Creative Commons Attribution Share Alike 4.0 International",
-        "Creative Commons Zero v1.0 Universal",
-        "GNU General Public License v2.0 or later",
-        "GNU General Public License v3.0 or later",
-        "GNU Lesser General Public License v3.0 or later",
-        "MIT License",
-      ],
-      page_title: "",
-      authors_string: "",
-      affiliations_string: "",
-      //   authors: [{ firstname: "", lastname: "", affiliation: "" }],
-      //   year: new Date(),
-      //   paper_title: "",
-      //   journal: "",
-      //   url: "",
-      //   citation: "",
-      //   doi: "",
-      //   license: "None",
-      //   abstract: "",
-      authors: [
-        {
-          firstname: "Rosanna",
-          lastname: "Migliore",
-          affiliation:
-            "Institute of Biophysics, National Research Council, Palermo, Italy",
-        },
-        {
-          firstname: "Carmen A.",
-          lastname: "Lupascu",
-          affiliation:
-            "Institute of Biophysics, National Research Council, Palermo, Italy",
-        },
-        {
-          firstname: "Luca L.",
-          lastname: "Bologna",
-          affiliation:
-            "Institute of Biophysics, National Research Council, Palermo, Italy",
-        },
-        {
-          firstname: "Armando",
-          lastname: "Romani",
-          affiliation:
-            "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland",
-        },
-        {
-          firstname: "Jean-Denis",
-          lastname: "Courcol",
-          affiliation:
-            "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland",
-        },
-        {
-          firstname: "Stefano",
-          lastname: "Antonel",
-          affiliation:
-            "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland",
-        },
-        {
-          firstname: "Werner A.H.",
-          lastname: "Van Geit",
-          affiliation:
-            "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland",
-        },
-        {
-          firstname: "Alex M.",
-          lastname: "Thomson",
-          affiliation: "University College London, United Kingdom",
-        },
-        {
-          firstname: "Audrey",
-          lastname: "Mercer",
-          affiliation: "University College London, United Kingdom",
-        },
-        {
-          firstname: "Sigrun",
-          lastname: "Lange",
-          affiliation:
-            "University College London, United Kingdom; University of Westminster, London, United Kingdom",
-        },
-        {
-          firstname: "Joanne",
-          lastname: "Falck",
-          affiliation: "University College London, United Kingdom",
-        },
-        {
-          firstname: "Christian A.",
-          lastname: "Rössert",
-          affiliation:
-            "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland",
-        },
-        {
-          firstname: "Ying",
-          lastname: "Shi",
-          affiliation:
-            "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland",
-        },
-        {
-          firstname: "Olivier",
-          lastname: "Hagens",
-          affiliation:
-            "Laboratory of Neural Microcircuitry (LNMC), Brain Mind Institute, EPFL, Lausanne, Switzerland",
-        },
-        {
-          firstname: "Maurizio",
-          lastname: "Pezzoli",
-          affiliation:
-            "Laboratory of Neural Microcircuitry (LNMC), Brain Mind Institute, EPFL, Lausanne, Switzerland",
-        },
-        {
-          firstname: "Tamas F.",
-          lastname: "Freund",
-          affiliation:
-            "Institute of Experimental Medicine, Hungarian Academy of Sciences, Budapest, Hungary; Faculty of Information Technology and Bionics, Pázmány Péter Catholic University, Budapest, Hungary",
-        },
-        {
-          firstname: "Szabolcs",
-          lastname: "Kali",
-          affiliation:
-            "Institute of Experimental Medicine, Hungarian Academy of Sciences, Budapest, Hungary; Faculty of Information Technology and Bionics, Pázmány Péter Catholic University, Budapest, Hungary",
-        },
-        {
-          firstname: "Eilif B.",
-          lastname: "Muller",
-          affiliation:
-            "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland",
-        },
-        {
-          firstname: "Felix",
-          lastname: "Schürmann",
-          affiliation:
-            "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland",
-        },
-        {
-          firstname: "Henry",
-          lastname: "Markram",
-          affiliation:
-            "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland",
-        },
-        {
-          firstname: "Michele",
-          lastname: "Migliore",
-          affiliation:
-            "Institute of Biophysics, National Research Council, Palermo, Italy",
-        },
-      ],
-      year: new Date(2018, 11, 24, 10, 33, 30, 0),
-      paper_title:
-        "The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow",
-      journal: "PLOS Computational Biology",
-      url: "https://doi.org/10.1371/journal.pcbi.1006423",
-      citation:
-        "Migliore R, Lupascu CA, Bologna LL, Romani A, Courcol J-D, Antonel S, et al. (2018) The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow. PLoS Comput Biol 14(9): e1006423.",
-      doi: "https://doi.org/10.1371/journal.pcbi.1006423",
-      license: "Creative Commons Attribution 4.0 International",
-      abstract:
-        "The peak conductance of many ion channel types measured in any given animal is highly variable across neurons, both within and between neuronal populations. The current view is that this occurs  because a neuron needs to adapt its intrinsic electrophysiological properties either to maintain the same operative range in the presence of abnormal inputs or to compensate for the effects of  pathological conditions. Limited experimental and modeling evidence suggests this might be  implemented via the correlation and/or degeneracy in the function of multiple types of conductances. To study this mechanism in hippocampal CA1 neurons and interneurons, we systematically generated a set of morphologically and biophysically accurate models. We then analyzed the ensembles of peak conductance obtained for each model neuron. The results suggest that the set of conductances expressed in the various neuron types may be divided into two groups: one group is responsible for the major characteristics of the firing behavior in each population and the other more involved with  degeneracy. These models provide experimentally testable predictions on the combination and relative proportion of the different conductance types that should be present in hippocampal CA1  pyramidal cells and interneurons.",
-    };
+    if (this.props.data === "") {
+      this.state = {
+        page_title: "",
+        authors_string: "",
+        affiliations_string: "",
+        authors: [{ firstname: "", lastname: "", affiliation: "" }],
+        corresponding_author: { firstname: "", lastname: "", email: "" },
+        year: new Date(),
+        paper_title: "",
+        journal: "",
+        url: "",
+        citation: "",
+        doi: "",
+        license: "None",
+        abstract: "",
+      };
+    } else {
+      this.state = {
+        ...props.data,
+      };
+    }
 
     this.handleClose = this.handleClose.bind(this);
     this.handleDownloadLivePaper = this.handleDownloadLivePaper.bind(this);
     this.handlePreviewLivePaper = this.handlePreviewLivePaper.bind(this);
     this.handleSaveProject = this.handleSaveProject.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
+    this.handleYearChange = this.handleYearChange.bind(this);
     this.handleAuthorsChange = this.handleAuthorsChange.bind(this);
     this.makePageTitleString = this.makePageTitleString.bind(this);
     this.makeAuthorsString = this.makeAuthorsString.bind(this);
@@ -290,17 +183,16 @@ class CreateLivePaper extends React.Component {
           const element = document.createElement("a");
           const file = new Blob([output], { type: "text/html" });
           element.href = URL.createObjectURL(file);
-          element.download = "livepaper_demo.html";
+          element.download = "livepaper_" + getFormattedTime() + ".html";
           document.body.appendChild(element); // Required for this to work in FireFox
           element.click();
         });
     }
-    var data = { paper_title: "Namaste" };
-    render(data);
+    render(this.state);
 
     showNotification(
       this.props.enqueueSnackbar,
-      "Live Paper Downloaded...",
+      "Live Paper downloaded...",
       "success"
     );
   }
@@ -344,14 +236,24 @@ class CreateLivePaper extends React.Component {
   }
 
   handleSaveProject() {
+    // create JSON object with live paper info
+    const lp_data = JSON.stringify(this.state, null, 4);
+    const blob = new Blob([lp_data], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.download = "livepaper_" + getFormattedTime() + ".lpp";
+    link.href = url;
+    link.click();
+
     showNotification(
       this.props.enqueueSnackbar,
-      "Project Downloaded...",
+      "Project downloaded...",
       "success"
     );
   }
 
   handleFieldChange(event) {
+    console.log(event);
     const target = event.target;
     let value = target.value;
     const name = target.name;
@@ -359,6 +261,10 @@ class CreateLivePaper extends React.Component {
     this.setState({
       [name]: value,
     });
+  }
+
+  handleYearChange(value) {
+    this.setState({ year: value._d });
   }
 
   handleAuthorsChange(data) {
@@ -371,7 +277,7 @@ class CreateLivePaper extends React.Component {
     var author_data = data.filter(isNotEmpty);
 
     if (author_data.length === 0) {
-      author_data = "";
+      author_data = [{ firstname: "", lastname: "", affiliation: "" }];
     }
     this.setState({
       authors: author_data,
@@ -389,7 +295,8 @@ class CreateLivePaper extends React.Component {
       if (author_data.length === 0) {
         page_title = "";
       } else if (author_data.length === 1) {
-        page_title = author_data[0].lastname + " " + this.state.year.getFullYear();
+        page_title =
+          author_data[0].lastname + " " + this.state.year.getFullYear();
       } else if (author_data.length === 2) {
         page_title =
           author_data[0].lastname +
@@ -398,7 +305,8 @@ class CreateLivePaper extends React.Component {
           " " +
           this.state.year;
       } else {
-        page_title = author_data[0].lastname + " et al. " + this.state.year.getFullYear();
+        page_title =
+          author_data[0].lastname + " et al. " + this.state.year.getFullYear();
       }
 
       this.setState({
@@ -453,14 +361,15 @@ class CreateLivePaper extends React.Component {
   }
 
   render() {
-    console.log(this.state.paper_title);
+    // console.log(this.state.paper_title);
+
     return (
       <Dialog
         fullScreen
         onClose={this.handleClose}
         aria-labelledby="simple-dialog-title"
-        open={true}
-        // open={this.props.open}
+        // open={true}
+        open={this.props.open}
       >
         <MyDialogTitle onClose={this.handleClose} />
         <DialogContent>
@@ -531,7 +440,7 @@ class CreateLivePaper extends React.Component {
                   onChange={this.handleFieldChange}
                   InputProps={{
                     style: {
-                      padding: "0px 15px",
+                      padding: "5px 15px",
                     },
                   }}
                 />
@@ -549,15 +458,21 @@ class CreateLivePaper extends React.Component {
                 <div>
                   <MuiPickersUtilsProvider utils={MomentUtils}>
                     <DatePicker
+                      label="Year"
                       inputVariant="outlined"
                       views={["year"]}
+                      label="year"
                       value={this.state.year}
-                      onChange={this.handleFieldChange}
+                      minDate={
+                        new Date("2010", "01", "01", "00", "00", "00", "0")
+                      }
+                      maxDate={new Date()}
+                      onChange={this.handleYearChange}
                       animateYearScrolling
                       InputProps={{
                         style: {
                           borderBottom: "0px",
-                          padding: "5px 15px 0px 15px",
+                          padding: "5px 15px 5px 15px",
                           width: "100px",
                         },
                       }}
@@ -584,6 +499,52 @@ class CreateLivePaper extends React.Component {
               <div>
                 <p>
                   <strong>
+                    Specify the corresponding author, along with their email
+                    address:
+                  </strong>
+                </p>
+              </div>
+              <div>
+                <SingleSelect
+                  itemNames={
+                    this.state.authors
+                      ? this.state.authors.map(function (author) {
+                          return author.firstname + " " + author.lastname;
+                        })
+                      : []
+                  }
+                  label="Corresponding Author"
+                  name="corresponding_author"
+                  value={
+                    this.state.corresponding_author.firstname +
+                    " " +
+                    this.state.corresponding_author.lastname
+                  }
+                  handleChange={this.handleFieldChange}
+                />
+              </div>
+              <br />
+              <div>
+                <TextField
+                  label="Corresponding Author Email"
+                  variant="outlined"
+                  fullWidth={true}
+                  name="corresponding_author_email"
+                  value={this.state.corresponding_author.email}
+                  onChange={this.handleFieldChange}
+                  InputProps={{
+                    style: {
+                      padding: "5px 15px",
+                    },
+                  }}
+                  style={{ width: 700 }}
+                />
+              </div>
+              <br />
+              <br />
+              <div>
+                <p>
+                  <strong>
                     Specify the journal in which paper is published (leave empty
                     if awaiting publication):
                   </strong>
@@ -599,7 +560,7 @@ class CreateLivePaper extends React.Component {
                   onChange={this.handleFieldChange}
                   InputProps={{
                     style: {
-                      padding: "0px 15px",
+                      padding: "5px 15px",
                     },
                   }}
                 />
@@ -622,7 +583,7 @@ class CreateLivePaper extends React.Component {
                   onChange={this.handleFieldChange}
                   InputProps={{
                     style: {
-                      padding: "0px 15px",
+                      padding: "5px 15px",
                     },
                   }}
                 />
@@ -670,7 +631,7 @@ class CreateLivePaper extends React.Component {
                   onChange={this.handleFieldChange}
                   InputProps={{
                     style: {
-                      padding: "0px 15px",
+                      padding: "5px 15px",
                     },
                   }}
                 />
@@ -715,7 +676,7 @@ class CreateLivePaper extends React.Component {
               </div>
               <div>
                 <SingleSelect
-                  itemNames={this.state.popular_licenses}
+                  itemNames={popular_licenses}
                   label="License"
                   name="license"
                   value={this.state.license}
