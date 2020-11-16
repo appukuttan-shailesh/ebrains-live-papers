@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/live-paper-builder/static/css/main.d725c3ff.chunk.css",
-    "main.js": "/live-paper-builder/static/js/main.2908dd8c.chunk.js",
-    "main.js.map": "/live-paper-builder/static/js/main.2908dd8c.chunk.js.map",
-    "runtime-main.js": "/live-paper-builder/static/js/runtime-main.44c1b06f.js",
-    "runtime-main.js.map": "/live-paper-builder/static/js/runtime-main.44c1b06f.js.map",
-    "static/js/2.572582e8.chunk.js": "/live-paper-builder/static/js/2.572582e8.chunk.js",
-    "static/js/2.572582e8.chunk.js.map": "/live-paper-builder/static/js/2.572582e8.chunk.js.map",
-    "static/js/3.98174e7f.chunk.js": "/live-paper-builder/static/js/3.98174e7f.chunk.js",
-    "static/js/3.98174e7f.chunk.js.map": "/live-paper-builder/static/js/3.98174e7f.chunk.js.map",
-    "index.html": "/live-paper-builder/index.html",
-    "static/css/main.d725c3ff.chunk.css.map": "/live-paper-builder/static/css/main.d725c3ff.chunk.css.map",
-    "static/js/2.572582e8.chunk.js.LICENSE.txt": "/live-paper-builder/static/js/2.572582e8.chunk.js.LICENSE.txt",
-    "static/media/LivePaper.5b661eb0.template": "/live-paper-builder/static/media/LivePaper.5b661eb0.template"
+    "main.css": "./static/css/main.d725c3ff.chunk.css",
+    "main.js": "./static/js/main.2908dd8c.chunk.js",
+    "main.js.map": "./static/js/main.2908dd8c.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.63502719.js",
+    "runtime-main.js.map": "./static/js/runtime-main.63502719.js.map",
+    "static/js/2.572582e8.chunk.js": "./static/js/2.572582e8.chunk.js",
+    "static/js/2.572582e8.chunk.js.map": "./static/js/2.572582e8.chunk.js.map",
+    "static/js/3.98174e7f.chunk.js": "./static/js/3.98174e7f.chunk.js",
+    "static/js/3.98174e7f.chunk.js.map": "./static/js/3.98174e7f.chunk.js.map",
+    "index.html": "./index.html",
+    "static/css/main.d725c3ff.chunk.css.map": "./static/css/main.d725c3ff.chunk.css.map",
+    "static/js/2.572582e8.chunk.js.LICENSE.txt": "./static/js/2.572582e8.chunk.js.LICENSE.txt",
+    "static/media/LivePaper.5b661eb0.template": "./static/media/LivePaper.5b661eb0.template"
   },
   "entrypoints": [
-    "static/js/runtime-main.44c1b06f.js",
+    "static/js/runtime-main.63502719.js",
     "static/js/2.572582e8.chunk.js",
     "static/css/main.d725c3ff.chunk.css",
     "static/js/main.2908dd8c.chunk.js"
