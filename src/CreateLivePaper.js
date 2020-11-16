@@ -461,7 +461,7 @@ class CreateLivePaper extends React.Component {
                       label="Year"
                       inputVariant="outlined"
                       views={["year"]}
-                      label="year"
+                      name="year"
                       value={this.state.year}
                       minDate={
                         new Date("2010", "01", "01", "00", "00", "00", "0")
