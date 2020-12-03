@@ -1,0 +1,287 @@
+{# All Nunjucks macros defined here at the top #}
+
+{% macro sectionMorphology(data) %}
+    <li class="active">
+        <div class="collapsible-header amber lighten-5">
+            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+        </div>
+        <div class="collapsible-body ">
+            {% if data["description"] %}
+                <p>{{data["description"]}}</p>
+            {% endif %}
+
+            <div style="margin-left:25px">
+                <table class="striped">
+                    <tbody>
+                        {% for item in data["dataFormatted"] %}
+                            <tr>
+                                <td style="width: 60%">
+                                    {{item["label"]}}
+                                </td>
+                                <td>
+                                    <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                        <i class="material-icons left">archive</i>Download
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{item[" url"]}}"="url" ]}}""="]}}" "" target=" _blank" class="waves-effect waves-light">
+                                        <i class="material-icons left">3d_rotation</i>View
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro sectionTraces(data) %}
+    <li class="active">
+        <div class="collapsible-header amber lighten-5">
+            <i class="material-icons">settings_input_antenna</i>{{data["title"]}}
+        </div>
+        <div class="collapsible-body ">
+            {% if data["description"] %}
+                <p>{{data["description"]}}</p>
+            {% endif %}
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro sectionModels(data) %}
+    <li class="active">
+        <div class="collapsible-header amber lighten-5">
+            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+        </div>
+        <div class="collapsible-body ">
+            {% if data["description"] %}
+                <p>{{data["description"]}}</p>
+            {% endif %}
+
+            <div style="margin-left:25px">
+                <table class="striped">
+                    <tbody>
+                        {% for item in data["dataFormatted"] %}
+                            <tr>
+                                <td style="width: 60%">
+                                    {{item["label"]}}
+                                </td>
+                                <td>
+                                    {% if item["url"] %}
+                                        <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                            <i class="material-icons left">archive</i>Download
+                                        </a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if item["mc"] %}
+                                        <a href='{{item["url"]}}' target=" _blank" class="waves-effect waves-light">
+                                            <i class="material-icons left">pageview</i>View
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro sectionCustom(data) %}
+    <li class="active">
+        <div class="collapsible-header amber lighten-5">
+            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+        </div>
+        <div class="collapsible-body ">
+            {% if data["description"] %}
+                <p>{{data["description"]}}</p>
+            {% endif %}
+            <div style="margin-left:25px">
+                {{ data["dataFormatted"] | safe }}
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>
+            {% if page_title %}
+                {{ page_title }}
+            {% else %}
+                Page Title
+            {% endif %}
+        </title>
+        <meta name="viewport" content="width = device-width, initial-scale = 1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/live_paper/css/live_paper.css">
+        <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+    </head>
+
+    <body class="container">
+        <br>
+        <div class="box rounded centered">
+            <a href="https://humanbrainproject.github.io/hbp-bsp-live-papers/" class="waves-effect waves-light" style="text-align:center; color:black">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img class="hbp-icon-small" src="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/live_paper/imgs/hbp_diamond_120.png">
+                            </td>
+                            <td>
+                                <span class="title-style subtitle" style="padding-left:5px;">
+                                    The Brain Simulation Platform "Live Papers"
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </a>
+            <h5 class="title-style">
+                {% if paper_title %}
+                    {{ paper_title }}
+                {% else %}
+                    To be filled...
+                {% endif %}
+            </h5>
+        </div>
+        <div>
+            <p>
+                <strong>Authors:
+                </strong>
+                {% if authors_string %}
+                    {{ authors_string | safe  }}
+                {% else %}
+                    To be filled...
+                {% endif %}
+            </p>
+            <p>
+                <strong>Author information:
+                </strong>
+                {% if affiliations_string %}
+                    {{ affiliations_string | safe  }}
+                {% else %}
+                    To be filled...
+                {% endif %}
+            </p>
+            <p>
+                <strong>Corresponding author:
+                </strong>
+                {% if corresponding_author %}
+                    {{ corresponding_author.firstname }}
+                    {{ corresponding_author.lastname }}
+                    (
+                    <em>
+                        <a href="mailto:{{corresponding_author.email}}" ">{{ corresponding_author.email }}</a>
+                    </em>
+                    )
+                {% else %}
+                    To be filled...
+                {% endif %}
+            </p>
+        </div>
+        <div class="rainbow-row">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <p>
+                <strong>Journal:
+                </strong>
+                {% if journal %}
+                    {{ journal }}
+                {% else %}
+                    <i>Not Available</i>
+                {% endif %}
+            </p>
+            <p>
+                <strong>Download Url:
+                </strong>
+                {% if url %}
+                    <a href="{{ url }}">{{ url }}</a>
+                {% else %}
+                    <i>Not Available</i>
+                {% endif %}
+            </p>
+            <p>
+                <strong>Citation:
+                </strong>
+                {% if citation %}
+                    {{ citation }}
+                {% else %}
+                    <i>Not Available</i>
+                {% endif %}
+            </p>
+            <p>
+                <strong>DOI:
+                </strong>
+                {% if doi %}
+                    <a href="{{ doi }}">{{ doi }}</a>
+                {% else %}
+                    <i>Not Available</i>
+                {% endif %}
+            </p>
+            <p>
+                <strong>Licence:
+                </strong>{{ license }}</p>
+        </div>
+        <div class="note rounded">
+            <h5>Abstract:</h5>
+            {% if abstract %}
+                {{ abstract }}
+            {% else %}
+                To be filled...
+            {% endif %}
+        </div>
+        <h5>Resources</h5>
+        <p>
+            {% if resources_description %}
+                {{ resources_description }}
+            {% endif %}
+        </p>
+        <ul class="collapsible" data-collapsible="expandable">
+            {% for uuid, data in resources_items_data %}
+                {% if data["type"] == "section_morphology" %}
+                    {{ sectionMorphology(data=data) }}
+                {% elseif data["type"] == "section_traces" %}
+                    {{ sectionTraces(data=data) }}
+                {% elseif data["type"] == "section_models" %}
+                    {{ sectionModels(data=data) }}
+                {% elseif data["type"] == "section_custom" %}
+                    {{ sectionCustom(data=data) }}
+                {% else %}
+                    {{ null }}
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <br>
+        <div class="rainbow-row">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <br>
+        <br>
+    </body>
+
+</html>

@@ -8,6 +8,10 @@ import { withStyles } from "@material-ui/core/styles";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
+import AcUnitIcon from "@material-ui/icons/AcUnit";
+import TimelineIcon from "@material-ui/icons/Timeline";
+import LocalPlayIcon from '@material-ui/icons/LocalPlay';
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CloseIcon from "@material-ui/icons/Close";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -16,9 +20,14 @@ import MomentUtils from "@date-io/moment";
 
 import DynamicTable from "./DynamicTable";
 import SingleSelect from "./SingleSelect";
+import SectionMorphology from "./SectionMorphology";
+import SectionTraces from "./SectionTraces";
+import SectionModels from "./SectionModels";
+import SectionCustom from "./SectionCustom";
+import { v4 as uuidv4 } from "uuid";
 
 import nunjucks from "nunjucks";
-import LivePaper from "./LivePaper.template";
+import LivePaper from "./LivePaper.njk";
 
 const styles = (theme) => ({
   root: {
@@ -132,7 +141,7 @@ class CreateLivePaper extends React.Component {
   constructor(props) {
     super(props);
 
-    if (this.props.data === "") {
+    if (!this.props.loadData) {
       this.state = {
         page_title: "",
         authors_string: "",
@@ -145,8 +154,10 @@ class CreateLivePaper extends React.Component {
         url: "",
         citation: "",
         doi: "",
-        license: "None",
         abstract: "",
+        license: "None",
+        resources_description: "",
+        resources_items_data: {},
       };
     } else {
       this.state = {
@@ -164,6 +175,8 @@ class CreateLivePaper extends React.Component {
     this.makePageTitleString = this.makePageTitleString.bind(this);
     this.makeAuthorsString = this.makeAuthorsString.bind(this);
     this.makeAffiliationsString = this.makeAffiliationsString.bind(this);
+    this.handleAddSection = this.handleAddSection.bind(this);
+    this.storeSectionInfo = this.storeSectionInfo.bind(this);
   }
 
   handleClose() {
@@ -237,7 +250,8 @@ class CreateLivePaper extends React.Component {
 
   handleSaveProject() {
     // create JSON object with live paper info
-    const lp_data = JSON.stringify(this.state, null, 4);
+    let data = { lp_version: "0.0.1", created_date: new Date(), ...this.state };
+    const lp_data = JSON.stringify(data, null, 4);
     const blob = new Blob([lp_data], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -289,24 +303,23 @@ class CreateLivePaper extends React.Component {
   }
 
   makePageTitleString() {
+    const year = new Date(this.state.year).getFullYear();
     return new Promise((resolve) => {
       const author_data = this.state.authors;
       var page_title = "";
       if (author_data.length === 0) {
         page_title = "";
       } else if (author_data.length === 1) {
-        page_title =
-          author_data[0].lastname + " " + this.state.year.getFullYear();
+        page_title = author_data[0].lastname + " " + year;
       } else if (author_data.length === 2) {
         page_title =
           author_data[0].lastname +
           " & " +
           author_data[1].lastname +
           " " +
-          this.state.year;
+          year;
       } else {
-        page_title =
-          author_data[0].lastname + " et al. " + this.state.year.getFullYear();
+        page_title = author_data[0].lastname + " et al. " + year;
       }
 
       this.setState({
@@ -319,16 +332,18 @@ class CreateLivePaper extends React.Component {
     return new Promise((resolve) => {
       var data_string = "";
       this.state.authors.forEach(function (author, index) {
-        if (index > 0) {
+        if (data_string !== "") {
           data_string = data_string + ", ";
         }
-        data_string =
-          data_string +
-          author.firstname +
-          " " +
-          author.lastname +
-          " " +
-          (index + 1).toString().sup();
+        if (author.firstname.trim() !== "" || author.lastname.trim() !== "") {
+          data_string =
+            data_string +
+            author.firstname +
+            " " +
+            author.lastname +
+            " " +
+            (index + 1).toString().sup();
+        }
       });
       this.setState({
         authors_string: data_string,
@@ -344,7 +359,7 @@ class CreateLivePaper extends React.Component {
           return x.trim();
         });
         affs.forEach(function (aff) {
-          if (!unique_affs.includes(aff)) {
+          if (aff !== "" && !unique_affs.includes(aff)) {
             unique_affs.push(aff);
           }
         });
@@ -360,15 +375,36 @@ class CreateLivePaper extends React.Component {
     });
   }
 
+  handleAddSection(section_type) {
+    const uuid_val = uuidv4();
+    this.setState((prevState) => ({
+      resources_items_data: {
+        ...prevState.resources_items_data,
+        [uuid_val]: { uuid: uuid_val, type: section_type },
+      },
+    }));
+  }
+
+  storeSectionInfo(data_dict) {
+    this.setState((prevState) => ({
+      resources_items_data: {
+        ...prevState.resources_items_data,
+        [data_dict["uuid"]]: data_dict,
+      },
+    }));
+  }
+
   render() {
-    // console.log(this.state.paper_title);
+    console.log(this.state);
 
     return (
       <Dialog
         fullScreen
+        disableBackdropClick
+        disableEscapeKeyDown
         onClose={this.handleClose}
         aria-labelledby="simple-dialog-title"
-        // open={true}
+        // open={true} // for direct access to this page
         open={this.props.open}
       >
         <MyDialogTitle onClose={this.handleClose} />
@@ -690,38 +726,215 @@ class CreateLivePaper extends React.Component {
               <br />
 
               <h5>Resources</h5>
-              <p>Add a line of description:</p>
-              <ul className="collapsible" data-collapsible="expandable">
-                <li className="active">
-                  <div className="collapsible-header amber lighten-5">
-                    <i className="material-icons">settings_input_antenna</i>Add
-                    heading
-                  </div>
-                  <div className="collapsible-body ">Add content here</div>
-                </li>
-                <li>
-                  <div className="collapsible-header amber lighten-5">
-                    <i className="material-icons">timeline</i>Add heading
-                  </div>
-                  <div className="collapsible-body">Add content here</div>
-                </li>
-                <li>
-                  <div className="collapsible-header amber lighten-5">
-                    <i className="material-icons">note_add</i>Add heading
-                  </div>
-                  <div className="collapsible-body">Add content here</div>
-                </li>
-                <li>
-                  <div className="collapsible-header amber lighten-5">
-                    <i className="material-icons">local_play</i>Add heading
-                  </div>
-                  <div className="collapsible-body">Add content here</div>
-                </li>
-              </ul>
               <br />
+              <div>
+                <Grid item xs={12}>
+                  <TextField
+                    multiline
+                    rows="4"
+                    label="Description of resources (optional)"
+                    variant="outlined"
+                    fullWidth={true}
+                    helperText="The description may be formatted with Markdown"
+                    name="resources_description"
+                    value={this.state.resources_description}
+                    onChange={this.handleFieldChange}
+                    InputProps={{
+                      style: {
+                        padding: "15px 15px",
+                      },
+                    }}
+                  />
+                </Grid>
+              </div>
+
+              <br />
+              <br />
+
+              {Object.keys(this.state.resources_items_data).length > 0
+                ? Object.values(this.state.resources_items_data).map(
+                    (item, index) => {
+                      console.log(item);
+                      if (item["type"] === "section_morphology") {
+                        return (
+                          <SectionMorphology
+                            key={index}
+                            uuid={item["uuid"]}
+                            storeSectionInfo={this.storeSectionInfo}
+                            data={item}
+                            loadData={this.props.loadData}
+                          />
+                        );
+                      } else if (item["type"] === "section_traces") {
+                        return (
+                          <SectionTraces
+                            key={index}
+                            uuid={item["uuid"]}
+                            storeSectionInfo={this.storeSectionInfo}
+                            data={item}
+                            loadData={this.props.loadData}
+                          />
+                        );
+                      } else if (item["type"] === "section_models") {
+                        return (
+                          <SectionModels
+                            key={index}
+                            uuid={item["uuid"]}
+                            storeSectionInfo={this.storeSectionInfo}
+                            data={item}
+                            loadData={this.props.loadData}
+                          />
+                        );
+                      } else if (item["type"] === "section_custom") {
+                        return (
+                          <SectionCustom
+                            key={index}
+                            uuid={item["uuid"]}
+                            storeSectionInfo={this.storeSectionInfo}
+                            data={item}
+                            loadData={this.props.loadData}
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
+                    }
+                  )
+                : null}
               <br />
             </div>
+
+            <div
+              style={{
+                paddingLeft: "5%",
+                paddingRight: "5%",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  paddingLeft: "2.5%",
+                  paddingRight: "2.5%",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  borderStyle: "solid",
+                  borderColor: "#607D8B",
+                  borderWidth: "2px",
+                  backgroundColor: "#01579B",
+                  borderRadius: "20px",
+                  fontWeight: "bold",
+                  borderBottom: "None",
+                  color: "#FFFFFF",
+                }}
+              >
+                Click to add a resource section:
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  paddingLeft: "2.5%",
+                  paddingRight: "2.5%",
+                  paddingTop: "20px",
+                  paddingBottom: "20px",
+                  borderStyle: "solid",
+                  borderColor: "#607D8B",
+                  borderWidth: "2px",
+                  backgroundColor: "#BED3F3",
+                  borderRadius: "20px",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    width: "17.5%",
+                    backgroundColor: "#FFD54F",
+                    color: "#000000",
+                    fontWeight: "bold",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  startIcon={<AcUnitIcon style={{ width: 30, height: 30 }} />}
+                  onClick={() => this.handleAddSection("section_morphology")}
+                >
+                  Neuronal <br /> Morphology
+                </Button>
+                <br />
+                <br />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    width: "17.5%",
+                    backgroundColor: "#8BC34A",
+                    color: "#000000",
+                    fontWeight: "bold",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  startIcon={<TimelineIcon style={{ width: 30, height: 30 }} />}
+                  onClick={() => this.handleAddSection("section_traces")}
+                >
+                  Recordings / Traces
+                </Button>
+                <br />
+                <br />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{
+                    width: "17.5%",
+                    backgroundColor: "#e5b8b3",
+                    color: "#000000",
+                    fontWeight: "bold",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  startIcon={
+                    <LocalPlayIcon
+                      style={{ width: 30, height: 30 }}
+                    />
+                  }
+                  onClick={() => this.handleAddSection("section_models")}
+                >
+                  Model Collection
+                </Button>
+                <br />
+                <br />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{
+                    width: "17.5%",
+                    backgroundColor: "#D9D9D9",
+                    color: "#000000",
+                    fontWeight: "bold",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  startIcon={
+                    <CheckBoxOutlineBlankIcon
+                      style={{ width: 30, height: 30 }}
+                    />
+                  }
+                  onClick={() => this.handleAddSection("section_custom")}
+                >
+                  HTML / Markdown
+                </Button>
+              </div>
+            </div>
+            <br />
+            <br />
           </div>
+
           <Footer>
             <div className="rainbow-row">
               <div></div>
@@ -748,6 +961,9 @@ class CreateLivePaper extends React.Component {
                   backgroundColor: "#FF9800",
                   color: "#000000",
                   fontWeight: "bold",
+                  border: "solid",
+                  borderColor: "#000000",
+                  borderWidth: "1px",
                 }}
                 onClick={this.handlePreviewLivePaper}
               >
@@ -763,6 +979,9 @@ class CreateLivePaper extends React.Component {
                   backgroundColor: "#009688",
                   color: "#000000",
                   fontWeight: "bold",
+                  border: "solid",
+                  borderColor: "#000000",
+                  borderWidth: "1px",
                 }}
                 onClick={this.handleDownloadLivePaper}
               >
@@ -777,6 +996,9 @@ class CreateLivePaper extends React.Component {
                   width: "25%",
                   backgroundColor: "#01579b",
                   fontWeight: "bold",
+                  border: "solid",
+                  borderColor: "#000000",
+                  borderWidth: "1px",
                 }}
                 onClick={this.handleSaveProject}
               >

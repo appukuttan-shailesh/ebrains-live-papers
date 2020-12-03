@@ -9,6 +9,7 @@ class App extends React.Component {
     this.state = {
       createLivePaperOpen: false,
       projectData: {},
+      loadData: false,
     };
 
     this.inputFileRef = React.createRef();
@@ -41,11 +42,15 @@ class App extends React.Component {
       reader.onload = function (that) {
         data = JSON.parse(reader.result);
         // console.log(data);
-        scope.setState({ projectData: data, createLivePaperOpen: true });
+        scope.setState({
+          projectData: data,
+          loadData: true,
+          createLivePaperOpen: true,
+        });
       };
       reader.readAsText(event.target.files[0]);
     } else {
-      this.setState({ projectData: {} });
+      this.setState({ projectData: {}, loadData: false });
     }
   }
 
@@ -57,6 +62,7 @@ class App extends React.Component {
           open={this.state.createLivePaperOpen}
           onClose={this.handleCreateLivePaperClose}
           data={this.state.projectData}
+          loadData={this.state.loadData}
         />
       );
     }
@@ -115,10 +121,10 @@ class App extends React.Component {
           <br />
           Live papers are often not produced in one go, and might require
           revisions over time. Keeping this in mind, we allow users to download
-          "live paper projects" at any point of development. These projects can be
-          uploaded later, to continue from where you had left off. Please note,
-          that these project files should not be manually edited as it could
-          render them unreadable by the tool.
+          "live paper projects" at any point of development. These projects can
+          be uploaded later, to continue from where you had left off. Please
+          note, that these project files should not be manually edited as it
+          could render them unreadable by the tool.
         </div>
         <br />
         <div
