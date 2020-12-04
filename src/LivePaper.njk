@@ -1,7 +1,7 @@
 {# All Nunjucks macros defined here at the top #}
 
 {% macro sectionMorphology(data) %}
-    <li class="active">
+    <li>
         <div class="collapsible-header amber lighten-5">
             <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
         </div>
@@ -24,7 +24,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{item[" url"]}}"="url" ]}}""="]}}" "" target=" _blank" class="waves-effect waves-light">
+                                    <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{item["url"]}}' target=" _blank" class="waves-effect waves-light">
                                         <i class="material-icons left">3d_rotation</i>View
                                     </a>
                                 </td>
@@ -38,7 +38,7 @@
 {% endmacro %}
 
 {% macro sectionTraces(data) %}
-    <li class="active">
+    <li>
         <div class="collapsible-header amber lighten-5">
             <i class="material-icons">settings_input_antenna</i>{{data["title"]}}
         </div>
@@ -46,12 +46,28 @@
             {% if data["description"] %}
                 <p>{{data["description"]}}</p>
             {% endif %}
+            <div ng-app="neo-visualizer">
+                <div style="margin-left:25px">
+                    <ul class="collapsible" data-collapsible="expandable">
+                        {% for item in data["dataFormatted"] %}
+                            <li>
+                                <div class="collapsible-header">{{item["label"]}}</div>
+                                <div class="collapsible-body">
+                                    <span>
+                                        <visualizer-view source='{{item["url"]}}' height="300"></visualizer-view>
+                                    </span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </li>
 {% endmacro %}
 
 {% macro sectionModels(data) %}
-    <li class="active">
+    <li>
         <div class="collapsible-header amber lighten-5">
             <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
         </div>
@@ -76,8 +92,8 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    {% if item["mc"] %}
-                                        <a href='{{item["url"]}}' target=" _blank" class="waves-effect waves-light">
+                                    {% if item["mc_url"] %}
+                                        <a href='{{item["mc_url"]}}' target="_blank" class="waves-effect waves-light">
                                             <i class="material-icons left">pageview</i>View
                                         </a>
                                     {% endif %}
@@ -92,7 +108,7 @@
 {% endmacro %}
 
 {% macro sectionCustom(data) %}
-    <li class="active">
+    <li>
         <div class="collapsible-header amber lighten-5">
             <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
         </div>
@@ -119,12 +135,20 @@
             {% endif %}
         </title>
         <meta name="viewport" content="width = device-width, initial-scale = 1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" href="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/live_paper/css/live_paper.css">
         <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular-resource.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-nvd3/1.0.9/angular-nvd3.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/NeuralEnsemble/neo-viewer@master/js/src/visualizer.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/NeuralEnsemble/neo-viewer@master/js/src/services.js"></script>
     </head>
 
     <body class="container">

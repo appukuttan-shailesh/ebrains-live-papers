@@ -7,6 +7,85 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 
 function HelpContentModels() {
+  const example_columns = `
+    https://www.datasource.com/models/model_1.zip
+    https://www.datasource.com/models/model_2.zip
+    https://www.datasource.com/models/model_3.zip
+    https://www.datasource.com/models/model_4.zip
+    https://www.datasource.com/models/model_5.zip`;
+
+  const example_list = `
+    [
+        "https://www.datasource.com/models/model_1.zip",
+        "https://www.datasource.com/models/model_2.zip",
+        "https://www.datasource.com/models/model_3.zip",
+        "https://www.datasource.com/models/model_4.zip",
+        "https://www.datasource.com/models/model_5.zip"
+    ]`;
+
+  const list_of_lists = `
+    [
+        [
+        "https://www.datasource.com/models/model_1.zip",
+        "file_A",
+        "https://model-catalog.brainsimulation.eu/#model_id.00f2e856-27a8-4b8d-9ec3-4e2581c546e4",
+        ],
+        [
+        "https://www.datasource.com/models/model_2.zip",
+        "file_B",
+        "https://model-catalog.brainsimulation.eu/#model_id.01006de7-e861-45fb-abf4-3c84e609d33b",
+        ],
+        [
+        "https://www.datasource.com/models/model_3.zip",
+        "file_C",
+        "https://model-catalog.brainsimulation.eu/#model_id.01afb341-7ca2-4694-9968-16fc7d8fc765",
+        ],
+        [
+        "https://www.datasource.com/models/model_4.zip",
+        "file_D",
+        "https://model-catalog.brainsimulation.eu/#model_id.01da73a6-8715-431b-aaa7-efcd9358c786",
+        ],
+        [
+        "https://www.datasource.com/models/model_5.zip",
+        "file_E",
+        "https://model-catalog.brainsimulation.eu/#model_id.01f49d73-e8a1-4f23-be30-d01bd52f89a2",
+        ],
+    ]`;
+
+  const list_of_dicts = `
+    [
+        {
+        url: "https://www.datasource.com/models/model_1.zip",
+        label: "file_A",
+        mc_url:
+            "https://model-catalog.brainsimulation.eu/#model_id.00f2e856-27a8-4b8d-9ec3-4e2581c546e4",
+        },
+        {
+        url: "https://www.datasource.com/models/model_2.zip",
+        label: "file_B",
+        mc_url:
+            "https://model-catalog.brainsimulation.eu/#model_id.01006de7-e861-45fb-abf4-3c84e609d33b",
+        },
+        {
+        url: "https://www.datasource.com/models/model_3.zip",
+        label: "file_C",
+        mc_url:
+            "https://model-catalog.brainsimulation.eu/#model_id.01afb341-7ca2-4694-9968-16fc7d8fc765",
+        },
+        {
+        url: "https://www.datasource.com/models/model_4.zip",
+        label: "file_D",
+        mc_url:
+            "https://model-catalog.brainsimulation.eu/#model_id.01da73a6-8715-431b-aaa7-efcd9358c786",
+        },
+        {
+        url: "https://www.datasource.com/models/model_5.zip",
+        label: "file_E",
+        mc_url:
+            "https://model-catalog.brainsimulation.eu/#model_id.01f49d73-e8a1-4f23-be30-d01bd52f89a2",
+        },
+    ]`;
+
   return (
     <div>
       The morphology data can be input in any one of the following formats:
@@ -16,98 +95,51 @@ function HelpContentModels() {
         <b>One URL per line</b>
       </h6>
       You should enter a single URL per line. This format will automatically use
-      the file names as labels for each entry.
+      the file names as labels for each model. This format will NOT provide a
+      link to the EBRAINS model catalog page of the model.
       <i>Example:</i>
       <br />
-      <code>
-        https://www.datasource.com/morphologies/oh140807_A0_idB.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idC.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idF.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idG.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idH.asc
-      </code>
-      <br />
+      <pre>
+        <code>{example_columns}</code>
+      </pre>
       <br />
       <h6>
         <b>List of URLs</b>
       </h6>
       This format will automatically use the file names as labels for each
-      entry.
+      model. This format will NOT provide a link to the EBRAINS model catalog
+      page of the model.
       <i>Example:</i>
       <br />
-      <code>
-        [ "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idH.asc", ]
-      </code>
-      <br />
+      <pre>
+        <code>{example_list}</code>
+      </pre>
       <br />
       <h6>
-        <b>List of sub-lists with two elements</b>
+        <b>List of sub-lists with three elements</b>
       </h6>
-      This format allows you to specify the labels for each entry. The first
-      item in sub-list is the URL and the second item is the label.
+      This format allows you to specify the labels and model catalog URL for
+      each model. The first item in sub-list is the URL, the second item is the
+      label, and the third item is the URL to the model catalog page of the
+      model. You may enter an empty string ("") to ignore any field.
       <i>Example:</i>
       <br />
-      <code>
-        {JSON.stringify([
-          [
-            "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
-            "file_A",
-          ],
-          [
-            "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
-            "file_B",
-          ],
-          [
-            "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
-            "file_C",
-          ],
-          [
-            "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
-            "file_D",
-          ],
-          [
-            "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
-            "file_E",
-          ],
-        ])}
-      </code>
-      <br />
+      <pre>
+        <code>{list_of_lists}</code>
+      </pre>
       <br />
       <h6>
         <b>List of dicts/objects</b>
       </h6>
-      This format allows you to specify the labels for each entry. Each dict in
-      the list should have keys named 'url' and 'label'.
+      This format allows you to specify the labels and model catalog URL for
+      each model. Each dict in the list should have keys named 'url' (download
+      URL for model), 'label' and 'mc_url' (model catalog page URL). You may
+      enter an empty string ("") to ignore any field.
       <i>Example:</i>
       <br />
-      <code>
-        {JSON.stringify([
-          {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
-            label: "file_A",
-          },
-          {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
-            label: "file_B",
-          },
-          {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
-            label: "file_C",
-          },
-          {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
-            label: "file_D",
-          },
-          {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
-            label: "file_E",
-          },
-        ])}
-      </code>
+      <pre>
+        <code>{list_of_dicts}</code>
+      </pre>
     </div>
   );
 }
@@ -203,12 +235,13 @@ export default class SectionModels extends React.Component {
       var data_json = JSON.parse(event.target.value);
 
       // check if it is a list of lists, or a list of dicts
-      function checkIfArrayUrlLabel(item) {
+      function checkIfArrayUrlLabelMC(item) {
         return (
           Array.isArray(item) &&
-          item.length === 2 &&
+          item.length === 3 &&
           typeof item[0] === "string" &&
-          typeof item[1] === "string"
+          typeof item[1] === "string" &&
+          typeof item[2] === "string"
         );
       }
       function checkIfArrayOnlyUrl(item) {
@@ -220,19 +253,22 @@ export default class SectionModels extends React.Component {
           item !== null &&
           "url" in item &&
           "label" in item &&
+          "mc_url" in item &&
           typeof item["url"] === "string" &&
-          typeof item["label"] === "string"
+          typeof item["label"] === "string" &&
+          typeof item["mc_url"] === "string"
         );
       }
 
-      if (Array.isArray(data_json) && data_json.every(checkIfArrayUrlLabel)) {
-        //   data is a list of lists with both url and label
-        console.log("Input: JSON - list of lists - URL, label");
+      if (Array.isArray(data_json) && data_json.every(checkIfArrayUrlLabelMC)) {
+        //   data is a list of lists with url, label, mc_url
+        console.log("Input: JSON - list of lists - URL, label, MC URL");
         let data_formatted = [];
         data_json.forEach(function (item) {
           data_formatted.push({
             url: item[0].trim(),
             label: item[1].trim(),
+            mc_url: item[2].trim(),
           });
         });
         this.setState(
@@ -256,6 +292,7 @@ export default class SectionModels extends React.Component {
           data_formatted.push({
             url: item.trim(),
             label: item.match(/([^/]+)(?=\.\w+$)/)[0].trim(),
+            mc_url: "",
           });
         });
         this.setState(
@@ -310,6 +347,7 @@ export default class SectionModels extends React.Component {
             data_formatted.push({
               url: part_url.trim(),
               label: part_label.trim(),
+              mc_url: "",
             });
           });
         }

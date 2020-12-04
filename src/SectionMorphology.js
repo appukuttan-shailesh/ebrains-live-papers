@@ -7,6 +7,70 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 
 function HelpContentMorphology() {
+  const example_columns = `
+    https://www.datasource.com/morphologies/oh140807_A0_idB.asc
+    https://www.datasource.com/morphologies/oh140807_A0_idC.asc
+    https://www.datasource.com/morphologies/oh140807_A0_idF.asc
+    https://www.datasource.com/morphologies/oh140807_A0_idG.asc
+    https://www.datasource.com/morphologies/oh140807_A0_idH.asc`;
+
+  const example_list = `
+    [ 
+        "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
+        "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
+        "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
+        "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
+        "https://www.datasource.com/morphologies/oh140807_A0_idH.asc"
+    ]`;
+
+  const list_of_lists = `
+    [
+        [
+          "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
+          "file_A",
+        ],
+        [
+          "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
+          "file_B",
+        ],
+        [
+          "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
+          "file_C",
+        ],
+        [
+          "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
+          "file_D",
+        ],
+        [
+          "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
+          "file_E",
+        ],
+      ]`;
+
+  const list_of_dicts = `
+    [
+        {
+          url: "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
+          label: "file_A",
+        },
+        {
+          url: "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
+          label: "file_B",
+        },
+        {
+          url: "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
+          label: "file_C",
+        },
+        {
+          url: "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
+          label: "file_D",
+        },
+        {
+          url: "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
+          label: "file_E",
+        },
+      ]`;
+
   return (
     <div>
       The morphology data can be input in any one of the following formats:
@@ -19,14 +83,9 @@ function HelpContentMorphology() {
       the file names as labels for each entry.
       <i>Example:</i>
       <br />
-      <code>
-        https://www.datasource.com/morphologies/oh140807_A0_idB.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idC.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idF.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idG.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idH.asc
-      </code>
-      <br />
+      <pre>
+        <code>{example_columns}</code>
+      </pre>
       <br />
       <h6>
         <b>List of URLs</b>
@@ -35,14 +94,9 @@ function HelpContentMorphology() {
       entry.
       <i>Example:</i>
       <br />
-      <code>
-        [ "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idH.asc", ]
-      </code>
-      <br />
+      <pre>
+        <code>{example_list}</code>
+      </pre>
       <br />
       <h6>
         <b>List of sub-lists with two elements</b>
@@ -51,31 +105,9 @@ function HelpContentMorphology() {
       item in sub-list is the URL and the second item is the label.
       <i>Example:</i>
       <br />
-      <code>
-        {JSON.stringify([
-          [
-            "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
-            "file_A",
-          ],
-          [
-            "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
-            "file_B",
-          ],
-          [
-            "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
-            "file_C",
-          ],
-          [
-            "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
-            "file_D",
-          ],
-          [
-            "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
-            "file_E",
-          ],
-        ])}
-      </code>
-      <br />
+      <pre>
+        <code>{list_of_lists}</code>
+      </pre>
       <br />
       <h6>
         <b>List of dicts/objects</b>
@@ -84,30 +116,9 @@ function HelpContentMorphology() {
       the list should have keys named 'url' and 'label'.
       <i>Example:</i>
       <br />
-      <code>
-        {JSON.stringify([
-          {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
-            label: "file_A",
-          },
-          {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
-            label: "file_B",
-          },
-          {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
-            label: "file_C",
-          },
-          {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
-            label: "file_D",
-          },
-          {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
-            label: "file_E",
-          },
-        ])}
-      </code>
+      <pre>
+        <code>{list_of_dicts}</code>
+      </pre>
     </div>
   );
 }

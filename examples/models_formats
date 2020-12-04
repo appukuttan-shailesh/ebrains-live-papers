@@ -1,0 +1,45 @@
+https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_2C.zip
+https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_3C.zip
+https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_4C.zip
+https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_Full.zip
+
+
+[
+"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_2C.zip",
+"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_3C.zip",
+"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_4C.zip",
+"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_Full.zip"
+]
+
+
+[
+["https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_2C.zip", "model_2C", ""],
+["https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_3C.zip", "model_3C", ""],
+["https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_4C.zip", "model_4C", ""],
+["https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_Full.zip", "model_Full", ""]
+]
+
+
+[
+["https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_2C.zip", "model_2C", "https://model-catalog.brainsimulation.eu/#model_id.0e33be5c-9079-4ed1-805c-022405d40e69"],
+["https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_3C.zip", "model_3C", "https://model-catalog.brainsimulation.eu/#model_id.32a87a81-6889-49fe-b332-5c833cf8acfc"],
+["https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_4C.zip", "model_4C", "https://model-catalog.brainsimulation.eu/#model_id.336fdd2c-2df1-4862-bf88-5239c7aa2eaf"],
+["https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_Full.zip", "model_Full", "https://model-catalog.brainsimulation.eu/#model_id.26305a02-fd34-4d75-ab8e-4c9f8e62b693"]
+]
+
+
+[
+["", "model_2C", "https://model-catalog.brainsimulation.eu/#model_id.0e33be5c-9079-4ed1-805c-022405d40e69"],
+["", "model_3C", "https://model-catalog.brainsimulation.eu/#model_id.32a87a81-6889-49fe-b332-5c833cf8acfc"],
+["", "model_4C", "https://model-catalog.brainsimulation.eu/#model_id.336fdd2c-2df1-4862-bf88-5239c7aa2eaf"],
+["", "model_Full", "https://model-catalog.brainsimulation.eu/#model_id.26305a02-fd34-4d75-ab8e-4c9f8e62b693"]
+]
+
+
+[
+{"url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_2C.zip", "label": "model_2C", "mc_url": "https://model-catalog.brainsimulation.eu/#model_id.0e33be5c-9079-4ed1-805c-022405d40e69"},
+{"url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_3C.zip", "label": "model_3C", "mc_url": "https://model-catalog.brainsimulation.eu/#model_id.32a87a81-6889-49fe-b332-5c833cf8acfc"},
+{"url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_4C.zip", "label": "model_4C", "mc_url": "https://model-catalog.brainsimulation.eu/#model_id.336fdd2c-2df1-4862-bf88-5239c7aa2eaf"},
+{"url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/models/davison2000/model_Full.zip", "label": "model_Full", "mc_url": "https://model-catalog.brainsimulation.eu/#model_id.26305a02-fd34-4d75-ab8e-4c9f8e62b693"}
+]
+

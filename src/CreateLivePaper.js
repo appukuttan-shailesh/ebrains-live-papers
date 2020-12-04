@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
 import TimelineIcon from "@material-ui/icons/Timeline";
-import LocalPlayIcon from '@material-ui/icons/LocalPlay';
+import LocalPlayIcon from "@material-ui/icons/LocalPlay";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CloseIcon from "@material-ui/icons/Close";
 import TextField from "@material-ui/core/TextField";
@@ -523,7 +523,16 @@ class CreateLivePaper extends React.Component {
                   <strong>
                     Enter details of all authors in the required order:
                   </strong>
+                  <br />
+                  <br />
+                  <i>
+                    You can enter multiple affiliations per author by separating
+                    each with a semi-colon ( ; ). Note that an affiliation must
+                    be input identically across multiple authors, for it to be
+                    identified as the same affliation.
+                  </i>
                 </p>
+                <br />
               </div>
               <div>
                 <DynamicTable
@@ -898,9 +907,7 @@ class CreateLivePaper extends React.Component {
                     borderWidth: "1px",
                   }}
                   startIcon={
-                    <LocalPlayIcon
-                      style={{ width: 30, height: 30 }}
-                    />
+                    <LocalPlayIcon style={{ width: 30, height: 30 }} />
                   }
                   onClick={() => this.handleAddSection("section_models")}
                 >

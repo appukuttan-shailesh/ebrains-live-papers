@@ -9,7 +9,7 @@ import ModalDialog from "./ModalDialog";
 function HelpContentTraces() {
   return (
     <div>
-      The morphology data can be input in any one of the following formats:
+      The traces data can be input in any one of the following formats:
       <br />
       <br />
       <h6>
@@ -20,11 +20,11 @@ function HelpContentTraces() {
       <i>Example:</i>
       <br />
       <code>
-        https://www.datasource.com/morphologies/oh140807_A0_idB.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idC.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idF.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idG.asc
-        https://www.datasource.com/morphologies/oh140807_A0_idH.asc
+        https://www.datasource.com/traces/oh140807_A0_idB.abf
+        https://www.datasource.com/traces/oh140807_A0_idC.abf
+        https://www.datasource.com/traces/oh140807_A0_idF.abf
+        https://www.datasource.com/traces/oh140807_A0_idG.abf
+        https://www.datasource.com/traces/oh140807_A0_idH.abf
       </code>
       <br />
       <br />
@@ -36,11 +36,11 @@ function HelpContentTraces() {
       <i>Example:</i>
       <br />
       <code>
-        [ "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
-        "https://www.datasource.com/morphologies/oh140807_A0_idH.asc", ]
+        [ "https://www.datasource.com/traces/oh140807_A0_idB.abf",
+        "https://www.datasource.com/traces/oh140807_A0_idC.abf",
+        "https://www.datasource.com/traces/oh140807_A0_idF.abf",
+        "https://www.datasource.com/traces/oh140807_A0_idG.abf",
+        "https://www.datasource.com/traces/oh140807_A0_idH.abf", ]
       </code>
       <br />
       <br />
@@ -54,23 +54,23 @@ function HelpContentTraces() {
       <code>
         {JSON.stringify([
           [
-            "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
+            "https://www.datasource.com/traces/oh140807_A0_idB.abf",
             "file_A",
           ],
           [
-            "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
+            "https://www.datasource.com/traces/oh140807_A0_idC.abf",
             "file_B",
           ],
           [
-            "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
+            "https://www.datasource.com/traces/oh140807_A0_idF.abf",
             "file_C",
           ],
           [
-            "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
+            "https://www.datasource.com/traces/oh140807_A0_idG.abf",
             "file_D",
           ],
           [
-            "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
+            "https://www.datasource.com/traces/oh140807_A0_idH.abf",
             "file_E",
           ],
         ])}
@@ -87,23 +87,23 @@ function HelpContentTraces() {
       <code>
         {JSON.stringify([
           {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
+            url: "https://www.datasource.com/traces/oh140807_A0_idB.abf",
             label: "file_A",
           },
           {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
+            url: "https://www.datasource.com/traces/oh140807_A0_idC.abf",
             label: "file_B",
           },
           {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
+            url: "https://www.datasource.com/traces/oh140807_A0_idF.abf",
             label: "file_C",
           },
           {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
+            url: "https://www.datasource.com/traces/oh140807_A0_idG.abf",
             label: "file_D",
           },
           {
-            url: "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
+            url: "https://www.datasource.com/traces/oh140807_A0_idH.abf",
             label: "file_E",
           },
         ])}
