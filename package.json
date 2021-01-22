@@ -12,7 +12,10 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
+    "chonky": "^2.1.0",
     "handlebars": "^4.7.6",
+    "json-to-pretty-yaml": "^1.2.2",
     "markdown-to-jsx": "^7.1.0",
     "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.29.1",
@@ -27,7 +30,9 @@
     "react-scripts": "4.0.0",
     "showdown": "^1.9.1",
     "uuid": "^8.3.1",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "xml2js": "^0.4.23",
+    "yaml": "^1.10.0"
   },
   "scripts": {
     "predeploy": "npm run build",

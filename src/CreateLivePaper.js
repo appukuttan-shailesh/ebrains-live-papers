@@ -141,29 +141,24 @@ class CreateLivePaper extends React.Component {
   constructor(props) {
     super(props);
 
-    if (!this.props.loadData) {
-      this.state = {
-        page_title: "",
-        authors_string: "",
-        affiliations_string: "",
-        authors: [{ firstname: "", lastname: "", affiliation: "" }],
-        corresponding_author: { firstname: "", lastname: "", email: "" },
-        year: new Date(),
-        paper_title: "",
-        journal: "",
-        url: "",
-        citation: "",
-        doi: "",
-        abstract: "",
-        license: "None",
-        resources_description: "",
-        resources_items_data: {},
-      };
-    } else {
-      this.state = {
-        ...props.data,
-      };
-    }
+    this.state = {
+      page_title: "",
+      authors_string: "",
+      affiliations_string: "",
+      authors: [{ firstname: "", lastname: "", affiliation: "" }],
+      corresponding_author: { firstname: "", lastname: "", email: "" },
+      year: new Date(),
+      paper_title: "",
+      journal: "",
+      url: "",
+      citation: "",
+      doi: "",
+      abstract: "",
+      license: "None",
+      resources_description: "",
+      resources_items_data: {},
+    };
+    this.state = {...this.state, ...props.data};
 
     this.handleClose = this.handleClose.bind(this);
     this.handleDownloadLivePaper = this.handleDownloadLivePaper.bind(this);
@@ -395,7 +390,7 @@ class CreateLivePaper extends React.Component {
   }
 
   render() {
-    console.log(this.state);
+    console.log(this.props.data);
 
     return (
       <Dialog
@@ -404,8 +399,7 @@ class CreateLivePaper extends React.Component {
         disableEscapeKeyDown
         onClose={this.handleClose}
         aria-labelledby="simple-dialog-title"
-        // open={true} // for direct access to this page
-        open={this.props.open}
+        open={this.props.open || false}
       >
         <MyDialogTitle onClose={this.handleClose} />
         <DialogContent>

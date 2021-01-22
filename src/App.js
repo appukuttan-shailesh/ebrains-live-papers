@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import CreateLivePaper from "./CreateLivePaper";
+import CreateLivePaperLoadPDFData from "./CreateLivePaperLoadPDFData";
 
 class App extends React.Component {
   constructor(props) {
@@ -23,11 +23,12 @@ class App extends React.Component {
   }
 
   handleCreateLivePaperOpen() {
-    this.setState({ projectData: "", createLivePaperOpen: true });
+    this.setState({ projectData: {}, createLivePaperOpen: true, loadData: false });
   }
 
   handleCreateLivePaperClose() {
-    this.setState({ createLivePaperOpen: false });
+    this.inputFileRef.current.value = "";
+    this.setState({ createLivePaperOpen: false, projectData: {}, loadData: false });
   }
 
   handleLoadProject() {
@@ -58,7 +59,7 @@ class App extends React.Component {
     var createLivePaperContent = "";
     if (this.state.createLivePaperOpen) {
       createLivePaperContent = (
-        <CreateLivePaper
+        <CreateLivePaperLoadPDFData
           open={this.state.createLivePaperOpen}
           onClose={this.handleCreateLivePaperClose}
           data={this.state.projectData}
