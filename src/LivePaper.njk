@@ -180,7 +180,7 @@
         </div>
         <div>
             <p>
-                <strong>Authors:
+                <strong style="font-weight:bolder">Authors:
                 </strong>
                 {% if authors_string %}
                     {{ authors_string | safe  }}
@@ -189,7 +189,7 @@
                 {% endif %}
             </p>
             <p>
-                <strong>Author information:
+                <strong style="font-weight:bolder">Author information:
                 </strong>
                 {% if affiliations_string %}
                     {{ affiliations_string | safe  }}
@@ -198,16 +198,18 @@
                 {% endif %}
             </p>
             <p>
-                <strong>Corresponding author:
+                <strong style="font-weight:bolder">Corresponding author:
                 </strong>
-                {% if corresponding_author %}
+                {% if corresponding_author.firstname %}
                     {{ corresponding_author.firstname }}
                     {{ corresponding_author.lastname }}
-                    (
-                    <em>
-                        <a href="mailto:{{corresponding_author.email}}" ">{{ corresponding_author.email }}</a>
-                    </em>
-                    )
+                    {% if corresponding_author.email %}
+                        (
+                        <em>
+                            <a href="mailto:{{corresponding_author.email}}" ">{{ corresponding_author.email }}</a>
+                        </em>
+                        )
+                    {% endif %}
                 {% else %}
                     To be filled...
                 {% endif %}
@@ -223,9 +225,10 @@
             <div></div>
             <div></div>
         </div>
+        <br />
         <div>
             <p>
-                <strong>Journal:
+                <strong style="font-weight:bolder">Journal:
                 </strong>
                 {% if journal %}
                     {{ journal }}
@@ -234,7 +237,7 @@
                 {% endif %}
             </p>
             <p>
-                <strong>Download Url:
+                <strong style="font-weight:bolder">Download Url:
                 </strong>
                 {% if url %}
                     <a href="{{ url }}">{{ url }}</a>
@@ -243,7 +246,7 @@
                 {% endif %}
             </p>
             <p>
-                <strong>Citation:
+                <strong style="font-weight:bolder">Citation:
                 </strong>
                 {% if citation %}
                     {{ citation }}
@@ -252,7 +255,7 @@
                 {% endif %}
             </p>
             <p>
-                <strong>DOI:
+                <strong style="font-weight:bolder">DOI:
                 </strong>
                 {% if doi %}
                     <a href="{{ doi }}">{{ doi }}</a>
@@ -261,7 +264,7 @@
                 {% endif %}
             </p>
             <p>
-                <strong>Licence:
+                <strong style="font-weight:bolder">Licence:
                 </strong>{{ license }}</p>
         </div>
         <div class="note rounded">

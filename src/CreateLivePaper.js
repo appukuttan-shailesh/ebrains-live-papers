@@ -262,11 +262,10 @@ class CreateLivePaper extends React.Component {
   }
 
   handleFieldChange(event) {
-    console.log(event);
     const target = event.target;
     let value = target.value;
     const name = target.name;
-    console.log(name + " => " + value);
+    // console.log(name + " => " + value);
     this.setState({
       [name]: value,
     });
@@ -757,7 +756,7 @@ class CreateLivePaper extends React.Component {
               {Object.keys(this.state.resources_items_data).length > 0
                 ? Object.values(this.state.resources_items_data).map(
                     (item, index) => {
-                      console.log(item);
+                    //   console.log(item);
                       if (item["type"] === "section_morphology") {
                         return (
                           <SectionMorphology

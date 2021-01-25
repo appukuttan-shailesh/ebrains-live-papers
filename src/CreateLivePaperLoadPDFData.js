@@ -93,7 +93,6 @@ class CreateLivePaperLoadPDFData extends React.Component {
 
   onPDFSelect(event) {
     if (event.target.files.length === 1) {
-      console.log(event.target.files[0]);
       this.setState({
         selectedPDF: event.target.files[0],
       });
@@ -103,7 +102,6 @@ class CreateLivePaperLoadPDFData extends React.Component {
   }
 
   cancelSelectPDF() {
-    console.log(this.loadPDFRef);
     this.loadPDFRef.current.value = "";
     this.setState({
       selectedPDF: null,
@@ -137,6 +135,8 @@ class CreateLivePaperLoadPDFData extends React.Component {
             res.data,
             { trim: true, preserveChildrenOrder: true },
             function (err, result) {
+              console.log(result);
+
               let data = {};
               data["paper_title"] =
                 result["TEI"]["teiHeader"][0]["fileDesc"][0]["titleStmt"][0][
@@ -157,8 +157,11 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   "biblStruct"
                 ][0]["analytic"][0]["author"];
 
-              //   data["corresponding_author"] =
-              //   console.log(author_dict);
+              let corresp_author = {
+                firstname: "",
+                lastname: "",
+                email: "",
+              };
               let author_data = [];
               author_dict.forEach(function (item) {
                 let aff = "";
@@ -168,6 +171,21 @@ class CreateLivePaperLoadPDFData extends React.Component {
                       return elem["note"][0]["_"].replace(/,\s*$/, "");
                     })
                     .join("; ");
+                }
+                if ("$" in item && item["$"]["role"] === "corresp") {
+                  corresp_author = {
+                    firstname:
+                      item["persName"][0]["forename"].length === 1
+                        ? item["persName"][0]["forename"][0]["_"]
+                        : item["persName"][0]["forename"][0]["_"] +
+                          " " +
+                          item["persName"][0]["forename"][1]["_"]
+                            .split(" ")
+                            .join(".") +
+                          ".",
+                    lastname: item["persName"][0]["surname"][0],
+                    email: "email" in item ? item["email"][0] : "",
+                  };
                 }
                 author_data.push({
                   firstname:
@@ -185,7 +203,36 @@ class CreateLivePaperLoadPDFData extends React.Component {
               });
 
               data["authors"] = author_data;
-              console.log(data);
+              data["corresponding_author"] = corresp_author;
+
+              data["journal"] = result["TEI"]["teiHeader"][0]["fileDesc"][0][
+                "sourceDesc"
+              ][0]["biblStruct"][0]["monogr"][0]["title"].find(
+                (element) => element["$"]["type"] === "main"
+              )["_"];
+
+              try {
+                //   date also available at:
+                // result["TEI"]["teiHeader"][0]["fileDesc"][0]["sourceDesc"][0][
+                //    "biblStruct"][0]["monogr"][0]["imprint"][0]["date"][0]["$"]["when"]
+                data["year"] = new Date(
+                  result["TEI"]["teiHeader"][0]["fileDesc"][0][
+                    "publicationStmt"
+                  ][0]["date"][0]["$"]["when"]
+                );
+              } catch (error) {
+                console.log("Could not identify year!");
+              }
+
+              try {
+                data["url"] =
+                  result["TEI"]["teiHeader"][0]["fileDesc"][0]["sourceDesc"][0][
+                    "biblStruct"
+                  ][0]["ptr"][0]["$"]["target"];
+              } catch (error) {
+                console.log("Could not identify download URL!");
+              }
+
               scope.setState({ dataFromPDF: data, loading: false });
             }
           );
@@ -230,10 +277,10 @@ class CreateLivePaperLoadPDFData extends React.Component {
             backgroundColor: "#FBEFDD",
           }}
         >
-          {"title" in this.state.dataFromPDF && (
+          {"paper_title" in this.state.dataFromPDF && (
             <div>
               <strong>Title: </strong>
-              {this.state.dataFromPDF["title"]}
+              {this.state.dataFromPDF["paper_title"]}
               <br />
               <br />
             </div>
@@ -282,6 +329,38 @@ class CreateLivePaperLoadPDFData extends React.Component {
           ) : (
             ""
           )}
+          {"corresponding_author" in this.state.dataFromPDF && (
+            <div>
+              <strong>Corresponding Author: </strong>
+              <br />
+              {this.state.dataFromPDF["corresponding_author"]["firstname"] +
+                " " +
+                this.state.dataFromPDF["corresponding_author"]["lastname"] +
+                " (" +
+                this.state.dataFromPDF["corresponding_author"]["email"] +
+                ")"}
+              <br />
+              <br />
+            </div>
+          )}
+          {"journal" in this.state.dataFromPDF && (
+            <div>
+              <strong>Journal: </strong>
+              <br />
+              {this.state.dataFromPDF["journal"]}
+              <br />
+              <br />
+            </div>
+          )}
+          {"year" in this.state.dataFromPDF && (
+            <div>
+              <strong>Year: </strong>
+              <br />
+              {this.state.dataFromPDF["year"].getFullYear()}
+              <br />
+              <br />
+            </div>
+          )}
           {"abstract" in this.state.dataFromPDF && (
             <div>
               <strong>Abstract: </strong>
@@ -296,6 +375,15 @@ class CreateLivePaperLoadPDFData extends React.Component {
               <strong>DOI: </strong>
               <br />
               {this.state.dataFromPDF["doi"]}
+              <br />
+              <br />
+            </div>
+          )}
+          {"url" in this.state.dataFromPDF && (
+            <div>
+              <strong>Article URL: </strong>
+              <br />
+              {this.state.dataFromPDF["url"]}
               <br />
               <br />
             </div>
@@ -428,7 +516,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
         </div>
       );
     }
-    console.log(!this.state.loadData && this.state.loadPDF);
+
     if (!this.state.loadData && this.state.loadPDF) {
       return (
         <Dialog
@@ -556,10 +644,6 @@ class CreateLivePaperLoadPDFData extends React.Component {
         </Dialog>
       );
     } else {
-      console.log(this.props.loadData);
-      console.log(this.state.loadData);
-      console.log(this.state.data);
-      console.log({ ...this.state.data, ...this.state.dataFromPDF });
       return (
         <CreateLivePaper
           open={true}
