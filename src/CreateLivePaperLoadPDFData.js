@@ -13,6 +13,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CreateLivePaper from "./CreateLivePaper";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
+import ErrorDialog from "./ErrorDialog";
 
 const styles = (theme) => ({
   root: {
@@ -64,6 +65,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
     this.state = {
       data: this.props.data,
       loadData: this.props.loadData,
+      showError: false,
       loadPDF: true,
       selectedPDF: null,
       dataFromPDF: {},
@@ -79,6 +81,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
     this.displayDataPDF = this.displayDataPDF.bind(this);
     this.proceed = this.proceed.bind(this);
     this.skipContinue = this.skipContinue.bind(this);
+    this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
   }
 
   handleClose() {
@@ -164,6 +167,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
               };
               let author_data = [];
               author_dict.forEach(function (item) {
+                console.log(item);
                 let aff = "";
                 if ("affiliation" in item) {
                   aff = item["affiliation"]
@@ -243,6 +247,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
           } else {
             console.log(err);
             console.log(err.response);
+            this.setState({ showError: true });
           }
           this.setState({ loading: false });
         });
@@ -425,8 +430,23 @@ class CreateLivePaperLoadPDFData extends React.Component {
     });
   }
 
+  handleErrorDialogClose() {
+    this.setState({ showError: false });
+  }
+
   render() {
     console.log(this.state);
+
+    var errorMessage = "";
+    if (this.state.showError) {
+      errorMessage = (
+        <ErrorDialog
+          open={Boolean(this.state.showError)}
+          handleErrorDialogClose={this.handleErrorDialogClose}
+          error={"We were unable to extract info from the specified PDF.\n\nPlease report this at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"}
+        />
+      );
+    }
 
     var fileExplorer = "";
     if (this.state.loadPDF) {
@@ -639,6 +659,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
                 <br />
               </div>
               {fileExplorer}
+              {errorMessage}
             </div>
           </DialogContent>
         </Dialog>
