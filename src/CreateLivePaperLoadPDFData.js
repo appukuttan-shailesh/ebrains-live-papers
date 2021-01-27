@@ -160,11 +160,6 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   "biblStruct"
                 ][0]["analytic"][0]["author"];
 
-              let corresp_author = {
-                firstname: "",
-                lastname: "",
-                email: "",
-              };
               let author_data = [];
               author_dict.forEach(function (item) {
                 console.log(item);
@@ -177,7 +172,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
                     .join("; ");
                 }
                 if ("$" in item && item["$"]["role"] === "corresp") {
-                  corresp_author = {
+                  let corresp_author = {
                     firstname:
                       item["persName"][0]["forename"].length === 1
                         ? item["persName"][0]["forename"][0]["_"]
@@ -190,24 +185,33 @@ class CreateLivePaperLoadPDFData extends React.Component {
                     lastname: item["persName"][0]["surname"][0],
                     email: "email" in item ? item["email"][0] : "",
                   };
+                  data["corresponding_author"] = corresp_author;
                 }
                 author_data.push({
                   firstname:
-                    item["persName"][0]["forename"].length === 1
-                      ? item["persName"][0]["forename"][0]["_"]
-                      : item["persName"][0]["forename"][0]["_"] +
-                        " " +
-                        item["persName"][0]["forename"][1]["_"]
-                          .split(" ")
-                          .join(".") +
-                        ".",
-                  lastname: item["persName"][0]["surname"][0],
+                    "persName" in item &&
+                    "forename" in item["persName"][0] &&
+                    item["persName"][0]["forename"].length > 0
+                      ? item["persName"][0]["forename"].length === 1
+                        ? item["persName"][0]["forename"][0]["_"]
+                        : item["persName"][0]["forename"][0]["_"] +
+                          " " +
+                          item["persName"][0]["forename"][1]["_"]
+                            .split(" ")
+                            .join(".") +
+                          "."
+                      : "",
+                  lastname:
+                    "persName" in item &&
+                    "surname" in item["persName"][0] &&
+                    item["persName"][0]["surname"].length > 0
+                      ? item["persName"][0]["surname"][0]
+                      : "",
                   affiliation: aff,
                 });
               });
 
               data["authors"] = author_data;
-              data["corresponding_author"] = corresp_author;
 
               data["journal"] = result["TEI"]["teiHeader"][0]["fileDesc"][0][
                 "sourceDesc"
@@ -303,10 +307,22 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   </strong>
                   &nbsp;&nbsp;
                   <strong>FirstName: </strong>
-                  {entry.firstname}
+                  {entry.firstname === "" ? (
+                    <span style={{ color: "red" }}>
+                      <i>Missing!</i>
+                    </span>
+                  ) : (
+                    entry.firstname
+                  )}
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <strong>LastName: </strong>
-                  {entry.lastname}
+                  {entry.lastname === "" ? (
+                    <span style={{ color: "red" }}>
+                      <i>Missing!</i>
+                    </span>
+                  ) : (
+                    entry.lastname
+                  )}
                   <br />
                   {entry.affiliation === "" ? (
                     <div style={{ color: "red", paddingLeft: "3em" }}>
@@ -443,7 +459,9 @@ class CreateLivePaperLoadPDFData extends React.Component {
         <ErrorDialog
           open={Boolean(this.state.showError)}
           handleErrorDialogClose={this.handleErrorDialogClose}
-          error={"We were unable to extract info from the specified PDF.\n\nPlease report this at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"}
+          error={
+            "We were unable to extract info from the specified PDF.\n\nPlease report this at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"
+          }
         />
       );
     }

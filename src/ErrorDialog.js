@@ -15,7 +15,7 @@ const addLineBreaks = (string) =>
   ));
 
 export default function ErrorDialog(props) {
-  console.log("ErrorDialog: " + props.error);
+//   console.log("ErrorDialog: " + props.error);
   return (
     <Dialog
       open={props.open}
