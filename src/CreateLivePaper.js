@@ -158,7 +158,7 @@ class CreateLivePaper extends React.Component {
       resources_description: "",
       resources_items_data: {},
     };
-    this.state = {...this.state, ...props.data};
+    this.state = { ...this.state, ...props.data };
 
     this.handleClose = this.handleClose.bind(this);
     this.handleDownloadLivePaper = this.handleDownloadLivePaper.bind(this);
@@ -265,10 +265,30 @@ class CreateLivePaper extends React.Component {
     const target = event.target;
     let value = target.value;
     const name = target.name;
-    // console.log(name + " => " + value);
-    this.setState({
-      [name]: value,
-    });
+    console.log(name + " => " + value);
+    if (name === "corresponding_author") {
+      const c_author = this.state.authors.find(
+        (author) => author.firstname + " " + author.lastname === value
+      );
+      this.setState((prevState) => ({
+        corresponding_author: {
+          ...prevState.corresponding_author,
+          firstname: c_author.firstname,
+          lastname: c_author.lastname,
+        },
+      }));
+    } else if (name === "corresponding_author_email") {
+      this.setState((prevState) => ({
+        corresponding_author: {
+          ...prevState.corresponding_author,
+          email: value,
+        },
+      }));
+    } else {
+      this.setState({
+        [name]: value,
+      });
+    }
   }
 
   handleYearChange(value) {
@@ -389,7 +409,7 @@ class CreateLivePaper extends React.Component {
   }
 
   render() {
-    console.log(this.props.data);
+    console.log(this.state);
 
     return (
       <Dialog
@@ -555,9 +575,11 @@ class CreateLivePaper extends React.Component {
                   label="Corresponding Author"
                   name="corresponding_author"
                   value={
-                    this.state.corresponding_author.firstname +
-                    " " +
-                    this.state.corresponding_author.lastname
+                    this.state.corresponding_author.firstname
+                      ? this.state.corresponding_author.firstname +
+                        " " +
+                        this.state.corresponding_author.lastname
+                      : ""
                   }
                   handleChange={this.handleFieldChange}
                 />
@@ -756,7 +778,7 @@ class CreateLivePaper extends React.Component {
               {Object.keys(this.state.resources_items_data).length > 0
                 ? Object.values(this.state.resources_items_data).map(
                     (item, index) => {
-                    //   console.log(item);
+                      //   console.log(item);
                       if (item["type"] === "section_morphology") {
                         return (
                           <SectionMorphology
