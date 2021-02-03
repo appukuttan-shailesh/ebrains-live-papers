@@ -147,6 +147,8 @@ class CreateLivePaper extends React.Component {
       affiliations_string: "",
       authors: [{ firstname: "", lastname: "", affiliation: "" }],
       corresponding_author: { firstname: "", lastname: "", email: "" },
+      created_author: { type: null, name: "", email: "" },
+      approved_author: { name: "", email: "" },
       year: new Date(),
       paper_title: "",
       journal: "",
@@ -281,6 +283,53 @@ class CreateLivePaper extends React.Component {
       this.setState((prevState) => ({
         corresponding_author: {
           ...prevState.corresponding_author,
+          email: value,
+        },
+      }));
+    } else if (name === "created_author") {
+      if (value === "-- Other Person --") {
+        this.setState((prevState) => ({
+          created_author: {
+            ...prevState.created_author,
+            type: "other",
+            name: "",
+          },
+        }));
+      } else {
+        this.setState((prevState) => ({
+          created_author: {
+            ...prevState.created_author,
+            type: "author",
+            name: value,
+          },
+          approved_author: { name: "", email: "" },
+        }));
+      }
+    } else if (name === "created_author_other") {
+      this.setState((prevState) => ({
+        created_author: {
+          ...prevState.created_author,
+          name: value,
+        },
+      }));
+    } else if (name === "created_author_email") {
+      this.setState((prevState) => ({
+        created_author: {
+          ...prevState.created_author,
+          email: value,
+        },
+      }));
+    } else if (name === "approved_author") {
+      this.setState((prevState) => ({
+        approved_author: {
+          ...prevState.approved_author,
+          name: value,
+        },
+      }));
+    } else if (name === "approved_author_email") {
+      this.setState((prevState) => ({
+        approved_author: {
+          ...prevState.approved_author,
           email: value,
         },
       }));
@@ -606,6 +655,126 @@ class CreateLivePaper extends React.Component {
               <div>
                 <p>
                   <strong>
+                    Specify the person creating this live paper, along with
+                    their email address:
+                  </strong>
+                </p>
+              </div>
+              <div>
+                <SingleSelect
+                  itemNames={
+                    this.state.authors
+                      ? this.state.authors
+                          .map(function (author) {
+                            return author.firstname + " " + author.lastname;
+                          })
+                          .concat("-- Other Person --") // for an external creating author
+                      : []
+                  }
+                  label="Created By"
+                  name="created_author"
+                  value={
+                    this.state.created_author.type === "other"
+                      ? "-- Other Person --"
+                      : this.state.created_author.name
+                  }
+                  handleChange={this.handleFieldChange}
+                />
+              </div>
+              {this.state.created_author.type === "other" && (
+                <div>
+                  <br />
+                  <TextField
+                    label="Creating Author Full Name"
+                    variant="outlined"
+                    fullWidth={true}
+                    name="created_author_other"
+                    value={this.state.created_author.name}
+                    onChange={this.handleFieldChange}
+                    InputProps={{
+                      style: {
+                        padding: "5px 15px",
+                      },
+                    }}
+                    style={{ width: 700 }}
+                  />
+                </div>
+              )}
+              <br />
+              <div>
+                <TextField
+                  label="Creating Author Email"
+                  variant="outlined"
+                  fullWidth={true}
+                  name="created_author_email"
+                  value={this.state.created_author.email}
+                  onChange={this.handleFieldChange}
+                  InputProps={{
+                    style: {
+                      padding: "5px 15px",
+                    },
+                  }}
+                  style={{ width: 700 }}
+                />
+              </div>
+              <br />
+              <br />
+              {this.state.created_author.type === "other" && (
+                <div>
+                  <div>
+                    <p>
+                      <strong>
+                        Since the live paper is being created by a person who
+                        isn't an author on the article (as indicated above), the
+                        live paper needs to be approved by one of the original
+                        authors. Specify the authorising author, along with
+                        their email address:
+                      </strong>
+                    </p>
+                  </div>
+                  <div>
+                    <SingleSelect
+                      itemNames={
+                        this.state.authors
+                          ? this.state.authors.map(function (author) {
+                              return author.firstname + " " + author.lastname;
+                            })
+                          : []
+                      }
+                      label="Approved By"
+                      name="approved_author"
+                      value={
+                        this.state.approved_author.name
+                          ? this.state.approved_author.name
+                          : ""
+                      }
+                      handleChange={this.handleFieldChange}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <TextField
+                      label="Approving Author Email"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="approved_author_email"
+                      value={this.state.approved_author.email}
+                      onChange={this.handleFieldChange}
+                      InputProps={{
+                        style: {
+                          padding: "5px 15px",
+                        },
+                      }}
+                      style={{ width: 700 }}
+                    />
+                  </div>
+                  <br />
+                  <br />
+                </div>
+              )}
+              <div>
+                <p>
+                  <strong>
                     Specify the journal in which paper is published (leave empty
                     if awaiting publication):
                   </strong>
@@ -626,6 +795,7 @@ class CreateLivePaper extends React.Component {
                   }}
                 />
               </div>
+              <br />
               <div>
                 <p>
                   <strong>
@@ -649,6 +819,7 @@ class CreateLivePaper extends React.Component {
                   }}
                 />
               </div>
+              <br />
               <div>
                 <p>
                   <strong>
@@ -674,6 +845,7 @@ class CreateLivePaper extends React.Component {
                   }}
                 />
               </div>
+              <br />
               <div>
                 <p>
                   <strong>

@@ -214,6 +214,36 @@
                     To be filled...
                 {% endif %}
             </p>
+            <p>
+                <strong style="font-weight:bolder">Created by:
+                </strong>
+                {% if created_author.name %}
+                    {{ created_author.name }}
+                    {% if created_author.email %}
+                        (
+                        <em>
+                            <a href="mailto:{{created_author.email}}" ">{{ created_author.email }}</a>
+                        </em>
+                        )
+                    {% endif %}
+                {% else %}
+                    To be filled...
+                {% endif %}
+            </p>
+            {% if approved_author.name %}
+                <p>
+                    <strong style="font-weight:bolder">Approved by:
+                    </strong>
+                    {{ approved_author.name }}
+                    {% if approved_author.email %}
+                        (
+                        <em>
+                            <a href="mailto:{{approved_author.email}}" ">{{ approved_author.email }}</a>
+                        </em>
+                        )
+                    {% endif %}
+                </p>
+            {% endif %}
         </div>
         <div class="rainbow-row">
             <div></div>
@@ -225,7 +255,7 @@
             <div></div>
             <div></div>
         </div>
-        <br />
+        <br/>
         <div>
             <p>
                 <strong style="font-weight:bolder">Journal:
