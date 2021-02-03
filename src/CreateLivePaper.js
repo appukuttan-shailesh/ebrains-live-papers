@@ -28,6 +28,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import nunjucks from "nunjucks";
 import LivePaper from "./LivePaper.njk";
+import SubmitModal from "./SubmitModal";
 
 const styles = (theme) => ({
   root: {
@@ -46,7 +47,7 @@ const footerStyle = {
   backgroundColor: "#ffd180",
   fontSize: "20px",
   color: "black",
-  borderTop: "1px solid #000000",
+  border: "1px solid #000000",
   textAlign: "center",
   position: "fixed",
   left: "50%",
@@ -55,6 +56,7 @@ const footerStyle = {
   height: "70px",
   width: "70%",
   zIndex: "1",
+  paddingBottom: "75px",
 };
 
 const phantomStyle = {
@@ -159,13 +161,17 @@ class CreateLivePaper extends React.Component {
       license: "None",
       resources_description: "",
       resources_items_data: {},
+      mode: "Private", // options: Private, Password-Protected, Public
+      submitOpen: false,
     };
     this.state = { ...this.state, ...props.data };
 
     this.handleClose = this.handleClose.bind(this);
-    this.handleDownloadLivePaper = this.handleDownloadLivePaper.bind(this);
-    this.handlePreviewLivePaper = this.handlePreviewLivePaper.bind(this);
-    this.handleSaveProject = this.handleSaveProject.bind(this);
+    this.handlePreview = this.handlePreview.bind(this);
+    this.handleDownload = this.handleDownload.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleSubmitOpen = this.handleSubmitOpen.bind(this);
+    this.handleSubmitClose = this.handleSubmitClose.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.handleYearChange = this.handleYearChange.bind(this);
     this.handleAuthorsChange = this.handleAuthorsChange.bind(this);
@@ -174,40 +180,21 @@ class CreateLivePaper extends React.Component {
     this.makeAffiliationsString = this.makeAffiliationsString.bind(this);
     this.handleAddSection = this.handleAddSection.bind(this);
     this.storeSectionInfo = this.storeSectionInfo.bind(this);
+    this.removeExcessData = this.removeExcessData.bind(this);
+  }
+
+  removeExcessData() {
+    let req_data = { ...this.state }; // copy by value
+    const remove_keys = ["submitOpen"];
+    remove_keys.forEach((k) => delete req_data[k]);
+    return req_data;
   }
 
   handleClose() {
     this.props.onClose();
   }
 
-  handleDownloadLivePaper() {
-    this.makeAuthorsString();
-    this.makeAffiliationsString();
-
-    function render(data) {
-      fetch(LivePaper)
-        .then((r) => r.text())
-        .then((source) => {
-          var output = nunjucks.renderString(source, data);
-
-          const element = document.createElement("a");
-          const file = new Blob([output], { type: "text/html" });
-          element.href = URL.createObjectURL(file);
-          element.download = "livepaper_" + getFormattedTime() + ".html";
-          document.body.appendChild(element); // Required for this to work in FireFox
-          element.click();
-        });
-    }
-    render(this.state);
-
-    showNotification(
-      this.props.enqueueSnackbar,
-      "Live Paper downloaded...",
-      "success"
-    );
-  }
-
-  async handlePreviewLivePaper() {
+  async handlePreview() {
     let first = new Promise((resolve, reject) => {
       this.makeAuthorsString();
       resolve();
@@ -245,9 +232,38 @@ class CreateLivePaper extends React.Component {
     );
   }
 
-  handleSaveProject() {
+  handleDownload() {
+    this.makeAuthorsString();
+    this.makeAffiliationsString();
+
+    function render(data) {
+      fetch(LivePaper)
+        .then((r) => r.text())
+        .then((source) => {
+          var output = nunjucks.renderString(source, data);
+
+          const element = document.createElement("a");
+          const file = new Blob([output], { type: "text/html" });
+          element.href = URL.createObjectURL(file);
+          element.download = "livepaper_" + getFormattedTime() + ".html";
+          document.body.appendChild(element); // Required for this to work in FireFox
+          element.click();
+        });
+    }
+    render(this.removeExcessData(this.state));
+
+    showNotification(
+      this.props.enqueueSnackbar,
+      "HTML file downloaded...",
+      "success"
+    );
+
     // create JSON object with live paper info
-    let data = { lp_version: "0.0.1", created_date: new Date(), ...this.state };
+    let data = {
+      lp_version: "0.0.1",
+      created_date: new Date(),
+      ...this.removeExcessData(this.state),
+    };
     const lp_data = JSON.stringify(data, null, 4);
     const blob = new Blob([lp_data], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -258,9 +274,25 @@ class CreateLivePaper extends React.Component {
 
     showNotification(
       this.props.enqueueSnackbar,
-      "Project downloaded...",
+      ".lpp file downloaded...",
       "success"
     );
+  }
+
+  handleSave() {
+    console.log("TODO: Handle Save to KG!");
+  }
+
+  handleSubmitOpen() {
+    this.setState({
+      submitOpen: true,
+    });
+  }
+
+  handleSubmitClose() {
+    this.setState({
+      submitOpen: false,
+    });
   }
 
   handleFieldChange(event) {
@@ -460,6 +492,17 @@ class CreateLivePaper extends React.Component {
   render() {
     console.log(this.state);
 
+    let submitModal = null;
+    if (this.state.submitOpen) {
+      submitModal = (
+        <SubmitModal
+          data={this.state}
+          open={this.state.submitOpen}
+          onClose={this.handleSubmitClose}
+        />
+      );
+    }
+
     return (
       <Dialog
         fullScreen
@@ -511,15 +554,18 @@ class CreateLivePaper extends React.Component {
             >
               <div>
                 Follow the steps listed below to create the live paper. You can
-                generate the live paper and/or save the project at any time by
+                preview the live paper and/or download it at any time by
                 clicking on the buttons on the bottom of the page. It also
-                provides you an option to preview any changes before proceeding.
+                provides you an option to save your work online before
+                proceeding. Once completed you can submit for publishing the
+                live paper online.
                 <br />
                 <br />
-                When saving the project, a file with extension '.lpp' will be
-                downloaded. You can upload this file later to update the live
-                paper contents. Please do not manually edit these files, as it
-                could render them unreadable by this tool.
+                When downloading, an HTML version of the live paper and a file
+                with extension '.lpp' both will be downloaded. You can upload
+                the latter file at any point to update the live paper contents.
+                Please do not manually edit these files, as it could render them
+                unreadable by this tool.
               </div>
               <br />
               <div>
@@ -1130,7 +1176,10 @@ class CreateLivePaper extends React.Component {
           </div>
 
           <Footer>
-            <div className="rainbow-row">
+            <div
+              className="rainbow-row"
+              style={{ borderBottom: "1px solid #000000" }}
+            >
               <div></div>
               <div></div>
               <div></div>
@@ -1151,7 +1200,7 @@ class CreateLivePaper extends React.Component {
                 variant="contained"
                 color="primary"
                 style={{
-                  width: "25%",
+                  width: "17.5%",
                   backgroundColor: "#FF9800",
                   color: "#000000",
                   fontWeight: "bold",
@@ -1159,9 +1208,9 @@ class CreateLivePaper extends React.Component {
                   borderColor: "#000000",
                   borderWidth: "1px",
                 }}
-                onClick={this.handlePreviewLivePaper}
+                onClick={this.handlePreview}
               >
-                Preview Live Paper
+                Preview
               </Button>
               <br />
               <br />
@@ -1169,7 +1218,7 @@ class CreateLivePaper extends React.Component {
                 variant="contained"
                 color="primary"
                 style={{
-                  width: "25%",
+                  width: "17.5%",
                   backgroundColor: "#009688",
                   color: "#000000",
                   fontWeight: "bold",
@@ -1177,9 +1226,9 @@ class CreateLivePaper extends React.Component {
                   borderColor: "#000000",
                   borderWidth: "1px",
                 }}
-                onClick={this.handleDownloadLivePaper}
+                onClick={this.handleDownload}
               >
-                Download Live Paper
+                Download
               </Button>
               <br />
               <br />
@@ -1187,19 +1236,37 @@ class CreateLivePaper extends React.Component {
                 variant="contained"
                 color="secondary"
                 style={{
-                  width: "25%",
+                  width: "17.5%",
                   backgroundColor: "#01579b",
                   fontWeight: "bold",
                   border: "solid",
                   borderColor: "#000000",
                   borderWidth: "1px",
                 }}
-                onClick={this.handleSaveProject}
+                onClick={this.handleSave}
               >
-                Save & Download Project
+                Save
+              </Button>
+              <br />
+              <br />
+              <Button
+                variant="contained"
+                color="secondary"
+                style={{
+                  width: "17.5%",
+                  backgroundColor: "#8b0d0d",
+                  fontWeight: "bold",
+                  border: "solid",
+                  borderColor: "#000000",
+                  borderWidth: "1px",
+                }}
+                onClick={this.handleSubmitOpen}
+              >
+                Submit
               </Button>
             </div>
           </Footer>
+          {submitModal}
         </DialogContent>
       </Dialog>
     );
