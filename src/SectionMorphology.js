@@ -127,23 +127,18 @@ export default class SectionMorphology extends React.Component {
   constructor(props) {
     super(props);
 
-    if (!this.props.loadData) {
-      this.state = {
-        uuid: this.props.uuid ? this.props.uuid : null,
-        type: "section_morphology",
-        title: "Morphologies",
-        icon: "settings_input_antenna",
-        description: "",
-        data: "",
-        dataOk: true,
-        dataFormatted: [],
-        showHelp: false,
-      };
-    } else {
-      this.state = {
-        ...props.data,
-      };
-    }
+    this.state = {
+      order: null,
+      type: "section_morphology",
+      title: "Morphologies",
+      icon: "settings_input_antenna",
+      description: "",
+      data: "",
+      dataOk: true,
+      dataFormatted: [],
+      showHelp: false,
+      ...props.data
+    };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.clickHelp = this.clickHelp.bind(this);

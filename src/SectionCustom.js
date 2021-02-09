@@ -72,22 +72,17 @@ export default class SectionCustom extends React.Component {
   constructor(props) {
     super(props);
 
-    if (!this.props.loadData) {
-      this.state = {
-        uuid: this.props.uuid ? this.props.uuid : null,
-        type: "section_custom",
-        title: "Custom Section",
-        icon: "check_box_outline_blank",
-        description: "",
-        data: "",
-        dataFormatted: "",
-        showHelp: false,
-      };
-    } else {
-      this.state = {
-        ...props.data,
-      };
-    }
+    this.state = {
+      order: null,
+      type: "section_custom",
+      title: "Custom Section",
+      icon: "check_box_outline_blank",
+      description: "",
+      data: "",
+      dataFormatted: "",
+      showHelp: false,
+      ...props.data
+    };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.clickHelp = this.clickHelp.bind(this);

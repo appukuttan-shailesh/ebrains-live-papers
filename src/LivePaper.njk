@@ -230,7 +230,7 @@
                     To be filled...
                 {% endif %}
             </p>
-            {% if approved_author.name %}
+            {% if approved_author.name != created_author.name %}
                 <p>
                     <strong style="font-weight:bolder">Approved by:
                     </strong>
@@ -312,7 +312,7 @@
             {% endif %}
         </p>
         <ul class="collapsible" data-collapsible="expandable">
-            {% for uuid, data in resources_items_data %}
+            {% for data in resources %}
                 {% if data["type"] == "section_morphology" %}
                     {{ sectionMorphology(data=data) }}
                 {% elseif data["type"] == "section_traces" %}

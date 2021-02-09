@@ -148,23 +148,18 @@ export default class SectionModels extends React.Component {
   constructor(props) {
     super(props);
 
-    if (!this.props.loadData) {
-      this.state = {
-        uuid: this.props.uuid ? this.props.uuid : null,
-        type: "section_models",
-        title: "Model Collection",
-        icon: "local_play",
-        description: "",
-        data: "",
-        dataOk: true,
-        dataFormatted: [],
-        showHelp: false,
-      };
-    } else {
-      this.state = {
-        ...props.data,
-      };
-    }
+    this.state = {
+      order: null,
+      type: "section_models",
+      title: "Model Collection",
+      icon: "local_play",
+      description: "",
+      data: "",
+      dataOk: true,
+      dataFormatted: [],
+      showHelp: false,
+      ...props.data
+    };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.clickHelp = this.clickHelp.bind(this);

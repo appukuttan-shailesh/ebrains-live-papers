@@ -24,11 +24,12 @@ import SectionMorphology from "./SectionMorphology";
 import SectionTraces from "./SectionTraces";
 import SectionModels from "./SectionModels";
 import SectionCustom from "./SectionCustom";
-import { v4 as uuidv4 } from "uuid";
 
 import nunjucks from "nunjucks";
 import LivePaper from "./LivePaper.njk";
 import SubmitModal from "./SubmitModal";
+
+const LP_TOOL_VERSION = "0.1";
 
 const styles = (theme) => ({
   root: {
@@ -144,9 +145,6 @@ class CreateLivePaper extends React.Component {
     super(props);
 
     this.state = {
-      page_title: "",
-      authors_string: "",
-      affiliations_string: "",
       authors: [{ firstname: "", lastname: "", affiliation: "" }],
       corresponding_author: { firstname: "", lastname: "", email: "" },
       created_author: { type: null, name: "", email: "" },
@@ -160,8 +158,7 @@ class CreateLivePaper extends React.Component {
       abstract: "",
       license: "None",
       resources_description: "",
-      resources_items_data: {},
-      mode: "Private", // options: Private, Password-Protected, Public
+      resources: [],
       submitOpen: false,
     };
     this.state = { ...this.state, ...props.data };
@@ -181,36 +178,36 @@ class CreateLivePaper extends React.Component {
     this.handleAddSection = this.handleAddSection.bind(this);
     this.storeSectionInfo = this.storeSectionInfo.bind(this);
     this.removeExcessData = this.removeExcessData.bind(this);
+    this.addDerivedData = this.addDerivedData.bind(this);
   }
 
   removeExcessData() {
     let req_data = { ...this.state }; // copy by value
-    const remove_keys = ["submitOpen"];
+    let remove_keys = ["submitOpen"];
     remove_keys.forEach((k) => delete req_data[k]);
+
+    // remove from within resources objects
+    for (let res of req_data.resources) {
+      let remove_keys = ["dataOk", "showHelp"];
+      remove_keys.forEach((k) => delete res[k]);
+    }
+
     return req_data;
+  }
+
+  addDerivedData(data) {
+    data["page_title"] = this.makePageTitleString();
+    data["authors_string"] = this.makeAuthorsString();
+    data["affiliations_string"] = this.makeAffiliationsString();
+    return data;
   }
 
   handleClose() {
     this.props.onClose();
   }
 
-  async handlePreview() {
-    let first = new Promise((resolve, reject) => {
-      this.makeAuthorsString();
-      resolve();
-    });
-
-    let second = new Promise((resolve, reject) => {
-      this.makeAffiliationsString();
-      resolve();
-    });
-
-    let third = new Promise((resolve, reject) => {
-      this.makePageTitleString();
-      resolve();
-    });
-
-    await Promise.all([first, second, third]);
+  handlePreview() {
+    let lp_data = this.addDerivedData(this.removeExcessData(this.state));
 
     function render(data) {
       fetch(LivePaper)
@@ -222,8 +219,7 @@ class CreateLivePaper extends React.Component {
           w.document.close();
         });
     }
-    var data = this.state;
-    render(data);
+    render(lp_data);
 
     showNotification(
       this.props.enqueueSnackbar,
@@ -260,7 +256,7 @@ class CreateLivePaper extends React.Component {
 
     // create JSON object with live paper info
     let data = {
-      lp_version: "0.0.1",
+      lp_tool_version: LP_TOOL_VERSION,
       created_date: new Date(),
       ...this.removeExcessData(this.state),
     };
@@ -325,7 +321,9 @@ class CreateLivePaper extends React.Component {
             ...prevState.created_author,
             type: "other",
             name: "",
+            email: "",
           },
+          approved_author: { name: "", email: "" },
         }));
       } else {
         this.setState((prevState) => ({
@@ -333,8 +331,9 @@ class CreateLivePaper extends React.Component {
             ...prevState.created_author,
             type: "author",
             name: value,
+            email: "",
           },
-          approved_author: { name: "", email: "" },
+          approved_author: { name: value, email: "" },
         }));
       }
     } else if (name === "created_author_other") {
@@ -345,12 +344,25 @@ class CreateLivePaper extends React.Component {
         },
       }));
     } else if (name === "created_author_email") {
-      this.setState((prevState) => ({
-        created_author: {
-          ...prevState.created_author,
-          email: value,
-        },
-      }));
+      if (this.state.created_author.type === "author") {
+        this.setState((prevState) => ({
+          created_author: {
+            ...prevState.created_author,
+            email: value,
+          },
+          approved_author: {
+            name: prevState.approved_author.name,
+            email: value,
+          },
+        }));
+      } else {
+        this.setState((prevState) => ({
+          created_author: {
+            ...prevState.created_author,
+            email: value,
+          },
+        }));
+      }
     } else if (name === "approved_author") {
       this.setState((prevState) => ({
         approved_author: {
@@ -391,102 +403,79 @@ class CreateLivePaper extends React.Component {
     this.setState({
       authors: author_data,
     });
-
-    this.makePageTitleString();
-    this.makeAuthorsString();
-    this.makeAffiliationsString();
   }
 
   makePageTitleString() {
     const year = new Date(this.state.year).getFullYear();
-    return new Promise((resolve) => {
-      const author_data = this.state.authors;
-      var page_title = "";
-      if (author_data.length === 0) {
-        page_title = "";
-      } else if (author_data.length === 1) {
-        page_title = author_data[0].lastname + " " + year;
-      } else if (author_data.length === 2) {
-        page_title =
-          author_data[0].lastname +
-          " & " +
-          author_data[1].lastname +
-          " " +
-          year;
-      } else {
-        page_title = author_data[0].lastname + " et al. " + year;
-      }
-
-      this.setState({
-        page_title: page_title,
-      });
-    });
+    const author_data = this.state.authors;
+    var page_title = "";
+    if (author_data.length === 0) {
+      page_title = "";
+    } else if (author_data.length === 1) {
+      page_title = author_data[0].lastname + " " + year;
+    } else if (author_data.length === 2) {
+      page_title =
+        author_data[0].lastname + " & " + author_data[1].lastname + " " + year;
+    } else {
+      page_title = author_data[0].lastname + " et al. " + year;
+    }
+    return page_title;
   }
 
   makeAuthorsString() {
-    return new Promise((resolve) => {
-      var data_string = "";
-      this.state.authors.forEach(function (author, index) {
-        if (data_string !== "") {
-          data_string = data_string + ", ";
-        }
-        if (author.firstname.trim() !== "" || author.lastname.trim() !== "") {
-          data_string =
-            data_string +
-            author.firstname +
-            " " +
-            author.lastname +
-            " " +
-            (index + 1).toString().sup();
-        }
-      });
-      this.setState({
-        authors_string: data_string,
-      });
+    var authors_string = "";
+    this.state.authors.forEach(function (author, index) {
+      if (authors_string !== "") {
+        authors_string = authors_string + ", ";
+      }
+      if (author.firstname.trim() !== "" || author.lastname.trim() !== "") {
+        authors_string =
+          authors_string +
+          author.firstname +
+          " " +
+          author.lastname +
+          " " +
+          (index + 1).toString().sup();
+      }
     });
+    return authors_string;
   }
 
   makeAffiliationsString() {
-    return new Promise((resolve) => {
-      var unique_affs = [];
-      this.state.authors.forEach(function (item) {
-        var affs = item.affiliation.split(";").map(function (x) {
-          return x.trim();
-        });
-        affs.forEach(function (aff) {
-          if (aff !== "" && !unique_affs.includes(aff)) {
-            unique_affs.push(aff);
-          }
-        });
+    var unique_affs = [];
+    this.state.authors.forEach(function (item) {
+      var affs = item.affiliation.split(";").map(function (x) {
+        return x.trim();
       });
-      // add superscript numbering to each affiliation
-      unique_affs.forEach(function (aff, index) {
-        this[index] = (index + 1).toString().sup() + " " + aff;
-      }, unique_affs);
-      var data_string = unique_affs.join(", ");
-      this.setState({
-        affiliations_string: data_string,
+      affs.forEach(function (aff) {
+        if (aff !== "" && !unique_affs.includes(aff)) {
+          unique_affs.push(aff);
+        }
       });
     });
+    // add superscript numbering to each affiliation
+    unique_affs.forEach(function (aff, index) {
+      this[index] = (index + 1).toString().sup() + " " + aff;
+    }, unique_affs);
+    var affiliations_string = unique_affs.join(", ");
+    return affiliations_string;
   }
 
   handleAddSection(section_type) {
-    const uuid_val = uuidv4();
     this.setState((prevState) => ({
-      resources_items_data: {
-        ...prevState.resources_items_data,
-        [uuid_val]: { uuid: uuid_val, type: section_type },
-      },
+      resources: [
+        ...prevState.resources,
+        { order: prevState.resources.length, type: section_type },
+      ],
     }));
   }
 
   storeSectionInfo(data_dict) {
-    this.setState((prevState) => ({
-      resources_items_data: {
-        ...prevState.resources_items_data,
-        [data_dict["uuid"]]: data_dict,
-      },
-    }));
+    const resources_items = this.state.resources.slice();
+    resources_items[data_dict["order"]] = data_dict;
+    this.setState({
+      resources: resources_items,
+    });
   }
 
   render() {
@@ -993,55 +982,45 @@ class CreateLivePaper extends React.Component {
               <br />
               <br />
 
-              {Object.keys(this.state.resources_items_data).length > 0
-                ? Object.values(this.state.resources_items_data).map(
-                    (item, index) => {
-                      //   console.log(item);
-                      if (item["type"] === "section_morphology") {
-                        return (
-                          <SectionMorphology
-                            key={index}
-                            uuid={item["uuid"]}
-                            storeSectionInfo={this.storeSectionInfo}
-                            data={item}
-                            loadData={this.props.loadData}
-                          />
-                        );
-                      } else if (item["type"] === "section_traces") {
-                        return (
-                          <SectionTraces
-                            key={index}
-                            uuid={item["uuid"]}
-                            storeSectionInfo={this.storeSectionInfo}
-                            data={item}
-                            loadData={this.props.loadData}
-                          />
-                        );
-                      } else if (item["type"] === "section_models") {
-                        return (
-                          <SectionModels
-                            key={index}
-                            uuid={item["uuid"]}
-                            storeSectionInfo={this.storeSectionInfo}
-                            data={item}
-                            loadData={this.props.loadData}
-                          />
-                        );
-                      } else if (item["type"] === "section_custom") {
-                        return (
-                          <SectionCustom
-                            key={index}
-                            uuid={item["uuid"]}
-                            storeSectionInfo={this.storeSectionInfo}
-                            data={item}
-                            loadData={this.props.loadData}
-                          />
-                        );
-                      } else {
-                        return null;
-                      }
+              {Object.keys(this.state.resources).length > 0
+                ? Object.values(this.state.resources).map((item, index) => {
+                    // console.log(item);
+                    if (item["type"] === "section_morphology") {
+                      return (
+                        <SectionMorphology
+                          key={index}
+                          storeSectionInfo={this.storeSectionInfo}
+                          data={item}
+                        />
+                      );
+                    } else if (item["type"] === "section_traces") {
+                      return (
+                        <SectionTraces
+                          key={index}
+                          storeSectionInfo={this.storeSectionInfo}
+                          data={item}
+                        />
+                      );
+                    } else if (item["type"] === "section_models") {
+                      return (
+                        <SectionModels
+                          key={index}
+                          storeSectionInfo={this.storeSectionInfo}
+                          data={item}
+                        />
+                      );
+                    } else if (item["type"] === "section_custom") {
+                      return (
+                        <SectionCustom
+                          key={index}
+                          storeSectionInfo={this.storeSectionInfo}
+                          data={item}
+                        />
+                      );
+                    } else {
+                      return null;
                     }
-                  )
+                  })
                 : null}
               <br />
             </div>

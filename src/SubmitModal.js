@@ -103,12 +103,12 @@ export default class SubmitModal extends React.Component {
                 </form>
               </Box>
             </Box>
-            {this.state.mode == "Password-Protected" && (
+            {this.state.mode === "Password-Protected" && (
               <Box my={2}>
                 <div>
                   <p>
                     <strong>
-                      Please specify a password for protecting this live paper:
+                      Please specify a password for accessing this live paper:
                     </strong>
                   </p>
                 </div>

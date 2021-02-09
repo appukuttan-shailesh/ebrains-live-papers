@@ -53,26 +53,11 @@ function HelpContentTraces() {
       <br />
       <code>
         {JSON.stringify([
-          [
-            "https://www.datasource.com/traces/oh140807_A0_idB.abf",
-            "file_A",
-          ],
-          [
-            "https://www.datasource.com/traces/oh140807_A0_idC.abf",
-            "file_B",
-          ],
-          [
-            "https://www.datasource.com/traces/oh140807_A0_idF.abf",
-            "file_C",
-          ],
-          [
-            "https://www.datasource.com/traces/oh140807_A0_idG.abf",
-            "file_D",
-          ],
-          [
-            "https://www.datasource.com/traces/oh140807_A0_idH.abf",
-            "file_E",
-          ],
+          ["https://www.datasource.com/traces/oh140807_A0_idB.abf", "file_A"],
+          ["https://www.datasource.com/traces/oh140807_A0_idC.abf", "file_B"],
+          ["https://www.datasource.com/traces/oh140807_A0_idF.abf", "file_C"],
+          ["https://www.datasource.com/traces/oh140807_A0_idG.abf", "file_D"],
+          ["https://www.datasource.com/traces/oh140807_A0_idH.abf", "file_E"],
         ])}
       </code>
       <br />
@@ -116,23 +101,18 @@ export default class SectionTraces extends React.Component {
   constructor(props) {
     super(props);
 
-    if (!this.props.loadData) {
-      this.state = {
-        uuid: this.props.uuid ? this.props.uuid : null,
-        type: "section_traces",
-        title: "Recordings / Traces",
-        icon: "timeline",
-        description: "",
-        data: "",
-        dataOk: true,
-        dataFormatted: [],
-        showHelp: false,
-      };
-    } else {
-      this.state = {
-        ...props.data,
-      };
-    }
+    this.state = {
+      order: null,
+      type: "section_traces",
+      title: "Recordings / Traces",
+      icon: "timeline",
+      description: "",
+      data: "",
+      dataOk: true,
+      dataFormatted: [],
+      showHelp: false,
+      ...props.data,
+    };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.clickHelp = this.clickHelp.bind(this);
@@ -226,7 +206,7 @@ export default class SectionTraces extends React.Component {
       }
 
       if (Array.isArray(data_json) && data_json.every(checkIfArrayUrlLabel)) {
-        //   data is a list of lists with both url and label
+        // data is a list of lists with both url and label
         console.log("Input: JSON - list of lists - URL, label");
         let data_formatted = [];
         data_json.forEach(function (item) {
@@ -248,7 +228,7 @@ export default class SectionTraces extends React.Component {
         Array.isArray(data_json) &&
         data_json.every(checkIfArrayOnlyUrl)
       ) {
-        //   data is a list of lists with only url
+        // data is a list of lists with only url
         console.log("Input: JSON - list of lists - only URL");
         let data_formatted = [];
         data_json.forEach(function (item) {

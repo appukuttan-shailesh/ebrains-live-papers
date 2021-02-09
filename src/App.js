@@ -23,12 +23,20 @@ class App extends React.Component {
   }
 
   handleCreateLivePaperOpen() {
-    this.setState({ projectData: {}, createLivePaperOpen: true, loadData: false });
+    this.setState({
+      projectData: {},
+      createLivePaperOpen: true,
+      loadData: false,
+    });
   }
 
   handleCreateLivePaperClose() {
     this.inputFileRef.current.value = "";
-    this.setState({ createLivePaperOpen: false, projectData: {}, loadData: false });
+    this.setState({
+      createLivePaperOpen: false,
+      projectData: {},
+      loadData: false,
+    });
   }
 
   handleLoadProject() {
@@ -42,6 +50,8 @@ class App extends React.Component {
       const reader = new FileReader();
       reader.onload = function (that) {
         data = JSON.parse(reader.result);
+        let remove_keys = ["lp_tool_version", "created_date"];
+        remove_keys.forEach((k) => delete data[k]);
         // console.log(data);
         scope.setState({
           projectData: data,
