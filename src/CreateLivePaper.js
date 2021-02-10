@@ -18,6 +18,7 @@ import Button from "@material-ui/core/Button";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 
+import ContextMain from "./ContextMain";
 import DynamicTable from "./DynamicTable";
 import SingleSelect from "./SingleSelect";
 import SectionMorphology from "./SectionMorphology";
@@ -141,8 +142,10 @@ const popular_licenses = [
 ];
 
 class CreateLivePaper extends React.Component {
-  constructor(props) {
-    super(props);
+  static contextType = ContextMain;
+
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       authors: [{ firstname: "", lastname: "", affiliation: "" }],
@@ -162,6 +165,8 @@ class CreateLivePaper extends React.Component {
       submitOpen: false,
     };
     this.state = { ...this.state, ...props.data };
+
+    // const [authContext,] = this.context.auth;
 
     this.handleClose = this.handleClose.bind(this);
     this.handlePreview = this.handlePreview.bind(this);
@@ -480,6 +485,7 @@ class CreateLivePaper extends React.Component {
 
   render() {
     console.log(this.state);
+    console.log(this.context.auth[0].token);
 
     let submitModal = null;
     if (this.state.submitOpen) {

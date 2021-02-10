@@ -1,20 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import initAuth from "./auth";
+import { ContextMainProvider } from "./ContextMain";
 import App from "./App";
-import CreateLivePaper from "./CreateLivePaper";
 import reportWebVitals from "./reportWebVitals";
 import { SnackbarProvider } from "notistack";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <SnackbarProvider maxSnack={3}>
-      <App />
-      <CreateLivePaper />
-    </SnackbarProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+function renderApp(auth) {
+  ReactDOM.render(
+    <React.StrictMode>
+      <SnackbarProvider maxSnack={3}>
+        <ContextMainProvider>
+          <App auth={auth} />
+        </ContextMainProvider>
+      </SnackbarProvider>
+    </React.StrictMode>,
+    document.getElementById("root")
+  );
+}
+
+window.addEventListener("DOMContentLoaded", () => initAuth(renderApp));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

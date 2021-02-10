@@ -1,15 +1,19 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import ContextMain from "./ContextMain";
 import CreateLivePaperLoadPDFData from "./CreateLivePaperLoadPDFData";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  static contextType = ContextMain;
+
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       createLivePaperOpen: false,
       projectData: {},
       loadData: false,
+      auth: props.auth || null,
     };
 
     this.inputFileRef = React.createRef();
@@ -20,6 +24,12 @@ class App extends React.Component {
     );
     this.handleLoadProject = this.handleLoadProject.bind(this);
     this.onFileSelect = this.onFileSelect.bind(this);
+  }
+
+  componentDidMount() {
+    const [, setAuthContext] = this.context.auth;
+    setAuthContext(this.props.auth);
+    // console.log("Here: ", this.props.auth.token);
   }
 
   handleCreateLivePaperOpen() {
@@ -66,6 +76,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.auth);
     var createLivePaperContent = "";
     if (this.state.createLivePaperOpen) {
       createLivePaperContent = (
