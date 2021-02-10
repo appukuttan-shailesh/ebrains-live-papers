@@ -485,7 +485,7 @@ class CreateLivePaper extends React.Component {
 
   render() {
     console.log(this.state);
-    console.log(this.context.auth[0].token);
+    // console.log(this.context.auth[0].token);
 
     let submitModal = null;
     if (this.state.submitOpen) {
