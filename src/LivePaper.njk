@@ -40,7 +40,7 @@
 {% macro sectionTraces(data) %}
     <li>
         <div class="collapsible-header amber lighten-5">
-            <i class="material-icons">settings_input_antenna</i>{{data["title"]}}
+            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
@@ -217,12 +217,12 @@
             <p>
                 <strong style="font-weight:bolder">Created by:
                 </strong>
-                {% if created_author.name %}
-                    {{ created_author.name }}
-                    {% if created_author.email %}
+                {% if created_author[0].name %}
+                    {{ created_author[0].name }}
+                    {% if created_author[0].email %}
                         (
                         <em>
-                            <a href="mailto:{{created_author.email}}" ">{{ created_author.email }}</a>
+                            <a href="mailto:{{created_author[0].email}}" ">{{ created_author[0].email }}</a>
                         </em>
                         )
                     {% endif %}
@@ -230,7 +230,7 @@
                     To be filled...
                 {% endif %}
             </p>
-            {% if approved_author.name != created_author.name %}
+            {% if approved_author.name != created_author[0].name %}
                 <p>
                     <strong style="font-weight:bolder">Approved by:
                     </strong>

@@ -1,5 +1,5 @@
 {
-    "lp_tool_version": "0.1",
+    "lp_tool_version": "0.2",
     "created_date": "2021-02-09T15:44:36.658Z",
     "authors": [
         {
@@ -11,121 +11,29 @@
             "firstname": "Carmen A.",
             "lastname": "Lupascu",
             "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
-        },
-        {
-            "firstname": "Luca L.",
-            "lastname": "Bologna",
-            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
-        },
-        {
-            "firstname": "Armando",
-            "lastname": "Romani",
-            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
-        },
-        {
-            "firstname": "Jean-Denis",
-            "lastname": "Courcol",
-            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
-        },
-        {
-            "firstname": "Stefano",
-            "lastname": "Antonel",
-            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
-        },
-        {
-            "firstname": "Werner A.H.",
-            "lastname": "Van Geit",
-            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
-        },
-        {
-            "firstname": "Alex M.",
-            "lastname": "Thomson",
-            "affiliation": "University College London, United Kingdom"
-        },
-        {
-            "firstname": "Audrey",
-            "lastname": "Mercer",
-            "affiliation": "University College London, United Kingdom"
-        },
-        {
-            "firstname": "Sigrun",
-            "lastname": "Lange",
-            "affiliation": "University College London, United Kingdom; University of Westminster, London, United Kingdom"
-        },
-        {
-            "firstname": "Joanne",
-            "lastname": "Falck",
-            "affiliation": "University College London, United Kingdom"
-        },
-        {
-            "firstname": "Christian A.",
-            "lastname": "Rössert",
-            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
-        },
-        {
-            "firstname": "Ying",
-            "lastname": "Shi",
-            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
-        },
-        {
-            "firstname": "Olivier",
-            "lastname": "Hagens",
-            "affiliation": "Laboratory of Neural Microcircuitry (LNMC), Brain Mind Institute, EPFL, Lausanne, Switzerland"
-        },
-        {
-            "firstname": "Maurizio",
-            "lastname": "Pezzoli",
-            "affiliation": "Laboratory of Neural Microcircuitry (LNMC), Brain Mind Institute, EPFL, Lausanne, Switzerland"
-        },
-        {
-            "firstname": "Tamas F.",
-            "lastname": "Freund",
-            "affiliation": "Institute of Experimental Medicine, Hungarian Academy of Sciences, Budapest, Hungary; Faculty of Information Technology and Bionics, Pázmány Péter Catholic University, Budapest, Hungary"
-        },
-        {
-            "firstname": "Szabolcs",
-            "lastname": "Kali",
-            "affiliation": "Institute of Experimental Medicine, Hungarian Academy of Sciences, Budapest, Hungary; Faculty of Information Technology and Bionics, Pázmány Péter Catholic University, Budapest, Hungary"
-        },
-        {
-            "firstname": "Eilif B.",
-            "lastname": "Muller",
-            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
-        },
-        {
-            "firstname": "Felix",
-            "lastname": "Schürmann",
-            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
-        },
-        {
-            "firstname": "Henry",
-            "lastname": "Markram",
-            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
-        },
-        {
-            "firstname": "Michele",
-            "lastname": "Migliore",
-            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
         }
     ],
     "corresponding_author": {
         "firstname": "Rosanna",
         "lastname": "Migliore",
+        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
         "email": "rosanna.migliore@cnr.it"
     },
-    "created_author": [
-        {
-            "type": "other",
-            "name": "Luca L. Bologna",
-            "email": "lucaleonardo.bologna@cnr.it"
-        }
-    ],
+    "created_author": [{
+        "type": "author",
+        "firstname": "Carmen A.",
+        "lastname": "Lupascu",
+        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
+        "email": "lucaleonardo.bologna@cnr.it"
+    }],
     "approved_author": {
-        "name": "Luca L. Bologna",
+        "firstname": "Carmen A.",
+        "lastname": "Lupascu",
+        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
         "email": "lucaleonardo.bologna@cnr.it"
     },
     "year": "2018-01-01",
-    "paper_title": "The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow",
+    "paper_title": "Testing 8: The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow",
     "journal": "PLOS Computational Biology",
     "url": "https://doi.org/10.1371/journal.pcbi.1006423",
     "citation": "Migliore R, Lupascu CA, Bologna LL, Romani A, Courcol J-D, Antonel S, et al. (2018) The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow. PLoS Comput Biol 14(9): e1006423.",
@@ -133,6 +41,7 @@
     "abstract": "The peak conductance of many ion channel types measured in any given animal is highly variable across neurons, both within and between neuronal populations. The current view is that this occurs  because a neuron needs to adapt its intrinsic electrophysiological properties either to maintain the same operative range in the presence of abnormal inputs or to compensate for the effects of  pathological conditions. Limited experimental and modeling evidence suggests this might be  implemented via the correlation and/or degeneracy in the function of multiple types of conductances. To study this mechanism in hippocampal CA1 neurons and interneurons, we systematically generated a set of morphologically and biophysically accurate models. We then analyzed the ensembles of peak conductance obtained for each model neuron. The results suggest that the set of conductances expressed in the various neuron types may be divided into two groups: one group is responsible for the major characteristics of the firing behavior in each population and the other more involved with  degeneracy. These models provide experimentally testable predictions on the combination and relative proportion of the different conductance types that should be present in hippocampal CA1  pyramidal cells and interneurons.",
     "license": "Creative Commons Attribution 4.0 International",
     "resources_description": "Data and models: all data and models used in the paper are available at the links reported below, grouped into the following categories:    ",
+    "collab_id": "shailesh-testing",
     "resources": [
         {
             "order": 0,
@@ -335,8 +244,9 @@
             "type": "section_custom",
             "title": "ModelDB link and test simulations",
             "icon": "note_add",
+            "description": "<p>A reduced self-consistent set of files needed to reproduce&nbsp;Fig.4A of the paper is available on\n    <a href=\"https://senselab.med.yale.edu/modeldb/enterCode.cshtml?model=244688#tabs-1\" target=\"_blank\">ModelDB</a>.\n    <br>\n    <br>Use the BSP Neuron As A Service (NaaS) tool to do in silico experiments with the single cell models shown in Fig.4A:\n    <br>\n    <span style=\"margin-left:25px\">> Start by clicking on any button below to run a simulation.</span>\n    <br>\n    <span style=\"margin-left:25px\">> After entering the NaaS page, click on the \"Simulation\" tab, adjust the current strength with the appropriate value, and run the simulation by clicking the \"Start simulation\" button.</span>\n</p>\n<div style=\"margin-left:25px\">\n    <table>\n        <tbody>\n        <tr>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_011023HP2_20180116154023?amp=0.6')\">int bAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980120A_20180115155814?amp=0.4')\">int cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_980513B_20180119155127?amp=0.4')\">int cNAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141208_B_idA_20170915151855_lp?amp=0.4')\">pyr cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n        </tr>\n        <tr>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_971114B_20180117154233_lp?amp=1.0')\">int bAC 1.0 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980513B_20180119155952?amp=0.6')\">int cAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_060314AM2_20180120154747?amp=0.8')\">int cNAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141209_A_idA_20170912152008?amp=0.8')\">pyr cAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n</div>",
             "data": "<p>A reduced self-consistent set of files needed to reproduce&nbsp;Fig.4A of the paper is available on\n    <a href=\"https://senselab.med.yale.edu/modeldb/enterCode.cshtml?model=244688#tabs-1\" target=\"_blank\">ModelDB</a>.\n    <br>\n    <br>Use the BSP Neuron As A Service (NaaS) tool to do in silico experiments with the single cell models shown in Fig.4A:\n    <br>\n    <span style=\"margin-left:25px\">> Start by clicking on any button below to run a simulation.</span>\n    <br>\n    <span style=\"margin-left:25px\">> After entering the NaaS page, click on the \"Simulation\" tab, adjust the current strength with the appropriate value, and run the simulation by clicking the \"Start simulation\" button.</span>\n</p>\n<div style=\"margin-left:25px\">\n    <table>\n        <tbody>\n        <tr>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_011023HP2_20180116154023?amp=0.6')\">int bAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980120A_20180115155814?amp=0.4')\">int cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_980513B_20180119155127?amp=0.4')\">int cNAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141208_B_idA_20170915151855_lp?amp=0.4')\">pyr cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n        </tr>\n        <tr>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_971114B_20180117154233_lp?amp=1.0')\">int bAC 1.0 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980513B_20180119155952?amp=0.6')\">int cAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_060314AM2_20180120154747?amp=0.8')\">int cNAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141209_A_idA_20170912152008?amp=0.8')\">pyr cAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n</div>",
-            "dataFormatted": "<p>A reduced self-consistent set of files needed to reproduce&nbsp;Fig.4A of the paper is available on\n    <a href=\"https://senselab.med.yale.edu/modeldb/enterCode.cshtml?model=244688#tabs-1\" target=\"_blank\">ModelDB</a>.\n    <br>\n    <br>Use the BSP Neuron As A Service (NaaS) tool to do in silico experiments with the single cell models shown in Fig.4A:\n    <br>\n    <span style=\"margin-left:25px\">> Start by clicking on any button below to run a simulation.</span>\n    <br>\n    <span style=\"margin-left:25px\">> After entering the NaaS page, click on the \"Simulation\" tab, adjust the current strength with the appropriate value, and run the simulation by clicking the \"Start simulation\" button.</span>\n</p>\n<div style=\"margin-left:25px\">\n    <table>\n        <tbody>\n        <tr>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_011023HP2_20180116154023?amp=0.6')\">int bAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980120A_20180115155814?amp=0.4')\">int cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_980513B_20180119155127?amp=0.4')\">int cNAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141208_B_idA_20170915151855_lp?amp=0.4')\">pyr cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n        </tr>\n        <tr>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_971114B_20180117154233_lp?amp=1.0')\">int bAC 1.0 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980513B_20180119155952?amp=0.6')\">int cAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_060314AM2_20180120154747?amp=0.8')\">int cNAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141209_A_idA_20170912152008?amp=0.8')\">pyr cAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n</div>"
+            "dataFormatted": []
         },
         {
             "order": 3,

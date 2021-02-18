@@ -76,7 +76,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.auth);
+    // console.log(this.state.auth);
     var createLivePaperContent = "";
     if (this.state.createLivePaperOpen) {
       createLivePaperContent = (

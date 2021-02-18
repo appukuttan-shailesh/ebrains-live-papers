@@ -17,6 +17,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
+import axios from "axios";
 
 import ContextMain from "./ContextMain";
 import DynamicTable from "./DynamicTable";
@@ -25,12 +26,14 @@ import SectionMorphology from "./SectionMorphology";
 import SectionTraces from "./SectionTraces";
 import SectionModels from "./SectionModels";
 import SectionCustom from "./SectionCustom";
+import SwitchTwoWay from "./SwitchTwoWay";
 
 import nunjucks from "nunjucks";
 import LivePaper from "./LivePaper.njk";
 import SubmitModal from "./SubmitModal";
 
 const LP_TOOL_VERSION = "0.1";
+const BASE_URL = "https://validation-v2.brainsimulation.eu";
 
 const styles = (theme) => ({
   root: {
@@ -88,26 +91,6 @@ function showNotification(enqueueSnackbar, message, type = "default") {
   });
 }
 
-function getFormattedTime() {
-  var today = new Date();
-  var y = today.getFullYear();
-  // JavaScript months are 0-based.
-  var m = today.getMonth() + 1;
-  var d = today.getDate();
-  var h = today.getHours();
-  var mi = today.getMinutes();
-  var s = today.getSeconds();
-  return (
-    y.toString() +
-    m.toString() +
-    d.toString() +
-    "_" +
-    h.toString() +
-    mi.toString() +
-    s.toString()
-  );
-}
-
 const MyDialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
@@ -150,16 +133,24 @@ class CreateLivePaper extends React.Component {
     this.state = {
       authors: [{ firstname: "", lastname: "", affiliation: "" }],
       corresponding_author: { firstname: "", lastname: "", email: "" },
-      created_author: { type: null, name: "", email: "" },
+      created_author: [{ type: null, name: "", email: "" }],
       approved_author: { name: "", email: "" },
-      year: new Date(),
+      year: new Date()
+        .toISOString()
+        .replace(
+          /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
+          "$<year>-$<month>-$<day>"
+        ),
       paper_title: "",
+      paper_published: true,
       journal: "",
       url: "",
       citation: "",
       doi: "",
       abstract: "",
       license: "None",
+      collab_list: null,
+      collab_id: "",
       resources_description: "",
       resources: [],
       submitOpen: false,
@@ -175,6 +166,7 @@ class CreateLivePaper extends React.Component {
     this.handleSubmitOpen = this.handleSubmitOpen.bind(this);
     this.handleSubmitClose = this.handleSubmitClose.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
+    this.handlePublishedChange = this.handlePublishedChange.bind(this);
     this.handleYearChange = this.handleYearChange.bind(this);
     this.handleAuthorsChange = this.handleAuthorsChange.bind(this);
     this.makePageTitleString = this.makePageTitleString.bind(this);
@@ -184,11 +176,20 @@ class CreateLivePaper extends React.Component {
     this.storeSectionInfo = this.storeSectionInfo.bind(this);
     this.removeExcessData = this.removeExcessData.bind(this);
     this.addDerivedData = this.addDerivedData.bind(this);
+    this.getCollabList = this.getCollabList.bind(this);
+    this.verifyDataBeforeSubmit = this.verifyDataBeforeSubmit.bind(this);
+    this.tempSchemaAdjustor = this.tempSchemaAdjustor.bind(this);
   }
+
+  componentDidMount() {
+    this.getCollabList();
+  }
+
+  tempSchemaAdjustor() {}
 
   removeExcessData() {
     let req_data = { ...this.state }; // copy by value
-    let remove_keys = ["submitOpen"];
+    let remove_keys = ["submitOpen", "collab_list", "paper_published"];
     remove_keys.forEach((k) => delete req_data[k]);
 
     // remove from within resources objects
@@ -224,6 +225,7 @@ class CreateLivePaper extends React.Component {
           w.document.close();
         });
     }
+    console.log(lp_data);
     render(lp_data);
 
     showNotification(
@@ -246,7 +248,12 @@ class CreateLivePaper extends React.Component {
           const element = document.createElement("a");
           const file = new Blob([output], { type: "text/html" });
           element.href = URL.createObjectURL(file);
-          element.download = "livepaper_" + getFormattedTime() + ".html";
+          const timestamp = new Date()
+            .toISOString()
+            .replace(/T/, "_") // replace T with a space
+            .replaceAll(":", "-") // replace : with -
+            .replace(/\..+/, ""); // delete the dot and everything after
+          element.download = "livepaper_" + timestamp + ".html";
           document.body.appendChild(element); // Required for this to work in FireFox
           element.click();
         });
@@ -269,7 +276,12 @@ class CreateLivePaper extends React.Component {
     const blob = new Blob([lp_data], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.download = "livepaper_" + getFormattedTime() + ".lpp";
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/T/, "_") // replace T with a space
+      .replaceAll(":", "-") // replace : with -
+      .replace(/\..+/, ""); // delete the dot and everything after
+    link.download = "livepaper_" + timestamp + ".lpp";
     link.href = url;
     link.click();
 
@@ -285,6 +297,7 @@ class CreateLivePaper extends React.Component {
   }
 
   handleSubmitOpen() {
+    // verifyDataBeforeSubmit() - check all fields as required
     this.setState({
       submitOpen: true,
     });
@@ -322,39 +335,47 @@ class CreateLivePaper extends React.Component {
     } else if (name === "created_author") {
       if (value === "-- Other Person --") {
         this.setState((prevState) => ({
-          created_author: {
-            ...prevState.created_author,
-            type: "other",
-            name: "",
-            email: "",
-          },
+          created_author: [
+            {
+              ...prevState.created_author[0],
+              type: "other",
+              name: "",
+              email: "",
+            },
+          ],
           approved_author: { name: "", email: "" },
         }));
       } else {
         this.setState((prevState) => ({
-          created_author: {
-            ...prevState.created_author,
-            type: "author",
-            name: value,
-            email: "",
-          },
+          created_author: [
+            {
+              ...prevState.created_author[0],
+              type: "author",
+              name: value,
+              email: "",
+            },
+          ],
           approved_author: { name: value, email: "" },
         }));
       }
     } else if (name === "created_author_other") {
       this.setState((prevState) => ({
-        created_author: {
-          ...prevState.created_author,
-          name: value,
-        },
+        created_author: [
+          {
+            ...prevState.created_author[0],
+            name: value,
+          },
+        ],
       }));
     } else if (name === "created_author_email") {
-      if (this.state.created_author.type === "author") {
+      if (this.state.created_author[0].type === "author") {
         this.setState((prevState) => ({
-          created_author: {
-            ...prevState.created_author,
-            email: value,
-          },
+          created_author: [
+            {
+              ...prevState.created_author[0],
+              email: value,
+            },
+          ],
           approved_author: {
             name: prevState.approved_author.name,
             email: value,
@@ -362,10 +383,12 @@ class CreateLivePaper extends React.Component {
         }));
       } else {
         this.setState((prevState) => ({
-          created_author: {
-            ...prevState.created_author,
-            email: value,
-          },
+          created_author: [
+            {
+              ...prevState.created_author[0],
+              email: value,
+            },
+          ],
         }));
       }
     } else if (name === "approved_author") {
@@ -389,8 +412,37 @@ class CreateLivePaper extends React.Component {
     }
   }
 
+  handlePublishedChange(value) {
+    console.log(value);
+    this.setState({
+      paper_published: value === "Published" ? true : false,
+      year:
+        value === "Published"
+          ? new Date()
+              .toISOString()
+              .replace(
+                /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
+                "$<year>-$<month>-$<day>"
+              )
+          : new Date("9999-01-01")
+              .toISOString()
+              .replace(
+                /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
+                "$<year>-$<month>-$<day>"
+              ),
+    });
+  }
+
   handleYearChange(value) {
-    this.setState({ year: value._d });
+    console.log(value);
+    this.setState({
+      year: value
+        .toISOString()
+        .replace(
+          /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
+          "$<year>-$<month>-$<day>"
+        ),
+    });
   }
 
   handleAuthorsChange(data) {
@@ -417,12 +469,22 @@ class CreateLivePaper extends React.Component {
     if (author_data.length === 0) {
       page_title = "";
     } else if (author_data.length === 1) {
-      page_title = author_data[0].lastname + " " + year;
+      page_title =
+        author_data[0].lastname +
+        " " +
+        (year === 9999 ? "(unpublished)" : year);
     } else if (author_data.length === 2) {
       page_title =
-        author_data[0].lastname + " & " + author_data[1].lastname + " " + year;
+        author_data[0].lastname +
+        " & " +
+        author_data[1].lastname +
+        " " +
+        (year === 9999 ? "(unpublished)" : year);
     } else {
-      page_title = author_data[0].lastname + " et al. " + year;
+      page_title =
+        author_data[0].lastname +
+        " et al. " +
+        (year === 9999 ? "(unpublished)" : year);
     }
     return page_title;
   }
@@ -482,6 +544,32 @@ class CreateLivePaper extends React.Component {
       resources: resources_items,
     });
   }
+
+  getCollabList() {
+    const url = BASE_URL + "/projects";
+    const config = {
+      headers: { Authorization: "Bearer " + this.context.auth[0].token },
+    };
+    axios
+      .get(url, config)
+      .then((res) => {
+        let editableProjects = [];
+        res.data.forEach((proj) => {
+          if (proj.permissions.UPDATE) {
+            editableProjects.push(proj.project_id);
+          }
+        });
+        editableProjects.sort();
+        this.setState({
+          collab_list: editableProjects,
+        });
+      })
+      .catch((err) => {
+        console.log("Error: ", err.message);
+      });
+  }
+
+  verifyDataBeforeSubmit() {}
 
   render() {
     console.log(this.state);
@@ -588,39 +676,58 @@ class CreateLivePaper extends React.Component {
               <br />
               <div>
                 <p>
-                  <strong>
-                    Enter the year of publication (if unpublished, leave
-                    unchanged):
-                  </strong>
+                  <strong>Specify the status of the article:</strong>
+                  <br />
+                  <i>
+                    Articles submitted to preprint repositories, such as
+                    bioRxiv, are considered as unpublished.
+                  </i>
                 </p>
               </div>
-              <div>
-                <div>
-                  <MuiPickersUtilsProvider utils={MomentUtils}>
-                    <DatePicker
-                      label="Year"
-                      inputVariant="outlined"
-                      views={["year"]}
-                      name="year"
-                      value={this.state.year}
-                      minDate={
-                        new Date("2010", "01", "01", "00", "00", "00", "0")
-                      }
-                      maxDate={new Date()}
-                      onChange={this.handleYearChange}
-                      animateYearScrolling
-                      InputProps={{
-                        style: {
-                          borderBottom: "0px",
-                          padding: "5px 15px 5px 15px",
-                          width: "100px",
-                        },
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-                </div>
-              </div>
+              <form>
+                <SwitchTwoWay
+                  values={["Published", "Unpublished"]}
+                  selected={
+                    this.state.paper_published ? "Published" : "Unpublished"
+                  }
+                  onChange={this.handlePublishedChange}
+                />
+              </form>
               <br />
+              {this.state.paper_published && (
+                <div>
+                  <div>
+                    <p>
+                      <strong>Enter the year of publication:</strong>
+                    </p>
+                  </div>
+                  <div>
+                    <div>
+                      <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <DatePicker
+                          label="Year"
+                          inputVariant="outlined"
+                          views={["year"]}
+                          name="year"
+                          value={new Date(this.state.year)}
+                          minDate={new Date("2010-01-01")}
+                          maxDate={new Date()}
+                          onChange={this.handleYearChange}
+                          animateYearScrolling
+                          InputProps={{
+                            style: {
+                              borderBottom: "0px",
+                              padding: "5px 15px 5px 15px",
+                              width: "100px",
+                            },
+                          }}
+                        />
+                      </MuiPickersUtilsProvider>
+                    </div>
+                  </div>
+                  <br />
+                </div>
+              )}
               <div>
                 <p>
                   <strong>
@@ -715,29 +822,43 @@ class CreateLivePaper extends React.Component {
                   label="Created By"
                   name="created_author"
                   value={
-                    this.state.created_author.type === "other"
+                    this.state.created_author[0].type === "other"
                       ? "-- Other Person --"
-                      : this.state.created_author.name
+                      : this.state.created_author[0].name
                   }
                   handleChange={this.handleFieldChange}
                 />
+                <br />
               </div>
-              {this.state.created_author.type === "other" && (
+              {this.state.created_author[0].type === "other" && (
                 <div>
-                  <br />
                   <TextField
-                    label="Creating Author Full Name"
+                    label="Creating Author First Name"
                     variant="outlined"
                     fullWidth={true}
-                    name="created_author_other"
-                    value={this.state.created_author.name}
+                    name="created_author_other_firstname"
+                    value={this.state.created_author[0].name}
                     onChange={this.handleFieldChange}
                     InputProps={{
                       style: {
                         padding: "5px 15px",
                       },
                     }}
-                    style={{ width: 700 }}
+                    style={{ width: "45%", marginRight: "2.5%" }}
+                  />
+                  <TextField
+                    label="Creating Author Last Name"
+                    variant="outlined"
+                    fullWidth={true}
+                    name="created_author_other_lastname"
+                    value={this.state.created_author[0].name}
+                    onChange={this.handleFieldChange}
+                    InputProps={{
+                      style: {
+                        padding: "5px 15px",
+                      },
+                    }}
+                    style={{ width: "45%" }}
                   />
                 </div>
               )}
@@ -748,19 +869,19 @@ class CreateLivePaper extends React.Component {
                   variant="outlined"
                   fullWidth={true}
                   name="created_author_email"
-                  value={this.state.created_author.email}
+                  value={this.state.created_author[0].email}
                   onChange={this.handleFieldChange}
                   InputProps={{
                     style: {
                       padding: "5px 15px",
                     },
                   }}
-                  style={{ width: 700 }}
+                  style={{ width: "92.5%" }}
                 />
               </div>
               <br />
               <br />
-              {this.state.created_author.type === "other" && (
+              {this.state.created_author[0].type === "other" && (
                 <div>
                   <div>
                     <p>
@@ -806,7 +927,7 @@ class CreateLivePaper extends React.Component {
                           padding: "5px 15px",
                         },
                       }}
-                      style={{ width: 700 }}
+                      style={{ width: "92.5%" }}
                     />
                   </div>
                   <br />
@@ -841,7 +962,7 @@ class CreateLivePaper extends React.Component {
                 <p>
                   <strong>
                     Provide the URL to access article (leave empty if awaiting
-                    publication or link to bioRxiv, if relevant):
+                    publication or link to bioRxiv, if available):
                   </strong>
                 </p>
               </div>
@@ -956,6 +1077,53 @@ class CreateLivePaper extends React.Component {
                   value={this.state.license}
                   handleChange={this.handleFieldChange}
                   helperText="For guidance on choosing a licence, see https://choosealicense.com"
+                />
+              </div>
+              <br />
+              <br />
+              <div>
+                <p>
+                  <strong>
+                    Please choose the Collab you will use to set access
+                    permissions. You may need to create a new Collab if you
+                    don't already have access to one.{" "}
+                    <a
+                      href="https://wiki.ebrains.eu/bin/view/Collabs?clbaction=create"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Click here
+                    </a>{" "}
+                    to create a new Collab.
+                  </strong>
+                </p>
+              </div>
+              <div>
+                <SingleSelect
+                  name="project_id"
+                  itemNames={
+                    this.state.collab_list
+                      ? this.state.collab_list.length > 0
+                        ? this.state.collab_list
+                        : ["Please create a new Collab!"]
+                      : ["Loading... please wait!"]
+                  }
+                  label="Collab"
+                  value={
+                    this.state.collab_list
+                      ? this.state.collab_list.length > 0
+                        ? this.state.collab_id
+                        : "Please create a new Collab!"
+                      : "Loading... please wait!"
+                  }
+                  helperText="Select a host Collab for this live paper"
+                  handleChange={this.handleFieldChange}
+                  disabled={
+                    !(
+                      this.state.collab_list &&
+                      this.state.collab_list.length > 0
+                    )
+                  }
                 />
               </div>
 

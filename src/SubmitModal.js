@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
 
-import ThreeWaySwitch from "./ThreeWaySwitch";
+import SwitchThreeWay from "./SwitchThreeWay";
 export const validModes = ["Private", "Password-Protected", "Public"];
 
 export default class SubmitModal extends React.Component {
@@ -95,7 +95,7 @@ export default class SubmitModal extends React.Component {
               <br />
               <Box>
                 <form>
-                  <ThreeWaySwitch
+                  <SwitchThreeWay
                     values={validModes}
                     selected={this.state.mode}
                     onChange={this.handleModeChange}
