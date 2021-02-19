@@ -30,10 +30,9 @@ import SwitchTwoWay from "./SwitchTwoWay";
 
 import nunjucks from "nunjucks";
 import LivePaper from "./LivePaper.njk";
+import SaveModal from "./SaveModal";
 import SubmitModal from "./SubmitModal";
-
-const LP_TOOL_VERSION = "0.1";
-const BASE_URL = "https://validation-v2.brainsimulation.eu";
+import { baseUrl, lp_tool_version } from "./globals";
 
 const styles = (theme) => ({
   root: {
@@ -133,8 +132,15 @@ class CreateLivePaper extends React.Component {
     this.state = {
       authors: [{ firstname: "", lastname: "", affiliation: "" }],
       corresponding_author: { firstname: "", lastname: "", email: "" },
-      created_author: [{ type: null, name: "", email: "" }],
-      approved_author: { name: "", email: "" },
+      created_author: [
+        { firstname: "", lastname: "", affiliation: "", email: "" },
+      ], // currently only one creating author permitted
+      approved_author: {
+        firstname: "",
+        lastname: "",
+        affiliation: "",
+        email: "",
+      },
       year: new Date()
         .toISOString()
         .replace(
@@ -153,6 +159,7 @@ class CreateLivePaper extends React.Component {
       collab_id: "",
       resources_description: "",
       resources: [],
+      saveOpen: false,
       submitOpen: false,
     };
     this.state = { ...this.state, ...props.data };
@@ -162,7 +169,8 @@ class CreateLivePaper extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handlePreview = this.handlePreview.bind(this);
     this.handleDownload = this.handleDownload.bind(this);
-    this.handleSave = this.handleSave.bind(this);
+    this.handleSaveOpen = this.handleSaveOpen.bind(this);
+    this.handleSaveClose = this.handleSaveClose.bind(this);
     this.handleSubmitOpen = this.handleSubmitOpen.bind(this);
     this.handleSubmitClose = this.handleSubmitClose.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -178,18 +186,55 @@ class CreateLivePaper extends React.Component {
     this.addDerivedData = this.addDerivedData.bind(this);
     this.getCollabList = this.getCollabList.bind(this);
     this.verifyDataBeforeSubmit = this.verifyDataBeforeSubmit.bind(this);
-    this.tempSchemaAdjustor = this.tempSchemaAdjustor.bind(this);
+    this.checkPersonInStateAuthors = this.checkPersonInStateAuthors.bind(this);
+    this.adjustForKGSchema = this.adjustForKGSchema.bind(this);
   }
 
   componentDidMount() {
     this.getCollabList();
   }
 
-  tempSchemaAdjustor() {}
+  adjustForKGSchema(data) {
+    return data;
+    // let payload = { ...data }; // copy by value
+    // // KG requires 'dataFormatted' value for SectionCustom in 'description' field
+    // let temp_resources = [ ...payload.resources ];
+    // let temp;
+    // temp_resources.forEach(function (res, index) {
+    //   if (res.type === "section_custom") {
+    //     temp = res.dataFormatted;
+    //     res.description = temp;
+    //     res.dataFormatted = [];
+    //   }
+    // });
+    // payload.resources = temp_resources;
+    // console.log(payload);
+    // return payload;
+  }
+
+  checkPersonInStateAuthors(person) {
+    if (typeof person === "string") {
+      return this.state.authors.find(
+        (author) => author.firstname + " " + author.lastname === person
+      );
+    } else {
+      // if object with keys firstname and lastname
+      return this.state.authors.find(
+        (author) =>
+          author.firstname === person.firstname &&
+          author.lastname === person.lastname
+      );
+    }
+  }
 
   removeExcessData() {
     let req_data = { ...this.state }; // copy by value
-    let remove_keys = ["submitOpen", "collab_list", "paper_published"];
+    let remove_keys = [
+      "saveOpen",
+      "submitOpen",
+      "collab_list",
+      "paper_published",
+    ];
     remove_keys.forEach((k) => delete req_data[k]);
 
     // remove from within resources objects
@@ -268,7 +313,7 @@ class CreateLivePaper extends React.Component {
 
     // create JSON object with live paper info
     let data = {
-      lp_tool_version: LP_TOOL_VERSION,
+      lp_tool_version: lp_tool_version,
       created_date: new Date(),
       ...this.removeExcessData(this.state),
     };
@@ -292,8 +337,16 @@ class CreateLivePaper extends React.Component {
     );
   }
 
-  handleSave() {
-    console.log("TODO: Handle Save to KG!");
+  handleSaveOpen() {
+    this.setState({
+      saveOpen: true,
+    });
+  }
+
+  handleSaveClose() {
+    this.setState({
+      saveOpen: false,
+    });
   }
 
   handleSubmitOpen() {
@@ -315,14 +368,13 @@ class CreateLivePaper extends React.Component {
     const name = target.name;
     console.log(name + " => " + value);
     if (name === "corresponding_author") {
-      const c_author = this.state.authors.find(
-        (author) => author.firstname + " " + author.lastname === value
-      );
+      const c_author = this.checkPersonInStateAuthors(value);
       this.setState((prevState) => ({
         corresponding_author: {
           ...prevState.corresponding_author,
           firstname: c_author.firstname,
           lastname: c_author.lastname,
+          affiliation: c_author.affiliation,
         },
       }));
     } else if (name === "corresponding_author_email") {
@@ -334,41 +386,79 @@ class CreateLivePaper extends React.Component {
       }));
     } else if (name === "created_author") {
       if (value === "-- Other Person --") {
-        this.setState((prevState) => ({
+        this.setState({
           created_author: [
             {
-              ...prevState.created_author[0],
-              type: "other",
-              name: "",
+              firstname: "",
+              lastname: "",
+              affiliation: "",
               email: "",
             },
           ],
-          approved_author: { name: "", email: "" },
-        }));
+          approved_author: {
+            firstname: "",
+            lastname: "",
+            affiliation: "",
+            email: "",
+          },
+        });
       } else {
+        const author = this.checkPersonInStateAuthors(value);
+        let author_email = null;
+        if (
+          value ===
+          this.state.corresponding_author.firstname +
+            " " +
+            this.state.corresponding_author.lastname
+        ) {
+          author_email = this.state.corresponding_author.email;
+        }
         this.setState((prevState) => ({
           created_author: [
             {
-              ...prevState.created_author[0],
-              type: "author",
-              name: value,
-              email: "",
+              firstname: author.firstname,
+              lastname: author.lastname,
+              affiliation: author.affiliation,
+              email: author_email ? author_email : "",
             },
           ],
-          approved_author: { name: value, email: "" },
+          approved_author: {
+            firstname: author.firstname,
+            lastname: author.lastname,
+            affiliation: author.affiliation,
+            email: author_email ? author_email : "",
+          },
         }));
       }
-    } else if (name === "created_author_other") {
+    } else if (name === "created_author_other_firstname") {
       this.setState((prevState) => ({
         created_author: [
           {
             ...prevState.created_author[0],
-            name: value,
+            firstname: value,
+          },
+        ],
+      }));
+    } else if (name === "created_author_other_lastname") {
+      this.setState((prevState) => ({
+        created_author: [
+          {
+            ...prevState.created_author[0],
+            lastname: value,
+          },
+        ],
+      }));
+    } else if (name === "created_author_other_affiliation") {
+      this.setState((prevState) => ({
+        created_author: [
+          {
+            ...prevState.created_author[0],
+            affiliation: value,
           },
         ],
       }));
     } else if (name === "created_author_email") {
-      if (this.state.created_author[0].type === "author") {
+      if (this.checkPersonInStateAuthors(this.state.created_author[0])) {
         this.setState((prevState) => ({
           created_author: [
             {
@@ -377,7 +467,7 @@ class CreateLivePaper extends React.Component {
             },
           ],
           approved_author: {
-            name: prevState.approved_author.name,
+            ...prevState.approved_author,
             email: value,
           },
         }));
@@ -392,12 +482,24 @@ class CreateLivePaper extends React.Component {
         }));
       }
     } else if (name === "approved_author") {
-      this.setState((prevState) => ({
+      const author_match = this.checkPersonInStateAuthors(value);
+      let author_email = null;
+      if (
+        value ===
+        this.state.corresponding_author.firstname +
+          " " +
+          this.state.corresponding_author.lastname
+      ) {
+        author_email = this.state.corresponding_author.email;
+      }
+      this.setState({
         approved_author: {
-          ...prevState.approved_author,
-          name: value,
+          firstname: author_match.firstname,
+          lastname: author_match.lastname,
+          affiliation: author_match.affiliation,
+          email: author_email ? author_email : "",
         },
-      }));
+      });
     } else if (name === "approved_author_email") {
       this.setState((prevState) => ({
         approved_author: {
@@ -546,7 +648,7 @@ class CreateLivePaper extends React.Component {
   }
 
   getCollabList() {
-    const url = BASE_URL + "/projects";
+    const url = baseUrl + "/projects";
     const config = {
       headers: { Authorization: "Bearer " + this.context.auth[0].token },
     };
@@ -574,6 +676,21 @@ class CreateLivePaper extends React.Component {
   render() {
     console.log(this.state);
     // console.log(this.context.auth[0].token);
+
+    let saveModal = null;
+    if (this.state.saveOpen) {
+      saveModal = (
+        <SaveModal
+          lp_payload={this.adjustForKGSchema({
+            lp_tool_version: lp_tool_version,
+            created_date: new Date(),
+            ...this.removeExcessData(this.state),
+          })}
+          open={this.state.saveOpen}
+          onClose={this.handleSaveClose}
+        />
+      );
+    }
 
     let submitModal = null;
     if (this.state.submitOpen) {
@@ -822,22 +939,26 @@ class CreateLivePaper extends React.Component {
                   label="Created By"
                   name="created_author"
                   value={
-                    this.state.created_author[0].type === "other"
-                      ? "-- Other Person --"
-                      : this.state.created_author[0].name
+                    this.checkPersonInStateAuthors(this.state.created_author[0])
+                      ? this.state.created_author[0].firstname +
+                        " " +
+                        this.state.created_author[0].lastname
+                      : "-- Other Person --"
                   }
                   handleChange={this.handleFieldChange}
                 />
                 <br />
               </div>
-              {this.state.created_author[0].type === "other" && (
+              {!this.checkPersonInStateAuthors(
+                this.state.created_author[0]
+              ) && (
                 <div>
                   <TextField
                     label="Creating Author First Name"
                     variant="outlined"
                     fullWidth={true}
                     name="created_author_other_firstname"
-                    value={this.state.created_author[0].name}
+                    value={this.state.created_author[0].firstname}
                     onChange={this.handleFieldChange}
                     InputProps={{
                       style: {
@@ -851,7 +972,7 @@ class CreateLivePaper extends React.Component {
                     variant="outlined"
                     fullWidth={true}
                     name="created_author_other_lastname"
-                    value={this.state.created_author[0].name}
+                    value={this.state.created_author[0].lastname}
                     onChange={this.handleFieldChange}
                     InputProps={{
                       style: {
@@ -859,6 +980,22 @@ class CreateLivePaper extends React.Component {
                       },
                     }}
                     style={{ width: "45%" }}
+                  />
+                  <br />
+                  <br />
+                  <TextField
+                    label="Creating Author Affiliation"
+                    variant="outlined"
+                    fullWidth={true}
+                    name="created_author_other_affiliation"
+                    value={this.state.created_author[0].affiliation}
+                    onChange={this.handleFieldChange}
+                    InputProps={{
+                      style: {
+                        padding: "5px 15px",
+                      },
+                    }}
+                    style={{ width: "92.5%" }}
                   />
                 </div>
               )}
@@ -881,7 +1018,9 @@ class CreateLivePaper extends React.Component {
               </div>
               <br />
               <br />
-              {this.state.created_author[0].type === "other" && (
+              {!this.checkPersonInStateAuthors(
+                this.state.created_author[0]
+              ) && (
                 <div>
                   <div>
                     <p>
@@ -906,8 +1045,10 @@ class CreateLivePaper extends React.Component {
                       label="Approved By"
                       name="approved_author"
                       value={
-                        this.state.approved_author.name
-                          ? this.state.approved_author.name
+                        this.state.approved_author.firstname
+                          ? this.state.approved_author.firstname +
+                            " " +
+                            this.state.approved_author.lastname
                           : ""
                       }
                       handleChange={this.handleFieldChange}
@@ -1396,7 +1537,7 @@ class CreateLivePaper extends React.Component {
                   borderColor: "#000000",
                   borderWidth: "1px",
                 }}
-                onClick={this.handleSave}
+                onClick={this.handleSaveOpen}
               >
                 Save
               </Button>
@@ -1419,6 +1560,7 @@ class CreateLivePaper extends React.Component {
               </Button>
             </div>
           </Footer>
+          {saveModal}
           {submitModal}
         </DialogContent>
       </Dialog>

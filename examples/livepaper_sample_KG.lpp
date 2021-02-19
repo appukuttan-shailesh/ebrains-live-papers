@@ -11,6 +11,101 @@
             "firstname": "Carmen A.",
             "lastname": "Lupascu",
             "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
+        },
+        {
+            "firstname": "Luca L.",
+            "lastname": "Bologna",
+            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
+        },
+        {
+            "firstname": "Armando",
+            "lastname": "Romani",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Jean-Denis",
+            "lastname": "Courcol",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Stefano",
+            "lastname": "Antonel",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Werner A.H.",
+            "lastname": "Van Geit",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Alex M.",
+            "lastname": "Thomson",
+            "affiliation": "University College London, United Kingdom"
+        },
+        {
+            "firstname": "Audrey",
+            "lastname": "Mercer",
+            "affiliation": "University College London, United Kingdom"
+        },
+        {
+            "firstname": "Sigrun",
+            "lastname": "Lange",
+            "affiliation": "University College London, United Kingdom; University of Westminster, London, United Kingdom"
+        },
+        {
+            "firstname": "Joanne",
+            "lastname": "Falck",
+            "affiliation": "University College London, United Kingdom"
+        },
+        {
+            "firstname": "Christian A.",
+            "lastname": "Rössert",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Ying",
+            "lastname": "Shi",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Olivier",
+            "lastname": "Hagens",
+            "affiliation": "Laboratory of Neural Microcircuitry (LNMC), Brain Mind Institute, EPFL, Lausanne, Switzerland"
+        },
+        {
+            "firstname": "Maurizio",
+            "lastname": "Pezzoli",
+            "affiliation": "Laboratory of Neural Microcircuitry (LNMC), Brain Mind Institute, EPFL, Lausanne, Switzerland"
+        },
+        {
+            "firstname": "Tamas F.",
+            "lastname": "Freund",
+            "affiliation": "Institute of Experimental Medicine, Hungarian Academy of Sciences, Budapest, Hungary; Faculty of Information Technology and Bionics, Pázmány Péter Catholic University, Budapest, Hungary"
+        },
+        {
+            "firstname": "Szabolcs",
+            "lastname": "Kali",
+            "affiliation": "Institute of Experimental Medicine, Hungarian Academy of Sciences, Budapest, Hungary; Faculty of Information Technology and Bionics, Pázmány Péter Catholic University, Budapest, Hungary"
+        },
+        {
+            "firstname": "Eilif B.",
+            "lastname": "Muller",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Felix",
+            "lastname": "Schürmann",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Henry",
+            "lastname": "Markram",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Michele",
+            "lastname": "Migliore",
+            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
         }
     ],
     "corresponding_author": {
@@ -19,16 +114,17 @@
         "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
         "email": "rosanna.migliore@cnr.it"
     },
-    "created_author": [{
-        "type": "author",
-        "firstname": "Carmen A.",
-        "lastname": "Lupascu",
-        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
-        "email": "lucaleonardo.bologna@cnr.it"
-    }],
+    "created_author": [
+        {
+            "firstname": "Luca L.",
+            "lastname": "Bologna",
+            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
+            "email": "lucaleonardo.bologna@cnr.it"
+        }
+    ],
     "approved_author": {
-        "firstname": "Carmen A.",
-        "lastname": "Lupascu",
+        "firstname": "Luca L.",
+        "lastname": "Bologna",
         "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
         "email": "lucaleonardo.bologna@cnr.it"
     },

@@ -1,5 +1,5 @@
 {
-    "lp_tool_version": "0.2",
+    "lp_tool_version": "0.1",
     "created_date": "2021-02-09T15:44:36.658Z",
     "authors": [
         {
@@ -10,6 +10,101 @@
         {
             "firstname": "Carmen A.",
             "lastname": "Lupascu",
+            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
+        },
+        {
+            "firstname": "Luca L.",
+            "lastname": "Bologna",
+            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
+        },
+        {
+            "firstname": "Armando",
+            "lastname": "Romani",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Jean-Denis",
+            "lastname": "Courcol",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Stefano",
+            "lastname": "Antonel",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Werner A.H.",
+            "lastname": "Van Geit",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Alex M.",
+            "lastname": "Thomson",
+            "affiliation": "University College London, United Kingdom"
+        },
+        {
+            "firstname": "Audrey",
+            "lastname": "Mercer",
+            "affiliation": "University College London, United Kingdom"
+        },
+        {
+            "firstname": "Sigrun",
+            "lastname": "Lange",
+            "affiliation": "University College London, United Kingdom; University of Westminster, London, United Kingdom"
+        },
+        {
+            "firstname": "Joanne",
+            "lastname": "Falck",
+            "affiliation": "University College London, United Kingdom"
+        },
+        {
+            "firstname": "Christian A.",
+            "lastname": "Rössert",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Ying",
+            "lastname": "Shi",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Olivier",
+            "lastname": "Hagens",
+            "affiliation": "Laboratory of Neural Microcircuitry (LNMC), Brain Mind Institute, EPFL, Lausanne, Switzerland"
+        },
+        {
+            "firstname": "Maurizio",
+            "lastname": "Pezzoli",
+            "affiliation": "Laboratory of Neural Microcircuitry (LNMC), Brain Mind Institute, EPFL, Lausanne, Switzerland"
+        },
+        {
+            "firstname": "Tamas F.",
+            "lastname": "Freund",
+            "affiliation": "Institute of Experimental Medicine, Hungarian Academy of Sciences, Budapest, Hungary; Faculty of Information Technology and Bionics, Pázmány Péter Catholic University, Budapest, Hungary"
+        },
+        {
+            "firstname": "Szabolcs",
+            "lastname": "Kali",
+            "affiliation": "Institute of Experimental Medicine, Hungarian Academy of Sciences, Budapest, Hungary; Faculty of Information Technology and Bionics, Pázmány Péter Catholic University, Budapest, Hungary"
+        },
+        {
+            "firstname": "Eilif B.",
+            "lastname": "Muller",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Felix",
+            "lastname": "Schürmann",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Henry",
+            "lastname": "Markram",
+            "affiliation": "Blue Brain Project, École Polytechnique Fédérale de Lausanne, Campus Biotech, Geneva, Switzerland"
+        },
+        {
+            "firstname": "Michele",
+            "lastname": "Migliore",
             "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
         }
     ],
@@ -34,15 +129,15 @@
         "email": "lucaleonardo.bologna@cnr.it"
     },
     "year": "2018-01-01",
-    "paper_title": "Testing 8: The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow",
+    "paper_title": "The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow",
     "journal": "PLOS Computational Biology",
     "url": "https://doi.org/10.1371/journal.pcbi.1006423",
     "citation": "Migliore R, Lupascu CA, Bologna LL, Romani A, Courcol J-D, Antonel S, et al. (2018) The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow. PLoS Comput Biol 14(9): e1006423.",
     "doi": "https://doi.org/10.1371/journal.pcbi.1006423",
     "abstract": "The peak conductance of many ion channel types measured in any given animal is highly variable across neurons, both within and between neuronal populations. The current view is that this occurs  because a neuron needs to adapt its intrinsic electrophysiological properties either to maintain the same operative range in the presence of abnormal inputs or to compensate for the effects of  pathological conditions. Limited experimental and modeling evidence suggests this might be  implemented via the correlation and/or degeneracy in the function of multiple types of conductances. To study this mechanism in hippocampal CA1 neurons and interneurons, we systematically generated a set of morphologically and biophysically accurate models. We then analyzed the ensembles of peak conductance obtained for each model neuron. The results suggest that the set of conductances expressed in the various neuron types may be divided into two groups: one group is responsible for the major characteristics of the firing behavior in each population and the other more involved with  degeneracy. These models provide experimentally testable predictions on the combination and relative proportion of the different conductance types that should be present in hippocampal CA1  pyramidal cells and interneurons.",
     "license": "Creative Commons Attribution 4.0 International",
-    "resources_description": "Data and models: all data and models used in the paper are available at the links reported below, grouped into the following categories:    ",
     "collab_id": "shailesh-testing",
+    "resources_description": "Data and models: all data and models used in the paper are available at the links reported below, grouped into the following categories:    ",
     "resources": [
         {
             "order": 0,
@@ -59,13 +154,145 @@
                 {
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011017HP2.asc",
                     "label": "011017HP2"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011023HP2.asc",
+                    "label": "011023HP2"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011127HP1.asc",
+                    "label": "011127HP1"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/031031AM1.asc",
+                    "label": "031031AM1"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/060314AM2.asc",
+                    "label": "060314AM2"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/970509HP2.asc",
+                    "label": "970509HP2"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/970627BHP1.asc",
+                    "label": "970627BHP1"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/970717D.asc",
+                    "label": "970717D"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/970911C.asc",
+                    "label": "970911C"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/971114B.asc",
+                    "label": "971114B"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/980120A.asc",
+                    "label": "980120A"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/980513B.asc",
+                    "label": "980513B"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/990111HP2.asc",
+                    "label": "990111HP2"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/990611HP2.asc",
+                    "label": "990611HP2"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/990827IN5HP3.asc",
+                    "label": "990827IN5HP3"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/dend-050921AM2_axon-051208AM2.asc",
+                    "label": "dend-050921AM2_axon-051208AM2"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/dend-990803_axon-051208AM2.asc",
+                    "label": "dend-990803_axon-051208AM2"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/mpg141017_a1-2_idC.asc",
+                    "label": "mpg141017_a1-2_idC"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/mpg141208_B_idA.asc",
+                    "label": "mpg141208_B_idA"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/mpg141209_A_idA.asc",
+                    "label": "mpg141209_A_idA"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/mpg141209_B_idA.asc",
+                    "label": "mpg141209_B_idA"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/mpg141215_A_idA.asc",
+                    "label": "mpg141215_A_idA"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/mpg141216_A_idA.asc",
+                    "label": "mpg141216_A_idA"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/mpg141217_A_idB.asc",
+                    "label": "mpg141217_A_idB"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/mpg150305_A_idB.asc",
+                    "label": "mpg150305_A_idB"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/oh140521_B0_Rat_idA.asc",
+                    "label": "oh140521_B0_Rat_idA"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/oh140521_B0_Rat_idC.asc",
+                    "label": "oh140521_B0_Rat_idC"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/oh140807_A0_idA.asc",
+                    "label": "oh140807_A0_idA"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/oh140807_A0_idB.asc",
+                    "label": "oh140807_A0_idB"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/oh140807_A0_idC.asc",
+                    "label": "oh140807_A0_idC"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/oh140807_A0_idF.asc",
+                    "label": "oh140807_A0_idF"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/oh140807_A0_idG.asc",
+                    "label": "oh140807_A0_idG"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/oh140807_A0_idH.asc",
+                    "label": "oh140807_A0_idH"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/oh140807_A0_idJ.asc",
+                    "label": "oh140807_A0_idJ"
                 }
             ]
         },
         {
             "order": 1,
             "type": "section_traces",
-            "title": "Recordings / Traces",
+            "title": "Electrophysiological Traces",
             "icon": "timeline",
             "description": "",
             "data": "[\n  {\n    \"url\": \"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/Ivy_960711AHP3/96711008.abf\",\n    \"label\": \"abf-int-bAC/Ivy_960711AHP3/96711008.abf\"\n  },\n  {\n    \"url\": \"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111000.abf\",\n    \"label\": \"abf-int-bAC/PVBC_990111ABHP1/99111000.abf\"\n  },\n  {\n    \"url\": \"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111001.abf\",\n    \"label\": \"abf-int-bAC/PVBC_990111ABHP1/99111001.abf\"\n  },\n  {\n    \"url\": \"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111002.abf\",\n    \"label\": \"abf-int-bAC/PVBC_990111ABHP1/99111002.abf\"\n  },\n  {\n    \"url\": \"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911000.abf\",\n    \"label\": \"abf-int-bAC/SP_AA_970911C/97911000.abf\"\n  },\n  {\n    \"url\": \"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911001.abf\",\n    \"label\": \"abf-int-bAC/SP_AA_970911C/97911001.abf\"\n  },\n  {\n    \"url\": \"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911002.abf\",\n    \"label\": \"abf-int-bAC/SP_AA_970911C/97911002.abf\"\n  },\n  {\n    \"url\": \"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_BS/95810035.abf\",\n    \"label\": \"abf-int-bAC/SP_BS/95810035.abf\"\n  },\n  {\n    \"url\": \"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_BS/95810036.abf\",\n    \"label\": \"abf-int-bAC/SP_BS/95810036.abf\"\n  }\n]",
@@ -77,6 +304,34 @@
                 {
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111000.abf",
                     "label": "abf-int-bAC/PVBC_990111ABHP1/99111000.abf"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111001.abf",
+                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111001.abf"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111002.abf",
+                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111002.abf"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911000.abf",
+                    "label": "abf-int-bAC/SP_AA_970911C/97911000.abf"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911001.abf",
+                    "label": "abf-int-bAC/SP_AA_970911C/97911001.abf"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911002.abf",
+                    "label": "abf-int-bAC/SP_AA_970911C/97911002.abf"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_BS/95810035.abf",
+                    "label": "abf-int-bAC/SP_BS/95810035.abf"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_BS/95810036.abf",
+                    "label": "abf-int-bAC/SP_BS/95810036.abf"
                 }
             ]
         },
@@ -98,24 +353,236 @@
             "data": "[\n{\"url\": \"\", \"label\": \"CA1_int_bAC_011017HP2_20180110153901\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.01284a1d-6fd3-4cc0-8fa7-41eada65d9d9\"},\n{\"url\": \"\", \"label\": \"CA1_int_bAC_011023HP2_20180116154023\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.26265178-e07f-402c-8194-b593a9fcdc62\"},\n{\"url\": \"\", \"label\": \"CA1_int_bAC_011127HP1_20180120115056\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6584dc03-0469-4b9b-bdd6-cca71011ec31\"},\n{\"url\": \"\", \"label\": \"CA1_int_cAC_031031AM1_20180201104443\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.4dec544a-5275-40fa-90a0-5a7f3b601b39\"},\n{\"url\": \"\", \"label\": \"CA1_int_bAC_060314AM2_20180120154128\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6c698fa5-6ba4-4ac0-a38e-62cd7d4439ca\"},\n{\"url\": \"\", \"label\": \"CA1_int_bAC_971114B_20180117154233\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.7e73cf32-36e7-47bc-a507-5a86283b1de4\"},\n{\"url\": \"\", \"label\": \"CA1_int_bAC_980120A_20180119154402\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.a00d2a6c-6b3c-4dad-aec8-9754130835d2\"},\n{\"url\": \"\", \"label\": \"CA1_int_cAC_010710HP2_20180118155959\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.73d7800c-bd69-43fd-995b-b93ef691b9ee\"},\n{\"url\": \"\", \"label\": \"CA1_int_cAC_011017HP2_20180121160005\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.270b8c12-4c5a-4d58-8ce6-26be1a106ceb\"},\n{\"url\": \"\", \"label\": \"CA1_int_cAC_970627BHP1_20180120160112\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.0e01eecd-34d9-4d51-b852-9727608f74b6\"},\n{\"url\": \"\", \"label\": \"CA1_int_cAC_980120A_20180115155814\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.250709be-df8b-4db0-8f60-c5fdd361aa3a\"},\n{\"url\": \"\", \"label\": \"CA1_int_cAC_980513B_20180119155952\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.236e52ea-fd8f-4989-ab34-9d07fca4a3f1\"},\n{\"url\": \"\", \"label\": \"CA1_int_cAC_990611HP2_20180122160209\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.8fec2a5a-bf94-4373-b75b-25ad1a197168\"},\n{\"url\": \"\", \"label\": \"CA1_int_cAC_990827IN5HP3_20180122140555\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.32fe1913-ded5-434e-97da-ab0e4b37fd4a\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_010710HP2_20180119154335\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.52abbcec-df66-44b7-9c1c-680e762df222\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_011017HP2_20180119154507\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.c786257a-f256-411d-a014-5876f933d0ab\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_011023HP2_20180118154613\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.02bcd89f-5362-430d-b35f-c449955eb2ce\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_060314AM2_20180120154747\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.0cc9725a-3f8a-4376-987c-f0f2f30efeb3\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_970509HP2_20180117154753\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.669de332-db1c-45aa-80d2-bdf7603931fb\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_970627BHP1_20180120154830\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.070aaa97-4948-4f45-ba19-ff6d8466209e\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_970717D_20180118154811\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.657371c3-428f-4364-b5fe-7b5cb6535094\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_970911C_20180120154902\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.21f1a8cd-5156-438b-b9fa-f95e4fa3e1b3\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_971114B_20180119155005\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.cfae1bf0-bedd-4350-8e14-54f11a53e4b9\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_980120A_20180119155115\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.1b0e3346-73a6-4a25-aa4d-b9cc8bd544c3\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_980513B_20180119155127\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.aad4b6e5-6191-49f1-9094-583aa34ac184\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_990111HP2_20180118155424\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.70ebd89a-0b1f-4cc2-9b3a-261782c4eaea\"},\n{\"url\": \"\", \"label\": \"CA1_int_cNAC_990611HP2_20180120155246\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.0154c5a8-05e4-4261-9ab3-d70d7faa10a3\"},\n{\"url\": \"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/models/CA1_pyr_cACpyr_dend-050921AM2_axon-051208AM2_20170915145830/CA1_pyr_cACpyr_dend-050921AM2_axon-051208AM2_20170915145830.zip\", \"label\": \"CA1_pyr_cACpyr_dend-050921AM2_axon-051208AM2_20170915145830\", \"mc_url\": \"\"},\n{\"url\": \"https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/models/CA1_pyr_cACpyr_dend-990803_axon-051208AM2_20170909151002/CA1_pyr_cACpyr_dend-990803_axon-051208AM2_20170909151002.zip\", \"label\": \"CA1_pyr_cACpyr_dend-990803_axon-051208AM2_20170909151002\", \"mc_url\": \"\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_mpg141017_a1-2_idC_20170918151638\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.b31217ab-b519-49f9-a82b-c5ba98817125\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_mpg141208_B_idA_20170915151855\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.4ba805ae-988f-44bd-ab0c-6659e0f79c3b\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_mpg141209_A_idA_20170912152008\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.9a69a1a8-bb24-4ffe-8291-3f0fb59d085b\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_mpg141209_B_idA_20170915152336\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.8a314e3b-e91b-478d-8157-712c42dd9ec4\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_mpg141215_A_idA_20170915152442\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.1809c05e-db1b-4702-b74c-4c0ced0e300f\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_mpg141216_A_idA_20171003152605\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.590e805b-7cba-49a5-85ec-11009e2b859a\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_mpg141217_A_idB_20170915111538\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.980662c6-43d3-4b4c-b3f5-eb77b9338415\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_mpg150305_A_idB_20170915111718\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.878ad22d-c54c-446c-b0d8-b33c154cf910\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_oh140521_B0_Rat_idA_20170915111955\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.90cdaf9b-18f4-44aa-960e-f6ed32d15aa0\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_oh140521_B0_Rat_idC_20170915112201\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.163c9042-88a5-4a8b-abe5-563bd17388be\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_oh140807_A0_idA_20170915112548\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.785ae266-820c-460b-8476-d0e3de1ec4be\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_oh140807_A0_idB_20170915112605\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.439673a3-0f90-4db3-a305-b93505ed17a2\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_oh140807_A0_idC_20170912112759\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.53a1f7b2-6b00-4773-b296-5df2f45d53ff\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_oh140807_A0_idF_20171003112912\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.1ca69c6d-f00f-4c2c-923c-c2927069143e\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_oh140807_A0_idG_20170915113354\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.305e2c36-45a2-4530-959c-515f4cc02861\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_oh140807_A0_idH_20170915113422\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.32a1c92c-c0dd-4af3-9a8d-f99311dd5cda\"},\n{\"url\": \"\", \"label\": \"CA1_pyr_cACpyr_oh140807_A0_idJ_20170915113621\", \"mc_url\": \"https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.2d4e6d3c-c42c-4786-8b4c-de19c4343c67\"}\n]",
             "dataFormatted": [
                 {
-                    "url": "http://www.dummy.com",
+                    "url": "https://www.google.com",
                     "label": "CA1_int_bAC_011017HP2_20180110153901",
                     "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.01284a1d-6fd3-4cc0-8fa7-41eada65d9d9"
                 },
                 {
-                    "url": "http://www.dummy.com",
+                    "url": "https://www.google.com",
                     "label": "CA1_int_bAC_011023HP2_20180116154023",
                     "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.26265178-e07f-402c-8194-b593a9fcdc62"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_bAC_011127HP1_20180120115056",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6584dc03-0469-4b9b-bdd6-cca71011ec31"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cAC_031031AM1_20180201104443",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.4dec544a-5275-40fa-90a0-5a7f3b601b39"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_bAC_060314AM2_20180120154128",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6c698fa5-6ba4-4ac0-a38e-62cd7d4439ca"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_bAC_971114B_20180117154233",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.7e73cf32-36e7-47bc-a507-5a86283b1de4"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_bAC_980120A_20180119154402",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.a00d2a6c-6b3c-4dad-aec8-9754130835d2"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cAC_010710HP2_20180118155959",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.73d7800c-bd69-43fd-995b-b93ef691b9ee"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cAC_011017HP2_20180121160005",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.270b8c12-4c5a-4d58-8ce6-26be1a106ceb"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cAC_970627BHP1_20180120160112",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.0e01eecd-34d9-4d51-b852-9727608f74b6"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cAC_980120A_20180115155814",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.250709be-df8b-4db0-8f60-c5fdd361aa3a"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cAC_980513B_20180119155952",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.236e52ea-fd8f-4989-ab34-9d07fca4a3f1"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cAC_990611HP2_20180122160209",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.8fec2a5a-bf94-4373-b75b-25ad1a197168"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cAC_990827IN5HP3_20180122140555",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.32fe1913-ded5-434e-97da-ab0e4b37fd4a"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_010710HP2_20180119154335",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.52abbcec-df66-44b7-9c1c-680e762df222"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_011017HP2_20180119154507",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.c786257a-f256-411d-a014-5876f933d0ab"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_011023HP2_20180118154613",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.02bcd89f-5362-430d-b35f-c449955eb2ce"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_060314AM2_20180120154747",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.0cc9725a-3f8a-4376-987c-f0f2f30efeb3"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_970509HP2_20180117154753",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.669de332-db1c-45aa-80d2-bdf7603931fb"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_970627BHP1_20180120154830",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.070aaa97-4948-4f45-ba19-ff6d8466209e"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_970717D_20180118154811",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.657371c3-428f-4364-b5fe-7b5cb6535094"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_970911C_20180120154902",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.21f1a8cd-5156-438b-b9fa-f95e4fa3e1b3"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_971114B_20180119155005",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.cfae1bf0-bedd-4350-8e14-54f11a53e4b9"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_980120A_20180119155115",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.1b0e3346-73a6-4a25-aa4d-b9cc8bd544c3"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_980513B_20180119155127",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.aad4b6e5-6191-49f1-9094-583aa34ac184"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_990111HP2_20180118155424",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.70ebd89a-0b1f-4cc2-9b3a-261782c4eaea"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_int_cNAC_990611HP2_20180120155246",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.0154c5a8-05e4-4261-9ab3-d70d7faa10a3"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/models/CA1_pyr_cACpyr_dend-050921AM2_axon-051208AM2_20170915145830/CA1_pyr_cACpyr_dend-050921AM2_axon-051208AM2_20170915145830.zip",
+                    "label": "CA1_pyr_cACpyr_dend-050921AM2_axon-051208AM2_20170915145830",
+                    "mc_url": ""
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/models/CA1_pyr_cACpyr_dend-990803_axon-051208AM2_20170909151002/CA1_pyr_cACpyr_dend-990803_axon-051208AM2_20170909151002.zip",
+                    "label": "CA1_pyr_cACpyr_dend-990803_axon-051208AM2_20170909151002",
+                    "mc_url": ""
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_mpg141017_a1-2_idC_20170918151638",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.b31217ab-b519-49f9-a82b-c5ba98817125"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_mpg141208_B_idA_20170915151855",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.4ba805ae-988f-44bd-ab0c-6659e0f79c3b"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_mpg141209_A_idA_20170912152008",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.9a69a1a8-bb24-4ffe-8291-3f0fb59d085b"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_mpg141209_B_idA_20170915152336",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.8a314e3b-e91b-478d-8157-712c42dd9ec4"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_mpg141215_A_idA_20170915152442",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.1809c05e-db1b-4702-b74c-4c0ced0e300f"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_mpg141216_A_idA_20171003152605",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.590e805b-7cba-49a5-85ec-11009e2b859a"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_mpg141217_A_idB_20170915111538",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.980662c6-43d3-4b4c-b3f5-eb77b9338415"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_mpg150305_A_idB_20170915111718",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.878ad22d-c54c-446c-b0d8-b33c154cf910"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_oh140521_B0_Rat_idA_20170915111955",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.90cdaf9b-18f4-44aa-960e-f6ed32d15aa0"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_oh140521_B0_Rat_idC_20170915112201",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.163c9042-88a5-4a8b-abe5-563bd17388be"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_oh140807_A0_idA_20170915112548",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.785ae266-820c-460b-8476-d0e3de1ec4be"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_oh140807_A0_idB_20170915112605",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.439673a3-0f90-4db3-a305-b93505ed17a2"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_oh140807_A0_idC_20170912112759",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.53a1f7b2-6b00-4773-b296-5df2f45d53ff"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_oh140807_A0_idF_20171003112912",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.1ca69c6d-f00f-4c2c-923c-c2927069143e"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_oh140807_A0_idG_20170915113354",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.305e2c36-45a2-4530-959c-515f4cc02861"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_oh140807_A0_idH_20170915113422",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.32a1c92c-c0dd-4af3-9a8d-f99311dd5cda"
+                },
+                {
+                    "url": "https://www.google.com",
+                    "label": "CA1_pyr_cACpyr_oh140807_A0_idJ_20170915113621",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.2d4e6d3c-c42c-4786-8b4c-de19c4343c67"
                 }
             ]
         }
     ]
 }
-// Response
-// {
-//   "id": "0ac59b6f-0302-4c7d-8d42-b317b83acd59",
-//   "detail_path": "/livepapers/0ac59b6f-0302-4c7d-8d42-b317b83acd59",
-//   "created_date": "2021-02-09T15:44:36.658000+00:00",
-//   "title": "Testing 8: The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow",
-//   "collab_id": "shailesh-testing"
-// }

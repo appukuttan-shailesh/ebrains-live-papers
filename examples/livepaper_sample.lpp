@@ -111,17 +111,21 @@
     "corresponding_author": {
         "firstname": "Rosanna",
         "lastname": "Migliore",
+        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
         "email": "rosanna.migliore@cnr.it"
     },
     "created_author": [
         {
-            "type": "other",
-            "name": "Luca L. Bologna",
+            "firstname": "Luca L.",
+            "lastname": "Bologna",
+            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
             "email": "lucaleonardo.bologna@cnr.it"
         }
     ],
     "approved_author": {
-        "name": "Luca L. Bologna",
+        "firstname": "Luca L.",
+        "lastname": "Bologna",
+        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
         "email": "lucaleonardo.bologna@cnr.it"
     },
     "year": "2018-01-01",
@@ -132,6 +136,7 @@
     "doi": "https://doi.org/10.1371/journal.pcbi.1006423",
     "abstract": "The peak conductance of many ion channel types measured in any given animal is highly variable across neurons, both within and between neuronal populations. The current view is that this occurs  because a neuron needs to adapt its intrinsic electrophysiological properties either to maintain the same operative range in the presence of abnormal inputs or to compensate for the effects of  pathological conditions. Limited experimental and modeling evidence suggests this might be  implemented via the correlation and/or degeneracy in the function of multiple types of conductances. To study this mechanism in hippocampal CA1 neurons and interneurons, we systematically generated a set of morphologically and biophysically accurate models. We then analyzed the ensembles of peak conductance obtained for each model neuron. The results suggest that the set of conductances expressed in the various neuron types may be divided into two groups: one group is responsible for the major characteristics of the firing behavior in each population and the other more involved with  degeneracy. These models provide experimentally testable predictions on the combination and relative proportion of the different conductance types that should be present in hippocampal CA1  pyramidal cells and interneurons.",
     "license": "Creative Commons Attribution 4.0 International",
+    "collab_id": "shailesh-testing",
     "resources_description": "Data and models: all data and models used in the paper are available at the links reported below, grouped into the following categories:    ",
     "resources": [
         {
