@@ -1,9 +1,15 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
 import ContextMain from "./ContextMain";
 import CreateLivePaperLoadPDFData from "./CreateLivePaperLoadPDFData";
+import LoadKGProjects from "./LoadKGProjects";
+import LoadingIndicatorModal from "./LoadingIndicatorModal";
+import ErrorDialog from "./ErrorDialog";
+import { baseUrl } from "./globals";
 
 class App extends React.Component {
+  signal = axios.CancelToken.source();
   static contextType = ContextMain;
 
   constructor(props, context) {
@@ -13,7 +19,11 @@ class App extends React.Component {
       createLivePaperOpen: false,
       projectData: {},
       loadData: false,
+      kg_project_list: null,
+      loadProjectKGOpen: false,
       auth: props.auth || null,
+      error: null,
+      loading: false,
     };
 
     this.inputFileRef = React.createRef();
@@ -22,8 +32,11 @@ class App extends React.Component {
     this.handleCreateLivePaperClose = this.handleCreateLivePaperClose.bind(
       this
     );
-    this.handleLoadProject = this.handleLoadProject.bind(this);
+    this.handleLoadProjectFile = this.handleLoadProjectFile.bind(this);
+    this.handleLoadProjectKG = this.handleLoadProjectKG.bind(this);
+    this.handleLoadProjectKGClose = this.handleLoadProjectKGClose.bind(this);
     this.onFileSelect = this.onFileSelect.bind(this);
+    this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
   }
 
   componentDidMount() {
@@ -49,8 +62,66 @@ class App extends React.Component {
     });
   }
 
-  handleLoadProject() {
+  handleLoadProjectFile() {
     this.inputFileRef.current.click();
+  }
+
+  handleLoadProjectKG() {
+    this.setState({ loading: true }, () => {
+      let url = baseUrl + "/livepapers/";
+      let config = {
+        cancelToken: this.signal.token,
+        headers: {
+          Authorization: "Bearer " + this.context.auth[0].token,
+        },
+      };
+      axios
+        .get(url, config)
+        .then((res) => {
+          //   console.log(res);
+          this.setState({
+            kg_project_list: res.data,
+            error: null,
+            loading: false,
+            loadProjectKGOpen: true,
+          });
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("error: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            let error_message = "";
+            try {
+              error_message = err.response.data.detail;
+            } catch {
+              error_message = err;
+            }
+            this.setState({
+              error: error_message,
+            });
+          }
+          this.setState({
+            loading: false,
+          });
+        });
+    });
+  }
+
+  handleLoadProjectKGClose(data) {
+      console.log(data);
+    if (data) {
+      this.setState({
+        loadProjectKGOpen: false,
+        projectData: data,
+        loadData: true,
+        createLivePaperOpen: true,
+      });
+    } else {
+      this.setState({
+        loadProjectKGOpen: false,
+      });
+    }
   }
 
   onFileSelect(event) {
@@ -75,8 +146,13 @@ class App extends React.Component {
     }
   }
 
+  handleErrorDialogClose() {
+    this.setState({ error: false });
+  }
+
   render() {
-    // console.log(this.state.auth);
+    console.log(this.state);
+
     var createLivePaperContent = "";
     if (this.state.createLivePaperOpen) {
       createLivePaperContent = (
@@ -89,8 +165,31 @@ class App extends React.Component {
       );
     }
 
+    let errorModal = "";
+    if (this.state.error) {
+      errorModal = (
+        <ErrorDialog
+          open={Boolean(this.state.error)}
+          handleErrorDialogClose={this.handleErrorDialogClose}
+          error={this.state.error}
+        />
+      );
+    }
+
+    let loadProjectListModal = "";
+    if (this.state.loadProjectKGOpen) {
+      loadProjectListModal = (
+        <LoadKGProjects
+          kg_project_list={this.state.kg_project_list}
+          open={this.state.loadProjectKGOpen}
+          onClose={this.handleLoadProjectKGClose}
+        />
+      );
+    }
+
     return (
       <div className="container" style={{ textAlign: "left" }}>
+        <LoadingIndicatorModal open={this.state.loading} />
         <br />
         <div className="box rounded centered">
           <a
@@ -143,10 +242,12 @@ class App extends React.Component {
           <br />
           Live papers are often not produced in one go, and might require
           revisions over time. Keeping this in mind, we allow users to download
-          "live paper projects" at any point of development. These projects can
-          be uploaded later, to continue from where you had left off. Please
+          "live paper projects" at any point of development. These project files
+          can be loaded later, to continue from where you had left off. Please
           note, that these project files should not be manually edited as it
-          could render them unreadable by the tool.
+          could render them unreadable by the tool. Alternatively, users also
+          have the option of loading an existing project that was previously
+          saved on the EBRAINS Knowledge Graph.
         </div>
         <br />
         <div
@@ -160,14 +261,14 @@ class App extends React.Component {
             variant="contained"
             color="primary"
             style={{
-              width: "40%",
+              width: "27.5%",
               backgroundColor: "#FF9800",
               color: "#000000",
               fontWeight: "bold",
             }}
             onClick={this.handleCreateLivePaperOpen}
           >
-            Create New Live Paper
+            Create New
           </Button>
           <br />
           <br />
@@ -175,13 +276,27 @@ class App extends React.Component {
             variant="contained"
             color="secondary"
             style={{
-              width: "40%",
+              width: "27.5%",
               backgroundColor: "#01579b",
               fontWeight: "bold",
             }}
-            onClick={this.handleLoadProject}
+            onClick={this.handleLoadProjectFile}
           >
-            Load Existing Project
+            Load From File
+          </Button>
+          <br />
+          <br />
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{
+              width: "27.5%",
+              backgroundColor: "#1D7021",
+              fontWeight: "bold",
+            }}
+            onClick={this.handleLoadProjectKG}
+          >
+            Load From KG
           </Button>
         </div>
         <br />
@@ -209,6 +324,8 @@ class App extends React.Component {
             onChange={this.onFileSelect}
           />
         </div>
+        {loadProjectListModal}
+        {errorModal}
       </div>
     );
   }

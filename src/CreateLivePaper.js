@@ -229,7 +229,7 @@ class CreateLivePaper extends React.Component {
   }
 
   removeExcessData() {
-    let req_data = { ...this.state }; // copy by value
+    let req_data = JSON.parse(JSON.stringify(this.state)); // copy by value
     let remove_keys = [
       "saveOpen",
       "submitOpen",

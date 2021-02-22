@@ -8,11 +8,29 @@ import Box from "@material-ui/core/Box";
 import axios from "axios";
 import ContextMain from "./ContextMain";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
-import SingleSelect from "./SingleSelect";
 import ErrorDialog from "./ErrorDialog";
+import MaterialTable, { MTableToolbar } from "material-table";
 import { baseUrl } from "./globals";
 
-export default class SaveModal extends React.Component {
+// define the columns for the material data table
+const TABLE_COLUMNS = [
+  {
+    title: "Article Title",
+    field: "title",
+  },
+  {
+    title: "Collab",
+    field: "collab_id",
+  },
+  {
+    title: "Modified",
+    field: "created_date",
+    type: "date",
+    defaultSort: "desc",
+  },
+];
+
+export default class LoadKGProjects extends React.Component {
   signal = axios.CancelToken.source();
   static contextType = ContextMain;
 
@@ -20,18 +38,17 @@ export default class SaveModal extends React.Component {
     super(props, context);
 
     this.state = {
-      data: props.data,
       error: null,
       loading: false,
+      selectedRow: null,
     };
 
     // const [authContext,] = this.context.auth;
 
     this.handleCancel = this.handleCancel.bind(this);
-    this.handleSave = this.handleSave.bind(this);
+    this.handleSelectProject = this.handleSelectProject.bind(this);
     this.checkRequirements = this.checkRequirements.bind(this);
     this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
-    this.setCollabID = this.setCollabID.bind(this);
   }
 
   handleCancel() {
@@ -58,69 +75,67 @@ export default class SaveModal extends React.Component {
 
   handleErrorDialogClose() {
     this.setState({ error: false });
-    this.props.onClose(false);
   }
 
-  setCollabID(event) {
-    let value = event.target.value;
-    console.log(value);
-    console.log(event);
-    this.props.setCollabID(value);
-  }
-
-  handleSave() {
+  handleSelectProject() {
     this.setState({ loading: true }, () => {
-      const payload = this.props.data;
-      console.log(payload);
-      if (this.checkRequirements(payload)) {
-        let url = baseUrl + "/livepapers/";
-        let config = {
-          cancelToken: this.signal.token,
-          headers: {
-            Authorization: "Bearer " + this.context.auth[0].token,
-            "Content-type": "application/json",
-          },
-        };
-
-        axios
-          .post(url, payload, config)
-          .then((res) => {
-            console.log(res);
-            this.setState({ loading: false });
-            this.props.onClose(true);
-          })
-          .catch((err) => {
-            if (axios.isCancel(err)) {
-              console.log("Error: ", err.message);
-            } else {
-              console.log(err);
-              console.log(err.response);
-              this.setState({
-                error: err.response,
-              });
-            }
-            this.setState({ loading: false });
+      let url =
+        baseUrl +
+        "/livepapers/" +
+        this.props.kg_project_list[this.state.selectedRow].id;
+      let config = {
+        cancelToken: this.signal.token,
+        headers: {
+          Authorization: "Bearer " + this.context.auth[0].token,
+        },
+      };
+      axios
+        .get(url, config)
+        .then((res) => {
+          console.log(res.data);
+          this.setState({
+            error: null,
+            loading: false,
           });
-      } else {
-        this.setState({ loading: false });
-      }
+          this.props.onClose(res.data);
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("error: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            let error_message = "";
+            try {
+              error_message = err.response.data.detail;
+            } catch {
+              error_message = err;
+            }
+            this.setState({
+              error: error_message,
+            });
+          }
+          this.setState({
+            loading: false,
+          });
+        });
     });
   }
 
   render() {
-    console.log(this.props);
+    console.log(this.state);
+
     if (this.state.error) {
       return (
         <ErrorDialog
           open={Boolean(this.state.error)}
           handleErrorDialogClose={this.handleErrorDialogClose}
-          error={this.state.error.message || this.state.error}
+          error={this.state.error[0].msg || this.state.error}
         />
       );
     } else {
       return (
         <Dialog
-          onClose={this.handleClose}
+          onClose={this.handleCancel}
           aria-labelledby="simple-dialog-title"
           open={this.props.open}
           fullWidth={true}
@@ -128,55 +143,57 @@ export default class SaveModal extends React.Component {
         >
           <DialogTitle style={{ backgroundColor: "#ffd180" }}>
             <span style={{ fontWeight: "bolder", fontSize: 18 }}>
-              Save Live Paper On EBRAINS Knowledge Graph
+              Load Live Paper Project From EBRAINS Knowledge Graph
             </span>
           </DialogTitle>
           <DialogContent>
             <LoadingIndicatorModal open={this.state.loading} />
             <Box my={2}>
-              Each live paper needs to be associated with a Collab on the
-              EBRAINS Collaboratory, to handle access permissions for viewing
-              live papers prior to their publication, and their editing in
-              future. Accordingly, please specify a Collab for this live paper.
-              You may need to create a new Collab if you don't already have
-              access to one.{" "}
-              <a
-                href="https://wiki.ebrains.eu/bin/view/Collabs?clbaction=create"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Click here
-              </a>{" "}
-              to create a new Collab.
+              You have permissions to edit the following Live Paper projects on
+              the Knowledge Graph:
             </Box>
             <Box my={2}>
-              <SingleSelect
-                name="project_id"
-                itemNames={
-                  this.props.collab_list
-                    ? this.props.collab_list.length > 0
-                      ? this.props.collab_list
-                      : ["Please create a new Collab!"]
-                    : ["Loading... please wait!"]
+              <MaterialTable
+                title="Live Paper Projects"
+                data={this.props.kg_project_list}
+                columns={TABLE_COLUMNS}
+                onRowClick={(evt, selectedRow) =>
+                  this.setState({ selectedRow: selectedRow.tableData.id })
                 }
-                label="Collab"
-                value={
-                  this.props.collab_list
-                    ? this.props.collab_list.length > 0
-                      ? this.props.collab_id
-                      : "Please create a new Collab!"
-                    : "Loading... please wait!"
-                }
-                helperText="Select a host Collab for this live paper"
-                handleChange={this.setCollabID}
-                disabled={
-                  !(this.props.collab_list && this.props.collab_list.length > 0)
-                }
+                options={{
+                  search: true,
+                  paging: false,
+                  filtering: false,
+                  exportButton: false,
+                  maxBodyHeight: "60vh",
+                  headerStyle: {
+                    position: "sticky",
+                    top: 0,
+                    backgroundColor: "#FFF",
+                    fontWeight: "bolder",
+                    fontSize: 15,
+                  },
+                  rowStyle: (rowData) => ({
+                    backgroundColor:
+                      this.state.selectedRow === rowData.tableData.id
+                        ? "#ffd180"
+                        : "#EEE",
+                  }),
+                }}
+                components={{
+                  Toolbar: (props) => (
+                    <div
+                      style={{
+                        backgroundColor: "#ffd180",
+                        fontWeight: "bolder !important",
+                      }}
+                    >
+                      <MTableToolbar {...props} />
+                    </div>
+                  ),
+                }}
               />
             </Box>
-            <br />
-            <br />
-
             <div
               style={{
                 display: "flex",
@@ -193,7 +210,7 @@ export default class SaveModal extends React.Component {
                 color="primary"
                 style={{
                   width: "20%",
-                  backgroundColor: "#FF9800",
+                  backgroundColor: "#969696",
                   color: "#000000",
                   fontWeight: "bold",
                   border: "solid",
@@ -211,16 +228,16 @@ export default class SaveModal extends React.Component {
                 color="primary"
                 style={{
                   width: "20%",
-                  backgroundColor: "#8BC34A",
+                  backgroundColor: "#FF9800",
                   color: "#000000",
                   fontWeight: "bold",
                   border: "solid",
                   borderColor: "#000000",
                   borderWidth: "1px",
                 }}
-                onClick={this.handleSave}
+                onClick={this.handleSelectProject}
               >
-                Save to KG
+                Load Project
               </Button>
             </div>
           </DialogContent>
@@ -230,7 +247,7 @@ export default class SaveModal extends React.Component {
   }
 }
 
-SaveModal.propTypes = {
+LoadKGProjects.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
