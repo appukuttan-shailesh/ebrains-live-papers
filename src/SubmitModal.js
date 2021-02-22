@@ -7,8 +7,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
-
 import SwitchThreeWay from "./SwitchThreeWay";
+import ErrorDialog from "./ErrorDialog";
+import { baseUrl } from "./globals";
 export const validModes = ["Private", "Password-Protected", "Public"];
 
 export default class SubmitModal extends React.Component {
@@ -46,26 +47,15 @@ export default class SubmitModal extends React.Component {
     this.setState({ password: event.target.value });
   }
 
-  renderError() {
-    return (
-      <Dialog
-        onClose={this.handleClose}
-        aria-labelledby="simple-dialog-title"
-        open={this.props.open}
-        fullWidth={true}
-        maxWidth="md"
-      >
-        <DialogTitle>Error :-(</DialogTitle>
-        <DialogContent>
-          <div>Uh oh: {this.state.error.message}</div>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
   render() {
     if (this.state.error) {
-      return this.renderError();
+      return (
+        <ErrorDialog
+          open={Boolean(this.state.error)}
+          handleErrorDialogClose={this.handleErrorDialogClose}
+          error={this.state.error.message || this.state.error}
+        />
+      );
     } else {
       return (
         <Dialog

@@ -8,6 +8,8 @@ import Box from "@material-ui/core/Box";
 import axios from "axios";
 import ContextMain from "./ContextMain";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
+import SingleSelect from "./SingleSelect";
+import ErrorDialog from "./ErrorDialog";
 import { baseUrl } from "./globals";
 
 export default class SaveModal extends React.Component {
@@ -28,19 +30,47 @@ export default class SaveModal extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.checkRequirements = this.checkRequirements.bind(this);
+    this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
+    this.setCollabID = this.setCollabID.bind(this);
   }
 
   handleCancel() {
-    this.props.onClose();
+    this.props.onClose(false);
   }
 
-  checkRequirements() {
-    return true;
+  checkRequirements(data) {
+    let error = null;
+    // a collab must be specified
+    if (!data.collab_id) {
+      error = "A Collab must be specified!";
+    }
+
+    if (error) {
+      console.log(error);
+      this.setState({
+        error: error,
+      });
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  handleErrorDialogClose() {
+    this.setState({ error: false });
+    this.props.onClose(false);
+  }
+
+  setCollabID(event) {
+    let value = event.target.value;
+    console.log(value);
+    console.log(event);
+    this.props.setCollabID(value);
   }
 
   handleSave() {
     this.setState({ loading: true }, () => {
-      const payload = this.props.lp_payload;
+      const payload = this.props.data;
       console.log(payload);
       if (this.checkRequirements(payload)) {
         let url = baseUrl + "/livepapers/";
@@ -56,9 +86,8 @@ export default class SaveModal extends React.Component {
           .post(url, payload, config)
           .then((res) => {
             console.log(res);
-            console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
             this.setState({ loading: false });
-            this.props.onClose();
+            this.props.onClose(true);
           })
           .catch((err) => {
             if (axios.isCancel(err)) {
@@ -66,7 +95,9 @@ export default class SaveModal extends React.Component {
             } else {
               console.log(err);
               console.log(err.response);
-              console.log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+              this.setState({
+                error: err.response,
+              });
             }
             this.setState({ loading: false });
           });
@@ -76,26 +107,16 @@ export default class SaveModal extends React.Component {
     });
   }
 
-  renderError() {
-    return (
-      <Dialog
-        onClose={this.handleClose}
-        aria-labelledby="simple-dialog-title"
-        open={this.props.open}
-        fullWidth={true}
-        maxWidth="md"
-      >
-        <DialogTitle>Error :-(</DialogTitle>
-        <DialogContent>
-          <div>Uh oh: {this.state.error.message}</div>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
   render() {
+    console.log(this.props);
     if (this.state.error) {
-      return this.renderError();
+      return (
+        <ErrorDialog
+          open={Boolean(this.state.error)}
+          handleErrorDialogClose={this.handleErrorDialogClose}
+          error={this.state.error.message || this.state.error}
+        />
+      );
     } else {
       return (
         <Dialog
@@ -113,9 +134,49 @@ export default class SaveModal extends React.Component {
           <DialogContent>
             <LoadingIndicatorModal open={this.state.loading} />
             <Box my={2}>
-              Verify that you have entered all the required info in the live
-              paper before proceeding.
+              Each live paper needs to be associated with a Collab on the
+              EBRAINS Collaboratory, to handle access permissions for viewing
+              live papers prior to their publication, and their editing in
+              future. Accordingly, please specify a Collab for this live paper.
+              You may need to create a new Collab if you don't already have
+              access to one.{" "}
+              <a
+                href="https://wiki.ebrains.eu/bin/view/Collabs?clbaction=create"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Click here
+              </a>{" "}
+              to create a new Collab.
             </Box>
+            <Box my={2}>
+              <SingleSelect
+                name="project_id"
+                itemNames={
+                  this.props.collab_list
+                    ? this.props.collab_list.length > 0
+                      ? this.props.collab_list
+                      : ["Please create a new Collab!"]
+                    : ["Loading... please wait!"]
+                }
+                label="Collab"
+                value={
+                  this.props.collab_list
+                    ? this.props.collab_list.length > 0
+                      ? this.props.collab_id
+                      : "Please create a new Collab!"
+                    : "Loading... please wait!"
+                }
+                helperText="Select a host Collab for this live paper"
+                handleChange={this.setCollabID}
+                disabled={
+                  !(this.props.collab_list && this.props.collab_list.length > 0)
+                }
+              />
+            </Box>
+            <br />
+            <br />
+
             <div
               style={{
                 display: "flex",

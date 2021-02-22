@@ -33,6 +33,7 @@ import LivePaper from "./LivePaper.njk";
 import SaveModal from "./SaveModal";
 import SubmitModal from "./SubmitModal";
 import { baseUrl, lp_tool_version } from "./globals";
+import { showNotification } from "./utils";
 
 const styles = (theme) => ({
   root: {
@@ -77,17 +78,6 @@ function Footer({ children }) {
       <div style={footerStyle}>{children}</div>
     </div>
   );
-}
-
-function showNotification(enqueueSnackbar, message, type = "default") {
-  // type: default, success, error, warning, info
-  enqueueSnackbar(message, {
-    variant: type,
-    anchorOrigin: {
-      vertical: "bottom",
-      horizontal: "right",
-    },
-  });
 }
 
 const MyDialogTitle = withStyles(styles)((props) => {
@@ -185,6 +175,7 @@ class CreateLivePaper extends React.Component {
     this.removeExcessData = this.removeExcessData.bind(this);
     this.addDerivedData = this.addDerivedData.bind(this);
     this.getCollabList = this.getCollabList.bind(this);
+    this.setCollabID = this.setCollabID.bind(this);
     this.verifyDataBeforeSubmit = this.verifyDataBeforeSubmit.bind(this);
     this.checkPersonInStateAuthors = this.checkPersonInStateAuthors.bind(this);
     this.adjustForKGSchema = this.adjustForKGSchema.bind(this);
@@ -195,21 +186,31 @@ class CreateLivePaper extends React.Component {
   }
 
   adjustForKGSchema(data) {
-    return data;
-    // let payload = { ...data }; // copy by value
-    // // KG requires 'dataFormatted' value for SectionCustom in 'description' field
-    // let temp_resources = [ ...payload.resources ];
-    // let temp;
-    // temp_resources.forEach(function (res, index) {
-    //   if (res.type === "section_custom") {
-    //     temp = res.dataFormatted;
-    //     res.description = temp;
-    //     res.dataFormatted = [];
-    //   }
-    // });
-    // payload.resources = temp_resources;
-    // console.log(payload);
-    // return payload;
+    let payload = JSON.parse(JSON.stringify(data)); // copy by value
+
+    // KG requires 'dataFormatted' value for SectionCustom in 'description' field
+    payload.resources.forEach(function (res, index) {
+      // creating extra copy here to handle problem with shallow copy of nested object
+      let temp_res = JSON.parse(JSON.stringify(res));
+      if (res.type === "section_custom") {
+        res.description = temp_res.dataFormatted;
+        res.dataFormatted = [];
+      }
+    });
+
+    // KG requires all 'url' field in resource sections to have a valid URL
+    payload.resources.forEach(function (res, index) {
+      if (res.type !== "section_custom") {
+        res.dataFormatted.forEach(function (res_item, index) {
+          if (res_item.url === "") {
+            res_item.url = "http://www.ToBeFilled.com";
+          }
+        });
+      }
+    });
+
+    console.log(payload);
+    return payload;
   }
 
   checkPersonInStateAuthors(person) {
@@ -343,10 +344,17 @@ class CreateLivePaper extends React.Component {
     });
   }
 
-  handleSaveClose() {
+  handleSaveClose(flag) {
     this.setState({
       saveOpen: false,
     });
+    if (flag) {
+      showNotification(
+        this.props.enqueueSnackbar,
+        "Live Paper has been saved on KG!",
+        "info"
+      );
+    }
   }
 
   handleSubmitOpen() {
@@ -671,6 +679,12 @@ class CreateLivePaper extends React.Component {
       });
   }
 
+  setCollabID(value) {
+    this.setState({
+      collab_id: value,
+    });
+  }
+
   verifyDataBeforeSubmit() {}
 
   render() {
@@ -681,13 +695,16 @@ class CreateLivePaper extends React.Component {
     if (this.state.saveOpen) {
       saveModal = (
         <SaveModal
-          lp_payload={this.adjustForKGSchema({
+          data={this.adjustForKGSchema({
             lp_tool_version: lp_tool_version,
             created_date: new Date(),
             ...this.removeExcessData(this.state),
           })}
           open={this.state.saveOpen}
           onClose={this.handleSaveClose}
+          setCollabID={this.setCollabID}
+          collab_id={this.state.collab_id}
+          collab_list={this.state.collab_list}
         />
       );
     }
@@ -1220,54 +1237,6 @@ class CreateLivePaper extends React.Component {
                   helperText="For guidance on choosing a licence, see https://choosealicense.com"
                 />
               </div>
-              <br />
-              <br />
-              <div>
-                <p>
-                  <strong>
-                    Please choose the Collab you will use to set access
-                    permissions. You may need to create a new Collab if you
-                    don't already have access to one.{" "}
-                    <a
-                      href="https://wiki.ebrains.eu/bin/view/Collabs?clbaction=create"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Click here
-                    </a>{" "}
-                    to create a new Collab.
-                  </strong>
-                </p>
-              </div>
-              <div>
-                <SingleSelect
-                  name="project_id"
-                  itemNames={
-                    this.state.collab_list
-                      ? this.state.collab_list.length > 0
-                        ? this.state.collab_list
-                        : ["Please create a new Collab!"]
-                      : ["Loading... please wait!"]
-                  }
-                  label="Collab"
-                  value={
-                    this.state.collab_list
-                      ? this.state.collab_list.length > 0
-                        ? this.state.collab_id
-                        : "Please create a new Collab!"
-                      : "Loading... please wait!"
-                  }
-                  helperText="Select a host Collab for this live paper"
-                  handleChange={this.handleFieldChange}
-                  disabled={
-                    !(
-                      this.state.collab_list &&
-                      this.state.collab_list.length > 0
-                    )
-                  }
-                />
-              </div>
-
               <br />
               <br />
 

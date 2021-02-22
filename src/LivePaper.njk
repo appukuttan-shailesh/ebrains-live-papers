@@ -217,8 +217,8 @@
             <p>
                 <strong style="font-weight:bolder">Created by:
                 </strong>
-                {% if created_author[0].name %}
-                    {{ created_author[0].name }}
+                {% if created_author[0].firstname %}
+                    {{ created_author[0].firstname + " " + created_author[0].lastname }}
                     {% if created_author[0].email %}
                         (
                         <em>
@@ -230,7 +230,7 @@
                     To be filled...
                 {% endif %}
             </p>
-            {% if approved_author.name != created_author[0].name %}
+            {% if approved_author.firstname + " " + approved_author.lastname != created_author[0].firstname + " " + created_author[0].lastname %}
                 <p>
                     <strong style="font-weight:bolder">Approved by:
                     </strong>

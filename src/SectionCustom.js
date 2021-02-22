@@ -77,12 +77,11 @@ export default class SectionCustom extends React.Component {
       type: "section_custom",
       title: "Custom Section",
       icon: "check_box_outline_blank",
-      description: "",
+      //   description: "", // no description field for SectionCustom
       data: "",
       // NOTE: in KG schema, dataFormatted is stored under "description" field (for schema purposes),
-      // unlike other sections, custom block doesn't offer a separate description field.
       // Handled by adjustForKGSchema()
-      dataFormatted: [],
+      dataFormatted: "",
       showHelp: false,
       ...props.data,
     };
@@ -143,7 +142,7 @@ export default class SectionCustom extends React.Component {
 
     this.setState(
       {
-        description: value,
+        dataFormatted: value,
       },
       () => {
         this.props.storeSectionInfo(this.state);
