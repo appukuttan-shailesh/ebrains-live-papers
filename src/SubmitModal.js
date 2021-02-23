@@ -9,7 +9,7 @@ import Box from "@material-ui/core/Box";
 import axios from "axios";
 import SwitchThreeWay from "./SwitchThreeWay";
 import ErrorDialog from "./ErrorDialog";
-import { baseUrl } from "./globals";
+// import { baseUrl } from "./globals";
 export const validModes = ["Private", "Password-Protected", "Public"];
 
 export default class SubmitModal extends React.Component {
