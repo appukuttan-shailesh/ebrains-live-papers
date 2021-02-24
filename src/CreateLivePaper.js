@@ -18,6 +18,7 @@ import Button from "@material-ui/core/Button";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import axios from "axios";
+import axiosRetry from "axios-retry";
 
 import ContextMain from "./ContextMain";
 import DynamicTable from "./DynamicTable";
@@ -34,6 +35,13 @@ import SaveModal from "./SaveModal";
 import SubmitModal from "./SubmitModal";
 import { baseUrl, lp_tool_version } from "./globals";
 import { showNotification } from "./utils";
+
+axiosRetry(axios, {
+  retries: 3,
+  retryDelay: (retryCount) => {
+    return retryCount * 1000;
+  },
+});
 
 const styles = (theme) => ({
   root: {
@@ -114,6 +122,7 @@ const popular_licenses = [
 ];
 
 class CreateLivePaper extends React.Component {
+  signal = axios.CancelToken.source();
   static contextType = ContextMain;
 
   constructor(props, context) {
@@ -121,23 +130,16 @@ class CreateLivePaper extends React.Component {
 
     this.state = {
       authors: [{ firstname: "", lastname: "", affiliation: "" }],
-      corresponding_author: { firstname: "", lastname: "", email: "" },
-      created_author: [
-        { firstname: "", lastname: "", affiliation: "", email: "" },
-      ], // currently only one creating author permitted
-      approved_author: {
-        firstname: "",
-        lastname: "",
-        affiliation: "",
-        email: "",
-      },
+      corresponding_author: { firstname: "", lastname: "", affiliation: "" }, // "email" removed
+      created_author: [{ firstname: "", lastname: "", affiliation: "" }], // "email" removed; currently only one creating author permitted
+      approved_author: { firstname: "", lastname: "", affiliation: "" }, // "email" removed
       year: new Date()
         .toISOString()
         .replace(
           /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
           "$<year>-$<month>-$<day>"
         ),
-      paper_title: "",
+      associated_paper_title: "",
       paper_published: true,
       journal: "",
       url: "",
@@ -315,7 +317,7 @@ class CreateLivePaper extends React.Component {
     // create JSON object with live paper info
     let data = {
       lp_tool_version: lp_tool_version,
-      created_date: new Date(),
+      modified_date: new Date(),
       ...this.removeExcessData(this.state),
     };
     const lp_data = JSON.stringify(data, null, 4);
@@ -385,14 +387,16 @@ class CreateLivePaper extends React.Component {
           affiliation: c_author.affiliation,
         },
       }));
-    } else if (name === "corresponding_author_email") {
-      this.setState((prevState) => ({
-        corresponding_author: {
-          ...prevState.corresponding_author,
-          email: value,
-        },
-      }));
-    } else if (name === "created_author") {
+    }
+    // else if (name === "corresponding_author_email") {
+    //   this.setState((prevState) => ({
+    //     corresponding_author: {
+    //       ...prevState.corresponding_author,
+    //       email: value,
+    //     },
+    //   }));
+    // }
+    else if (name === "created_author") {
       if (value === "-- Other Person --") {
         this.setState({
           created_author: [
@@ -400,41 +404,41 @@ class CreateLivePaper extends React.Component {
               firstname: "",
               lastname: "",
               affiliation: "",
-              email: "",
+              //   email: "",
             },
           ],
           approved_author: {
             firstname: "",
             lastname: "",
             affiliation: "",
-            email: "",
+            // email: "",
           },
         });
       } else {
         const author = this.checkPersonInStateAuthors(value);
-        let author_email = null;
-        if (
-          value ===
-          this.state.corresponding_author.firstname +
-            " " +
-            this.state.corresponding_author.lastname
-        ) {
-          author_email = this.state.corresponding_author.email;
-        }
+        // let author_email = null;
+        // if (
+        //   value ===
+        //   this.state.corresponding_author.firstname +
+        //     " " +
+        //     this.state.corresponding_author.lastname
+        // ) {
+        //   author_email = this.state.corresponding_author.email;
+        // }
         this.setState((prevState) => ({
           created_author: [
             {
               firstname: author.firstname,
               lastname: author.lastname,
               affiliation: author.affiliation,
-              email: author_email ? author_email : "",
+              //   email: author_email ? author_email : "",
             },
           ],
           approved_author: {
             firstname: author.firstname,
             lastname: author.lastname,
             affiliation: author.affiliation,
-            email: author_email ? author_email : "",
+            // email: author_email ? author_email : "",
           },
         }));
       }
@@ -465,57 +469,61 @@ class CreateLivePaper extends React.Component {
           },
         ],
       }));
-    } else if (name === "created_author_email") {
-      if (this.checkPersonInStateAuthors(this.state.created_author[0])) {
-        this.setState((prevState) => ({
-          created_author: [
-            {
-              ...prevState.created_author[0],
-              email: value,
-            },
-          ],
-          approved_author: {
-            ...prevState.approved_author,
-            email: value,
-          },
-        }));
-      } else {
-        this.setState((prevState) => ({
-          created_author: [
-            {
-              ...prevState.created_author[0],
-              email: value,
-            },
-          ],
-        }));
-      }
-    } else if (name === "approved_author") {
+    }
+    // else if (name === "created_author_email") {
+    //   if (this.checkPersonInStateAuthors(this.state.created_author[0])) {
+    //     this.setState((prevState) => ({
+    //       created_author: [
+    //         {
+    //           ...prevState.created_author[0],
+    //           email: value,
+    //         },
+    //       ],
+    //       approved_author: {
+    //         ...prevState.approved_author,
+    //         email: value,
+    //       },
+    //     }));
+    //   } else {
+    //     this.setState((prevState) => ({
+    //       created_author: [
+    //         {
+    //           ...prevState.created_author[0],
+    //           email: value,
+    //         },
+    //       ],
+    //     }));
+    //   }
+    // }
+    else if (name === "approved_author") {
       const author_match = this.checkPersonInStateAuthors(value);
-      let author_email = null;
-      if (
-        value ===
-        this.state.corresponding_author.firstname +
-          " " +
-          this.state.corresponding_author.lastname
-      ) {
-        author_email = this.state.corresponding_author.email;
-      }
+      //   let author_email = null;
+      //   if (
+      //     value ===
+      //     this.state.corresponding_author.firstname +
+      //       " " +
+      //       this.state.corresponding_author.lastname
+      //   ) {
+      //     author_email = this.state.corresponding_author.email;
+      //   }
       this.setState({
         approved_author: {
           firstname: author_match.firstname,
           lastname: author_match.lastname,
           affiliation: author_match.affiliation,
-          email: author_email ? author_email : "",
+          //   email: author_email ? author_email : "",
         },
       });
-    } else if (name === "approved_author_email") {
-      this.setState((prevState) => ({
-        approved_author: {
-          ...prevState.approved_author,
-          email: value,
-        },
-      }));
-    } else {
+    }
+    // else if (name === "approved_author_email") {
+    //   this.setState((prevState) => ({
+    //     approved_author: {
+    //       ...prevState.approved_author,
+    //       email: value,
+    //     },
+    //   }));
+    // }
+    else {
       this.setState({
         [name]: value,
       });
@@ -658,6 +666,7 @@ class CreateLivePaper extends React.Component {
   getCollabList() {
     const url = baseUrl + "/projects";
     const config = {
+      cancelToken: this.signal.token,
       headers: { Authorization: "Bearer " + this.context.auth[0].token },
     };
     axios
@@ -697,7 +706,7 @@ class CreateLivePaper extends React.Component {
         <SaveModal
           data={this.adjustForKGSchema({
             lp_tool_version: lp_tool_version,
-            created_date: new Date(),
+            modified_date: new Date(),
             ...this.removeExcessData(this.state),
           })}
           open={this.state.saveOpen}
@@ -797,8 +806,8 @@ class CreateLivePaper extends React.Component {
                   label="Title"
                   variant="outlined"
                   fullWidth={true}
-                  name="paper_title"
-                  value={this.state.paper_title}
+                  name="associated_paper_title"
+                  value={this.state.associated_paper_title}
                   onChange={this.handleFieldChange}
                   InputProps={{
                     style: {
@@ -889,8 +898,8 @@ class CreateLivePaper extends React.Component {
               <div>
                 <p>
                   <strong>
-                    Specify the corresponding author, along with their email
-                    address:
+                    Specify the corresponding author:
+                    {/* , along with their email address: */}
                   </strong>
                 </p>
               </div>
@@ -915,7 +924,7 @@ class CreateLivePaper extends React.Component {
                   handleChange={this.handleFieldChange}
                 />
               </div>
-              <br />
+              {/* <br />
               <div>
                 <TextField
                   label="Corresponding Author Email"
@@ -931,14 +940,14 @@ class CreateLivePaper extends React.Component {
                   }}
                   style={{ width: 700 }}
                 />
-              </div>
+              </div> */}
               <br />
               <br />
               <div>
                 <p>
                   <strong>
-                    Specify the person creating this live paper, along with
-                    their email address:
+                    Specify the person creating this live paper:
+                    {/* , along with their email address: */}
                   </strong>
                 </p>
               </div>
@@ -1016,7 +1025,7 @@ class CreateLivePaper extends React.Component {
                   />
                 </div>
               )}
-              <br />
+              {/* <br />
               <div>
                 <TextField
                   label="Creating Author Email"
@@ -1032,7 +1041,7 @@ class CreateLivePaper extends React.Component {
                   }}
                   style={{ width: "92.5%" }}
                 />
-              </div>
+              </div> */}
               <br />
               <br />
               {!this.checkPersonInStateAuthors(
@@ -1045,8 +1054,8 @@ class CreateLivePaper extends React.Component {
                         Since the live paper is being created by a person who
                         isn't an author on the article (as indicated above), the
                         live paper needs to be approved by one of the original
-                        authors. Specify the authorising author, along with
-                        their email address:
+                        authors. Specify the authorising author:{" "}
+                        {/* , along with their email address: */}
                       </strong>
                     </p>
                   </div>
@@ -1071,7 +1080,7 @@ class CreateLivePaper extends React.Component {
                       handleChange={this.handleFieldChange}
                     />
                   </div>
-                  <br />
+                  {/* <br />
                   <div>
                     <TextField
                       label="Approving Author Email"
@@ -1087,7 +1096,7 @@ class CreateLivePaper extends React.Component {
                       }}
                       style={{ width: "92.5%" }}
                     />
-                  </div>
+                  </div> */}
                   <br />
                   <br />
                 </div>

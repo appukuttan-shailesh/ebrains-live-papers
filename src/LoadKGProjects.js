@@ -24,7 +24,7 @@ const TABLE_COLUMNS = [
   },
   {
     title: "Modified",
-    field: "created_date",
+    field: "modified_date",
     type: "date",
     defaultSort: "desc",
   },
@@ -228,7 +228,10 @@ export default class LoadKGProjects extends React.Component {
                 color="primary"
                 style={{
                   width: "20%",
-                  backgroundColor: "#FF9800",
+                  backgroundColor:
+                    this.state.selectedRow && this.state.selectedRow >= 0
+                      ? "#FF9800"
+                      : "#FFFFFF",
                   color: "#000000",
                   fontWeight: "bold",
                   border: "solid",
@@ -236,6 +239,9 @@ export default class LoadKGProjects extends React.Component {
                   borderWidth: "1px",
                 }}
                 onClick={this.handleSelectProject}
+                disabled={
+                  !(this.state.selectedRow && this.state.selectedRow >= 0)
+                }
               >
                 Load Project
               </Button>

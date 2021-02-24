@@ -68,7 +68,7 @@ class App extends React.Component {
 
   handleLoadProjectKG() {
     this.setState({ loading: true }, () => {
-      let url = baseUrl + "/livepapers/";
+      let url = baseUrl + "/livepapers/?editable=true";
       let config = {
         cancelToken: this.signal.token,
         headers: {
@@ -131,7 +131,7 @@ class App extends React.Component {
       const reader = new FileReader();
       reader.onload = function (that) {
         data = JSON.parse(reader.result);
-        let remove_keys = ["lp_tool_version", "created_date"];
+        let remove_keys = ["lp_tool_version", "modified_date"];
         remove_keys.forEach((k) => delete data[k]);
         // console.log(data);
         scope.setState({
@@ -151,7 +151,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state);
+    console.log(this.props);
 
     var createLivePaperContent = "";
     if (this.state.createLivePaperOpen) {

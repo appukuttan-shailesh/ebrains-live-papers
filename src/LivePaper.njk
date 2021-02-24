@@ -171,8 +171,8 @@
                 </table>
             </a>
             <h5 class="title-style">
-                {% if paper_title %}
-                    {{ paper_title }}
+                {% if associated_paper_title %}
+                    {{ associated_paper_title }}
                 {% else %}
                     To be filled...
                 {% endif %}
@@ -203,13 +203,20 @@
                 {% if corresponding_author.firstname %}
                     {{ corresponding_author.firstname }}
                     {{ corresponding_author.lastname }}
-                    {% if corresponding_author.email %}
+                    {% if corresponding_author.affiliation %}
+                        (
+                        <em>
+                            {{ corresponding_author.affiliation }}
+                        </em>
+                        )
+                    {% endif %}
+                    {# {% if corresponding_author.email %}
                         (
                         <em>
                             <a href="mailto:{{corresponding_author.email}}" ">{{ corresponding_author.email }}</a>
                         </em>
                         )
-                    {% endif %}
+                    {% endif %} #}
                 {% else %}
                     To be filled...
                 {% endif %}
@@ -219,29 +226,39 @@
                 </strong>
                 {% if created_author[0].firstname %}
                     {{ created_author[0].firstname + " " + created_author[0].lastname }}
-                    {% if created_author[0].email %}
+                    {% if created_author[0].affiliation %}
+                        (
+                        <em>{{ created_author[0].affiliation }}</em>
+                        )
+                    {% endif %}
+                    {# {% if created_author[0].email %}
                         (
                         <em>
                             <a href="mailto:{{created_author[0].email}}" ">{{ created_author[0].email }}</a>
                         </em>
                         )
-                    {% endif %}
+                    {% endif %} #}
                 {% else %}
                     To be filled...
                 {% endif %}
             </p>
-            {% if approved_author.firstname + " " + approved_author.lastname != created_author[0].firstname + " " + created_author[0].lastname %}
+            {% if (approved_author.firstname != created_author[0].firstname) and (approved_author.lastname != created_author[0].lastname) %}
                 <p>
                     <strong style="font-weight:bolder">Approved by:
                     </strong>
-                    {{ approved_author.name }}
-                    {% if approved_author.email %}
+                    {{ approved_author.firstname + " " + approved_author.lastname }}
+                    {% if approved_author.affiliation %}
+                        (
+                        <em>{{ approved_author.affiliation }}</em>
+                        )
+                    {% endif %}
+                    {# {% if approved_author.email %}
                         (
                         <em>
                             <a href="mailto:{{approved_author.email}}" ">{{ approved_author.email }}</a>
                         </em>
                         )
-                    {% endif %}
+                    {% endif %} #}
                 </p>
             {% endif %}
         </div>

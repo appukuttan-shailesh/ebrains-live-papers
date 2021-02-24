@@ -28,17 +28,6 @@ const styles = (theme) => ({
   },
 });
 
-// function showNotification(enqueueSnackbar, message, type = "default") {
-//   // type: default, success, error, warning, info
-//   enqueueSnackbar(message, {
-//     variant: type,
-//     anchorOrigin: {
-//       vertical: "bottom",
-//       horizontal: "right",
-//     },
-//   });
-// }
-
 const MyDialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
@@ -141,7 +130,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
               console.log(result);
 
               let data = {};
-              data["paper_title"] =
+              data["associated_paper_title"] =
                 result["TEI"]["teiHeader"][0]["fileDesc"][0]["titleStmt"][0][
                   "title"
                 ][0]["_"];
@@ -183,7 +172,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
                             .join(".") +
                           ".",
                     lastname: item["persName"][0]["surname"][0],
-                    email: "email" in item ? item["email"][0] : "",
+                    // email: "email" in item ? item["email"][0] : "",
                   };
                   data["corresponding_author"] = corresp_author;
                 }
@@ -286,10 +275,10 @@ class CreateLivePaperLoadPDFData extends React.Component {
             backgroundColor: "#FBEFDD",
           }}
         >
-          {"paper_title" in this.state.dataFromPDF && (
+          {"associated_paper_title" in this.state.dataFromPDF && (
             <div>
               <strong>Title: </strong>
-              {this.state.dataFromPDF["paper_title"]}
+              {this.state.dataFromPDF["associated_paper_title"]}
               <br />
               <br />
             </div>
@@ -354,12 +343,15 @@ class CreateLivePaperLoadPDFData extends React.Component {
             <div>
               <strong>Corresponding Author: </strong>
               <br />
-              {this.state.dataFromPDF["corresponding_author"]["firstname"] +
-                " " +
-                this.state.dataFromPDF["corresponding_author"]["lastname"] +
-                " (" +
-                this.state.dataFromPDF["corresponding_author"]["email"] +
-                ")"}
+              {
+                this.state.dataFromPDF["corresponding_author"]["firstname"] +
+                  " " +
+                  this.state.dataFromPDF["corresponding_author"]["lastname"]
+                //  +
+                // " (" +
+                // this.state.dataFromPDF["corresponding_author"]["email"] +
+                // ")"
+              }
               <br />
               <br />
             </div>

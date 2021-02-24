@@ -1,6 +1,6 @@
 {
     "lp_tool_version": "0.2",
-    "created_date": "2021-02-09T15:44:36.658Z",
+    "modified_date": "2021-02-09T15:44:36.658Z",
     "authors": [
         {
             "firstname": "Rosanna",
@@ -16,25 +16,23 @@
     "corresponding_author": {
         "firstname": "Rosanna",
         "lastname": "Migliore",
-        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
-        "email": "rosanna.migliore@cnr.it"
+        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
     },
     "created_author": [
         {
             "firstname": "Luca L.",
             "lastname": "Bologna",
-            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
-            "email": "lucaleonardo.bologna@cnr.it"
+            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
         }
     ],
     "approved_author": {
         "firstname": "Luca L.",
         "lastname": "Bologna",
-        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy",
-        "email": "lucaleonardo.bologna@cnr.it"
+        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
     },
     "year": "2018-01-01",
-    "paper_title": "Testing 8: The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow",
+    "live_paper_title": "A_1",
+    "associated_paper_title": "Testing 8: The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow",
     "journal": "PLOS Computational Biology",
     "url": "https://doi.org/10.1371/journal.pcbi.1006423",
     "citation": "Migliore R, Lupascu CA, Bologna LL, Romani A, Courcol J-D, Antonel S, et al. (2018) The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow. PLoS Comput Biol 14(9): e1006423.",
@@ -111,11 +109,3 @@
         }
     ]
 }
-// Response
-// {
-//   "id": "0ac59b6f-0302-4c7d-8d42-b317b83acd59",
-//   "detail_path": "/livepapers/0ac59b6f-0302-4c7d-8d42-b317b83acd59",
-//   "created_date": "2021-02-09T15:44:36.658000+00:00",
-//   "title": "Testing 8: The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow",
-//   "collab_id": "shailesh-testing"
-// }
