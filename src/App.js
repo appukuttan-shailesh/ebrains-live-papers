@@ -7,6 +7,8 @@ import LoadKGProjects from "./LoadKGProjects";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
 import { baseUrl } from "./globals";
+import { compareArrayoOfObjectsByOrder } from "./utils";
+import { replaceNullWithEmptyStrings } from "./utils";
 
 class App extends React.Component {
   signal = axios.CancelToken.source();
@@ -109,7 +111,25 @@ class App extends React.Component {
   }
 
   handleLoadProjectKGClose(data) {
-      console.log(data);
+    // replace null values with empty strings
+    // avoids errors, e.g. `value` prop on `textarea` should not be null
+    data = replaceNullWithEmptyStrings(data);
+
+    // sort resource sections by order #
+    data.resources.sort(compareArrayoOfObjectsByOrder);
+
+    // KG requires 'dataFormatted' value for SectionCustom in 'description' field
+    // doing reverse mapping here
+    data.resources.forEach(function (res, index) {
+      // creating extra copy here to handle problem with shallow copy of nested object
+      let temp_res = JSON.parse(JSON.stringify(res));
+      if (res.type === "section_custom") {
+        res.dataFormatted = temp_res.description;
+        delete res.description;
+      }
+    });
+
+    console.log(data);
     if (data) {
       this.setState({
         loadProjectKGOpen: false,
@@ -133,6 +153,10 @@ class App extends React.Component {
         data = JSON.parse(reader.result);
         let remove_keys = ["lp_tool_version", "modified_date"];
         remove_keys.forEach((k) => delete data[k]);
+
+        // sort resource sections by order #
+        data.resources.sort(compareArrayoOfObjectsByOrder);
+
         // console.log(data);
         scope.setState({
           projectData: data,

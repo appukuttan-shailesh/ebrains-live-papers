@@ -140,6 +140,7 @@ class CreateLivePaper extends React.Component {
           "$<year>-$<month>-$<day>"
         ),
       associated_paper_title: "",
+      live_paper_title: "",
       paper_published: true,
       journal: "",
       url: "",
@@ -178,41 +179,13 @@ class CreateLivePaper extends React.Component {
     this.addDerivedData = this.addDerivedData.bind(this);
     this.getCollabList = this.getCollabList.bind(this);
     this.setCollabID = this.setCollabID.bind(this);
+    this.setLivePaperTitle = this.setLivePaperTitle.bind(this);
     this.verifyDataBeforeSubmit = this.verifyDataBeforeSubmit.bind(this);
     this.checkPersonInStateAuthors = this.checkPersonInStateAuthors.bind(this);
-    this.adjustForKGSchema = this.adjustForKGSchema.bind(this);
   }
 
   componentDidMount() {
     this.getCollabList();
-  }
-
-  adjustForKGSchema(data) {
-    let payload = JSON.parse(JSON.stringify(data)); // copy by value
-
-    // KG requires 'dataFormatted' value for SectionCustom in 'description' field
-    payload.resources.forEach(function (res, index) {
-      // creating extra copy here to handle problem with shallow copy of nested object
-      let temp_res = JSON.parse(JSON.stringify(res));
-      if (res.type === "section_custom") {
-        res.description = temp_res.dataFormatted;
-        res.dataFormatted = [];
-      }
-    });
-
-    // KG requires all 'url' field in resource sections to have a valid URL
-    payload.resources.forEach(function (res, index) {
-      if (res.type !== "section_custom") {
-        res.dataFormatted.forEach(function (res_item, index) {
-          if (res_item.url === "") {
-            res_item.url = "http://www.ToBeFilled.com";
-          }
-        });
-      }
-    });
-
-    console.log(payload);
-    return payload;
   }
 
   checkPersonInStateAuthors(person) {
@@ -689,8 +662,16 @@ class CreateLivePaper extends React.Component {
   }
 
   setCollabID(value) {
+    console.log(value);
     this.setState({
       collab_id: value,
+    });
+  }
+
+  setLivePaperTitle(value) {
+    console.log(value);
+    this.setState({
+      live_paper_title: value,
     });
   }
 
@@ -704,15 +685,15 @@ class CreateLivePaper extends React.Component {
     if (this.state.saveOpen) {
       saveModal = (
         <SaveModal
-          data={this.adjustForKGSchema({
+          data={{
             lp_tool_version: lp_tool_version,
             modified_date: new Date(),
             ...this.removeExcessData(this.state),
-          })}
+          }}
           open={this.state.saveOpen}
           onClose={this.handleSaveClose}
           setCollabID={this.setCollabID}
-          collab_id={this.state.collab_id}
+          setLivePaperTitle={this.setLivePaperTitle}
           collab_list={this.state.collab_list}
         />
       );
