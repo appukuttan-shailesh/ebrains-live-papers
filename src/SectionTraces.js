@@ -332,113 +332,130 @@ export default class SectionTraces extends React.Component {
             borderStyle: "solid",
             borderColor: "#194D1B",
             borderWidth: "2px",
-            backgroundColor: "#C8E6C9",
-            borderRadius: "20px",
+            backgroundColor: "#70BF73",
+            // borderRadius: "20px",
             fontWeight: "bold",
             color: "#000000",
           }}
         >
           Section: Recordings / Traces
         </div>
-        <br />
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <div style={{ width: "50px" }}>
-            <MaterialIconSelector
-              size="35px"
-              icon={this.state.icon}
-              setIcon={this.setIcon}
-            />
-          </div>
-          <div style={{ paddingLeft: "20px", flexGrow: 1 }}>
-            <TextField
-              label="Section Title"
-              variant="outlined"
-              fullWidth={true}
-              name="title"
-              value={this.state.title}
-              onChange={this.handleFieldChange}
-              InputProps={{
-                style: {
-                  padding: "5px 15px",
-                },
-              }}
-            />
-          </div>
+        <div
+          style={{
+            backgroundColor: "#E2F2E3",
+            marginBottom: "25px",
+          }}
+        >
           <div
             style={{
-              width: "50px",
-              paddingLeft: "20px",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              justifyContent: "center",
-              alignItems: "center",
+              marginLeft: "10px",
+              marginRight: "10px",
             }}
           >
-            <Tooltip title="Click for info on input format">
-              <HelpIcon
-                style={{ width: 30, height: 30 }}
-                onClick={this.clickHelp}
+            <br />
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <div style={{ width: "50px" }}>
+                <MaterialIconSelector
+                  size="35px"
+                  icon={this.state.icon}
+                  setIcon={this.setIcon}
+                />
+              </div>
+              <div style={{ paddingLeft: "20px", flexGrow: 1 }}>
+                <TextField
+                  label="Section Title"
+                  variant="outlined"
+                  fullWidth={true}
+                  name="title"
+                  value={this.state.title}
+                  onChange={this.handleFieldChange}
+                  InputProps={{
+                    style: {
+                      padding: "5px 15px",
+                      backgroundColor: "#FFFFFF",
+                    },
+                  }}
+                />
+              </div>
+              <div
+                style={{
+                  width: "50px",
+                  paddingLeft: "20px",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Tooltip title="Click for info on input format">
+                  <HelpIcon
+                    style={{ width: 30, height: 30 }}
+                    onClick={this.clickHelp}
+                  />
+                </Tooltip>
+              </div>
+            </div>
+            <br />
+
+            <Grid item xs={12}>
+              <TextField
+                multiline
+                rows="2"
+                label="Description of electrophysiological traces (optional)"
+                variant="outlined"
+                fullWidth={true}
+                helperText="The description may be formatted with Markdown"
+                name="description"
+                value={this.state.description}
+                onChange={this.handleFieldChange}
+                InputProps={{
+                  style: {
+                    padding: "15px 15px",
+                    backgroundColor: "#FFFFFF",
+                  },
+                }}
               />
-            </Tooltip>
+            </Grid>
+
+            <br />
+
+            <Grid item xs={12}>
+              <TextField
+                multiline
+                rows="8"
+                label="Input all electrophysiological traces (with labels optionally)"
+                variant="outlined"
+                fullWidth={true}
+                helperText={
+                  this.state.dataOk
+                    ? "Click on ? icon for info on input format."
+                    : "Data not in expected format! Click on '?' for more info."
+                }
+                name="data"
+                value={this.state.data}
+                onChange={this.handleFieldChange}
+                onBlur={this.handleDataInputOnBlur}
+                error={!this.state.dataOk}
+                InputProps={{
+                  style: {
+                    padding: "15px 15px",
+                    backgroundColor: "#FFFFFF",
+                  },
+                }}
+              />
+            </Grid>
+            <br />
+            <br />
+            {this.state.showHelp ? (
+              <ModalDialog
+                title="Electrophysiological Traces Input"
+                open={this.state.showHelp}
+                handleClose={this.handleHelpClose}
+                content={<HelpContentTraces />}
+              />
+            ) : null}
           </div>
         </div>
-        <br />
-
-        <Grid item xs={12}>
-          <TextField
-            multiline
-            rows="2"
-            label="Description of electrophysiological traces (optional)"
-            variant="outlined"
-            fullWidth={true}
-            helperText="The description may be formatted with Markdown"
-            name="description"
-            value={this.state.description}
-            onChange={this.handleFieldChange}
-            InputProps={{
-              style: {
-                padding: "15px 15px",
-              },
-            }}
-          />
-        </Grid>
-
-        <br />
-
-        <Grid item xs={12}>
-          <TextField
-            multiline
-            rows="8"
-            label="Input all electrophysiological traces (with labels optionally)"
-            variant="outlined"
-            fullWidth={true}
-            helperText={
-              this.state.dataOk
-                ? "Click on ? icon for info on input format."
-                : "Data not in expected format! Click on '?' for more info."
-            }
-            name="data"
-            value={this.state.data}
-            onChange={this.handleFieldChange}
-            onBlur={this.handleDataInputOnBlur}
-            error={!this.state.dataOk}
-            InputProps={{
-              style: {
-                padding: "15px 15px",
-              },
-            }}
-          />
-        </Grid>
-        <br />
-        <br />
-        {this.state.showHelp ? (
-          <ModalDialog
-            title="Electrophysiological Traces Input"
-            open={this.state.showHelp}
-            handleClose={this.handleHelpClose}
-            content={<HelpContentTraces />}
-          />
-        ) : null}
       </div>
     );
   }

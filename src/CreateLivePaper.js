@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
 import TimelineIcon from "@material-ui/icons/Timeline";
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import LocalPlayIcon from "@material-ui/icons/LocalPlay";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CloseIcon from "@material-ui/icons/Close";
@@ -26,6 +27,7 @@ import SingleSelect from "./SingleSelect";
 import SectionMorphology from "./SectionMorphology";
 import SectionTraces from "./SectionTraces";
 import SectionModels from "./SectionModels";
+import SectionGeneric from "./SectionGeneric";
 import SectionCustom from "./SectionCustom";
 import SwitchTwoWay from "./SwitchTwoWay";
 
@@ -1253,9 +1255,6 @@ class CreateLivePaper extends React.Component {
                 </Grid>
               </div>
 
-              <br />
-              <br />
-
               {Object.keys(this.state.resources).length > 0
                 ? Object.values(this.state.resources).map((item, index) => {
                     // console.log(item);
@@ -1265,6 +1264,7 @@ class CreateLivePaper extends React.Component {
                           key={index}
                           storeSectionInfo={this.storeSectionInfo}
                           data={item}
+                          numResources={Object.keys(this.state.resources).length}
                         />
                       );
                     } else if (item["type"] === "section_traces") {
@@ -1273,6 +1273,7 @@ class CreateLivePaper extends React.Component {
                           key={index}
                           storeSectionInfo={this.storeSectionInfo}
                           data={item}
+                          numResources={Object.keys(this.state.resources).length}
                         />
                       );
                     } else if (item["type"] === "section_models") {
@@ -1281,6 +1282,16 @@ class CreateLivePaper extends React.Component {
                           key={index}
                           storeSectionInfo={this.storeSectionInfo}
                           data={item}
+                          numResources={Object.keys(this.state.resources).length}
+                        />
+                      );
+                    } else if (item["type"] === "section_generic") {
+                      return (
+                        <SectionGeneric
+                          key={index}
+                          storeSectionInfo={this.storeSectionInfo}
+                          data={item}
+                          numResources={Object.keys(this.state.resources).length}
                         />
                       );
                     } else if (item["type"] === "section_custom") {
@@ -1289,6 +1300,7 @@ class CreateLivePaper extends React.Component {
                           key={index}
                           storeSectionInfo={this.storeSectionInfo}
                           data={item}
+                          numResources={Object.keys(this.state.resources).length}
                         />
                       );
                     } else {
@@ -1301,8 +1313,8 @@ class CreateLivePaper extends React.Component {
 
             <div
               style={{
-                paddingLeft: "5%",
-                paddingRight: "5%",
+                paddingLeft: "0%",
+                paddingRight: "0%",
               }}
             >
               <div
@@ -1315,10 +1327,10 @@ class CreateLivePaper extends React.Component {
                   paddingTop: "10px",
                   paddingBottom: "10px",
                   borderStyle: "solid",
-                  borderColor: "#607D8B",
+                  borderColor: "#0D47A1",
                   borderWidth: "2px",
                   backgroundColor: "#01579B",
-                  borderRadius: "20px",
+                  //   borderRadius: "20px",
                   fontWeight: "bold",
                   borderBottom: "None",
                   color: "#FFFFFF",
@@ -1336,10 +1348,10 @@ class CreateLivePaper extends React.Component {
                   paddingTop: "20px",
                   paddingBottom: "20px",
                   borderStyle: "solid",
-                  borderColor: "#607D8B",
+                  borderColor: "#0D47A1",
                   borderWidth: "2px",
                   backgroundColor: "#BED3F3",
-                  borderRadius: "20px",
+                  //   borderRadius: "20px",
                 }}
               >
                 <Button
@@ -1357,7 +1369,7 @@ class CreateLivePaper extends React.Component {
                   startIcon={<AcUnitIcon style={{ width: 30, height: 30 }} />}
                   onClick={() => this.handleAddSection("section_morphology")}
                 >
-                  Neuronal <br /> Morphology
+                  Morphology
                 </Button>
                 <br />
                 <br />
@@ -1376,7 +1388,7 @@ class CreateLivePaper extends React.Component {
                   startIcon={<TimelineIcon style={{ width: 30, height: 30 }} />}
                   onClick={() => this.handleAddSection("section_traces")}
                 >
-                  Recordings / Traces
+                  Traces
                 </Button>
                 <br />
                 <br />
@@ -1385,7 +1397,7 @@ class CreateLivePaper extends React.Component {
                   color="secondary"
                   style={{
                     width: "17.5%",
-                    backgroundColor: "#e5b8b3",
+                    backgroundColor: "#E5B8B3",
                     color: "#000000",
                     fontWeight: "bold",
                     border: "solid",
@@ -1397,7 +1409,28 @@ class CreateLivePaper extends React.Component {
                   }
                   onClick={() => this.handleAddSection("section_models")}
                 >
-                  Model Collection
+                  Models
+                </Button>
+                <br />
+                <br />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{
+                    width: "17.5%",
+                    backgroundColor: "#B39DDB",
+                    color: "#000000",
+                    fontWeight: "bold",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  startIcon={
+                    <FormatListBulletedIcon style={{ width: 30, height: 30 }} />
+                  }
+                  onClick={() => this.handleAddSection("section_generic")}
+                >
+                  Generic
                 </Button>
                 <br />
                 <br />
@@ -1420,7 +1453,7 @@ class CreateLivePaper extends React.Component {
                   }
                   onClick={() => this.handleAddSection("section_custom")}
                 >
-                  HTML / Markdown
+                  Custom
                 </Button>
               </div>
             </div>

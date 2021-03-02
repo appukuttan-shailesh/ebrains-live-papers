@@ -15,15 +15,15 @@
                     <tbody>
                         {% for item in data["dataFormatted"] %}
                             <tr>
-                                <td style="width: 60%">
+                                <td>
                                     {{item["label"]}}
                                 </td>
-                                <td>
+                                <td style="width: 175px">
                                     <a href='{{item["url"]}}' class="waves-effect waves-light">
                                         <i class="material-icons left">archive</i>Download
                                     </a>
                                 </td>
-                                <td>
+                                <td style="width: 175px">
                                     <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{item["url"]}}' target=" _blank" class="waves-effect waves-light">
                                         <i class="material-icons left">3d_rotation</i>View
                                     </a>
@@ -81,22 +81,54 @@
                     <tbody>
                         {% for item in data["dataFormatted"] %}
                             <tr>
-                                <td style="width: 60%">
+                                <td>
                                     {{item["label"]}}
                                 </td>
-                                <td>
+                                <td style="width: 175px">
                                     {% if item["url"] %}
                                         <a href='{{item["url"]}}' class="waves-effect waves-light">
                                             <i class="material-icons left">archive</i>Download
                                         </a>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td style="width: 175px">
                                     {% if item["mc_url"] %}
                                         <a href='{{item["mc_url"]}}' target="_blank" class="waves-effect waves-light">
                                             <i class="material-icons left">pageview</i>View
                                         </a>
                                     {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro sectionGeneric(data) %}
+    <li>
+        <div class="collapsible-header amber lighten-5">
+            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+        </div>
+        <div class="collapsible-body ">
+            {% if data["description"] %}
+                <p>{{data["description"]}}</p>
+            {% endif %}
+
+            <div style="margin-left:25px">
+                <table class="striped">
+                    <tbody>
+                        {% for item in data["dataFormatted"] %}
+                            <tr>
+                                <td>
+                                    {{item["label"]}}
+                                </td>
+                                <td style="width: 175px">
+                                    <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                        <i class="material-icons left">archive</i>Download
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -336,6 +368,8 @@
                     {{ sectionTraces(data=data) }}
                 {% elseif data["type"] == "section_models" %}
                     {{ sectionModels(data=data) }}
+                {% elseif data["type"] == "section_generic" %}
+                    {{ sectionGeneric(data=data) }}
                 {% elseif data["type"] == "section_custom" %}
                     {{ sectionCustom(data=data) }}
                 {% else %}

@@ -6,6 +6,16 @@ import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 
+import IconButton from "@material-ui/core/IconButton";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ForwardIcon from "@material-ui/icons/Forward";
+import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
+import UnfoldLessIcon from "@material-ui/icons/UnfoldLess";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import styled from "styled-components";
+
 function HelpContentMorphology() {
   const example_columns = `
     https://www.datasource.com/morphologies/oh140807_A0_idB.asc
@@ -123,6 +133,30 @@ function HelpContentMorphology() {
   );
 }
 
+const Icon = styled((props) => (
+  <div {...props} style={{ color: "#000000" }}>
+    <div className="n">
+      <UnfoldMoreIcon />
+    </div>
+    <div className="y">
+      <UnfoldLessIcon />
+    </div>
+  </div>
+))`
+  & > .y {
+    display: block;
+  }
+  & > .n {
+    display: none;
+  }
+  .Mui-expanded & > .n {
+    display: block;
+  }
+  .Mui-expanded & > .y {
+    display: none;
+  }
+`;
+
 export default class SectionMorphology extends React.Component {
   constructor(props) {
     super(props);
@@ -137,7 +171,7 @@ export default class SectionMorphology extends React.Component {
       dataOk: true,
       dataFormatted: [],
       showHelp: false,
-      ...props.data
+      ...props.data,
     };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -145,10 +179,25 @@ export default class SectionMorphology extends React.Component {
     this.handleHelpClose = this.handleHelpClose.bind(this);
     this.setIcon = this.setIcon.bind(this);
     this.handleDataInputOnBlur = this.handleDataInputOnBlur.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleMoveDown = this.handleMoveDown.bind(this);
+    this.handleMoveUp = this.handleMoveUp.bind(this);
   }
 
   componentDidMount() {
     this.props.storeSectionInfo(this.state);
+  }
+
+  handleDelete(event) {
+    event.stopPropagation();
+  }
+
+  handleMoveDown(event) {
+    event.stopPropagation();
+  }
+
+  handleMoveUp(event) {
+    event.stopPropagation();
   }
 
   handleFieldChange(event) {
@@ -345,126 +394,201 @@ export default class SectionMorphology extends React.Component {
 
   render() {
     return (
-      <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            paddingLeft: "2.5%",
-            paddingRight: "2.5%",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            borderStyle: "solid",
-            borderColor: "#F57C00",
-            borderWidth: "2px",
-            backgroundColor: "#FFE0B2",
-            borderRadius: "20px",
-            fontWeight: "bold",
-            color: "#000000",
-          }}
-        >
-          Section: Neuronal Morphology
-        </div>
-        <br />
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <div style={{ width: "50px" }}>
-            <MaterialIconSelector
-              size="35px"
-              icon={this.state.icon}
-              setIcon={this.setIcon}
-            />
-          </div>
-          <div style={{ paddingLeft: "20px", flexGrow: 1 }}>
-            <TextField
-              label="Section Title"
-              variant="outlined"
-              fullWidth={true}
-              name="title"
-              value={this.state.title}
-              onChange={this.handleFieldChange}
-              InputProps={{
-                style: {
-                  padding: "5px 15px",
-                },
-              }}
-            />
-          </div>
-          <div
+      <div style={{ width: "100%", paddingTop: "25px", paddingBottom: "25px" }}>
+        <Accordion defaultExpanded={true}>
+          <AccordionSummary
+            expandIcon={<Icon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
             style={{
-              width: "50px",
-              paddingLeft: "20px",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              justifyContent: "center",
-              alignItems: "center",
+              display: "flex",
+              justifyContent: "space-between",
+              borderStyle: "solid",
+              borderColor: "#F57C00",
+              borderWidth: "2px",
+              backgroundColor: "#FF9800",
+              fontWeight: "bold",
+              color: "#000000",
+              width: "100%",
             }}
           >
-            <Tooltip title="Click for info on input format">
-              <HelpIcon
-                style={{ width: 30, height: 30 }}
-                onClick={this.clickHelp}
-              />
-            </Tooltip>
-          </div>
-        </div>
-        <br />
-
-        <Grid item xs={12}>
-          <TextField
-            multiline
-            rows="2"
-            label="Description of morphologies (optional)"
-            variant="outlined"
-            fullWidth={true}
-            helperText="The description may be formatted with Markdown"
-            name="description"
-            value={this.state.description}
-            onChange={this.handleFieldChange}
-            InputProps={{
-              style: {
-                padding: "15px 15px",
-              },
-            }}
-          />
-        </Grid>
-
-        <br />
-
-        <Grid item xs={12}>
-          <TextField
-            multiline
-            rows="8"
-            label="Input all morphologies (with labels optionally)"
-            variant="outlined"
-            fullWidth={true}
-            helperText={
-              this.state.dataOk
-                ? "Click on ? icon for info on input format."
-                : "Data not in expected format! Click on '?' for more info."
-            }
-            name="data"
-            value={this.state.data}
-            onChange={this.handleFieldChange}
-            onBlur={this.handleDataInputOnBlur}
-            error={!this.state.dataOk}
-            InputProps={{
-              style: {
-                padding: "15px 15px",
-              },
-            }}
-          />
-        </Grid>
-        <br />
-        <br />
-        {this.state.showHelp ? (
-          <ModalDialog
-            title="Morphology Data Input"
-            open={this.state.showHelp}
-            handleClose={this.handleHelpClose}
-            content={<HelpContentMorphology />}
-          />
-        ) : null}
+            <div
+              name="aa"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "row",
+                width: "100%",
+              }}
+            >
+              <div
+                style={{
+                  fontWeight: "bolder",
+                  color: "#000000",
+                }}
+              >
+                <span style={{ verticalAlign: "middle" }}>
+                  Section: Neuronal Morphology
+                </span>
+              </div>
+              <div>
+                <Tooltip title="Delete this section">
+                  <DeleteForeverIcon
+                    style={{
+                      height: "25px",
+                      width: "25px",
+                      marginRight: "30px",
+                      color: "#000000",
+                    }}
+                    onClick={(event) => this.handleDelete(event)}
+                    onFocus={(event) => event.stopPropagation()}
+                  />
+                </Tooltip>
+                <Tooltip title="Move section down">
+                  <ForwardIcon
+                    style={{
+                      marginRight: "30px",
+                      transform: `rotate(90deg)`,
+                      color:
+                        this.state.order === this.props.numResources - 1
+                          ? "#A1887F"
+                          : "#000000",
+                    }}
+                    onClick={(event) => this.handleMoveDown(event)}
+                    onFocus={(event) => event.stopPropagation()}
+                  />
+                </Tooltip>
+                <Tooltip title="Move section up">
+                  <ForwardIcon
+                    style={{
+                      marginRight: "20px",
+                      transform: `rotate(270deg)`,
+                      color: this.state.order === 0 ? "#A1887F" : "#000000",
+                    }}
+                    onClick={(event) => this.handleMoveUp(event)}
+                    onFocus={(event) => event.stopPropagation()}
+                  />
+                </Tooltip>
+              </div>
+            </div>
+          </AccordionSummary>
+          <AccordionDetails
+            style={{ paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}
+          >
+            <div
+              style={{
+                backgroundColor: "#FFECD1",
+                width: "100%",
+              }}
+            >
+              <div
+                style={{
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                <br />
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div style={{ width: "50px" }}>
+                    <MaterialIconSelector
+                      size="35px"
+                      icon={this.state.icon}
+                      setIcon={this.setIcon}
+                    />
+                  </div>
+                  <div style={{ paddingLeft: "20px", flexGrow: 1 }}>
+                    <TextField
+                      label="Section Title"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="title"
+                      value={this.state.title}
+                      onChange={this.handleFieldChange}
+                      InputProps={{
+                        style: {
+                          padding: "5px 15px",
+                          backgroundColor: "#FFFFFF",
+                        },
+                      }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      width: "50px",
+                      paddingLeft: "20px",
+                      paddingTop: "10px",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Tooltip title="Click for info on input format">
+                      <HelpIcon
+                        style={{ width: 30, height: 30 }}
+                        onClick={this.clickHelp}
+                      />
+                    </Tooltip>
+                  </div>
+                </div>
+                <br />
+                <Grid item xs={12}>
+                  <TextField
+                    multiline
+                    rows="2"
+                    label="Description of morphologies (optional)"
+                    variant="outlined"
+                    fullWidth={true}
+                    helperText="The description may be formatted with Markdown"
+                    name="description"
+                    value={this.state.description}
+                    onChange={this.handleFieldChange}
+                    InputProps={{
+                      style: {
+                        padding: "15px 15px",
+                        backgroundColor: "#FFFFFF",
+                      },
+                    }}
+                  />
+                </Grid>
+                <br />
+                <Grid item xs={12}>
+                  <TextField
+                    multiline
+                    rows="8"
+                    label="Input all morphologies (with labels optionally)"
+                    variant="outlined"
+                    fullWidth={true}
+                    helperText={
+                      this.state.dataOk
+                        ? "Click on ? icon for info on input format."
+                        : "Data not in expected format! Click on '?' for more info."
+                    }
+                    name="data"
+                    value={this.state.data}
+                    onChange={this.handleFieldChange}
+                    onBlur={this.handleDataInputOnBlur}
+                    error={!this.state.dataOk}
+                    InputProps={{
+                      style: {
+                        padding: "15px 15px",
+                        backgroundColor: "#FFFFFF",
+                      },
+                    }}
+                  />
+                </Grid>
+                <br />
+                <br />
+                {this.state.showHelp ? (
+                  <ModalDialog
+                    title="Morphology Data Input"
+                    open={this.state.showHelp}
+                    handleClose={this.handleHelpClose}
+                    content={<HelpContentMorphology />}
+                  />
+                ) : null}
+              </div>
+            </div>
+          </AccordionDetails>
+        </Accordion>
       </div>
     );
   }
