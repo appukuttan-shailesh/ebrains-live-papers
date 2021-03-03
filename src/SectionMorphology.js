@@ -5,8 +5,8 @@ import HelpIcon from "@material-ui/icons/Help";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
+import DialogConfirm from "./DialogConfirm";
 
-import IconButton from "@material-ui/core/IconButton";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -135,11 +135,15 @@ function HelpContentMorphology() {
 
 const Icon = styled((props) => (
   <div {...props} style={{ color: "#000000" }}>
-    <div className="n">
-      <UnfoldMoreIcon />
-    </div>
     <div className="y">
-      <UnfoldLessIcon />
+      <span style={{ verticalAlign: "middle" }}>
+        <UnfoldMoreIcon />
+      </span>
+    </div>
+    <div className="n">
+      <span style={{ verticalAlign: "middle" }}>
+        <UnfoldLessIcon />
+      </span>
     </div>
   </div>
 ))`
@@ -171,6 +175,8 @@ export default class SectionMorphology extends React.Component {
       dataOk: true,
       dataFormatted: [],
       showHelp: false,
+      deleteOpen: false,
+      expanded: true,
       ...props.data,
     };
 
@@ -182,22 +188,43 @@ export default class SectionMorphology extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleMoveDown = this.handleMoveDown.bind(this);
     this.handleMoveUp = this.handleMoveUp.bind(this);
+    this.toggleExpanded = this.toggleExpanded.bind(this);
   }
 
   componentDidMount() {
     this.props.storeSectionInfo(this.state);
+    console.log("Hello_" + this.state.expanded);
+    console.log(this.props.data);
   }
 
-  handleDelete(event) {
-    event.stopPropagation();
+  toggleExpanded() {
+    console.log(this.state.expanded);
+    this.setState(
+      (prevState) => ({
+        expanded: !prevState.expanded,
+      }),
+      () => {
+        this.props.storeSectionInfo(this.state);
+      }
+    );
+  }
+
+  handleDelete(flag) {
+    console.log(flag);
+    this.setState({ deleteOpen: false });
+    if (flag) {
+      this.props.handleDelete(this.state.order);
+    }
   }
 
   handleMoveDown(event) {
     event.stopPropagation();
+    this.props.handleMoveDown(this.state.order);
   }
 
   handleMoveUp(event) {
     event.stopPropagation();
+    this.props.handleMoveUp(this.state.order);
   }
 
   handleFieldChange(event) {
@@ -395,7 +422,10 @@ export default class SectionMorphology extends React.Component {
   render() {
     return (
       <div style={{ width: "100%", paddingTop: "25px", paddingBottom: "25px" }}>
-        <Accordion defaultExpanded={true}>
+        <Accordion
+          expanded={this.state.expanded}
+          onChange={this.toggleExpanded}
+        >
           <AccordionSummary
             expandIcon={<Icon />}
             aria-controls="panel1a-content"
@@ -404,16 +434,16 @@ export default class SectionMorphology extends React.Component {
               display: "flex",
               justifyContent: "space-between",
               borderStyle: "solid",
-              borderColor: "#F57C00",
+              borderColor: "#E65100",
               borderWidth: "2px",
               backgroundColor: "#FF9800",
               fontWeight: "bold",
               color: "#000000",
               width: "100%",
+              paddingRight: "25px",
             }}
           >
             <div
-              name="aa"
               style={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -440,12 +470,17 @@ export default class SectionMorphology extends React.Component {
                       marginRight: "30px",
                       color: "#000000",
                     }}
-                    onClick={(event) => this.handleDelete(event)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      this.setState({ deleteOpen: true });
+                    }}
                     onFocus={(event) => event.stopPropagation()}
                   />
                 </Tooltip>
                 <Tooltip title="Move section down">
                   <ForwardIcon
+                    stroke={"#000000"}
+                    strokeWidth={1}
                     style={{
                       marginRight: "30px",
                       transform: `rotate(90deg)`,
@@ -460,6 +495,8 @@ export default class SectionMorphology extends React.Component {
                 </Tooltip>
                 <Tooltip title="Move section up">
                   <ForwardIcon
+                    stroke={"#000000"}
+                    strokeWidth={1}
                     style={{
                       marginRight: "20px",
                       transform: `rotate(270deg)`,
@@ -586,6 +623,17 @@ export default class SectionMorphology extends React.Component {
                   />
                 ) : null}
               </div>
+              <DialogConfirm
+                open={this.state.deleteOpen}
+                title="Please confirm to delete!"
+                text={
+                  "Do you wish to delete the morphology resource section with title: <b>" +
+                  this.state.title +
+                  "</b>"
+                }
+                handleClose={this.handleDelete}
+                size="xs"
+              />
             </div>
           </AccordionDetails>
         </Accordion>

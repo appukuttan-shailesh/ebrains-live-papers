@@ -5,6 +5,16 @@ import HelpIcon from "@material-ui/icons/Help";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
+import DialogConfirm from "./DialogConfirm";
+
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ForwardIcon from "@material-ui/icons/Forward";
+import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
+import UnfoldLessIcon from "@material-ui/icons/UnfoldLess";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import styled from "styled-components";
 
 function HelpContentTraces() {
   return (
@@ -97,6 +107,34 @@ function HelpContentTraces() {
   );
 }
 
+const Icon = styled((props) => (
+  <div {...props} style={{ color: "#000000" }}>
+    <div className="y">
+      <span style={{ verticalAlign: "middle" }}>
+        <UnfoldMoreIcon />
+      </span>
+    </div>
+    <div className="n">
+      <span style={{ verticalAlign: "middle" }}>
+        <UnfoldLessIcon />
+      </span>
+    </div>
+  </div>
+))`
+  & > .y {
+    display: block;
+  }
+  & > .n {
+    display: none;
+  }
+  .Mui-expanded & > .n {
+    display: block;
+  }
+  .Mui-expanded & > .y {
+    display: none;
+  }
+`;
+
 export default class SectionTraces extends React.Component {
   constructor(props) {
     super(props);
@@ -111,6 +149,8 @@ export default class SectionTraces extends React.Component {
       dataOk: true,
       dataFormatted: [],
       showHelp: false,
+      deleteOpen: false,
+      expanded: true,
       ...props.data,
     };
 
@@ -119,10 +159,44 @@ export default class SectionTraces extends React.Component {
     this.handleHelpClose = this.handleHelpClose.bind(this);
     this.setIcon = this.setIcon.bind(this);
     this.handleDataInputOnBlur = this.handleDataInputOnBlur.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleMoveDown = this.handleMoveDown.bind(this);
+    this.handleMoveUp = this.handleMoveUp.bind(this);
+    this.toggleExpanded = this.toggleExpanded.bind(this);
   }
 
   componentDidMount() {
     this.props.storeSectionInfo(this.state);
+  }
+
+  toggleExpanded() {
+    console.log(this.state.expanded);
+    this.setState(
+      (prevState) => ({
+        expanded: !prevState.expanded,
+      }),
+      () => {
+        this.props.storeSectionInfo(this.state);
+      }
+    );
+  }
+
+  handleDelete(flag) {
+    console.log(flag);
+    this.setState({ deleteOpen: false });
+    if (flag) {
+      this.props.handleDelete(this.state.order);
+    }
+  }
+
+  handleMoveDown(event) {
+    event.stopPropagation();
+    this.props.handleMoveDown(this.state.order);
+  }
+
+  handleMoveUp(event) {
+    event.stopPropagation();
+    this.props.handleMoveUp(this.state.order);
   }
 
   handleFieldChange(event) {
@@ -319,143 +393,226 @@ export default class SectionTraces extends React.Component {
 
   render() {
     return (
-      <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            paddingLeft: "2.5%",
-            paddingRight: "2.5%",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            borderStyle: "solid",
-            borderColor: "#194D1B",
-            borderWidth: "2px",
-            backgroundColor: "#70BF73",
-            // borderRadius: "20px",
-            fontWeight: "bold",
-            color: "#000000",
-          }}
+      <div style={{ width: "100%", paddingTop: "25px", paddingBottom: "25px" }}>
+        <Accordion
+          expanded={this.state.expanded}
+          onChange={this.toggleExpanded}
         >
-          Section: Recordings / Traces
-        </div>
-        <div
-          style={{
-            backgroundColor: "#E2F2E3",
-            marginBottom: "25px",
-          }}
-        >
-          <div
+          <AccordionSummary
+            expandIcon={<Icon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
             style={{
-              marginLeft: "10px",
-              marginRight: "10px",
+              display: "flex",
+              justifyContent: "space-between",
+              borderStyle: "solid",
+              borderColor: "#194D1B",
+              borderWidth: "2px",
+              backgroundColor: "#70BF73",
+              fontWeight: "bold",
+              color: "#000000",
+              width: "100%",
+              paddingRight: "25px",
             }}
           >
-            <br />
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <div style={{ width: "50px" }}>
-                <MaterialIconSelector
-                  size="35px"
-                  icon={this.state.icon}
-                  setIcon={this.setIcon}
-                />
-              </div>
-              <div style={{ paddingLeft: "20px", flexGrow: 1 }}>
-                <TextField
-                  label="Section Title"
-                  variant="outlined"
-                  fullWidth={true}
-                  name="title"
-                  value={this.state.title}
-                  onChange={this.handleFieldChange}
-                  InputProps={{
-                    style: {
-                      padding: "5px 15px",
-                      backgroundColor: "#FFFFFF",
-                    },
-                  }}
-                />
-              </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "row",
+                width: "100%",
+              }}
+            >
               <div
                 style={{
-                  width: "50px",
-                  paddingLeft: "20px",
-                  paddingTop: "10px",
-                  paddingBottom: "10px",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  fontWeight: "bolder",
+                  color: "#000000",
                 }}
               >
-                <Tooltip title="Click for info on input format">
-                  <HelpIcon
-                    style={{ width: 30, height: 30 }}
-                    onClick={this.clickHelp}
+                <span style={{ verticalAlign: "middle" }}>
+                  Section: Recordings / Traces
+                </span>
+              </div>
+              <div>
+                <Tooltip title="Delete this section">
+                  <DeleteForeverIcon
+                    style={{
+                      height: "25px",
+                      width: "25px",
+                      marginRight: "30px",
+                      color: "#000000",
+                    }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      this.setState({ deleteOpen: true });
+                    }}
+                    onFocus={(event) => event.stopPropagation()}
+                  />
+                </Tooltip>
+                <Tooltip title="Move section down">
+                  <ForwardIcon
+                    stroke={"#000000"}
+                    strokeWidth={1}
+                    style={{
+                      marginRight: "30px",
+                      transform: `rotate(90deg)`,
+                      color:
+                        this.state.order === this.props.numResources - 1
+                          ? "#A1887F"
+                          : "#000000",
+                    }}
+                    onClick={(event) => this.handleMoveDown(event)}
+                    onFocus={(event) => event.stopPropagation()}
+                  />
+                </Tooltip>
+                <Tooltip title="Move section up">
+                  <ForwardIcon
+                    stroke={"#000000"}
+                    strokeWidth={1}
+                    style={{
+                      marginRight: "20px",
+                      transform: `rotate(270deg)`,
+                      color: this.state.order === 0 ? "#A1887F" : "#000000",
+                    }}
+                    onClick={(event) => this.handleMoveUp(event)}
+                    onFocus={(event) => event.stopPropagation()}
                   />
                 </Tooltip>
               </div>
             </div>
-            <br />
-
-            <Grid item xs={12}>
-              <TextField
-                multiline
-                rows="2"
-                label="Description of electrophysiological traces (optional)"
-                variant="outlined"
-                fullWidth={true}
-                helperText="The description may be formatted with Markdown"
-                name="description"
-                value={this.state.description}
-                onChange={this.handleFieldChange}
-                InputProps={{
-                  style: {
-                    padding: "15px 15px",
-                    backgroundColor: "#FFFFFF",
-                  },
+          </AccordionSummary>
+          <AccordionDetails
+            style={{ paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}
+          >
+            <div
+              style={{
+                backgroundColor: "#E2F2E3",
+                width: "100%",
+              }}
+            >
+              <div
+                style={{
+                  marginLeft: "10px",
+                  marginRight: "10px",
                 }}
-              />
-            </Grid>
+              >
+                <br />
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div style={{ width: "50px" }}>
+                    <MaterialIconSelector
+                      size="35px"
+                      icon={this.state.icon}
+                      setIcon={this.setIcon}
+                    />
+                  </div>
+                  <div style={{ paddingLeft: "20px", flexGrow: 1 }}>
+                    <TextField
+                      label="Section Title"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="title"
+                      value={this.state.title}
+                      onChange={this.handleFieldChange}
+                      InputProps={{
+                        style: {
+                          padding: "5px 15px",
+                          backgroundColor: "#FFFFFF",
+                        },
+                      }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      width: "50px",
+                      paddingLeft: "20px",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Tooltip title="Click for info on input format">
+                      <HelpIcon
+                        style={{ width: 30, height: 30 }}
+                        onClick={this.clickHelp}
+                      />
+                    </Tooltip>
+                  </div>
+                </div>
+                <br />
 
-            <br />
+                <Grid item xs={12}>
+                  <TextField
+                    multiline
+                    rows="2"
+                    label="Description of electrophysiological traces (optional)"
+                    variant="outlined"
+                    fullWidth={true}
+                    helperText="The description may be formatted with Markdown"
+                    name="description"
+                    value={this.state.description}
+                    onChange={this.handleFieldChange}
+                    InputProps={{
+                      style: {
+                        padding: "15px 15px",
+                        backgroundColor: "#FFFFFF",
+                      },
+                    }}
+                  />
+                </Grid>
 
-            <Grid item xs={12}>
-              <TextField
-                multiline
-                rows="8"
-                label="Input all electrophysiological traces (with labels optionally)"
-                variant="outlined"
-                fullWidth={true}
-                helperText={
-                  this.state.dataOk
-                    ? "Click on ? icon for info on input format."
-                    : "Data not in expected format! Click on '?' for more info."
+                <br />
+
+                <Grid item xs={12}>
+                  <TextField
+                    multiline
+                    rows="8"
+                    label="Input all electrophysiological traces (with labels optionally)"
+                    variant="outlined"
+                    fullWidth={true}
+                    helperText={
+                      this.state.dataOk
+                        ? "Click on ? icon for info on input format."
+                        : "Data not in expected format! Click on '?' for more info."
+                    }
+                    name="data"
+                    value={this.state.data}
+                    onChange={this.handleFieldChange}
+                    onBlur={this.handleDataInputOnBlur}
+                    error={!this.state.dataOk}
+                    InputProps={{
+                      style: {
+                        padding: "15px 15px",
+                        backgroundColor: "#FFFFFF",
+                      },
+                    }}
+                  />
+                </Grid>
+                <br />
+                <br />
+                {this.state.showHelp ? (
+                  <ModalDialog
+                    title="Electrophysiological Traces Input"
+                    open={this.state.showHelp}
+                    handleClose={this.handleHelpClose}
+                    content={<HelpContentTraces />}
+                  />
+                ) : null}
+              </div>
+              <DialogConfirm
+                open={this.state.deleteOpen}
+                title="Please confirm to delete!"
+                text={
+                  "Do you wish to delete the traces resource section with title: <b>" +
+                  this.state.title +
+                  "</b>"
                 }
-                name="data"
-                value={this.state.data}
-                onChange={this.handleFieldChange}
-                onBlur={this.handleDataInputOnBlur}
-                error={!this.state.dataOk}
-                InputProps={{
-                  style: {
-                    padding: "15px 15px",
-                    backgroundColor: "#FFFFFF",
-                  },
-                }}
+                handleClose={this.handleDelete}
+                size="xs"
               />
-            </Grid>
-            <br />
-            <br />
-            {this.state.showHelp ? (
-              <ModalDialog
-                title="Electrophysiological Traces Input"
-                open={this.state.showHelp}
-                handleClose={this.handleHelpClose}
-                content={<HelpContentTraces />}
-              />
-            ) : null}
-          </div>
-        </div>
+            </div>
+          </AccordionDetails>
+        </Accordion>
       </div>
     );
   }

@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
 import TimelineIcon from "@material-ui/icons/Timeline";
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import LocalPlayIcon from "@material-ui/icons/LocalPlay";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CloseIcon from "@material-ui/icons/Close";
@@ -36,7 +36,7 @@ import LivePaper from "./LivePaper.njk";
 import SaveModal from "./SaveModal";
 import SubmitModal from "./SubmitModal";
 import { baseUrl, lp_tool_version } from "./globals";
-import { showNotification } from "./utils";
+import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
 
 axiosRetry(axios, {
   retries: 3,
@@ -156,6 +156,7 @@ class CreateLivePaper extends React.Component {
       resources: [],
       saveOpen: false,
       submitOpen: false,
+      resource_counter: 0,
     };
     this.state = { ...this.state, ...props.data };
 
@@ -184,10 +185,85 @@ class CreateLivePaper extends React.Component {
     this.setLivePaperTitle = this.setLivePaperTitle.bind(this);
     this.verifyDataBeforeSubmit = this.verifyDataBeforeSubmit.bind(this);
     this.checkPersonInStateAuthors = this.checkPersonInStateAuthors.bind(this);
+    this.deleteResourceSection = this.deleteResourceSection.bind(this);
+    this.moveDownResourceSection = this.moveDownResourceSection.bind(this);
+    this.moveUpResourceSection = this.moveUpResourceSection.bind(this);
   }
 
   componentDidMount() {
     this.getCollabList();
+  }
+
+  deleteResourceSection(order) {
+    console.log("Delete resource with order: " + order);
+
+    let temp_resources = this.state.resources;
+
+    // delete specified resource section
+    temp_resources = temp_resources.filter(function (res) {
+      return res.order !== order;
+    });
+
+    // re-order remaining resource sections
+    temp_resources = temp_resources.map(function (res) {
+      if (res.order > order) {
+        res.order = res.order - 1;
+      }
+      return res;
+    });
+
+    this.setState({
+      resources: temp_resources,
+    });
+
+    showNotification(this.props.enqueueSnackbar, "Section deleted!", "info");
+  }
+
+  moveDownResourceSection(order) {
+    console.log("Move down resource with order: " + order);
+    const maxOrder = Object.keys(this.state.resources).length - 1;
+
+    if ((order || order === 0) && order < maxOrder) {
+      let temp_resources = this.state.resources;
+
+      temp_resources = temp_resources.map(function (res) {
+        if (res.order === order) {
+          res.order = order + 1;
+        } else if (res.order === order + 1) {
+          res.order = order;
+        }
+        return res;
+      });
+      // sort resource sections by order #
+      temp_resources.sort(compareArrayoOfObjectsByOrder);
+
+      this.setState({
+        resources: temp_resources,
+      });
+    }
+  }
+
+  moveUpResourceSection(order) {
+    console.log("Move up resource with order: " + order);
+
+    if ((order || order === 0) && order > 0) {
+      let temp_resources = this.state.resources;
+
+      temp_resources = temp_resources.map(function (res) {
+        if (res.order === order) {
+          res.order = order - 1;
+        } else if (res.order === order - 1) {
+          res.order = order;
+        }
+        return res;
+      });
+      // sort resource sections by order #
+      temp_resources.sort(compareArrayoOfObjectsByOrder);
+
+      this.setState({
+        resources: temp_resources,
+      });
+    }
   }
 
   checkPersonInStateAuthors(person) {
@@ -212,12 +288,13 @@ class CreateLivePaper extends React.Component {
       "submitOpen",
       "collab_list",
       "paper_published",
+      "resource_counter",
     ];
     remove_keys.forEach((k) => delete req_data[k]);
 
     // remove from within resources objects
     for (let res of req_data.resources) {
-      let remove_keys = ["dataOk", "showHelp"];
+      let remove_keys = ["dataOk", "showHelp", "deleteOpen"];
       remove_keys.forEach((k) => delete res[k]);
     }
 
@@ -627,6 +704,7 @@ class CreateLivePaper extends React.Component {
         ...prevState.resources,
         { order: prevState.resources.length, type: section_type },
       ],
+      resource_counter: prevState.resource_counter + 1,
     }));
   }
 
@@ -1264,7 +1342,12 @@ class CreateLivePaper extends React.Component {
                           key={index}
                           storeSectionInfo={this.storeSectionInfo}
                           data={item}
-                          numResources={Object.keys(this.state.resources).length}
+                          numResources={
+                            Object.keys(this.state.resources).length
+                          }
+                          handleDelete={this.deleteResourceSection}
+                          handleMoveDown={this.moveDownResourceSection}
+                          handleMoveUp={this.moveUpResourceSection}
                         />
                       );
                     } else if (item["type"] === "section_traces") {
@@ -1273,7 +1356,12 @@ class CreateLivePaper extends React.Component {
                           key={index}
                           storeSectionInfo={this.storeSectionInfo}
                           data={item}
-                          numResources={Object.keys(this.state.resources).length}
+                          numResources={
+                            Object.keys(this.state.resources).length
+                          }
+                          handleDelete={this.deleteResourceSection}
+                          handleMoveDown={this.moveDownResourceSection}
+                          handleMoveUp={this.moveUpResourceSection}
                         />
                       );
                     } else if (item["type"] === "section_models") {
@@ -1282,7 +1370,12 @@ class CreateLivePaper extends React.Component {
                           key={index}
                           storeSectionInfo={this.storeSectionInfo}
                           data={item}
-                          numResources={Object.keys(this.state.resources).length}
+                          numResources={
+                            Object.keys(this.state.resources).length
+                          }
+                          handleDelete={this.deleteResourceSection}
+                          handleMoveDown={this.moveDownResourceSection}
+                          handleMoveUp={this.moveUpResourceSection}
                         />
                       );
                     } else if (item["type"] === "section_generic") {
@@ -1291,7 +1384,12 @@ class CreateLivePaper extends React.Component {
                           key={index}
                           storeSectionInfo={this.storeSectionInfo}
                           data={item}
-                          numResources={Object.keys(this.state.resources).length}
+                          numResources={
+                            Object.keys(this.state.resources).length
+                          }
+                          handleDelete={this.deleteResourceSection}
+                          handleMoveDown={this.moveDownResourceSection}
+                          handleMoveUp={this.moveUpResourceSection}
                         />
                       );
                     } else if (item["type"] === "section_custom") {
@@ -1300,7 +1398,12 @@ class CreateLivePaper extends React.Component {
                           key={index}
                           storeSectionInfo={this.storeSectionInfo}
                           data={item}
-                          numResources={Object.keys(this.state.resources).length}
+                          numResources={
+                            Object.keys(this.state.resources).length
+                          }
+                          handleDelete={this.deleteResourceSection}
+                          handleMoveDown={this.moveDownResourceSection}
+                          handleMoveUp={this.moveUpResourceSection}
                         />
                       );
                     } else {

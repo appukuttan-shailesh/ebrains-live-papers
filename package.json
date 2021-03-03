@@ -18,6 +18,7 @@
     "chonky": "^2.1.0",
     "date-fns": "^2.0.0-beta.5",
     "handlebars": "^4.7.6",
+    "html-react-parser": "^1.2.4",
     "json-to-pretty-yaml": "^1.2.2",
     "keycloak-js": "^12.0.2",
     "markdown-to-jsx": "^7.1.0",

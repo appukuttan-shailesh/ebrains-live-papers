@@ -8,6 +8,7 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
+import parse from "html-react-parser";
 
 const styles = (theme) => ({
   root: {
@@ -53,59 +54,80 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open dialog
-      </Button>
-      <Dialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <DialogTitle
-          id="customized-dialog-title"
-          onClose={handleClose}
-          style={{ backgroundColor: "#ffd180" }}
+export default class DialogConfirm extends React.Component {
+  render() {
+    return (
+      <div>
+        <Dialog
+          onClose={() => this.props.handleClose(false)}
+          aria-labelledby="customized-dialog-title"
+          open={this.props.open}
+          fullWidth={true}
+          maxWidth={this.props.size}
         >
-          Modal title
-        </DialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
+          <DialogTitle
+            id="customized-dialog-title"
+            onClose={() => this.props.handleClose(false)}
+            style={{ backgroundColor: "#ffd180" }}
+          >
+            <span style={{ fontWeight: "bolder", fontSize: 18 }}>
+              {this.props.title}
+            </span>
+          </DialogTitle>
+          <DialogContent dividers>
+            <Typography gutterBottom>{parse(this.props.text)}</Typography>
+          </DialogContent>
+          <DialogActions>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                paddingLeft: "2.5%",
+                paddingRight: "2.5%",
+                paddingTop: "20px",
+                paddingBottom: "20px",
+                width: "100%",
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                style={{
+                  width: "150px",
+                  backgroundColor: "#FF9800",
+                  color: "#000000",
+                  fontWeight: "bold",
+                  border: "solid",
+                  borderColor: "#000000",
+                  borderWidth: "1px",
+                }}
+                onClick={() => this.props.handleClose(false)}
+              >
+                Cancel
+              </Button>
+              <br />
+              <br />
+              <Button
+                variant="contained"
+                color="primary"
+                style={{
+                  width: "150px",
+                  backgroundColor: "#8BC34A",
+                  color: "#000000",
+                  fontWeight: "bold",
+                  border: "solid",
+                  borderColor: "#000000",
+                  borderWidth: "1px",
+                }}
+                onClick={() => this.props.handleClose(true)}
+              >
+                Proceed
+              </Button>
+            </div>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  }
 }
