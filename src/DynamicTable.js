@@ -1,5 +1,10 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import CancelIcon from "@material-ui/icons/Cancel";
+import ForwardIcon from "@material-ui/icons/Forward";
+import Tooltip from "@material-ui/core/Tooltip";
+import arrayMove from "array-move";
 
 export default class DynamicTable extends React.Component {
   constructor(props) {
@@ -30,10 +35,37 @@ export default class DynamicTable extends React.Component {
     this.props.onChangeValue(items);
   }
 
-  handleItemDeleted(i) {
-    var items = this.state.items;
+  handleItemMoveDown(ind) {
+    console.log("Move down item with index: " + ind);
+    const maxInd = this.state.items.length;
 
-    items.splice(i, 1);
+    if (ind < maxInd) {
+      var items = this.state.items;
+      items = arrayMove(items, ind, ind + 1);
+      this.setState({
+        items: items,
+      });
+      this.props.onChangeValue(items);
+    }
+  }
+
+  handleItemMoveUp(ind) {
+    console.log("Move up item with index: " + ind);
+
+    if (ind > 0) {
+      var items = this.state.items;
+      items = arrayMove(items, ind, ind - 1);
+
+      this.setState({
+        items: items,
+      });
+      this.props.onChangeValue(items);
+    }
+  }
+
+  handleItemDeleted(ind) {
+    var items = this.state.items;
+    items.splice(ind, 1);
 
     this.setState({
       items: items,
@@ -43,11 +75,12 @@ export default class DynamicTable extends React.Component {
 
   renderRows() {
     var context = this;
+    var items = this.state.items;
 
     return this.state.items.map(function (item, ind) {
       return (
         <tr key={"item-" + ind}>
-          <td style={{ width: "25%", padding: "5px 20px" }}>
+          <td style={{ width: "25%", padding: "5px 10px" }}>
             <input
               name="firstname"
               type="text"
@@ -55,7 +88,7 @@ export default class DynamicTable extends React.Component {
               onChange={context.handleItemChanged.bind(context, ind)}
             />
           </td>
-          <td style={{ width: "25%", padding: "5px 20px" }}>
+          <td style={{ width: "25%", padding: "5px 10px" }}>
             <input
               name="lastname"
               type="text"
@@ -63,7 +96,7 @@ export default class DynamicTable extends React.Component {
               onChange={context.handleItemChanged.bind(context, ind)}
             />
           </td>
-          <td style={{ padding: "5px 20px" }}>
+          <td style={{ padding: "5px 10px" }}>
             <input
               name="affiliation"
               type="text"
@@ -71,14 +104,60 @@ export default class DynamicTable extends React.Component {
               onChange={context.handleItemChanged.bind(context, ind)}
             />
           </td>
-          <td style={{ padding: "5px 20px" }}>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={context.handleItemDeleted.bind(context, ind)}
-            >
-              Delete
-            </Button>
+          <td style={{ padding: "5px 0px 5px 10 px" }}>
+            <div>
+              <Tooltip title="Move author down">
+                <IconButton
+                  color="primary"
+                  size="small"
+                  aria-label="move author down"
+                  component="span"
+                  style={{ paddingRight: "5px" }}
+                  onClick={context.handleItemMoveDown.bind(context, ind)}
+                >
+                  <ForwardIcon
+                    stroke={"#000000"}
+                    strokeWidth={1}
+                    style={{
+                      transform: `rotate(90deg)`,
+                      color: ind === items.length - 1 ? "#A1887F" : "#000000",
+                    }}
+                    fontSize="small"
+                  />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Move author up">
+                <IconButton
+                  color="primary"
+                  size="small"
+                  aria-label="move author up"
+                  component="span"
+                  style={{ paddingRight: "5px" }}
+                  onClick={context.handleItemMoveUp.bind(context, ind)}
+                >
+                  <ForwardIcon
+                    stroke={"#000000"}
+                    strokeWidth={1}
+                    style={{
+                      transform: `rotate(270deg)`,
+                      color: ind === 0 ? "#A1887F" : "#000000",
+                    }}
+                    fontSize="small"
+                  />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Delete author">
+                <IconButton
+                  color="secondary"
+                  size="small"
+                  aria-label="delete author"
+                  component="span"
+                  onClick={context.handleItemDeleted.bind(context, ind)}
+                >
+                  <CancelIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </div>
           </td>
         </tr>
       );
@@ -92,10 +171,12 @@ export default class DynamicTable extends React.Component {
         <table>
           <thead>
             <tr>
-              <th style={{ padding: "5px 20px" }}>First Name</th>
-              <th style={{ padding: "5px 20px" }}>Last Name</th>
-              <th style={{ padding: "5px 20px" }}>Affiliation</th>
-              <th style={{ padding: "5px 20px" }}>{/* delete button */}</th>
+              <th style={{ padding: "5px 10px" }}>First Name</th>
+              <th style={{ padding: "5px 10px" }}>Last Name</th>
+              <th style={{ padding: "5px 10px" }}>Affiliation</th>
+              <th style={{ padding: "5px 0px 5px 10 px" }}>
+                {/* delete button */}
+              </th>
             </tr>
           </thead>
           <tbody>{this.renderRows()}</tbody>

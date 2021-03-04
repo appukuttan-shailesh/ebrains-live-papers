@@ -359,7 +359,6 @@ export default class SectionCustom extends React.Component {
                       width: "50px",
                       paddingLeft: "20px",
                       paddingTop: "10px",
-                      paddingBottom: "10px",
                       justifyContent: "center",
                       alignItems: "center",
                     }}

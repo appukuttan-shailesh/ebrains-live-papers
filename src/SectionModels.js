@@ -579,7 +579,6 @@ export default class SectionModels extends React.Component {
                       width: "50px",
                       paddingLeft: "20px",
                       paddingTop: "10px",
-                      paddingBottom: "10px",
                       justifyContent: "center",
                       alignItems: "center",
                     }}
@@ -593,7 +592,6 @@ export default class SectionModels extends React.Component {
                   </div>
                 </div>
                 <br />
-
                 <Grid item xs={12}>
                   <TextField
                     multiline
@@ -613,9 +611,7 @@ export default class SectionModels extends React.Component {
                     }}
                   />
                 </Grid>
-
                 <br />
-
                 <Grid item xs={12}>
                   <TextField
                     multiline

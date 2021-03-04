@@ -193,8 +193,6 @@ export default class SectionMorphology extends React.Component {
 
   componentDidMount() {
     this.props.storeSectionInfo(this.state);
-    console.log("Hello_" + this.state.expanded);
-    console.log(this.props.data);
   }
 
   toggleExpanded() {
@@ -308,7 +306,7 @@ export default class SectionMorphology extends React.Component {
       }
 
       if (Array.isArray(data_json) && data_json.every(checkIfArrayUrlLabel)) {
-        //   data is a list of lists with both url and label
+        // data is a list of lists with both url and label
         console.log("Input: JSON - list of lists - URL, label");
         let data_formatted = [];
         data_json.forEach(function (item) {
@@ -330,7 +328,7 @@ export default class SectionMorphology extends React.Component {
         Array.isArray(data_json) &&
         data_json.every(checkIfArrayOnlyUrl)
       ) {
-        //   data is a list of lists with only url
+        // data is a list of lists with only url
         console.log("Input: JSON - list of lists - only URL");
         let data_formatted = [];
         data_json.forEach(function (item) {
