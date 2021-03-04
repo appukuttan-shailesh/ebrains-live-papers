@@ -256,20 +256,8 @@
             <p>
                 <strong style="font-weight:bolder">Created by:
                 </strong>
-                {% if created_author[0].firstname %}
-                    {{ created_author[0].firstname + " " + created_author[0].lastname }}
-                    {% if created_author[0].affiliation %}
-                        (
-                        <em>{{ created_author[0].affiliation }}</em>
-                        )
-                    {% endif %}
-                    {# {% if created_author[0].email %}
-                        (
-                        <em>
-                            <a href="mailto:{{created_author[0].email}}" ">{{ created_author[0].email }}</a>
-                        </em>
-                        )
-                    {% endif %} #}
+                {% if created_authors_string %}
+                    {{ created_authors_string | safe  }}
                 {% else %}
                     To be filled...
                 {% endif %}

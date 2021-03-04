@@ -133,7 +133,7 @@ class CreateLivePaper extends React.Component {
     this.state = {
       authors: [{ firstname: "", lastname: "", affiliation: "" }],
       corresponding_author: { firstname: "", lastname: "", affiliation: "" }, // "email" removed
-      created_author: [{ firstname: "", lastname: "", affiliation: "" }], // "email" removed; currently only one creating author permitted
+      created_author: [{ firstname: "", lastname: "", affiliation: "" }], // "email" removed
       approved_author: { firstname: "", lastname: "", affiliation: "" }, // "email" removed
       year: new Date()
         .toISOString()
@@ -173,8 +173,10 @@ class CreateLivePaper extends React.Component {
     this.handlePublishedChange = this.handlePublishedChange.bind(this);
     this.handleYearChange = this.handleYearChange.bind(this);
     this.handleAuthorsChange = this.handleAuthorsChange.bind(this);
+    this.handleCreatedAuthorChange = this.handleCreatedAuthorChange.bind(this);
     this.makePageTitleString = this.makePageTitleString.bind(this);
     this.makeAuthorsString = this.makeAuthorsString.bind(this);
+    this.makeCreatedAuthorsString = this.makeCreatedAuthorsString.bind(this);
     this.makeAffiliationsString = this.makeAffiliationsString.bind(this);
     this.handleAddSection = this.handleAddSection.bind(this);
     this.storeSectionInfo = this.storeSectionInfo.bind(this);
@@ -304,6 +306,7 @@ class CreateLivePaper extends React.Component {
   addDerivedData(data) {
     data["page_title"] = this.makePageTitleString();
     data["authors_string"] = this.makeAuthorsString();
+    data["created_authors_string"] = this.makeCreatedAuthorsString();
     data["affiliations_string"] = this.makeAffiliationsString();
     return data;
   }
@@ -337,6 +340,7 @@ class CreateLivePaper extends React.Component {
 
   handleDownload() {
     this.makeAuthorsString();
+    this.makeCreatedAuthorsString();
     this.makeAffiliationsString();
 
     function render(data) {
@@ -632,6 +636,23 @@ class CreateLivePaper extends React.Component {
     });
   }
 
+  handleCreatedAuthorChange(data) {
+    // remove all entries where firstname and lastname both are empty
+    function isNotEmpty(item) {
+      if (item.firstname.trim() !== "" || item.lastname.trim() !== "") {
+        return true;
+      } else return false;
+    }
+    var created_author_data = data.filter(isNotEmpty);
+
+    if (created_author_data.length === 0) {
+      created_author_data = [{ firstname: "", lastname: "", affiliation: "" }];
+    }
+    this.setState({
+      created_author: created_author_data,
+    });
+  }
+
   makePageTitleString() {
     const year = new Date(this.state.year).getFullYear();
     const author_data = this.state.authors;
@@ -676,6 +697,30 @@ class CreateLivePaper extends React.Component {
       }
     });
     return authors_string;
+  }
+
+  makeCreatedAuthorsString() {
+    var created_authors_string = "";
+    this.state.created_author.forEach(function (created_author, index) {
+      if (created_authors_string !== "") {
+        created_authors_string = created_authors_string + ", ";
+      }
+      if (
+        created_author.firstname.trim() !== "" ||
+        created_author.lastname.trim() !== ""
+      ) {
+        created_authors_string =
+          created_authors_string +
+          created_author.firstname +
+          " " +
+          created_author.lastname;
+        if (created_author.affiliation) {
+          created_authors_string +=
+            " (" + created_author.affiliation.italics() + ")";
+        }
+      }
+    });
+    return created_authors_string;
   }
 
   makeAffiliationsString() {
@@ -1040,51 +1085,60 @@ class CreateLivePaper extends React.Component {
                 this.state.created_author[0]
               ) && (
                 <div>
-                  <TextField
-                    label="Creating Author First Name"
-                    variant="outlined"
-                    fullWidth={true}
-                    name="created_author_other_firstname"
-                    value={this.state.created_author[0].firstname}
-                    onChange={this.handleFieldChange}
-                    InputProps={{
-                      style: {
-                        padding: "5px 15px",
-                      },
-                    }}
-                    style={{ width: "45%", marginRight: "2.5%" }}
-                  />
-                  <TextField
-                    label="Creating Author Last Name"
-                    variant="outlined"
-                    fullWidth={true}
-                    name="created_author_other_lastname"
-                    value={this.state.created_author[0].lastname}
-                    onChange={this.handleFieldChange}
-                    InputProps={{
-                      style: {
-                        padding: "5px 15px",
-                      },
-                    }}
-                    style={{ width: "45%" }}
-                  />
-                  <br />
-                  <br />
-                  <TextField
-                    label="Creating Author Affiliation"
-                    variant="outlined"
-                    fullWidth={true}
-                    name="created_author_other_affiliation"
-                    value={this.state.created_author[0].affiliation}
-                    onChange={this.handleFieldChange}
-                    InputProps={{
-                      style: {
-                        padding: "5px 15px",
-                      },
-                    }}
-                    style={{ width: "92.5%" }}
+                  <DynamicTable
+                    value={this.state.created_author}
+                    onChangeValue={this.handleCreatedAuthorChange}
                   />
                 </div>
+
+                // // ------------------------------------
+                // <div>
+                //   <TextField
+                //     label="Creating Author First Name"
+                //     variant="outlined"
+                //     fullWidth={true}
+                //     name="created_author_other_firstname"
+                //     value={this.state.created_author[0].firstname}
+                //     onChange={this.handleFieldChange}
+                //     InputProps={{
+                //       style: {
+                //         padding: "5px 15px",
+                //       },
+                //     }}
+                //     style={{ width: "45%", marginRight: "2.5%" }}
+                //   />
+                //   <TextField
+                //     label="Creating Author Last Name"
+                //     variant="outlined"
+                //     fullWidth={true}
+                //     name="created_author_other_lastname"
+                //     value={this.state.created_author[0].lastname}
+                //     onChange={this.handleFieldChange}
+                //     InputProps={{
+                //       style: {
+                //         padding: "5px 15px",
+                //       },
+                //     }}
+                //     style={{ width: "45%" }}
+                //   />
+                //   <br />
+                //   <br />
+                //   <TextField
+                //     label="Creating Author Affiliation"
+                //     variant="outlined"
+                //     fullWidth={true}
+                //     name="created_author_other_affiliation"
+                //     value={this.state.created_author[0].affiliation}
+                //     onChange={this.handleFieldChange}
+                //     InputProps={{
+                //       style: {
+                //         padding: "5px 15px",
+                //       },
+                //     }}
+                //     style={{ width: "92.5%" }}
+                //   />
+                // </div>
+                // // -------------------------------------
               )}
               {/* <br />
               <div>

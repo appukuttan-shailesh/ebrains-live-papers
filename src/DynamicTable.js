@@ -106,11 +106,11 @@ export default class DynamicTable extends React.Component {
           </td>
           <td style={{ padding: "5px 0px 5px 10 px" }}>
             <div>
-              <Tooltip title="Move author down">
+              <Tooltip title="Move down">
                 <IconButton
                   color="primary"
                   size="small"
-                  aria-label="move author down"
+                  aria-label="move down"
                   component="span"
                   style={{ paddingRight: "5px" }}
                   onClick={context.handleItemMoveDown.bind(context, ind)}
@@ -126,11 +126,11 @@ export default class DynamicTable extends React.Component {
                   />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Move author up">
+              <Tooltip title="Move up">
                 <IconButton
                   color="primary"
                   size="small"
-                  aria-label="move author up"
+                  aria-label="move up"
                   component="span"
                   style={{ paddingRight: "5px" }}
                   onClick={context.handleItemMoveUp.bind(context, ind)}
@@ -146,11 +146,11 @@ export default class DynamicTable extends React.Component {
                   />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Delete author">
+              <Tooltip title="Delete">
                 <IconButton
                   color="secondary"
                   size="small"
-                  aria-label="delete author"
+                  aria-label="delete"
                   component="span"
                   onClick={context.handleItemDeleted.bind(context, ind)}
                 >
@@ -181,14 +181,16 @@ export default class DynamicTable extends React.Component {
           </thead>
           <tbody>{this.renderRows()}</tbody>
         </table>
-
+        <div style={{width:"100%", display:"flex", justifyContent:"flex-end", paddingTop:"10px"}}>
         <Button
           variant="contained"
           color="primary"
           onClick={this.handleAdd.bind(this)}
+          style={{width:"85px"}}
         >
-          Add Author
+          Add
         </Button>
+        </div>
         <hr />
       </div>
     );
