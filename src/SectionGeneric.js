@@ -452,6 +452,7 @@ export default class SectionGeneric extends React.Component {
               <div
                 style={{
                   fontWeight: "bolder",
+                  fontSize: 16,
                   color: "#000000",
                 }}
               >

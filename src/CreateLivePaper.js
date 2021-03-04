@@ -22,7 +22,7 @@ import axios from "axios";
 import axiosRetry from "axios-retry";
 
 import ContextMain from "./ContextMain";
-import DynamicTable from "./DynamicTable";
+import DynamicTablePerson from "./DynamicTablePerson";
 import SingleSelect from "./SingleSelect";
 import SectionMorphology from "./SectionMorphology";
 import SectionTraces from "./SectionTraces";
@@ -846,7 +846,7 @@ class CreateLivePaper extends React.Component {
       >
         <MyDialogTitle onClose={this.handleClose} />
         <DialogContent>
-          <div className="container" style={{ textAlign: "left" }}>
+          <div className="mycontainer" style={{ textAlign: "left" }}>
             <div className="box rounded centered">
               <a
                 href="../../index.html"
@@ -994,7 +994,7 @@ class CreateLivePaper extends React.Component {
                 <br />
               </div>
               <div>
-                <DynamicTable
+                <DynamicTablePerson
                   value={this.state.authors}
                   onChangeValue={this.handleAuthorsChange}
                 />
@@ -1085,7 +1085,7 @@ class CreateLivePaper extends React.Component {
                 this.state.created_author[0]
               ) && (
                 <div>
-                  <DynamicTable
+                  <DynamicTablePerson
                     value={this.state.created_author}
                     onChangeValue={this.handleCreatedAuthorChange}
                   />

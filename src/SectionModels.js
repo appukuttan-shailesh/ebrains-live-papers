@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
+import DynamicTableItems from "./DynamicTableItems";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -210,10 +211,40 @@ export default class SectionModels extends React.Component {
     this.handleMoveDown = this.handleMoveDown.bind(this);
     this.handleMoveUp = this.handleMoveUp.bind(this);
     this.toggleExpanded = this.toggleExpanded.bind(this);
+    this.handleItemsChange = this.handleItemsChange.bind(this);
   }
 
   componentDidMount() {
     this.props.storeSectionInfo(this.state);
+  }
+
+  handleItemsChange(data) {
+    // remove all entries where label, url and mc_url are all empty
+    function isNotEmpty(item) {
+      if (
+        item.label.trim() !== "" ||
+        item.url.trim() !== "" ||
+        item.mc_url.trim() !== ""
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    var items_data = data.filter(isNotEmpty);
+    console.log(items_data);
+    if (items_data.length === 0) {
+      items_data = [{ label: "", url: "", mc_url: "" }];
+    }
+
+    this.setState(
+      {
+        dataFormatted: items_data,
+      },
+      () => {
+        this.props.storeSectionInfo(this.state);
+      }
+    );
   }
 
   toggleExpanded() {
@@ -479,6 +510,7 @@ export default class SectionModels extends React.Component {
               <div
                 style={{
                   fontWeight: "bolder",
+                  fontSize: 16,
                   color: "#000000",
                 }}
               >
@@ -637,6 +669,11 @@ export default class SectionModels extends React.Component {
                     }}
                   />
                 </Grid>
+                <br />
+                <DynamicTableItems
+                  value={this.state.dataFormatted}
+                  onChangeValue={this.handleItemsChange}
+                />
                 <br />
                 <br />
                 {this.state.showHelp ? (

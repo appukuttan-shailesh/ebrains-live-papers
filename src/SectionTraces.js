@@ -426,6 +426,7 @@ export default class SectionTraces extends React.Component {
               <div
                 style={{
                   fontWeight: "bolder",
+                  fontSize: 16,
                   color: "#000000",
                 }}
               >

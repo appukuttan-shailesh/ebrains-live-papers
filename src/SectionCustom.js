@@ -259,6 +259,7 @@ export default class SectionCustom extends React.Component {
               <div
                 style={{
                   fontWeight: "bolder",
+                  fontSize: 16,
                   color: "#000000",
                 }}
               >

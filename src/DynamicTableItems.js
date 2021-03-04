@@ -6,7 +6,7 @@ import ForwardIcon from "@material-ui/icons/Forward";
 import Tooltip from "@material-ui/core/Tooltip";
 import arrayMove from "array-move";
 
-export default class DynamicTable extends React.Component {
+export default class DynamicTableItems extends React.Component {
   constructor(props) {
     super(props);
 
@@ -17,7 +17,7 @@ export default class DynamicTable extends React.Component {
 
   handleAdd() {
     var items = this.state.items;
-    items.push({ firstname: "", lastname: "", affiliation: "" });
+    items.push({ label: "", url: "", mc_url: "" });
 
     this.setState({
       items: items,
@@ -80,31 +80,37 @@ export default class DynamicTable extends React.Component {
     return this.state.items.map(function (item, ind) {
       return (
         <tr key={"item-" + ind}>
-          <td style={{ width: "25%", padding: "5px 10px" }}>
-            <input
-              name="firstname"
-              type="text"
-              value={item["firstname"]}
-              onChange={context.handleItemChanged.bind(context, ind)}
-            />
-          </td>
-          <td style={{ width: "25%", padding: "5px 10px" }}>
-            <input
-              name="lastname"
-              type="text"
-              value={item["lastname"]}
-              onChange={context.handleItemChanged.bind(context, ind)}
-            />
-          </td>
           <td style={{ padding: "5px 10px" }}>
-            <input
-              name="affiliation"
-              type="text"
-              value={item["affiliation"]}
-              onChange={context.handleItemChanged.bind(context, ind)}
-            />
+            <Tooltip title={item["label"]}>
+              <input
+                name="label"
+                type="text"
+                value={item["label"]}
+                onChange={context.handleItemChanged.bind(context, ind)}
+              />
+            </Tooltip>
           </td>
-          <td style={{ padding: "5px 0px 5px 10 px" }}>
+          <td style={{ width: "32.5%", padding: "5px 10px" }}>
+            <Tooltip title={item["url"]}>
+              <input
+                name="download_url"
+                type="text"
+                value={item["url"]}
+                onChange={context.handleItemChanged.bind(context, ind)}
+              />
+            </Tooltip>
+          </td>
+          <td style={{ width: "32.5%", padding: "5px 10px" }}>
+            <Tooltip title={item["mc_url"]}>
+              <input
+                name="model_catalog_url"
+                type="text"
+                value={item["mc_url"]}
+                onChange={context.handleItemChanged.bind(context, ind)}
+              />
+            </Tooltip>
+          </td>
+          <td style={{ width: "100px", padding: "5px 0px 5px 10 px" }}>
             <div>
               <Tooltip title="Move down">
                 <IconButton
@@ -171,9 +177,9 @@ export default class DynamicTable extends React.Component {
         <table>
           <thead>
             <tr>
-              <th style={{ padding: "5px 10px" }}>First Name</th>
-              <th style={{ padding: "5px 10px" }}>Last Name</th>
-              <th style={{ padding: "5px 10px" }}>Affiliation</th>
+              <th style={{ padding: "5px 10px" }}>Label</th>
+              <th style={{ padding: "5px 10px" }}>Download URL</th>
+              <th style={{ padding: "5px 10px" }}>Model Catalog URL</th>
               <th style={{ padding: "5px 0px 5px 10 px" }}>
                 {/* delete button */}
               </th>
@@ -181,15 +187,22 @@ export default class DynamicTable extends React.Component {
           </thead>
           <tbody>{this.renderRows()}</tbody>
         </table>
-        <div style={{width:"100%", display:"flex", justifyContent:"flex-end", paddingTop:"10px"}}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.handleAdd.bind(this)}
-          style={{width:"85px"}}
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+            paddingTop: "10px",
+          }}
         >
-          Add
-        </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleAdd.bind(this)}
+            style={{ width: "110px" }}
+          >
+            Add
+          </Button>
         </div>
         <hr />
       </div>
