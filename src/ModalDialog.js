@@ -33,7 +33,7 @@ const DialogTitle = withStyles(styles)((props) => {
           className={classes.closeButton}
           onClick={onClose}
         >
-          <CloseIcon />
+          <CloseIcon style={{color:"#000000"}} />
         </IconButton>
       ) : null}
     </MuiDialogTitle>
@@ -66,7 +66,7 @@ export default class ModalDialog extends React.Component {
         <DialogTitle
           id="customized-dialog-title"
           onClose={this.props.handleClose}
-          style={{ backgroundColor: "#ffd180" }}
+          style={{ backgroundColor: this.props.headerBgColor || "#ffd180" }}
         >
           <b>{this.props.title}</b>
         </DialogTitle>

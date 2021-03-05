@@ -410,7 +410,7 @@ export default class SectionCustom extends React.Component {
               <DialogConfirm
                 open={this.state.deleteOpen}
                 title="Please confirm to delete!"
-                text={
+                content={
                   "Do you wish to delete the custom resource section with title: <b>" +
                   this.state.title +
                   "</b>"

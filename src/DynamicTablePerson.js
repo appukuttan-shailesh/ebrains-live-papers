@@ -5,46 +5,28 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import ForwardIcon from "@material-ui/icons/Forward";
 import Tooltip from "@material-ui/core/Tooltip";
 import arrayMove from "array-move";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 export default class DynamicTablePerson extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      items: this.props.value,
-    };
-  }
-
   handleAdd() {
-    var items = this.state.items;
+    var items = this.props.items;
     items.push({ firstname: "", lastname: "", affiliation: "" });
-
-    this.setState({
-      items: items,
-    });
     this.props.onChangeValue(items);
   }
 
   handleItemChanged(i, event) {
-    var items = this.state.items;
+    var items = this.props.items;
     items[i][event.target.name] = event.target.value;
-
-    this.setState({
-      items: items,
-    });
     this.props.onChangeValue(items);
   }
 
   handleItemMoveDown(ind) {
     console.log("Move down item with index: " + ind);
-    const maxInd = this.state.items.length;
+    const maxInd = this.props.items.length;
 
     if (ind < maxInd) {
-      var items = this.state.items;
+      var items = this.props.items;
       items = arrayMove(items, ind, ind + 1);
-      this.setState({
-        items: items,
-      });
       this.props.onChangeValue(items);
     }
   }
@@ -53,31 +35,23 @@ export default class DynamicTablePerson extends React.Component {
     console.log("Move up item with index: " + ind);
 
     if (ind > 0) {
-      var items = this.state.items;
+      var items = this.props.items;
       items = arrayMove(items, ind, ind - 1);
-
-      this.setState({
-        items: items,
-      });
       this.props.onChangeValue(items);
     }
   }
 
   handleItemDeleted(ind) {
-    var items = this.state.items;
+    var items = this.props.items;
     items.splice(ind, 1);
-
-    this.setState({
-      items: items,
-    });
     this.props.onChangeValue(items);
   }
 
   renderRows() {
     var context = this;
-    var items = this.state.items;
+    var items = this.props.items;
 
-    return this.state.items.map(function (item, ind) {
+    return this.props.items.map(function (item, ind) {
       return (
         <tr key={"item-" + ind}>
           <td style={{ width: "25%", padding: "5px 10px" }}>
@@ -165,7 +139,7 @@ export default class DynamicTablePerson extends React.Component {
   }
 
   render() {
-    // console.log(this.state.items);
+    // console.log(this.props.items);
     return (
       <div>
         <table>
@@ -187,6 +161,7 @@ export default class DynamicTablePerson extends React.Component {
           color="primary"
           onClick={this.handleAdd.bind(this)}
           style={{width:"110px"}}
+          startIcon={<AddCircleOutlineIcon />}
         >
           Add
         </Button>

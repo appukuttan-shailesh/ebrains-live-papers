@@ -156,7 +156,6 @@ class CreateLivePaper extends React.Component {
       resources: [],
       saveOpen: false,
       submitOpen: false,
-      resource_counter: 0,
     };
     this.state = { ...this.state, ...props.data };
 
@@ -290,7 +289,6 @@ class CreateLivePaper extends React.Component {
       "submitOpen",
       "collab_list",
       "paper_published",
-      "resource_counter",
     ];
     remove_keys.forEach((k) => delete req_data[k]);
 
@@ -749,7 +747,6 @@ class CreateLivePaper extends React.Component {
         ...prevState.resources,
         { order: prevState.resources.length, type: section_type },
       ],
-      resource_counter: prevState.resource_counter + 1,
     }));
   }
 
@@ -995,7 +992,7 @@ class CreateLivePaper extends React.Component {
               </div>
               <div>
                 <DynamicTablePerson
-                  value={this.state.authors}
+                  items={this.state.authors}
                   onChangeValue={this.handleAuthorsChange}
                 />
               </div>
@@ -1086,7 +1083,7 @@ class CreateLivePaper extends React.Component {
               ) && (
                 <div>
                   <DynamicTablePerson
-                    value={this.state.created_author}
+                    items={this.state.created_author}
                     onChangeValue={this.handleCreatedAuthorChange}
                   />
                 </div>
@@ -1470,8 +1467,8 @@ class CreateLivePaper extends React.Component {
 
             <div
               style={{
-                paddingLeft: "0%",
-                paddingRight: "0%",
+                paddingLeft: "10%",
+                paddingRight: "10%",
               }}
             >
               <div

@@ -34,7 +34,7 @@ const DialogTitle = withStyles(styles)((props) => {
           className={classes.closeButton}
           onClick={onClose}
         >
-          <CloseIcon />
+          <CloseIcon style={{ color: "#000000" }} />
         </IconButton>
       ) : null}
     </MuiDialogTitle>
@@ -63,19 +63,25 @@ export default class DialogConfirm extends React.Component {
           aria-labelledby="customized-dialog-title"
           open={this.props.open}
           fullWidth={true}
-          maxWidth={this.props.size}
+          maxWidth={this.props.size || "md"}
+          disableBackdropClick={true}
+          disableEscapeKeyDown={true}
         >
           <DialogTitle
             id="customized-dialog-title"
             onClose={() => this.props.handleClose(false)}
-            style={{ backgroundColor: "#ffd180" }}
+            style={{ backgroundColor: this.props.headerBgColor || "#ffd180" }}
           >
             <span style={{ fontWeight: "bolder", fontSize: 18 }}>
               {this.props.title}
             </span>
           </DialogTitle>
           <DialogContent dividers>
-            <Typography gutterBottom>{parse(this.props.text)}</Typography>
+            {typeof this.props.content === "string" ? (
+              <Typography gutterBottom>{parse(this.props.content)}</Typography>
+            ) : (
+              this.props.content
+            )}
           </DialogContent>
           <DialogActions>
             <div
@@ -108,6 +114,29 @@ export default class DialogConfirm extends React.Component {
               </Button>
               <br />
               <br />
+              {this.props.clickHelp && (
+                <>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{
+                      width: "150px",
+                      backgroundColor: "#01579B",
+                      color: "#FFFFFF",
+                      fontWeight: "bold",
+                      border: "solid",
+                      borderColor: "#000000",
+                      borderWidth: "1px",
+                    }}
+                    onClick={this.props.clickHelp}
+                  >
+                    Help
+                  </Button>
+                  <br />
+                  <br />
+                </>
+              )}
+
               <Button
                 variant="contained"
                 color="primary"

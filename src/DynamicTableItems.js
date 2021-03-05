@@ -5,46 +5,30 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import ForwardIcon from "@material-ui/icons/Forward";
 import Tooltip from "@material-ui/core/Tooltip";
 import arrayMove from "array-move";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import StorageIcon from "@material-ui/icons/Storage";
+import EditIcon from "@material-ui/icons/Edit";
 
 export default class DynamicTableItems extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      items: this.props.value,
-    };
-  }
-
   handleAdd() {
-    var items = this.state.items;
+    var items = this.props.items;
     items.push({ label: "", url: "", mc_url: "" });
-
-    this.setState({
-      items: items,
-    });
     this.props.onChangeValue(items);
   }
 
   handleItemChanged(i, event) {
-    var items = this.state.items;
+    var items = this.props.items;
     items[i][event.target.name] = event.target.value;
-
-    this.setState({
-      items: items,
-    });
     this.props.onChangeValue(items);
   }
 
   handleItemMoveDown(ind) {
     console.log("Move down item with index: " + ind);
-    const maxInd = this.state.items.length;
+    const maxInd = this.props.items.length;
 
     if (ind < maxInd) {
-      var items = this.state.items;
+      var items = this.props.items;
       items = arrayMove(items, ind, ind + 1);
-      this.setState({
-        items: items,
-      });
       this.props.onChangeValue(items);
     }
   }
@@ -53,65 +37,63 @@ export default class DynamicTableItems extends React.Component {
     console.log("Move up item with index: " + ind);
 
     if (ind > 0) {
-      var items = this.state.items;
+      var items = this.props.items;
       items = arrayMove(items, ind, ind - 1);
-
-      this.setState({
-        items: items,
-      });
       this.props.onChangeValue(items);
     }
   }
 
   handleItemDeleted(ind) {
-    var items = this.state.items;
+    var items = this.props.items;
     items.splice(ind, 1);
-
-    this.setState({
-      items: items,
-    });
     this.props.onChangeValue(items);
   }
 
   renderRows() {
     var context = this;
-    var items = this.state.items;
+    var items = this.props.items;
 
-    return this.state.items.map(function (item, ind) {
+    return this.props.items.map(function (item, ind) {
       return (
         <tr key={"item-" + ind}>
-          <td style={{ padding: "5px 10px" }}>
-            <Tooltip title={item["label"]}>
-              <input
-                name="label"
-                type="text"
-                value={item["label"]}
-                onChange={context.handleItemChanged.bind(context, ind)}
-              />
-            </Tooltip>
+          <td style={{ padding: "5px 10px 5px 0px" }}>
+            <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
+              <Tooltip title={item["label"]}>
+                <input
+                  name="label"
+                  type="text"
+                  value={item["label"]}
+                  onChange={context.handleItemChanged.bind(context, ind)}
+                />
+              </Tooltip>
+            </div>
           </td>
-          <td style={{ width: "32.5%", padding: "5px 10px" }}>
-            <Tooltip title={item["url"]}>
-              <input
-                name="download_url"
-                type="text"
-                value={item["url"]}
-                onChange={context.handleItemChanged.bind(context, ind)}
-              />
-            </Tooltip>
+          <td style={{ width: "32.5%", padding: "5px 10px 5px 0px" }}>
+            <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
+              <Tooltip title={item["url"]}>
+                <input
+                  name="url"
+                  type="text"
+                  value={item["url"]}
+                  onChange={context.handleItemChanged.bind(context, ind)}
+                />
+              </Tooltip>
+            </div>
           </td>
-          <td style={{ width: "32.5%", padding: "5px 10px" }}>
-            <Tooltip title={item["mc_url"]}>
-              <input
-                name="model_catalog_url"
-                type="text"
-                value={item["mc_url"]}
-                onChange={context.handleItemChanged.bind(context, ind)}
-              />
-            </Tooltip>
+          <td style={{ width: "32.5%", padding: "5px 10px 5px 0px" }}>
+            <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
+              <Tooltip title={item["mc_url"]}>
+                <input
+                  name="mc_url"
+                  type="text"
+                  value={item["mc_url"]}
+                  onChange={context.handleItemChanged.bind(context, ind)}
+                />
+              </Tooltip>
+            </div>
           </td>
           <td style={{ width: "100px", padding: "5px 0px 5px 10 px" }}>
-            <div>
+            <div style={{ textAlign: "center" }}>
               <Tooltip title="Move down">
                 <IconButton
                   color="primary"
@@ -171,7 +153,7 @@ export default class DynamicTableItems extends React.Component {
   }
 
   render() {
-    // console.log(this.state.items);
+    // console.log(this.props.items);
     return (
       <div>
         <table>
@@ -192,19 +174,45 @@ export default class DynamicTableItems extends React.Component {
             width: "100%",
             display: "flex",
             justifyContent: "flex-end",
-            paddingTop: "10px",
+            paddingTop: "20px",
           }}
         >
           <Button
             variant="contained"
             color="primary"
-            onClick={this.handleAdd.bind(this)}
-            style={{ width: "110px" }}
+            onClick={this.props.handleEdit}
+            style={{
+              width: "160px",
+              marginRight: "25px",
+              backgroundColor: "#B71C1C",
+            }}
+            startIcon={<EditIcon />}
           >
-            Add
+            Edit Source
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            // onClick={}
+            style={{
+              width: "160px",
+              marginRight: "25px",
+              backgroundColor: "#388E3C",
+            }}
+            startIcon={<StorageIcon />}
+          >
+            Add From KG
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleAdd.bind(this)}
+            style={{ width: "160px" }}
+            startIcon={<AddCircleOutlineIcon />}
+          >
+            Add Row
           </Button>
         </div>
-        <hr />
       </div>
     );
   }

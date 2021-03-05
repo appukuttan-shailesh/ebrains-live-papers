@@ -625,7 +625,7 @@ export default class SectionGeneric extends React.Component {
               <DialogConfirm
                 open={this.state.deleteOpen}
                 title="Please confirm to delete!"
-                text={
+                content={
                   "Do you wish to delete the generic resource section with title: <b>" +
                   this.state.title +
                   "</b>"
