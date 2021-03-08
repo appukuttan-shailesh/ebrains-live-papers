@@ -49,7 +49,7 @@ export default class DynamicTableItems extends React.Component {
     this.props.onChangeValue(items);
   }
 
-  renderRows() {
+  renderRows(numCols) {
     var context = this;
     var items = this.props.items;
 
@@ -68,7 +68,12 @@ export default class DynamicTableItems extends React.Component {
               </Tooltip>
             </div>
           </td>
-          <td style={{ width: "32.5%", padding: "5px 10px 5px 0px" }}>
+          <td
+            style={{
+              width: numCols > 2 ? "32.5%" : "65%",
+              padding: "5px 10px 5px 0px",
+            }}
+          >
             <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
               <Tooltip title={item["url"]}>
                 <input
@@ -80,18 +85,20 @@ export default class DynamicTableItems extends React.Component {
               </Tooltip>
             </div>
           </td>
-          <td style={{ width: "32.5%", padding: "5px 10px 5px 0px" }}>
-            <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
-              <Tooltip title={item["mc_url"]}>
-                <input
-                  name="mc_url"
-                  type="text"
-                  value={item["mc_url"]}
-                  onChange={context.handleItemChanged.bind(context, ind)}
-                />
-              </Tooltip>
-            </div>
-          </td>
+          {numCols > 2 && (
+            <td style={{ width: "32.5%", padding: "5px 10px 5px 0px" }}>
+              <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
+                <Tooltip title={item["mc_url"]}>
+                  <input
+                    name="mc_url"
+                    type="text"
+                    value={item["mc_url"]}
+                    onChange={context.handleItemChanged.bind(context, ind)}
+                  />
+                </Tooltip>
+              </div>
+            </td>
+          )}
           <td style={{ width: "100px", padding: "5px 0px 5px 10 px" }}>
             <div style={{ textAlign: "center" }}>
               <Tooltip title="Move down">
@@ -161,13 +168,15 @@ export default class DynamicTableItems extends React.Component {
             <tr>
               <th style={{ padding: "5px 10px" }}>Label</th>
               <th style={{ padding: "5px 10px" }}>Download URL</th>
-              <th style={{ padding: "5px 10px" }}>Model Catalog URL</th>
+              {this.props.numCols > 2 && (
+                <th style={{ padding: "5px 10px" }}>Model Catalog URL</th>
+              )}
               <th style={{ padding: "5px 0px 5px 10 px" }}>
                 {/* delete button */}
               </th>
             </tr>
           </thead>
-          <tbody>{this.renderRows()}</tbody>
+          <tbody>{this.renderRows(this.props.numCols)}</tbody>
         </table>
         <div
           style={{

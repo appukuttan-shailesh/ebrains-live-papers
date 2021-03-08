@@ -617,14 +617,14 @@ class CreateLivePaper extends React.Component {
     });
   }
 
-  handleAuthorsChange(data) {
+  handleAuthorsChange(author_data) {
     // remove all entries where firstname and lastname both are empty
-    function isNotEmpty(item) {
-      if (item.firstname.trim() !== "" || item.lastname.trim() !== "") {
-        return true;
-      } else return false;
-    }
-    var author_data = data.filter(isNotEmpty);
+    // function isNotEmpty(item) {
+    //   if (item.firstname.trim() !== "" || item.lastname.trim() !== "") {
+    //     return true;
+    //   } else return false;
+    // }
+    // var author_data = data.filter(isNotEmpty);
 
     if (author_data.length === 0) {
       author_data = [{ firstname: "", lastname: "", affiliation: "" }];
@@ -634,14 +634,14 @@ class CreateLivePaper extends React.Component {
     });
   }
 
-  handleCreatedAuthorChange(data) {
+  handleCreatedAuthorChange(created_author_data) {
     // remove all entries where firstname and lastname both are empty
-    function isNotEmpty(item) {
-      if (item.firstname.trim() !== "" || item.lastname.trim() !== "") {
-        return true;
-      } else return false;
-    }
-    var created_author_data = data.filter(isNotEmpty);
+    // function isNotEmpty(item) {
+    //   if (item.firstname.trim() !== "" || item.lastname.trim() !== "") {
+    //     return true;
+    //   } else return false;
+    // }
+    // var created_author_data = data.filter(isNotEmpty);
 
     if (created_author_data.length === 0) {
       created_author_data = [{ firstname: "", lastname: "", affiliation: "" }];
@@ -681,10 +681,10 @@ class CreateLivePaper extends React.Component {
   makeAuthorsString() {
     var authors_string = "";
     this.state.authors.forEach(function (author, index) {
-      if (authors_string !== "") {
-        authors_string = authors_string + ", ";
-      }
       if (author.firstname.trim() !== "" || author.lastname.trim() !== "") {
+        if (authors_string !== "") {
+          authors_string = authors_string + ", ";
+        }
         authors_string =
           authors_string +
           author.firstname +
@@ -700,13 +700,13 @@ class CreateLivePaper extends React.Component {
   makeCreatedAuthorsString() {
     var created_authors_string = "";
     this.state.created_author.forEach(function (created_author, index) {
-      if (created_authors_string !== "") {
-        created_authors_string = created_authors_string + ", ";
-      }
       if (
         created_author.firstname.trim() !== "" ||
         created_author.lastname.trim() !== ""
       ) {
+        if (created_authors_string !== "") {
+          created_authors_string = created_authors_string + ", ";
+        }
         created_authors_string =
           created_authors_string +
           created_author.firstname +

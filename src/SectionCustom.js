@@ -400,8 +400,9 @@ export default class SectionCustom extends React.Component {
                 <br />
                 {this.state.showHelp ? (
                   <ModalDialog
-                    title="Custom Input"
                     open={this.state.showHelp}
+                    title="Custom Input"
+                    headerBgColor="#ABABAB"
                     handleClose={this.handleHelpClose}
                     content={<HelpContentCustom />}
                   />
@@ -410,6 +411,7 @@ export default class SectionCustom extends React.Component {
               <DialogConfirm
                 open={this.state.deleteOpen}
                 title="Please confirm to delete!"
+                headerBgColor="#ABABAB"
                 content={
                   "Do you wish to delete the custom resource section with title: <b>" +
                   this.state.title +

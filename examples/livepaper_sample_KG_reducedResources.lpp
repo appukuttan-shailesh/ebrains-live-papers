@@ -44,6 +44,64 @@
     "resources": [
         {
             "order": 0,
+            "type": "section_morphology",
+            "title": "Morphologies",
+            "icon": "settings_input_antenna",
+            "description": "Morphology files (in .asc format) used in the paper for each etype (see Table S5 of the Supplementary Material):",
+            "dataFormatted": [
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/010710HP2.asc",
+                    "label": "010710HP2"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011017HP2.asc",
+                    "label": "011017HP2"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011023HP2.asc",
+                    "label": "011023HP2"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011127HP1.asc",
+                    "label": "011127HP1"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/031031AM1.asc",
+                    "label": "031031AM1"
+                }
+            ]
+        },
+        {
+            "order": 1,
+            "type": "section_traces",
+            "title": "Electrophysiological Traces",
+            "icon": "timeline",
+            "description": "",
+            "dataFormatted": [
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/Ivy_960711AHP3/96711008.abf",
+                    "label": "abf-int-bAC/Ivy_960711AHP3/96711008.abf"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111000.abf",
+                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111000.abf"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111001.abf",
+                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111001.abf"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111002.abf",
+                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111002.abf"
+                },
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911000.abf",
+                    "label": "abf-int-bAC/SP_AA_970911C/97911000.abf"
+                }
+            ]
+        },
+        {
+            "order": 2,
             "type": "section_models",
             "title": "Optimizations",
             "icon": "local_play",
@@ -73,31 +131,35 @@
                     "url": "",
                     "label": "CA1_int_bAC_060314AM2_20180120154128",
                     "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6c698fa5-6ba4-4ac0-a38e-62cd7d4439ca"
+                }
+            ]
+        },
+        {
+            "order": 3,
+            "type": "section_generic",
+            "title": "Generic Listing",
+            "icon": "format_list_bulleted",
+            "description": "List of some files:",
+            "dataFormatted": [
+                {
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/010710HP2.asc",
+                    "label": "010710HP2"
                 },
                 {
-                    "url": "",
-                    "label": "CA1_int_bAC_971114B_20180117154233",
-                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.7e73cf32-36e7-47bc-a507-5a86283b1de4"
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011017HP2.asc",
+                    "label": "011017HP2"
                 },
                 {
-                    "url": "",
-                    "label": "CA1_int_bAC_980120A_20180119154402",
-                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.a00d2a6c-6b3c-4dad-aec8-9754130835d2"
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011023HP2.asc",
+                    "label": "011023HP2"
                 },
                 {
-                    "url": "",
-                    "label": "CA1_int_cAC_010710HP2_20180118155959",
-                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.73d7800c-bd69-43fd-995b-b93ef691b9ee"
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011127HP1.asc",
+                    "label": "011127HP1"
                 },
                 {
-                    "url": "",
-                    "label": "CA1_int_cAC_011017HP2_20180121160005",
-                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.270b8c12-4c5a-4d58-8ce6-26be1a106ceb"
-                },
-                {
-                    "url": "",
-                    "label": "CA1_int_cAC_970627BHP1_20180120160112",
-                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.0e01eecd-34d9-4d51-b852-9727608f74b6"
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/031031AM1.asc",
+                    "label": "031031AM1"
                 }
             ]
         }

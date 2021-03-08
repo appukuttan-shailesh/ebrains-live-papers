@@ -1,11 +1,11 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import MaterialIconSelector from "./MaterialIconSelector";
-import HelpIcon from "@material-ui/icons/Help";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
+import DynamicTableItems from "./DynamicTableItems";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -16,60 +16,34 @@ import UnfoldLessIcon from "@material-ui/icons/UnfoldLess";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import styled from "styled-components";
 
-function HelpContentTraces() {
+function HelpContent() {
+  const list_of_dicts = `
+    [
+        {
+          url: "https://www.datasource.com/traces/oh140807_A0_idB.abf",
+          label: "file_A",
+        },
+        {
+          url: "https://www.datasource.com/traces/oh140807_A0_idC.abf",
+          label: "file_B",
+        },
+        {
+          url: "https://www.datasource.com/traces/oh140807_A0_idF.abf",
+          label: "file_C",
+        },
+        {
+          url: "https://www.datasource.com/traces/oh140807_A0_idG.abf",
+          label: "file_D",
+        },
+        {
+          url: "https://www.datasource.com/traces/oh140807_A0_idH.abf",
+          label: "file_E",
+        },
+      ]`;
+
   return (
     <div>
-      The traces data can be input in any one of the following formats:
-      <br />
-      <br />
-      <h6>
-        <b>One URL per line</b>
-      </h6>
-      You should enter a single URL per line. This format will automatically use
-      the file names as labels for each entry.
-      <i>Example:</i>
-      <br />
-      <code>
-        https://www.datasource.com/traces/oh140807_A0_idB.abf
-        https://www.datasource.com/traces/oh140807_A0_idC.abf
-        https://www.datasource.com/traces/oh140807_A0_idF.abf
-        https://www.datasource.com/traces/oh140807_A0_idG.abf
-        https://www.datasource.com/traces/oh140807_A0_idH.abf
-      </code>
-      <br />
-      <br />
-      <h6>
-        <b>List of URLs</b>
-      </h6>
-      This format will automatically use the file names as labels for each
-      entry.
-      <i>Example:</i>
-      <br />
-      <code>
-        [ "https://www.datasource.com/traces/oh140807_A0_idB.abf",
-        "https://www.datasource.com/traces/oh140807_A0_idC.abf",
-        "https://www.datasource.com/traces/oh140807_A0_idF.abf",
-        "https://www.datasource.com/traces/oh140807_A0_idG.abf",
-        "https://www.datasource.com/traces/oh140807_A0_idH.abf", ]
-      </code>
-      <br />
-      <br />
-      <h6>
-        <b>List of sub-lists with two elements</b>
-      </h6>
-      This format allows you to specify the labels for each entry. The first
-      item in sub-list is the URL and the second item is the label.
-      <i>Example:</i>
-      <br />
-      <code>
-        {JSON.stringify([
-          ["https://www.datasource.com/traces/oh140807_A0_idB.abf", "file_A"],
-          ["https://www.datasource.com/traces/oh140807_A0_idC.abf", "file_B"],
-          ["https://www.datasource.com/traces/oh140807_A0_idF.abf", "file_C"],
-          ["https://www.datasource.com/traces/oh140807_A0_idG.abf", "file_D"],
-          ["https://www.datasource.com/traces/oh140807_A0_idH.abf", "file_E"],
-        ])}
-      </code>
+      The traces data can be input in the following format:
       <br />
       <br />
       <h6>
@@ -79,32 +53,162 @@ function HelpContentTraces() {
       the list should have keys named 'url' and 'label'.
       <i>Example:</i>
       <br />
-      <code>
-        {JSON.stringify([
-          {
-            url: "https://www.datasource.com/traces/oh140807_A0_idB.abf",
-            label: "file_A",
-          },
-          {
-            url: "https://www.datasource.com/traces/oh140807_A0_idC.abf",
-            label: "file_B",
-          },
-          {
-            url: "https://www.datasource.com/traces/oh140807_A0_idF.abf",
-            label: "file_C",
-          },
-          {
-            url: "https://www.datasource.com/traces/oh140807_A0_idG.abf",
-            label: "file_D",
-          },
-          {
-            url: "https://www.datasource.com/traces/oh140807_A0_idH.abf",
-            label: "file_E",
-          },
-        ])}
-      </code>
+      <pre>
+        <code>{list_of_dicts}</code>
+      </pre>
     </div>
   );
+}
+
+export class SectionTracesEdit extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showHelp: false,
+      dataOk: true,
+      data: props.data,
+    };
+
+    this.clickHelp = this.clickHelp.bind(this);
+    this.handleHelpClose = this.handleHelpClose.bind(this);
+    this.handleDataInputOnBlur = this.handleDataInputOnBlur.bind(this);
+    this.handleSaveData = this.handleSaveData.bind(this);
+  }
+
+  clickHelp() {
+    this.setState({
+      showHelp: true,
+    });
+  }
+
+  handleHelpClose() {
+    this.setState({
+      showHelp: false,
+    });
+  }
+
+  handleDataInputOnBlur(event) {
+    // check data input format
+    function IsJsonString(str) {
+      try {
+        var json = JSON.parse(str);
+        return typeof json === "object";
+      } catch (e) {
+        return false;
+      }
+    }
+
+    if (IsJsonString(event.target.value)) {
+      console.log("Input: JSON");
+      // input is a JSON
+      var data_json = JSON.parse(event.target.value);
+
+      // check if list of dicts in required format
+      function checkIfObject(item) {
+        return (
+          typeof item === "object" &&
+          item !== null &&
+          "url" in item &&
+          "label" in item &&
+          typeof item["url"] === "string" &&
+          typeof item["label"] === "string"
+        );
+      }
+
+      if (Array.isArray(data_json) && data_json.every(checkIfObject)) {
+        // data is a list of dicts
+        console.log("Input: JSON - list of dicts");
+        this.setState({
+          dataOk: true,
+          data: data_json,
+        });
+      } else {
+        console.log("Input: JSON - invalid format");
+        this.setState({
+          dataOk: false,
+        });
+      }
+    } else {
+      console.log("Data not in proper format!");
+      this.setState({
+        dataOk: false,
+      });
+    }
+  }
+
+  handleSaveData(flag) {
+    if (flag) {
+      console.log(flag);
+      if (this.state.dataOk) {
+        console.log("Saved");
+        this.props.onChangeValue(this.state.data);
+        this.props.handleClose();
+      } else {
+        console.log("Error");
+        console.log("Edited data not in proper format!");
+      }
+    } else {
+      this.props.handleClose();
+    }
+  }
+
+  renderContent() {
+    return (
+      <div>
+        <Grid item xs={12}>
+          <TextField
+            multiline
+            rows="8"
+            label="Edit source code for listing:"
+            variant="outlined"
+            fullWidth={true}
+            helperText={"Click 'Help' for info on input format."}
+            name="data"
+            defaultValue={JSON.stringify(this.state.data, null, 4)}
+            onBlur={this.handleDataInputOnBlur}
+            error={!this.state.dataOk}
+            InputProps={{
+              style: {
+                padding: "15px 15px",
+                backgroundColor: "#FFFFFF",
+              },
+            }}
+          />
+          {!this.state.dataOk && (
+            <div style={{ color: "red", paddingTop: "10px" }}>
+              <strong>
+                Data not in expected format! Click on 'Help' for more info.
+              </strong>
+            </div>
+          )}
+        </Grid>
+        {this.state.showHelp ? (
+          <ModalDialog
+            open={this.state.showHelp}
+            title="Data Input"
+            headerBgColor="#70BF73"
+            content={<HelpContent />}
+            handleClose={this.handleHelpClose}
+          />
+        ) : null}
+      </div>
+    );
+  }
+
+  render() {
+    console.log(this.props);
+    return (
+      <DialogConfirm
+        open={this.props.open}
+        title={"Edit Source: " + this.state.title}
+        headerBgColor="#70BF73"
+        content={this.renderContent()}
+        handleClose={this.handleSaveData}
+        clickHelp={this.clickHelp}
+      />
+    );
+  }
 }
 
 const Icon = styled((props) => (
@@ -145,28 +249,55 @@ export default class SectionTraces extends React.Component {
       title: "Recordings / Traces",
       icon: "timeline",
       description: "",
-      data: "",
       dataOk: true,
       dataFormatted: [],
-      showHelp: false,
+      showEdit: false,
       deleteOpen: false,
       expanded: true,
       ...props.data,
     };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
-    this.clickHelp = this.clickHelp.bind(this);
-    this.handleHelpClose = this.handleHelpClose.bind(this);
+    this.clickEdit = this.clickEdit.bind(this);
+    this.handleEditClose = this.handleEditClose.bind(this);
     this.setIcon = this.setIcon.bind(this);
-    this.handleDataInputOnBlur = this.handleDataInputOnBlur.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleMoveDown = this.handleMoveDown.bind(this);
     this.handleMoveUp = this.handleMoveUp.bind(this);
     this.toggleExpanded = this.toggleExpanded.bind(this);
+    this.handleItemsChange = this.handleItemsChange.bind(this);
   }
 
   componentDidMount() {
     this.props.storeSectionInfo(this.state);
+  }
+
+  handleItemsChange(items_data) {
+    // remove all entries where label and url are all empty
+    // function isNotEmpty(item) {
+    //   if (
+    //     item.label.trim() !== "" ||
+    //     item.url.trim() !== ""
+    //   ) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
+    // var items_data = data.filter(isNotEmpty);
+    console.log(items_data);
+    if (items_data.length === 0) {
+      items_data = [{ label: "", url: "" }];
+    }
+
+    this.setState(
+      {
+        dataFormatted: items_data,
+      },
+      () => {
+        this.props.storeSectionInfo(this.state);
+      }
+    );
   }
 
   toggleExpanded() {
@@ -226,172 +357,20 @@ export default class SectionTraces extends React.Component {
     );
   }
 
-  clickHelp() {
+  clickEdit() {
     this.setState({
-      showHelp: true,
+      showEdit: true,
     });
   }
 
-  handleHelpClose() {
+  handleEditClose() {
     this.setState({
-      showHelp: false,
+      showEdit: false,
     });
-  }
-
-  handleDataInputOnBlur(event) {
-    // check data input format
-    console.log(event.target.value);
-
-    function IsJsonString(str) {
-      try {
-        var json = JSON.parse(str);
-        return typeof json === "object";
-      } catch (e) {
-        return false;
-      }
-    }
-
-    if (IsJsonString(event.target.value)) {
-      console.log("Input: JSON");
-      // input is a JSON
-      var data_json = JSON.parse(event.target.value);
-
-      // check if it is a list of lists, or a list of dicts
-      function checkIfArrayUrlLabel(item) {
-        return (
-          Array.isArray(item) &&
-          item.length === 2 &&
-          typeof item[0] === "string" &&
-          typeof item[1] === "string"
-        );
-      }
-      function checkIfArrayOnlyUrl(item) {
-        return typeof item === "string";
-      }
-      function checkIfObject(item) {
-        return (
-          typeof item === "object" &&
-          item !== null &&
-          "url" in item &&
-          "label" in item &&
-          typeof item["url"] === "string" &&
-          typeof item["label"] === "string"
-        );
-      }
-
-      if (Array.isArray(data_json) && data_json.every(checkIfArrayUrlLabel)) {
-        // data is a list of lists with both url and label
-        console.log("Input: JSON - list of lists - URL, label");
-        let data_formatted = [];
-        data_json.forEach(function (item) {
-          data_formatted.push({
-            url: item[0].trim(),
-            label: item[1].trim(),
-          });
-        });
-        this.setState(
-          {
-            dataFormatted: data_formatted,
-            dataOk: true,
-          },
-          () => {
-            this.props.storeSectionInfo(this.state);
-          }
-        );
-      } else if (
-        Array.isArray(data_json) &&
-        data_json.every(checkIfArrayOnlyUrl)
-      ) {
-        // data is a list of lists with only url
-        console.log("Input: JSON - list of lists - only URL");
-        let data_formatted = [];
-        data_json.forEach(function (item) {
-          console.log(item);
-          data_formatted.push({
-            url: item.trim(),
-            label: item.match(/([^/]+)(?=\.\w+$)/)[0].trim(),
-          });
-        });
-        this.setState(
-          {
-            dataFormatted: data_formatted,
-            dataOk: true,
-          },
-          () => {
-            this.props.storeSectionInfo(this.state);
-          }
-        );
-      } else if (Array.isArray(data_json) && data_json.every(checkIfObject)) {
-        // data is a list of dicts
-        console.log("Input: JSON - list of dicts");
-        this.setState(
-          {
-            dataFormatted: data_json,
-            dataOk: true,
-          },
-          () => {
-            this.props.storeSectionInfo(this.state);
-          }
-        );
-      } else {
-        console.log("Input: JSON - invalid format");
-        this.setState(
-          {
-            dataFormatted: [],
-            dataOk: false,
-          },
-          () => {
-            this.props.storeSectionInfo(this.state);
-          }
-        );
-      }
-    } else {
-      // input is just string
-      // Aim: convert to list of dicts with keys "url" and "label"
-      let data_formatted = [];
-      // break string into lines
-      try {
-        var items = event.target.value.match(/[^\r\n]+/g);
-        if (items) {
-          items.forEach(function (item) {
-            let part_url = item.split(",")[0];
-            let part_label = item.split(",")[1];
-            console.log(part_url, part_label);
-            if (!part_label) {
-              part_label = item.match(/([^/]+)(?=\.\w+$)/)[0];
-            }
-            console.log(part_url, part_label);
-            data_formatted.push({
-              url: part_url.trim(),
-              label: part_label.trim(),
-            });
-          });
-        }
-        this.setState(
-          {
-            dataOk: true,
-            dataFormatted: items ? data_formatted : [],
-          },
-          () => {
-            this.props.storeSectionInfo(this.state);
-          }
-        );
-      } catch (error) {
-        console.error(error);
-        this.setState(
-          {
-            dataFormatted: [],
-            dataOk: false,
-          },
-          () => {
-            this.props.storeSectionInfo(this.state);
-          }
-        );
-      }
-    }
   }
 
   render() {
+    console.log(this.state.dataFormatted);
     return (
       <div style={{ width: "100%", paddingTop: "25px", paddingBottom: "25px" }}>
         <Accordion
@@ -522,22 +501,6 @@ export default class SectionTraces extends React.Component {
                       }}
                     />
                   </div>
-                  <div
-                    style={{
-                      width: "50px",
-                      paddingLeft: "20px",
-                      paddingTop: "10px",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Tooltip title="Click for info on input format">
-                      <HelpIcon
-                        style={{ width: 30, height: 30 }}
-                        onClick={this.clickHelp}
-                      />
-                    </Tooltip>
-                  </div>
                 </div>
                 <br />
                 <Grid item xs={12}>
@@ -560,45 +523,27 @@ export default class SectionTraces extends React.Component {
                   />
                 </Grid>
                 <br />
-                <Grid item xs={12}>
-                  <TextField
-                    multiline
-                    rows="8"
-                    label="Input all electrophysiological traces (with labels optionally)"
-                    variant="outlined"
-                    fullWidth={true}
-                    helperText={
-                      this.state.dataOk
-                        ? "Click on ? icon for info on input format."
-                        : "Data not in expected format! Click on '?' for more info."
-                    }
-                    name="data"
-                    value={this.state.data}
-                    onChange={this.handleFieldChange}
-                    onBlur={this.handleDataInputOnBlur}
-                    error={!this.state.dataOk}
-                    InputProps={{
-                      style: {
-                        padding: "15px 15px",
-                        backgroundColor: "#FFFFFF",
-                      },
-                    }}
-                  />
-                </Grid>
+                <DynamicTableItems
+                  items={this.state.dataFormatted}
+                  onChangeValue={this.handleItemsChange}
+                  handleEdit={this.clickEdit}
+                  numCols={2}
+                />
                 <br />
                 <br />
-                {this.state.showHelp ? (
-                  <ModalDialog
-                    title="Electrophysiological Traces Input"
-                    open={this.state.showHelp}
-                    handleClose={this.handleHelpClose}
-                    content={<HelpContentTraces />}
+                {this.state.showEdit ? (
+                  <SectionTracesEdit
+                    open={this.state.showEdit}
+                    data={this.state.dataFormatted}
+                    onChangeValue={this.handleItemsChange}
+                    handleClose={this.handleEditClose}
                   />
                 ) : null}
               </div>
               <DialogConfirm
                 open={this.state.deleteOpen}
                 title="Please confirm to delete!"
+                headerBgColor="#70BF73"
                 content={
                   "Do you wish to delete the traces resource section with title: <b>" +
                   this.state.title +
@@ -606,6 +551,7 @@ export default class SectionTraces extends React.Component {
                 }
                 handleClose={this.handleDelete}
                 size="xs"
+                onChangeValue={this.handleItemsChange}
               />
             </div>
           </AccordionDetails>

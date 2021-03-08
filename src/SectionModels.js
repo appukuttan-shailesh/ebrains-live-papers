@@ -16,7 +16,7 @@ import UnfoldLessIcon from "@material-ui/icons/UnfoldLess";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import styled from "styled-components";
 
-function HelpContentModels() {
+function HelpContent() {
   const list_of_dicts = `
     [
         {
@@ -198,9 +198,9 @@ export class SectionModelsEdit extends React.Component {
         {this.state.showHelp ? (
           <ModalDialog
             open={this.state.showHelp}
-            title="Model Data Input"
+            title="Data Input"
             headerBgColor="#FF8A65"
-            content={<HelpContentModels />}
+            content={<HelpContent />}
             handleClose={this.handleHelpClose}
           />
         ) : null}
@@ -213,7 +213,7 @@ export class SectionModelsEdit extends React.Component {
     return (
       <DialogConfirm
         open={this.props.open}
-        title={"Edit Source of Model Collection: " + this.state.title}
+        title={"Edit Source: " + this.state.title}
         headerBgColor="#FF8A65"
         content={this.renderContent()}
         handleClose={this.handleSaveData}
@@ -284,20 +284,20 @@ export default class SectionModels extends React.Component {
     this.props.storeSectionInfo(this.state);
   }
 
-  handleItemsChange(data) {
+  handleItemsChange(items_data) {
     // remove all entries where label, url and mc_url are all empty
-    function isNotEmpty(item) {
-      if (
-        item.label.trim() !== "" ||
-        item.url.trim() !== "" ||
-        item.mc_url.trim() !== ""
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    var items_data = data.filter(isNotEmpty);
+    // function isNotEmpty(item) {
+    //   if (
+    //     item.label.trim() !== "" ||
+    //     item.url.trim() !== "" ||
+    //     item.mc_url.trim() !== ""
+    //   ) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
+    // var items_data = data.filter(isNotEmpty);
     console.log(items_data);
     if (items_data.length === 0) {
       items_data = [{ label: "", url: "", mc_url: "" }];
@@ -540,6 +540,7 @@ export default class SectionModels extends React.Component {
                   items={this.state.dataFormatted}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
+                  numCols={3}
                 />
                 <br />
                 <br />
