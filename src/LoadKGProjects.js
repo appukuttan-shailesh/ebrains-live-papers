@@ -9,7 +9,7 @@ import axios from "axios";
 import ContextMain from "./ContextMain";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
-import MaterialTable, { MTableToolbar } from "material-table";
+import MaterialTable, { MTableToolbar } from "@material-table/core";
 import { baseUrl } from "./globals";
 
 // define the columns for the material data table
@@ -169,22 +169,22 @@ export default class LoadKGProjects extends React.Component {
                   headerStyle: {
                     position: "sticky",
                     top: 0,
-                    backgroundColor: "#FFF",
+                    backgroundColor: "#FFFFFF",
                     fontWeight: "bolder",
                     fontSize: 15,
                   },
                   rowStyle: (rowData) => ({
                     backgroundColor:
                       this.state.selectedRow === rowData.tableData.id
-                        ? "#ffd180"
-                        : "#EEE",
+                        ? "#FFD180"
+                        : "#EEEEEE",
                   }),
                 }}
                 components={{
                   Toolbar: (props) => (
                     <div
                       style={{
-                        backgroundColor: "#ffd180",
+                        backgroundColor: "#FFD180",
                         fontWeight: "bolder !important",
                       }}
                     >

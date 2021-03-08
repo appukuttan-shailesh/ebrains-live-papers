@@ -202,7 +202,7 @@ export default class DynamicTableItems extends React.Component {
           <Button
             variant="contained"
             color="primary"
-            // onClick={}
+            onClick={this.props.handleKG}
             style={{
               width: "160px",
               marginRight: "25px",

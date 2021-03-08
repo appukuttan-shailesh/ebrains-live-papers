@@ -6,6 +6,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import DynamicTableItems from "./DynamicTableItems";
+import ModalKGInput from "./ModalKGInput";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -264,6 +265,7 @@ export default class SectionModels extends React.Component {
       dataOk: true,
       dataFormatted: [],
       showEdit: false,
+      showKGInput: false,
       deleteOpen: false,
       expanded: true,
       ...props.data,
@@ -272,6 +274,8 @@ export default class SectionModels extends React.Component {
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.clickEdit = this.clickEdit.bind(this);
     this.handleEditClose = this.handleEditClose.bind(this);
+    this.clickKG = this.clickKG.bind(this);
+    this.handleKGClose = this.handleKGClose.bind(this);
     this.setIcon = this.setIcon.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleMoveDown = this.handleMoveDown.bind(this);
@@ -379,6 +383,18 @@ export default class SectionModels extends React.Component {
   handleEditClose() {
     this.setState({
       showEdit: false,
+    });
+  }
+
+  clickKG() {
+    this.setState({
+      showKGInput: true,
+    });
+  }
+
+  handleKGClose() {
+    this.setState({
+      showKGInput: false,
     });
   }
 
@@ -540,6 +556,7 @@ export default class SectionModels extends React.Component {
                   items={this.state.dataFormatted}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
+                  handleKG={this.clickKG}
                   numCols={3}
                 />
                 <br />
@@ -550,6 +567,12 @@ export default class SectionModels extends React.Component {
                     data={this.state.dataFormatted}
                     onChangeValue={this.handleItemsChange}
                     handleClose={this.handleEditClose}
+                  />
+                ) : null}
+                {this.state.showKGInput ? (
+                  <ModalKGInput
+                    open={this.state.showKGInput}
+                    handleClose={this.handleKGClose}
                   />
                 ) : null}
               </div>
