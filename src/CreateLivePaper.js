@@ -59,7 +59,7 @@ const styles = (theme) => ({
 });
 
 const footerStyle = {
-  backgroundColor: "#ffd180",
+  backgroundColor: "#FFD180",
   fontSize: "20px",
   color: "black",
   border: "1px solid #000000",

@@ -81,3 +81,13 @@ export function formatAuthors(authors) {
         return "";
     }
 }
+
+
+export function formatTimeStampToLongString(ISOtimestamp) {
+    if (ISOtimestamp) {
+        const d = new Date(ISOtimestamp);
+        return d.toUTCString();
+    } else {
+        return "";
+    }
+}
