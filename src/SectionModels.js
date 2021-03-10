@@ -7,6 +7,7 @@ import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import DynamicTableItems from "./DynamicTableItems";
 import ModalKGInput from "./ModalKGInput";
+import { mc_baseUrl } from "./globals";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -304,7 +305,9 @@ export default class SectionModels extends React.Component {
     // var items_data = data.filter(isNotEmpty);
     console.log(items_data);
     if (items_data.length === 0) {
-      items_data = [{ label: "", url: "", mc_url: "" }];
+      items_data = [
+        { type: "URL", label: "", url: "", mc_url: "", identifier: null },
+      ];
     }
 
     this.setState(
@@ -392,10 +395,44 @@ export default class SectionModels extends React.Component {
     });
   }
 
-  handleKGClose() {
-    this.setState({
-      showKGInput: false,
-    });
+  handleKGClose(flag, items) {
+    if (flag) {
+      console.log(items);
+      let new_items = [];
+      for (const model_id in items) {
+        for (const instance_id in items[model_id]) {
+          new_items.push({
+            type: "ModelInstance",
+            url: items[model_id][instance_id]["source_url"] || "",
+            label: items[model_id][instance_id]["label"] || "",
+            mc_url: mc_baseUrl + "/#model_id." + model_id || "",
+            identifier: instance_id,
+          });
+        }
+      }
+      console.log(new_items);
+
+      this.setState(
+        (prevState) => ({
+          dataFormatted:
+            prevState.dataFormatted.length === 1 &&
+            prevState.dataFormatted[0].type === "URL" &&
+            prevState.dataFormatted[0].label === "" &&
+            prevState.dataFormatted[0].url === "" &&
+            prevState.dataFormatted[0].mc_url === ""
+              ? new_items
+              : prevState.dataFormatted.concat(new_items),
+          showKGInput: false,
+        }),
+        () => {
+          this.props.storeSectionInfo(this.state);
+        }
+      );
+    } else {
+      this.setState({
+        showKGInput: false,
+      });
+    }
   }
 
   render() {

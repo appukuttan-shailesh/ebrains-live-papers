@@ -18,12 +18,12 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import Typography from "@material-ui/core/Typography";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
 import ErrorDialog from "./ErrorDialog";
-import LoadingIndicatorModal from "./LoadingIndicatorModal";
+import LoadingIndicator from "./LoadingIndicator";
 import ContextMain from "./ContextMain";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
-import { baseUrl, mc_url, querySizeLimit } from "./globals";
+import { baseUrl, mc_baseUrl, querySizeLimit } from "./globals";
 import { formatAuthors, formatTimeStampToLongString } from "./utils";
 
 const styles = (theme) => ({
@@ -151,32 +151,54 @@ const TABLE_COLUMNS = [
   },
 ];
 
-function IncludeIcon(props) {
+function IncludeButton(props) {
   //   console.log(props);
   if (props.includeFlag) {
     return (
       <Tooltip title="Remove model instance from collection" placement="top">
-        <IconButton
-          aria-label="include model"
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: "#FF5722",
+            border: "solid",
+            borderColor: "#000000",
+            borderWidth: "1px",
+            width: "150px",
+          }}
+          startIcon={<RemoveFromQueueIcon />}
           onClick={() =>
             props.removeInstanceCollection(props.model_id, props.instance_id)
           }
         >
-          <RemoveFromQueueIcon color="action" />
-        </IconButton>
+          Remove
+        </Button>
       </Tooltip>
     );
   } else {
     return (
       <Tooltip title="Add model instance to collection" placement="top">
-        <IconButton
-          aria-label="exclude model"
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: "#81C784",
+            border: "solid",
+            borderColor: "#000000",
+            borderWidth: "1px",
+            width: "150px",
+          }}
+          startIcon={<AddToQueueIcon />}
           onClick={() =>
-            props.addInstanceCollection(props.model_id, props.instance_id)
+            props.addInstanceCollection(
+              props.model_id,
+              props.model_name,
+              props.instance_id,
+              props.instance_name,
+              props.source_url
+            )
           }
         >
-          <AddToQueueIcon color="action" />
-        </IconButton>
+          Add
+        </Button>
       </Tooltip>
     );
   }
@@ -184,23 +206,41 @@ function IncludeIcon(props) {
 
 function InstanceParameter(props) {
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <Box
-          component="div"
-          my={2}
-          bgcolor="white"
-          overflow="auto"
-          border={1}
-          borderColor="grey.500"
-          borderRadius={10}
-          style={{ padding: 10, minHeight: "50px" }}
-          whiteSpace="nowrap"
-        >
-          {props.value || ""}
+    <div style={{ width: "1000px" }}>
+      <Grid container>
+        <Grid item xs={9}>
+          <Box
+            component="div"
+            my={2}
+            bgcolor="white"
+            overflow="scroll"
+            border={1}
+            borderColor="grey.500"
+            borderRadius={10}
+            style={{
+              padding: 10,
+              cursor: "pointer",
+            }}
+            whiteSpace="nowrap"
+          >
+            {props.value || ""}
+          </Box>
+        </Grid>
+        {/* <Grid item xs={3}>
+        <Box component="div" my={2}>
+          <Button
+            variant="contained"
+            style={{
+              textTransform: "none",
+            }}
+            //   onClick={() => doSomething(props.value)}
+          >
+            MyButton
+          </Button>
         </Box>
+      </Grid> */}
       </Grid>
-    </Grid>
+    </div>
   );
 }
 
@@ -218,7 +258,7 @@ class ModelVersion extends React.Component {
       <Box
         my={2}
         pb={0}
-        style={{ backgroundColor: "#FFF1CC" }}
+        style={{ backgroundColor: "#FFF1CC", marginBottom: "20px" }}
         key={this.props.instance.id}
       >
         <Grid
@@ -237,17 +277,6 @@ class ModelVersion extends React.Component {
                   {this.props.instance.version}
                 </span>
               </p>
-              <IncludeIcon
-                style={{ color: "#000000" }}
-                includeFlag={this.props.checkInstanceInCollection(
-                  this.props.instance.model_id,
-                  this.props.instance.id
-                )}
-                model_id={this.props.instance.model_id}
-                instance_id={this.props.instance.id}
-                addInstanceCollection={this.props.addInstanceCollection}
-                removeInstanceCollection={this.props.removeInstanceCollection}
-              />
             </Box>
           </Grid>
           <Grid container item justify="flex-end" xs={6}>
@@ -271,39 +300,58 @@ class ModelVersion extends React.Component {
             </Box>
           </Grid>
         </Grid>
-        <Box p={2} style={{ width: "800px" }}>
-          <div>
-            {[
-              "description",
-              "source",
-              "morphology",
-              "parameters",
-              "code_format",
-              "license",
-              "hash",
-            ].map((param, ind) => (
-              <Chip
-                icon={
-                  this.state.selectedParam === param ? (
-                    <RadioButtonCheckedIcon />
-                  ) : (
-                    <RadioButtonUncheckedIcon />
-                  )
-                }
-                key={ind}
-                label={param}
-                clickable
-                onClick={() => this.setState({ selectedParam: param })}
-                variant="outlined"
-                style={{ color: "#000000", marginRight: "10px" }}
+        <Grid container spacing={3} alignItems="flex-end">
+          <Grid item xs={9}>
+            <div style={{ padding: "10px 0px 0px 10px" }}>
+              <div>
+                {[
+                  "description",
+                  "source",
+                  "morphology",
+                  "parameters",
+                  "code_format",
+                  "license",
+                  "hash",
+                ].map((param, ind) => (
+                  <Chip
+                    icon={
+                      this.state.selectedParam === param ? (
+                        <RadioButtonCheckedIcon />
+                      ) : (
+                        <RadioButtonUncheckedIcon />
+                      )
+                    }
+                    key={ind}
+                    label={param}
+                    clickable
+                    onClick={() => this.setState({ selectedParam: param })}
+                    variant="outlined"
+                    style={{ color: "#000000", marginRight: "10px" }}
+                  />
+                ))}
+              </div>
+              <InstanceParameter
+                label={"param"}
+                value={this.props.instance[this.state.selectedParam]}
               />
-            ))}
-          </div>
-          <InstanceParameter
-            label={"param"}
-            value={this.props.instance[this.state.selectedParam]}
-          />
-        </Box>
+            </div>
+          </Grid>
+          <Grid item xs={3} style={{ paddingBottom: "35px" }}>
+            <IncludeButton
+              includeFlag={this.props.checkInstanceInCollection(
+                this.props.instance.model_id,
+                this.props.instance.id
+              )}
+              model_id={this.props.model_id}
+              model_name={this.props.model_name}
+              instance_id={this.props.instance.id}
+              instance_name={this.props.instance.version}
+              source_url={this.props.instance.source}
+              addInstanceCollection={this.props.addInstanceCollection}
+              removeInstanceCollection={this.props.removeInstanceCollection}
+            />
+          </Grid>
+        </Grid>
       </Box>
     );
   }
@@ -337,7 +385,7 @@ class ModelVersionsPanel extends React.Component {
               <b>Versions</b>
             </Typography>
             <Link
-              href={mc_url + "/#model_id." + this.props.data.id}
+              href={mc_baseUrl + "/#model_id." + this.props.data.id}
               target="_blank"
               underline="none"
             >
@@ -358,13 +406,16 @@ class ModelVersionsPanel extends React.Component {
           </div>
         ) : (
           this.props.data.instances.map((instance, ind) => (
-            <ModelVersion
-              instance={instance}
-              key={ind}
-              addInstanceCollection={this.props.addInstanceCollection}
-              removeInstanceCollection={this.props.removeInstanceCollection}
-              checkInstanceInCollection={this.props.checkInstanceInCollection}
-            />
+            <div style={{ marginBottom: "25px" }} key={ind}>
+              <ModelVersion
+                model_id={this.props.data.id}
+                model_name={this.props.data.name}
+                instance={instance}
+                addInstanceCollection={this.props.addInstanceCollection}
+                removeInstanceCollection={this.props.removeInstanceCollection}
+                checkInstanceInCollection={this.props.checkInstanceInCollection}
+              />
+            </div>
           ))
         )}
       </Grid>
@@ -513,16 +564,30 @@ export default class ModalKGInput extends React.Component {
     this.setState({ error: null });
   }
 
-  addInstanceCollection(model_id, instance_id) {
+  addInstanceCollection(
+    model_id,
+    model_name,
+    instance_id,
+    instance_name,
+    source_url
+  ) {
     console.log("Add");
 
     let model_collection = this.state.model_collection;
     if (Object.keys(model_collection).includes(model_id)) {
-      if (!model_collection[model_id].includes(instance_id)) {
-        model_collection[model_id].push(instance_id);
+      if (!Object.keys(model_collection[model_id]).includes(instance_id)) {
+        model_collection[model_id][instance_id] = {
+          label: model_name + " (" + instance_name + ")",
+          source_url: source_url,
+        };
       }
     } else {
-      model_collection[model_id] = [instance_id];
+      model_collection[model_id] = {
+        [instance_id]: {
+          label: model_name + " (" + instance_name + ")",
+          source_url: source_url,
+        },
+      };
     }
 
     this.setState({
@@ -535,11 +600,10 @@ export default class ModalKGInput extends React.Component {
 
     let model_collection = this.state.model_collection;
     if (Object.keys(model_collection).includes(model_id)) {
-      var index = model_collection[model_id].indexOf(instance_id);
-      if (index !== -1) {
-        model_collection[model_id].splice(index, 1);
+      if (Object.keys(model_collection[model_id]).includes(instance_id)) {
+        delete model_collection[model_id][instance_id];
       }
-      if (model_collection[model_id].length === 0) {
+      if (Object.keys(model_collection[model_id]).length === 0) {
         delete model_collection[model_id];
       }
     }
@@ -550,14 +614,14 @@ export default class ModalKGInput extends React.Component {
   }
 
   checkInstanceInCollection(model_id, instance_id) {
-    console.log("Check");
     let flag = false;
     let model_collection = this.state.model_collection;
     if (Object.keys(model_collection).includes(model_id)) {
-      if (model_collection[model_id].includes(instance_id)) {
+      if (Object.keys(model_collection[model_id]).includes(instance_id)) {
         flag = true;
       }
     }
+    console.log(flag);
     return flag;
   }
 
@@ -572,7 +636,6 @@ export default class ModalKGInput extends React.Component {
 
   render() {
     console.log(this.state.model_collection);
-
     if (this.state.error) {
       return (
         <ErrorDialog
@@ -590,8 +653,8 @@ export default class ModalKGInput extends React.Component {
           open={this.props.open}
           fullWidth={true}
           maxWidth={"xl"}
-          disableBackdropClick={true}
-          disableEscapeKeyDown={true}
+          //   disableBackdropClick={true}
+          //   disableEscapeKeyDown={true}
         >
           <DialogTitle
             id="customized-dialog-title"
@@ -603,13 +666,16 @@ export default class ModalKGInput extends React.Component {
             </span>
           </DialogTitle>
           <DialogContent dividers>
-            <LoadingIndicatorModal open={this.state.loading} />
-            <KGContent
-              data={this.state.list_models}
-              addInstanceCollection={this.addInstanceCollection}
-              removeInstanceCollection={this.removeInstanceCollection}
-              checkInstanceInCollection={this.checkInstanceInCollection}
-            />
+            {this.state.loading ? (
+              <LoadingIndicator />
+            ) : (
+              <KGContent
+                data={this.state.list_models}
+                addInstanceCollection={this.addInstanceCollection}
+                removeInstanceCollection={this.removeInstanceCollection}
+                checkInstanceInCollection={this.checkInstanceInCollection}
+              />
+            )}
           </DialogContent>
           <DialogActions>
             <div
@@ -636,7 +702,7 @@ export default class ModalKGInput extends React.Component {
                   borderColor: "#000000",
                   borderWidth: "1px",
                 }}
-                onClick={() => this.props.handleClose(false)}
+                onClick={() => this.props.handleClose(false, null)}
               >
                 Cancel
               </Button>
@@ -662,7 +728,9 @@ export default class ModalKGInput extends React.Component {
                   borderColor: "#000000",
                   borderWidth: "1px",
                 }}
-                onClick={() => this.props.handleClose(true)}
+                onClick={() =>
+                  this.props.handleClose(true, this.state.model_collection)
+                }
               >
                 Proceed
               </Button>

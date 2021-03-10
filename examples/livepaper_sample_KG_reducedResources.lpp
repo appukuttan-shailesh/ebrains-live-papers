@@ -50,24 +50,34 @@
             "description": "Morphology files (in .asc format) used in the paper for each etype (see Table S5 of the Supplementary Material):",
             "dataFormatted": [
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/010710HP2.asc",
-                    "label": "010710HP2"
+                    "label": "010710HP2",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011017HP2.asc",
-                    "label": "011017HP2"
+                    "label": "011017HP2",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011023HP2.asc",
-                    "label": "011023HP2"
+                    "label": "011023HP2",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011127HP1.asc",
-                    "label": "011127HP1"
+                    "label": "011127HP1",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/031031AM1.asc",
-                    "label": "031031AM1"
+                    "label": "031031AM1",
+                    "identifier": null
                 }
             ]
         },
@@ -79,24 +89,34 @@
             "description": "",
             "dataFormatted": [
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/Ivy_960711AHP3/96711008.abf",
-                    "label": "abf-int-bAC/Ivy_960711AHP3/96711008.abf"
+                    "label": "abf-int-bAC/Ivy_960711AHP3/96711008.abf",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111000.abf",
-                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111000.abf"
+                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111000.abf",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111001.abf",
-                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111001.abf"
+                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111001.abf",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111002.abf",
-                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111002.abf"
+                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111002.abf",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911000.abf",
-                    "label": "abf-int-bAC/SP_AA_970911C/97911000.abf"
+                    "label": "abf-int-bAC/SP_AA_970911C/97911000.abf",
+                    "identifier": null
                 }
             ]
         },
@@ -108,29 +128,39 @@
             "description": "The optimization results for each morphology are individually available in the Model Catalog at the following links:",
             "dataFormatted": [
                 {
+                    "type": "URL",
                     "url": "",
                     "label": "CA1_int_bAC_011017HP2_20180110153901",
-                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.01284a1d-6fd3-4cc0-8fa7-41eada65d9d9"
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.01284a1d-6fd3-4cc0-8fa7-41eada65d9d9",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "",
                     "label": "CA1_int_bAC_011023HP2_20180116154023",
-                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.26265178-e07f-402c-8194-b593a9fcdc62"
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.26265178-e07f-402c-8194-b593a9fcdc62",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "",
                     "label": "CA1_int_bAC_011127HP1_20180120115056",
-                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6584dc03-0469-4b9b-bdd6-cca71011ec31"
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6584dc03-0469-4b9b-bdd6-cca71011ec31",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "",
                     "label": "CA1_int_cAC_031031AM1_20180201104443",
-                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.4dec544a-5275-40fa-90a0-5a7f3b601b39"
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.4dec544a-5275-40fa-90a0-5a7f3b601b39",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "",
                     "label": "CA1_int_bAC_060314AM2_20180120154128",
-                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6c698fa5-6ba4-4ac0-a38e-62cd7d4439ca"
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6c698fa5-6ba4-4ac0-a38e-62cd7d4439ca",
+                    "identifier": null
                 }
             ]
         },
@@ -142,24 +172,34 @@
             "description": "List of some files:",
             "dataFormatted": [
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/010710HP2.asc",
-                    "label": "010710HP2"
+                    "label": "010710HP2",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011017HP2.asc",
-                    "label": "011017HP2"
+                    "label": "011017HP2",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011023HP2.asc",
-                    "label": "011023HP2"
+                    "label": "011023HP2",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011127HP1.asc",
-                    "label": "011127HP1"
+                    "label": "011127HP1",
+                    "identifier": null
                 },
                 {
+                    "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/031031AM1.asc",
-                    "label": "031031AM1"
+                    "label": "031031AM1",
+                    "identifier": null
                 }
             ]
         },

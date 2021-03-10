@@ -58,7 +58,7 @@ export default class DynamicTableItems extends React.Component {
         <tr key={"item-" + ind}>
           <td style={{ padding: "5px 10px 5px 0px" }}>
             <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
-              <Tooltip title={item["label"]}>
+              <Tooltip title={item["label"] || ""}>
                 <input
                   name="label"
                   type="text"
@@ -75,7 +75,7 @@ export default class DynamicTableItems extends React.Component {
             }}
           >
             <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
-              <Tooltip title={item["url"]}>
+              <Tooltip title={item["url"] || ""}>
                 <input
                   name="url"
                   type="text"
@@ -88,7 +88,7 @@ export default class DynamicTableItems extends React.Component {
           {numCols > 2 && (
             <td style={{ width: "32.5%", padding: "5px 10px 5px 0px" }}>
               <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
-                <Tooltip title={item["mc_url"]}>
+                <Tooltip title={item["mc_url"] || ""}>
                   <input
                     name="mc_url"
                     type="text"
