@@ -215,7 +215,7 @@ export class SectionModelsEdit extends React.Component {
     return (
       <DialogConfirm
         open={this.props.open}
-        title={"Edit Source: " + this.state.title}
+        title={"Edit Source: " + this.props.title}
         headerBgColor="#FF8A65"
         content={this.renderContent()}
         handleClose={this.handleSaveData}
@@ -303,7 +303,7 @@ export default class SectionModels extends React.Component {
     //   }
     // }
     // var items_data = data.filter(isNotEmpty);
-    console.log(items_data);
+    // console.log(items_data);
     if (items_data.length === 0) {
       items_data = [
         { type: "URL", label: "", url: "", mc_url: "", identifier: null },
@@ -436,7 +436,7 @@ export default class SectionModels extends React.Component {
   }
 
   render() {
-    console.log(this.state.dataFormatted);
+    // console.log(this.state.dataFormatted);
     return (
       <div style={{ width: "100%", paddingTop: "25px", paddingBottom: "25px" }}>
         <Accordion
@@ -601,6 +601,7 @@ export default class SectionModels extends React.Component {
                 {this.state.showEdit ? (
                   <SectionModelsEdit
                     open={this.state.showEdit}
+                    title={this.state.title}
                     data={this.state.dataFormatted}
                     onChangeValue={this.handleItemsChange}
                     handleClose={this.handleEditClose}

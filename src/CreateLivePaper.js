@@ -800,7 +800,7 @@ class CreateLivePaper extends React.Component {
   verifyDataBeforeSubmit() {}
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     // console.log(this.context.auth[0].token);
 
     let saveModal = null;
