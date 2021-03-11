@@ -44,26 +44,24 @@ export function replaceEmptyStringsWithNull(param) {
   }
 }
 
-
 export function replaceNullWithEmptyStrings(param) {
-    if (param === null) {
-      // Note: null is also object, but explictly comared before testing for object below
-      return "";
-    } else if (typeof param === "string") {
-      return param;
-    } else if (Array.isArray(param)) {
-      return param.map((element) => replaceNullWithEmptyStrings(element));
-    } else if (typeof param === "object") {
-      Object.entries(param).map(function ([key, val]) {
-        return (param[key] = replaceNullWithEmptyStrings(val));
-      });
-      return param;
-    } else {
-      // e.g. number, boolean
-      return param;
-    }
+  if (param === null) {
+    // Note: null is also object, but explictly comared before testing for object below
+    return "";
+  } else if (typeof param === "string") {
+    return param;
+  } else if (Array.isArray(param)) {
+    return param.map((element) => replaceNullWithEmptyStrings(element));
+  } else if (typeof param === "object") {
+    Object.entries(param).map(function ([key, val]) {
+      return (param[key] = replaceNullWithEmptyStrings(val));
+    });
+    return param;
+  } else {
+    // e.g. number, boolean
+    return param;
   }
-  
+}
 
 export function compareArrayoOfObjectsByOrder(a, b) {
   if (a.order < b.order) {
@@ -73,21 +71,33 @@ export function compareArrayoOfObjectsByOrder(a, b) {
   }
 }
 
-
 export function formatAuthors(authors) {
-    if (authors) {
-        return authors.map(author => (author.given_name + " " + author.family_name)).join(", ");
-    } else {
-        return "";
-    }
+  if (authors) {
+    return authors
+      .map((author) => author.given_name + " " + author.family_name)
+      .join(", ");
+  } else {
+    return "";
+  }
 }
-
 
 export function formatTimeStampToLongString(ISOtimestamp) {
-    if (ISOtimestamp) {
-        const d = new Date(ISOtimestamp);
-        return d.toUTCString();
-    } else {
-        return "";
-    }
+  if (ISOtimestamp) {
+    const d = new Date(ISOtimestamp);
+    return d.toUTCString();
+  } else {
+    return "";
+  }
 }
+
+export const flattenNestedObject = (obj) => {
+  const flattened = {};
+  Object.keys(obj).forEach((key) => {
+    if (typeof obj[key] === "object" && obj[key] !== null) {
+      Object.assign(flattened, flattenNestedObject(obj[key]));
+    } else {
+      flattened[key] = obj[key];
+    }
+  });
+  return flattened;
+};

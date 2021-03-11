@@ -134,11 +134,11 @@ export class RowURLExpanded extends React.Component {
   render() {
     return (
       <tr>
-        <table style={{ width: "100%" }}>
-          <RowIndex ind={this.props.ind} type={this.props.item["type"]} />
-          <td colSpan={this.props.numCols}>
-            <table>
-              <tr>
+        <RowIndex ind={this.props.ind} type={this.props.item["type"]} />
+        <td colSpan={this.props.numCols}>
+          <table>
+            <tbody>
+              <tr style={{ border: "None" }}>
                 <td style={{ width: "100%", padding: "5px 10px 5px 0px" }}>
                   <Tooltip title={this.props.item["label"] || ""}>
                     <TextField
@@ -160,7 +160,7 @@ export class RowURLExpanded extends React.Component {
                   </Tooltip>
                 </td>
               </tr>
-              <tr>
+              <tr style={{ border: "None" }}>
                 <td
                   style={{
                     width: "100%",
@@ -188,8 +188,13 @@ export class RowURLExpanded extends React.Component {
                 </td>
               </tr>
               {this.props.numCols > 2 && (
-                <tr>
-                  <td style={{ width: "100%", padding: "5px 10px 5px 0px" }}>
+                <tr style={{ border: "None" }}>
+                  <td
+                    style={{
+                      width: "100%",
+                      padding: "5px 10px 5px 0px",
+                    }}
+                  >
                     <Tooltip title={this.props.item["mc_url"] || ""}>
                       <TextField
                         label="Model Catalog URL"
@@ -211,16 +216,16 @@ export class RowURLExpanded extends React.Component {
                   </td>
                 </tr>
               )}
-            </table>
-          </td>
-          <ToolBar
-            handleItemMoveDown={this.props.handleItemMoveDown}
-            handleItemMoveUp={this.props.handleItemMoveUp}
-            handleItemDeleted={this.props.handleItemDeleted}
-            ind={this.props.ind}
-            numRows={this.props.numRows}
-          />
-        </table>
+            </tbody>
+          </table>
+        </td>
+        <ToolBar
+          handleItemMoveDown={this.props.handleItemMoveDown}
+          handleItemMoveUp={this.props.handleItemMoveUp}
+          handleItemDeleted={this.props.handleItemDeleted}
+          ind={this.props.ind}
+          numRows={this.props.numRows}
+        />
       </tr>
     );
   }
@@ -294,11 +299,11 @@ export class RowKGExpanded extends React.Component {
   render() {
     return (
       <tr>
-        <table style={{ width: "100%" }}>
-          <RowIndex ind={this.props.ind} type={this.props.item["type"]} />
-          <td colSpan={this.props.numCols}>
-            <table>
-              <tr>
+        <RowIndex ind={this.props.ind} type={this.props.item["type"]} />
+        <td colSpan={this.props.numCols}>
+          <table>
+            <tbody>
+              <tr style={{ border: "None" }}>
                 <td style={{ width: "100%", padding: "5px 10px 5px 0px" }}>
                   <Tooltip title={this.props.item["label"] || ""}>
                     <TextField
@@ -320,7 +325,7 @@ export class RowKGExpanded extends React.Component {
                   </Tooltip>
                 </td>
               </tr>
-              <tr>
+              <tr style={{ border: "None" }}>
                 <td
                   style={{
                     width: "100%",
@@ -354,8 +359,13 @@ export class RowKGExpanded extends React.Component {
                 </td>
               </tr>
               {this.props.numCols > 2 && (
-                <tr>
-                  <td style={{ width: "100%", padding: "5px 10px 5px 0px" }}>
+                <tr style={{ border: "None" }}>
+                  <td
+                    style={{
+                      width: "100%",
+                      padding: "5px 10px 5px 0px",
+                    }}
+                  >
                     <Tooltip
                       title={this.props.item["mc_url"] || ""}
                       onClick={() =>
@@ -383,16 +393,16 @@ export class RowKGExpanded extends React.Component {
                   </td>
                 </tr>
               )}
-            </table>
-          </td>
-          <ToolBar
-            handleItemMoveDown={this.props.handleItemMoveDown}
-            handleItemMoveUp={this.props.handleItemMoveUp}
-            handleItemDeleted={this.props.handleItemDeleted}
-            ind={this.props.ind}
-            numRows={this.props.numRows}
-          />
-        </table>
+            </tbody>
+          </table>
+        </td>
+        <ToolBar
+          handleItemMoveDown={this.props.handleItemMoveDown}
+          handleItemMoveUp={this.props.handleItemMoveUp}
+          handleItemDeleted={this.props.handleItemDeleted}
+          ind={this.props.ind}
+          numRows={this.props.numRows}
+        />
       </tr>
     );
   }
@@ -600,10 +610,10 @@ export default class DynamicTableItems extends React.Component {
   }
 
   render() {
-    // console.log(this.props);
+    console.log(this.props);
     return (
       <div>
-        <table style={{ borderColor: "red" }}>
+        <table>
           {!this.state.expandTable && (
             <thead>
               <tr>
@@ -655,19 +665,21 @@ export default class DynamicTableItems extends React.Component {
           >
             Edit Source
           </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.props.handleKG}
-            style={{
-              width: "160px",
-              marginRight: "25px",
-              backgroundColor: "#388E3C",
-            }}
-            startIcon={<StorageIcon />}
-          >
-            Add From KG
-          </Button>
+          {this.props.handleKG && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.props.handleKG}
+              style={{
+                width: "160px",
+                marginRight: "25px",
+                backgroundColor: "#388E3C",
+              }}
+              startIcon={<StorageIcon />}
+            >
+              Add From KG
+            </Button>
+          )}
           <Button
             variant="contained"
             color="primary"

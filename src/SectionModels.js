@@ -6,7 +6,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import DynamicTableItems from "./DynamicTableItems";
-import ModalKGInput from "./ModalKGInput";
+import KGInputModels from "./KGInputModels";
 import { mc_baseUrl } from "./globals";
 
 import Accordion from "@material-ui/core/Accordion";
@@ -608,7 +608,7 @@ export default class SectionModels extends React.Component {
                   />
                 ) : null}
                 {this.state.showKGInput ? (
-                  <ModalKGInput
+                  <KGInputModels
                     open={this.state.showKGInput}
                     handleClose={this.handleKGClose}
                   />

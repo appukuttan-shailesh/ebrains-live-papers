@@ -23,8 +23,7 @@ import ContextMain from "./ContextMain";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
-import { baseUrl, mc_baseUrl, querySizeLimit } from "./globals";
-import { formatAuthors, formatTimeStampToLongString } from "./utils";
+import { nar_baseUrl, querySizeLimit } from "./globals";
 
 const styles = (theme) => ({
   root: {
@@ -78,28 +77,20 @@ const TABLE_COLUMNS = [
     hidden: true,
   },
   {
-    field: "name",
-    title: "Name",
+    field: "label",
+    title: "Label",
   },
   {
-    field: "alias",
-    title: "Alias",
-    hidden: true,
+    field: "modality",
+    title: "Modality",
   },
   {
-    field: "author",
-    title: "Author",
-    render: (item) => formatAuthors(item.author),
+    field: "stimulation",
+    title: "Stimulation",
   },
   {
-    field: "private",
-    title: "Visibility",
-    render: (item) => (item.private ? "Private" : "Public"),
-    hidden: true,
-  },
-  {
-    field: "project_id",
-    title: "Collab",
+    field: "timestamp",
+    title: "Timestamp",
     hidden: true,
   },
   {
@@ -108,44 +99,31 @@ const TABLE_COLUMNS = [
     hidden: true,
   },
   {
-    field: "brain_region",
-    title: "Brain Region",
-    hidden: true,
-  },
-  {
     field: "cell_type",
     title: "Cell Type",
     hidden: true,
   },
   {
-    field: "model_scope",
-    title: "Model Scope",
+    field: "location",
+    title: "Location",
     hidden: true,
+    hiddenByColumnsButton: true,
   },
   {
-    field: "abstraction_level",
-    title: "Abstraction Level",
+    field: "view_url",
+    title: "View URL",
     hidden: true,
+    hiddenByColumnsButton: true,
   },
   {
-    field: "owner",
-    title: "Owner",
-    render: (item) => formatAuthors(item.owner),
+    field: "parent_name",
+    title: "Parent Name",
     hidden: true,
+    hiddenByColumnsButton: true,
   },
   {
-    field: "organization",
-    title: "Organization",
-    hidden: true,
-  },
-  {
-    field: "date_created",
-    title: "Created Date",
-    hidden: true,
-  },
-  {
-    field: "instances",
-    title: "Instances",
+    field: "parent_id",
+    title: "Parent ID",
     hidden: true,
     hiddenByColumnsButton: true,
   },
@@ -155,7 +133,7 @@ function IncludeButton(props) {
   //   console.log(props);
   if (props.includeFlag) {
     return (
-      <Tooltip title="Remove model instance from collection" placement="top">
+      <Tooltip title="Remove trace instance from collection" placement="top">
         <Button
           variant="contained"
           style={{
@@ -167,7 +145,7 @@ function IncludeButton(props) {
           }}
           startIcon={<RemoveFromQueueIcon />}
           onClick={() =>
-            props.removeInstanceCollection(props.model_id, props.instance_id)
+            props.removeInstanceCollection(props.trace_id, props.instance_id)
           }
         >
           Remove
@@ -176,7 +154,7 @@ function IncludeButton(props) {
     );
   } else {
     return (
-      <Tooltip title="Add model instance to collection" placement="top">
+      <Tooltip title="Add trace instance to collection" placement="top">
         <Button
           variant="contained"
           style={{
@@ -189,11 +167,12 @@ function IncludeButton(props) {
           startIcon={<AddToQueueIcon />}
           onClick={() =>
             props.addInstanceCollection(
-              props.model_id,
-              props.model_name,
+              props.trace_id,
+              props.trace_name,
               props.instance_id,
               props.instance_name,
-              props.source_url
+              props.source_url,
+              props.view_url
             )
           }
         >
@@ -244,12 +223,12 @@ function InstanceParameter(props) {
   );
 }
 
-class ModelVersion extends React.Component {
+class TraceVersion extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selectedParam: "source",
+      selectedParam: "location",
     };
   }
 
@@ -259,7 +238,7 @@ class ModelVersion extends React.Component {
         my={2}
         pb={0}
         style={{ backgroundColor: "#FFF1CC", marginBottom: "20px" }}
-        key={this.props.instance.id}
+        key={this.props.ind}
       >
         <Grid
           container
@@ -272,31 +251,11 @@ class ModelVersion extends React.Component {
           <Grid item xs={6}>
             <Box px={2} display="flex" flexDirection="row">
               <p variant="subtitle2">
-                Version:{" "}
+                Record #:{" "}
                 <span style={{ cursor: "pointer", fontWeight: "bold" }}>
-                  {this.props.instance.version}
+                  {this.props.ind + 1}
                 </span>
               </p>
-            </Box>
-          </Grid>
-          <Grid container item justify="flex-end" xs={6}>
-            <Box
-              px={2}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Typography variant="body2" color="textSecondary">
-                ID: <span>{this.props.instance.id}</span>
-              </Typography>
-              <Typography
-                variant="body2"
-                style={{ color: "#000000", paddingLeft: "25px" }}
-              >
-                {formatTimeStampToLongString(this.props.instance.timestamp)}
-              </Typography>
             </Box>
           </Grid>
         </Grid>
@@ -304,15 +263,7 @@ class ModelVersion extends React.Component {
           <Grid item xs={9}>
             <div style={{ padding: "10px 0px 0px 10px" }}>
               <div>
-                {[
-                  "description",
-                  "source",
-                  "morphology",
-                  "parameters",
-                  "code_format",
-                  "license",
-                  "hash",
-                ].map((param, ind) => (
+                {["description", "location"].map((param, ind) => (
                   <Chip
                     icon={
                       this.state.selectedParam === param ? (
@@ -339,14 +290,15 @@ class ModelVersion extends React.Component {
           <Grid item xs={3} style={{ paddingBottom: "35px" }}>
             <IncludeButton
               includeFlag={this.props.checkInstanceInCollection(
-                this.props.instance.model_id,
-                this.props.instance.id
+                this.props.trace_id,
+                this.props.ind.toString()
               )}
-              model_id={this.props.model_id}
-              model_name={this.props.model_name}
-              instance_id={this.props.instance.id}
-              instance_name={this.props.instance.version}
-              source_url={this.props.instance.source}
+              trace_id={this.props.trace_id}
+              trace_name={this.props.trace_name}
+              instance_id={this.props.ind.toString()}
+              instance_name={this.props.ind.toString()}
+              source_url={this.props.instance.location}
+              view_url={this.props.view_url}
               addInstanceCollection={this.props.addInstanceCollection}
               removeInstanceCollection={this.props.removeInstanceCollection}
             />
@@ -357,7 +309,7 @@ class ModelVersion extends React.Component {
   }
 }
 
-class ModelVersionsPanel extends React.Component {
+class TraceVersionsPanel extends React.Component {
   constructor(props) {
     super(props);
 
@@ -385,7 +337,7 @@ class ModelVersionsPanel extends React.Component {
               <b>Versions</b>
             </Typography>
             <Link
-              href={mc_baseUrl + "/#model_id." + this.props.data.id}
+              href={this.props.data.view_url}
               target="_blank"
               underline="none"
             >
@@ -394,7 +346,7 @@ class ModelVersionsPanel extends React.Component {
                 style={{ color: "#455A64" }}
                 startIcon={<OpenInNewIcon />}
               >
-                Open Model
+                Open Page
               </Button>
             </Link>
           </Grid>
@@ -402,15 +354,17 @@ class ModelVersionsPanel extends React.Component {
         {this.props.data.instances.length === 0 ? (
           <div style={{ fontSize: 14 }}>
             <br />
-            No model instances have yet been registered for this model.
+            No records have yet been registered for this trace.
           </div>
         ) : (
           this.props.data.instances.map((instance, ind) => (
             <div style={{ marginBottom: "25px" }} key={ind}>
-              <ModelVersion
-                model_id={this.props.data.id}
-                model_name={this.props.data.name}
+              <TraceVersion
+                trace_id={this.props.data.id}
+                trace_name={this.props.data.label}
                 instance={instance}
+                view_url={this.props.data.view_url}
+                ind={ind}
                 addInstanceCollection={this.props.addInstanceCollection}
                 removeInstanceCollection={this.props.removeInstanceCollection}
                 checkInstanceInCollection={this.props.checkInstanceInCollection}
@@ -436,7 +390,7 @@ export class KGContent extends React.Component {
   render() {
     return (
       <MaterialTable
-        title="Models"
+        title="Electrophysiological Recordings"
         data={this.props.data}
         columns={TABLE_COLUMNS}
         options={{
@@ -473,7 +427,7 @@ export class KGContent extends React.Component {
         ]}
         detailPanel={(rowData) => {
           return (
-            <ModelVersionsPanel
+            <TraceVersionsPanel
               data={rowData}
               addInstanceCollection={this.props.addInstanceCollection}
               removeInstanceCollection={this.props.removeInstanceCollection}
@@ -501,7 +455,7 @@ export class KGContent extends React.Component {
   }
 }
 
-export default class ModalKGInput extends React.Component {
+export default class KGInputTraces extends React.Component {
   signal = axios.CancelToken.source();
   static contextType = ContextMain;
 
@@ -510,12 +464,12 @@ export default class ModalKGInput extends React.Component {
 
     this.state = {
       loading: false,
-      list_models: [],
+      list_traces: [],
       error: null,
-      model_collection: {},
+      trace_collection: {},
     };
 
-    this.getListModels = this.getListModels.bind(this);
+    this.getListTraces = this.getListTraces.bind(this);
     this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
     this.addInstanceCollection = this.addInstanceCollection.bind(this);
     this.removeInstanceCollection = this.removeInstanceCollection.bind(this);
@@ -524,25 +478,46 @@ export default class ModalKGInput extends React.Component {
   }
 
   componentDidMount() {
-    this.getListModels();
+    this.getListTraces();
   }
 
-  getListModels() {
+  getListTraces() {
     let config = {
       cancelToken: this.signal.token,
       headers: {
         Authorization: "Bearer " + this.context.auth[0].token,
       },
     };
-    let url = baseUrl + "/models/?size=" + querySizeLimit;
+    let url =
+      nar_baseUrl +
+      "/recordings/?summary=false&size=" +
+      querySizeLimit +
+      "&from_index=0";
     this.setState({ loading: true });
     axios
       .get(url, config)
       .then((res) => {
-        const models = res.data;
-        console.log(models);
+        console.log(res.data.results);
+        let traces = [];
+        res.data.results.forEach((item) =>
+          traces.push({
+            id: item.identifier,
+            label: item.label,
+            modality: item.modality,
+            stimulation: item.stimulation,
+            timestamp: item.timestamp,
+            species: item.recorded_from ? item.recorded_from.species : null,
+            cell_type: item.recorded_from ? item.recorded_from.cell_type : null,
+            instances: item.data_location,
+            view_url: item.part_of ? item.part_of.uri : null,
+            parent_name: item.part_of ? item.part_of.name : null,
+            parent_id: item.part_of ? item.part_of.identifier : null,
+          })
+        );
+
+        console.log(traces);
         this.setState({
-          list_models: models,
+          list_traces: traces,
           loading: false,
           error: null,
         });
@@ -565,59 +540,65 @@ export default class ModalKGInput extends React.Component {
   }
 
   addInstanceCollection(
-    model_id,
-    model_name,
+    trace_id,
+    trace_name,
     instance_id,
     instance_name,
-    source_url
+    source_url,
+    view_url
   ) {
     console.log("Add");
 
-    let model_collection = this.state.model_collection;
-    if (Object.keys(model_collection).includes(model_id)) {
-      if (!Object.keys(model_collection[model_id]).includes(instance_id)) {
-        model_collection[model_id][instance_id] = {
-          label: model_name + " (" + instance_name + ")",
+    let trace_collection = this.state.trace_collection;
+    if (Object.keys(trace_collection).includes(trace_id)) {
+      if (!Object.keys(trace_collection[trace_id]).includes(instance_id)) {
+        trace_collection[trace_id][instance_id] = {
+          label: trace_name + " (" + instance_name + ")",
           source_url: source_url,
+          view_url: view_url,
         };
       }
     } else {
-      model_collection[model_id] = {
+      trace_collection[trace_id] = {
         [instance_id]: {
-          label: model_name + " (" + instance_name + ")",
+          label: trace_name + " (" + instance_name + ")",
           source_url: source_url,
+          view_url: view_url,
         },
       };
     }
 
     this.setState({
-      model_collection: model_collection,
+      trace_collection: trace_collection,
     });
   }
 
-  removeInstanceCollection(model_id, instance_id) {
+  removeInstanceCollection(trace_id, instance_id) {
     console.log("Remove");
 
-    let model_collection = this.state.model_collection;
-    if (Object.keys(model_collection).includes(model_id)) {
-      if (Object.keys(model_collection[model_id]).includes(instance_id)) {
-        delete model_collection[model_id][instance_id];
+    let trace_collection = this.state.trace_collection;
+    if (Object.keys(trace_collection).includes(trace_id)) {
+      if (Object.keys(trace_collection[trace_id]).includes(instance_id)) {
+        delete trace_collection[trace_id][instance_id];
       }
-      if (Object.keys(model_collection[model_id]).length === 0) {
-        delete model_collection[model_id];
+      if (Object.keys(trace_collection[trace_id]).length === 0) {
+        delete trace_collection[trace_id];
       }
     }
 
     this.setState({
-      model_collection: model_collection,
+      trace_collection: trace_collection,
     });
   }
 
-  checkInstanceInCollection(model_id, instance_id) {
+  checkInstanceInCollection(trace_id, instance_id) {
     let flag = false;
-    let model_collection = this.state.model_collection;
-    if (Object.keys(model_collection).includes(model_id)) {
-      if (Object.keys(model_collection[model_id]).includes(instance_id)) {
+    let trace_collection = this.state.trace_collection;
+    console.log(trace_collection);
+    console.log(trace_id);
+    console.log(instance_id);
+    if (Object.keys(trace_collection).includes(trace_id)) {
+      if (Object.keys(trace_collection[trace_id]).includes(instance_id)) {
         flag = true;
       }
     }
@@ -627,15 +608,15 @@ export default class ModalKGInput extends React.Component {
 
   countTotalInstances() {
     let total = 0;
-    let model_collection = this.state.model_collection;
-    for (const model_id in model_collection) {
-      total += model_collection[model_id].length;
+    let trace_collection = this.state.trace_collection;
+    for (const trace_id in trace_collection) {
+      total += Object.keys(trace_collection[trace_id]).length;
     }
     return total;
   }
 
   render() {
-    console.log(this.state.model_collection);
+    console.log(this.state.trace_collection);
     if (this.state.error) {
       return (
         <ErrorDialog
@@ -670,7 +651,7 @@ export default class ModalKGInput extends React.Component {
               <LoadingIndicator />
             ) : (
               <KGContent
-                data={this.state.list_models}
+                data={this.state.list_traces}
                 addInstanceCollection={this.addInstanceCollection}
                 removeInstanceCollection={this.removeInstanceCollection}
                 checkInstanceInCollection={this.checkInstanceInCollection}
@@ -710,7 +691,7 @@ export default class ModalKGInput extends React.Component {
               <br />
               <span>
                 <h6>
-                  {"Number of model instances selected: " +
+                  {"Number of trace instances selected: " +
                     this.countTotalInstances()}
                 </h6>
               </span>
@@ -729,7 +710,7 @@ export default class ModalKGInput extends React.Component {
                   borderWidth: "1px",
                 }}
                 onClick={() =>
-                  this.props.handleClose(true, this.state.model_collection)
+                  this.props.handleClose(true, this.state.trace_collection)
                 }
               >
                 Proceed

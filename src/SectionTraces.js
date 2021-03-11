@@ -6,6 +6,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import DynamicTableItems from "./DynamicTableItems";
+import KGInputTraces from "./KGInputTraces";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -201,7 +202,7 @@ export class SectionTracesEdit extends React.Component {
     return (
       <DialogConfirm
         open={this.props.open}
-        title={"Edit Source: " + this.state.title}
+        title={"Edit Source: " + this.props.title}
         headerBgColor="#70BF73"
         content={this.renderContent()}
         handleClose={this.handleSaveData}
@@ -252,6 +253,7 @@ export default class SectionTraces extends React.Component {
       dataOk: true,
       dataFormatted: [],
       showEdit: false,
+      showKGInput: false,
       deleteOpen: false,
       expanded: true,
       ...props.data,
@@ -260,6 +262,8 @@ export default class SectionTraces extends React.Component {
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.clickEdit = this.clickEdit.bind(this);
     this.handleEditClose = this.handleEditClose.bind(this);
+    this.clickKG = this.clickKG.bind(this);
+    this.handleKGClose = this.handleKGClose.bind(this);
     this.setIcon = this.setIcon.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleMoveDown = this.handleMoveDown.bind(this);
@@ -367,6 +371,52 @@ export default class SectionTraces extends React.Component {
     this.setState({
       showEdit: false,
     });
+  }
+
+  clickKG() {
+    this.setState({
+      showKGInput: true,
+    });
+  }
+
+  handleKGClose(flag, items) {
+    if (flag) {
+      console.log(items);
+      let new_items = [];
+      for (const model_id in items) {
+        for (const instance_id in items[model_id]) {
+          new_items.push({
+            type: "ModelInstance",
+            url: items[model_id][instance_id]["source_url"] || "",
+            label: items[model_id][instance_id]["label"] || "",
+            view_url: items[model_id][instance_id]["view_url"] || "",
+            identifier: instance_id,
+          });
+        }
+      }
+      console.log(new_items);
+
+      this.setState(
+        (prevState) => ({
+          dataFormatted:
+            prevState.dataFormatted.length === 1 &&
+            prevState.dataFormatted[0].type === "URL" &&
+            prevState.dataFormatted[0].label === "" &&
+            prevState.dataFormatted[0].url === "" &&
+            prevState.dataFormatted[0].mc_url === ""
+              ? new_items
+              : prevState.dataFormatted.concat(new_items),
+          showKGInput: false,
+        }),
+        () => {
+          this.props.storeSectionInfo(this.state);
+        }
+      );
+    } else {
+      this.setState({
+        showKGInput: false,
+      });
+    }
   }
 
   render() {
@@ -527,6 +577,7 @@ export default class SectionTraces extends React.Component {
                   items={this.state.dataFormatted}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
+                  handleKG={this.clickKG}
                   numCols={2}
                 />
                 <br />
@@ -534,9 +585,16 @@ export default class SectionTraces extends React.Component {
                 {this.state.showEdit ? (
                   <SectionTracesEdit
                     open={this.state.showEdit}
+                    title={this.state.title}
                     data={this.state.dataFormatted}
                     onChangeValue={this.handleItemsChange}
                     handleClose={this.handleEditClose}
+                  />
+                ) : null}
+                {this.state.showKGInput ? (
+                  <KGInputTraces
+                    open={this.state.showKGInput}
+                    handleClose={this.handleKGClose}
                   />
                 ) : null}
               </div>
