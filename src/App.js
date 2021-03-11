@@ -226,9 +226,10 @@ class App extends React.Component {
                 <tr>
                   <td>
                     <img
-                      className="hbp-icon-small"
-                      src="./imgs/hbp_diamond_120.png"
-                      alt="HBP logo"
+                      className="ebrains-icon-small"
+                      src="./imgs/ebrains_logo.png"
+                      alt="EBRAINS logo"
+                      style={{ width: "25px", height: "25px" }}
                     />
                   </td>
                   <td>
