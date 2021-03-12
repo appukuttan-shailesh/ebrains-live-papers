@@ -386,7 +386,7 @@ export default class SectionTraces extends React.Component {
       for (const model_id in items) {
         for (const instance_id in items[model_id]) {
           new_items.push({
-            type: "ModelInstance",
+            type: "Recording",
             url: items[model_id][instance_id]["source_url"] || "",
             label: items[model_id][instance_id]["label"] || "",
             view_url: items[model_id][instance_id]["view_url"] || "",
