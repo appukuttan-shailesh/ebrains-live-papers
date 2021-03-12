@@ -370,7 +370,7 @@ export default class SectionMorphology extends React.Component {
   }
 
   render() {
-    console.log(this.state.dataFormatted);
+    // console.log(this.state.dataFormatted);
     return (
       <div style={{ width: "100%", paddingTop: "25px", paddingBottom: "25px" }}>
         <Accordion

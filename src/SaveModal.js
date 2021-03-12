@@ -97,8 +97,8 @@ export default class SaveModal extends React.Component {
 
   handleCollabIDChange(event) {
     let value = event.target.value;
-    console.log(value);
-    console.log(event);
+    // console.log(value);
+    // console.log(event);
     this.setState({
       collab_id: value,
     });
@@ -106,8 +106,8 @@ export default class SaveModal extends React.Component {
 
   handleLivePaperNameChange(event) {
     let value = event.target.value;
-    console.log(value);
-    console.log(event);
+    // console.log(value);
+    // console.log(event);
     this.setState({
       live_paper_name: value,
       live_paper_name_unique: null,
@@ -154,7 +154,7 @@ export default class SaveModal extends React.Component {
         collab_id: this.state.collab_id,
         live_paper_title: this.state.live_paper_name,
       };
-      console.log(payload);
+      //   console.log(payload);
       if (
         this.checkRequirementsOnPage() &&
         this.checkRequirementsOnPayload(payload)
@@ -162,7 +162,7 @@ export default class SaveModal extends React.Component {
         let isUnique = await this.checkLivePaperNameUnique(
           this.state.live_paper_name
         );
-        console.log("isUnique: ", isUnique);
+        // console.log("isUnique: ", isUnique);
         if (isUnique) {
           let url = baseUrl + "/livepapers/";
           let config = {
@@ -178,8 +178,10 @@ export default class SaveModal extends React.Component {
             .then((res) => {
               console.log(res);
               console.log("UUID = ", res.data.id);
+              this.props.setID(res.data.id);
               this.props.setCollabID(this.state.collab_id);
               this.props.setLivePaperTitle(this.state.live_paper_name);
+              this.props.setLivePaperModifiedDate(payload.modified_date);
               this.setState({ loading: false });
               this.props.onClose(true);
             })
@@ -228,14 +230,20 @@ export default class SaveModal extends React.Component {
       }
     });
 
-    console.log(replaceEmptyStringsWithNull(payload));
+    // KG requires 'data' value for all Sections; LP tool no longer uses 'data' field
+    payload.resources.forEach(function (res, index) {
+      if (res.type !== "section_custom") {
+        res.data = "None";
+      }
+    });
+
+    // console.log(replaceEmptyStringsWithNull(payload));
     return replaceEmptyStringsWithNull(payload);
   }
 
   render() {
-    console.log(this.props);
-    console.log(this.state);
-
+    // console.log(this.props);
+    // console.log(this.state);
     if (this.state.error) {
       return (
         <ErrorDialog
@@ -339,11 +347,11 @@ export default class SaveModal extends React.Component {
                 this.state.live_paper_name_unique === false && (
                   <div style={{ color: "red", paddingTop: "10px" }}>
                     <strong>
-                      The live paper name '
+                      The live paper name{" "}
                       <pre style={{ display: "inline" }}>
                         {this.state.live_paper_name}
-                      </pre>
-                      ' is already used by another live paper. Please enter a
+                      </pre>{" "}
+                      is already us use by another live paper. Please enter a
                       different name.
                     </strong>
                   </div>
@@ -383,7 +391,9 @@ export default class SaveModal extends React.Component {
                 color="primary"
                 style={{
                   width: "20%",
-                  backgroundColor: "#8BC34A",
+                  backgroundColor: this.checkRequirementsOnPage()
+                    ? "#8BC34A"
+                    : "#FFFFFF",
                   color: "#000000",
                   fontWeight: "bold",
                   border: "solid",

@@ -7,9 +7,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
-import SwitchThreeWay from "./SwitchThreeWay";
+import SwitchTwoWay from "./SwitchTwoWay";
 import ErrorDialog from "./ErrorDialog";
-// import { baseUrl } from "./globals";
+import Link from "@material-ui/core/Link";
 export const validModes = ["Private", "Password-Protected", "Public"];
 
 export default class SubmitModal extends React.Component {
@@ -20,7 +20,7 @@ export default class SubmitModal extends React.Component {
 
     this.state = {
       data: props.data,
-      mode: props.mode || "Private",
+      mode: props.mode || "Public",
       password: "",
       error: null,
     };
@@ -79,14 +79,10 @@ export default class SubmitModal extends React.Component {
               <strong>
                 Please specify the visibility mode for this live paper:
               </strong>
-              <br />
-              <em>(this can be changed in future, if required)</em>
-              <br />
-              <br />
-              <Box>
+              <Box my={2} style={{ marginBottom: "30px" }}>
                 <form>
-                  <SwitchThreeWay
-                    values={validModes}
+                  <SwitchTwoWay
+                    values={["Password-Protected", "Public"]}
                     selected={this.state.mode}
                     onChange={this.handleModeChange}
                   />
@@ -121,6 +117,60 @@ export default class SubmitModal extends React.Component {
                 </div>
               </Box>
             )}
+            {this.state.mode === "Public" && (
+              <Box my={2}>
+                <div>
+                  <strong>
+                    To request publication of the live paper, do one of the
+                    following:
+                  </strong>
+                  <div
+                    style={{
+                      marginLeft: "25px",
+                      paddingTop: "10px",
+                      display: "list-item",
+                    }}
+                  >
+                    Click on "Send Email" to open the draft email in your
+                    default email client. Send the email without editing any of
+                    its contents.
+                  </div>
+                  <div
+                    style={{
+                      marginLeft: "25px",
+                      marginRight: "25px",
+                      paddingTop: "10px",
+                      display: "list-item",
+                    }}
+                  >
+                    Alternatively, copy the content below and email it to:{" "}
+                    <strong>lucaleonardo.bologna@cnr.it</strong> with the
+                    following subject:{" "}
+                    <strong>Request to publish Live Paper</strong>
+                    <div
+                      style={{
+                        marginTop: "10px",
+                        padding: "20px",
+                        border: "dashed",
+                        borderColor: "#000000",
+                        borderWidth: "2px",
+                        backgroundColor: "#D9D9D9",
+                      }}
+                    >
+                      We would like to request the publication of our live
+                      paper.
+                      <br />
+                      The details are as follows:
+                      <br />
+                      <br />
+                      ID: AAf2e856-27a8-4b8d-9ec3-4e2581c546AA
+                      <br />
+                      Title: Some title here
+                    </div>
+                  </div>
+                </div>
+              </Box>
+            )}
             <div
               style={{
                 display: "flex",
@@ -150,22 +200,49 @@ export default class SubmitModal extends React.Component {
               </Button>
               <br />
               <br />
-              <Button
-                variant="contained"
-                color="primary"
-                style={{
-                  width: "20%",
-                  backgroundColor: "#8BC34A",
-                  color: "#000000",
-                  fontWeight: "bold",
-                  border: "solid",
-                  borderColor: "#000000",
-                  borderWidth: "1px",
-                }}
-                onClick={this.handleSubmit}
-              >
-                Submit
-              </Button>
+              {this.state.mode === "Public" && (
+                <Link
+                  style={{ width: "20%" }}
+                  target="_blank"
+                  rel="noreferrer"
+                  underline="none"
+                  href="mailto:lucaleonardo.bologna@cnr.it, shailesh.appukuttan@cnrs.fr?subject=Request%20to%20publish%20Live%20Paper&body=We%20would%20like%20to%20request%20the%20publication%20of%20our%20live%20paper.%0AThe%20details%20are%20as%20follows%3A%0A%0AID%3A%20AAf2e856-27a8-4b8d-9ec3-4e2581c546AA%0ATitle%3A%20Some%20title%20here"
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "#8BC34A",
+                      color: "#000000",
+                      fontWeight: "bold",
+                      border: "solid",
+                      borderColor: "#000000",
+                      borderWidth: "1px",
+                    }}
+                  >
+                    Send Email
+                  </Button>
+                </Link>
+              )}
+              {this.state.mode === "Password-Protected" && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    width: "20%",
+                    backgroundColor: "#8BC34A",
+                    color: "#000000",
+                    fontWeight: "bold",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  onClick={this.handleSubmit}
+                >
+                  Submit
+                </Button>
+              )}
             </div>
           </DialogContent>
         </Dialog>

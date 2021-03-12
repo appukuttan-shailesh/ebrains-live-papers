@@ -339,6 +339,7 @@ class TraceVersionsPanel extends React.Component {
             <Link
               href={this.props.data.view_url}
               target="_blank"
+              rel="noreferrer"
               underline="none"
             >
               <Button

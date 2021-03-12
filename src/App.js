@@ -111,7 +111,7 @@ class App extends React.Component {
   }
 
   handleLoadProjectKGClose(data) {
-    console.log(data);
+    // console.log(data);
     if (data) {
       // replace null values with empty strings
       // avoids errors, e.g. `value` prop on `textarea` should not be null
@@ -151,8 +151,8 @@ class App extends React.Component {
       const reader = new FileReader();
       reader.onload = function (that) {
         data = JSON.parse(reader.result);
-        let remove_keys = ["lp_tool_version", "modified_date"];
-        remove_keys.forEach((k) => delete data[k]);
+        // let remove_keys = ["lp_tool_version", "modified_date"];
+        // remove_keys.forEach((k) => delete data[k]);
 
         // sort resource sections by order #
         data.resources.sort(compareArrayoOfObjectsByOrder);
@@ -175,8 +175,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.props);
-
+    // console.log(this.props);
     var createLivePaperContent = "";
     if (this.state.createLivePaperOpen) {
       createLivePaperContent = (
@@ -290,6 +289,9 @@ class App extends React.Component {
               backgroundColor: "#FF9800",
               color: "#000000",
               fontWeight: "bold",
+              border: "solid",
+              borderColor: "#000000",
+              borderWidth: "1px",
             }}
             onClick={this.handleCreateLivePaperOpen}
           >
@@ -304,6 +306,9 @@ class App extends React.Component {
               width: "27.5%",
               backgroundColor: "#01579b",
               fontWeight: "bold",
+              border: "solid",
+              borderColor: "#000000",
+              borderWidth: "1px",
             }}
             onClick={this.handleLoadProjectFile}
           >
@@ -318,6 +323,9 @@ class App extends React.Component {
               width: "27.5%",
               backgroundColor: "#1D7021",
               fontWeight: "bold",
+              border: "solid",
+              borderColor: "#000000",
+              borderWidth: "1px",
             }}
             onClick={this.handleLoadProjectKG}
           >

@@ -131,6 +131,9 @@ class CreateLivePaper extends React.Component {
     super(props, context);
 
     this.state = {
+      id: "",
+      lp_tool_version: lp_tool_version,
+      modified_date: new Date(),
       authors: [{ firstname: "", lastname: "", affiliation: "" }],
       corresponding_author: { firstname: "", lastname: "", affiliation: "" }, // "email" removed
       created_author: [{ firstname: "", lastname: "", affiliation: "" }], // "email" removed
@@ -182,8 +185,10 @@ class CreateLivePaper extends React.Component {
     this.removeExcessData = this.removeExcessData.bind(this);
     this.addDerivedData = this.addDerivedData.bind(this);
     this.getCollabList = this.getCollabList.bind(this);
+    this.setID = this.setID.bind(this);
     this.setCollabID = this.setCollabID.bind(this);
     this.setLivePaperTitle = this.setLivePaperTitle.bind(this);
+    this.setLivePaperModifiedDate = this.setLivePaperModifiedDate.bind(this);
     this.verifyDataBeforeSubmit = this.verifyDataBeforeSubmit.bind(this);
     this.checkPersonInStateAuthors = this.checkPersonInStateAuthors.bind(this);
     this.deleteResourceSection = this.deleteResourceSection.bind(this);
@@ -369,10 +374,10 @@ class CreateLivePaper extends React.Component {
     );
 
     // create JSON object with live paper info
+    let newDate = new Date();
     let data = {
-      lp_tool_version: lp_tool_version,
-      modified_date: new Date(),
       ...this.removeExcessData(this.state),
+      modified_date: newDate,
     };
     const lp_data = JSON.stringify(data, null, 4);
     const blob = new Blob([lp_data], { type: "text/plain" });
@@ -392,6 +397,9 @@ class CreateLivePaper extends React.Component {
       ".lpp file downloaded...",
       "success"
     );
+    this.setState({
+      modified_date: newDate,
+    });
   }
 
   handleSaveOpen() {
@@ -430,7 +438,7 @@ class CreateLivePaper extends React.Component {
     const target = event.target;
     let value = target.value;
     const name = target.name;
-    console.log(name + " => " + value);
+    // console.log(name + " => " + value);
     if (name === "corresponding_author") {
       const c_author = this.checkPersonInStateAuthors(value);
       this.setState((prevState) => ({
@@ -783,6 +791,13 @@ class CreateLivePaper extends React.Component {
       });
   }
 
+  setID(value) {
+    console.log(value);
+    this.setState({
+      id: value,
+    });
+  }
+
   setCollabID(value) {
     console.log(value);
     this.setState({
@@ -797,10 +812,18 @@ class CreateLivePaper extends React.Component {
     });
   }
 
+  setLivePaperModifiedDate(value) {
+    console.log(value);
+    this.setState({
+      modified_date: value,
+    });
+  }
+
   verifyDataBeforeSubmit() {}
 
   render() {
-    // console.log(this.state);
+    console.log(this.state);
+    // console.log(this.props.data);
     // console.log(this.context.auth[0].token);
 
     let saveModal = null;
@@ -808,14 +831,15 @@ class CreateLivePaper extends React.Component {
       saveModal = (
         <SaveModal
           data={{
-            lp_tool_version: lp_tool_version,
-            modified_date: new Date(),
             ...this.removeExcessData(this.state),
+            modified_date: new Date(),
           }}
           open={this.state.saveOpen}
           onClose={this.handleSaveClose}
+          setID={this.setID}
           setCollabID={this.setCollabID}
           setLivePaperTitle={this.setLivePaperTitle}
+          setLivePaperModifiedDate={this.setLivePaperModifiedDate}
           collab_list={this.state.collab_list}
         />
       );

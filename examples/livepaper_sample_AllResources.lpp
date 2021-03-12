@@ -1,0 +1,216 @@
+{
+    "id": "",
+    "lp_tool_version": "0.1",
+    "modified_date": "2021-02-09T15:44:36.658Z",
+    "authors": [
+        {
+            "firstname": "Rosanna",
+            "lastname": "Migliore",
+            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
+        },
+        {
+            "firstname": "Luca L.",
+            "lastname": "Bologna",
+            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
+        }
+    ],
+    "corresponding_author": {
+        "firstname": "Rosanna",
+        "lastname": "Migliore",
+        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
+    },
+    "created_author": [
+        {
+            "firstname": "Luca L.",
+            "lastname": "Bologna",
+            "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
+        }
+    ],
+    "approved_author": {
+        "firstname": "Luca L.",
+        "lastname": "Bologna",
+        "affiliation": "Institute of Biophysics, National Research Council, Palermo, Italy"
+    },
+    "year": "2018-01-01",
+    "live_paper_title": "Example All Sections",
+    "associated_paper_title": "The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow",
+    "journal": "PLOS Computational Biology",
+    "url": "https://doi.org/10.1371/journal.pcbi.1006423",
+    "citation": "Migliore R, Lupascu CA, Bologna LL, Romani A, Courcol J-D, Antonel S, et al. (2018) The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow. PLoS Comput Biol 14(9): e1006423.",
+    "doi": "https://doi.org/10.1371/journal.pcbi.1006423",
+    "abstract": "The peak conductance of many ion channel types measured in any given animal is highly variable across neurons, both within and between neuronal populations. The current view is that this occurs  because a neuron needs to adapt its intrinsic electrophysiological properties either to maintain the same operative range in the presence of abnormal inputs or to compensate for the effects of  pathological conditions. Limited experimental and modeling evidence suggests this might be  implemented via the correlation and/or degeneracy in the function of multiple types of conductances. To study this mechanism in hippocampal CA1 neurons and interneurons, we systematically generated a set of morphologically and biophysically accurate models. We then analyzed the ensembles of peak conductance obtained for each model neuron. The results suggest that the set of conductances expressed in the various neuron types may be divided into two groups: one group is responsible for the major characteristics of the firing behavior in each population and the other more involved with  degeneracy. These models provide experimentally testable predictions on the combination and relative proportion of the different conductance types that should be present in hippocampal CA1  pyramidal cells and interneurons.",
+    "license": "Creative Commons Attribution 4.0 International",
+    "resources_description": "Data and models: all data and models used in the paper are available at the links reported below, grouped into the following categories:    ",
+    "collab_id": "shailesh-testing",
+    "resources": [
+        {
+            "order": 0,
+            "type": "section_morphology",
+            "title": "Morphologies",
+            "icon": "settings_input_antenna",
+            "description": "Morphology files (in .asc format) used in the paper for each etype (see Table S5 of the Supplementary Material):",
+            "dataFormatted": [
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/010710HP2.asc",
+                    "label": "010710HP2",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011017HP2.asc",
+                    "label": "011017HP2",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011023HP2.asc",
+                    "label": "011023HP2",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011127HP1.asc",
+                    "label": "011127HP1",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/031031AM1.asc",
+                    "label": "031031AM1",
+                    "identifier": null
+                }
+            ]
+        },
+        {
+            "order": 1,
+            "type": "section_traces",
+            "title": "Electrophysiological Traces",
+            "icon": "timeline",
+            "description": "",
+            "dataFormatted": [
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/Ivy_960711AHP3/96711008.abf",
+                    "label": "abf-int-bAC/Ivy_960711AHP3/96711008.abf",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111000.abf",
+                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111000.abf",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111001.abf",
+                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111001.abf",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111002.abf",
+                    "label": "abf-int-bAC/PVBC_990111ABHP1/99111002.abf",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911000.abf",
+                    "label": "abf-int-bAC/SP_AA_970911C/97911000.abf",
+                    "identifier": null
+                }
+            ]
+        },
+        {
+            "order": 2,
+            "type": "section_models",
+            "title": "Optimizations",
+            "icon": "local_play",
+            "description": "The optimization results for each morphology are individually available in the Model Catalog at the following links:",
+            "dataFormatted": [
+                {
+                    "type": "URL",
+                    "url": "",
+                    "label": "CA1_int_bAC_011017HP2_20180110153901",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.01284a1d-6fd3-4cc0-8fa7-41eada65d9d9",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "",
+                    "label": "CA1_int_bAC_011023HP2_20180116154023",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.26265178-e07f-402c-8194-b593a9fcdc62",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "",
+                    "label": "CA1_int_bAC_011127HP1_20180120115056",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6584dc03-0469-4b9b-bdd6-cca71011ec31",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "",
+                    "label": "CA1_int_cAC_031031AM1_20180201104443",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.4dec544a-5275-40fa-90a0-5a7f3b601b39",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "",
+                    "label": "CA1_int_bAC_060314AM2_20180120154128",
+                    "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6c698fa5-6ba4-4ac0-a38e-62cd7d4439ca",
+                    "identifier": null
+                }
+            ]
+        },
+        {
+            "order": 3,
+            "type": "section_generic",
+            "title": "Generic Listing",
+            "icon": "format_list_bulleted",
+            "description": "List of some files:",
+            "dataFormatted": [
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/010710HP2.asc",
+                    "label": "010710HP2",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011017HP2.asc",
+                    "label": "011017HP2",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011023HP2.asc",
+                    "label": "011023HP2",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011127HP1.asc",
+                    "label": "011127HP1",
+                    "identifier": null
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/031031AM1.asc",
+                    "label": "031031AM1",
+                    "identifier": null
+                }
+            ]
+        },
+        {
+            "order": 4,
+            "type": "section_custom",
+            "title": "ModelDB link and test simulations",
+            "icon": "note_add",
+            "data": "<p>A reduced self-consistent set of files needed to reproduce&nbsp;Fig.4A of the paper is available on\n    <a href=\"https://senselab.med.yale.edu/modeldb/enterCode.cshtml?model=244688#tabs-1\" target=\"_blank\">ModelDB</a>.\n    <br>\n    <br>Use the BSP Neuron As A Service (NaaS) tool to do in silico experiments with the single cell models shown in Fig.4A:\n    <br>\n    <span style=\"margin-left:25px\">> Start by clicking on any button below to run a simulation.</span>\n    <br>\n    <span style=\"margin-left:25px\">> After entering the NaaS page, click on the \"Simulation\" tab, adjust the current strength with the appropriate value, and run the simulation by clicking the \"Start simulation\" button.</span>\n</p>\n<div style=\"margin-left:25px\">\n    <table>\n        <tbody>\n        <tr>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_011023HP2_20180116154023?amp=0.6')\">int bAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980120A_20180115155814?amp=0.4')\">int cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_980513B_20180119155127?amp=0.4')\">int cNAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141208_B_idA_20170915151855_lp?amp=0.4')\">pyr cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n        </tr>\n        <tr>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_971114B_20180117154233_lp?amp=1.0')\">int bAC 1.0 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980513B_20180119155952?amp=0.6')\">int cAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_060314AM2_20180120154747?amp=0.8')\">int cNAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141209_A_idA_20170912152008?amp=0.8')\">pyr cAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n</div>",
+            "dataFormatted": "<p>A reduced self-consistent set of files needed to reproduce&nbsp;Fig.4A of the paper is available on\n    <a href=\"https://senselab.med.yale.edu/modeldb/enterCode.cshtml?model=244688#tabs-1\" target=\"_blank\">ModelDB</a>.\n    <br>\n    <br>Use the BSP Neuron As A Service (NaaS) tool to do in silico experiments with the single cell models shown in Fig.4A:\n    <br>\n    <span style=\"margin-left:25px\">> Start by clicking on any button below to run a simulation.</span>\n    <br>\n    <span style=\"margin-left:25px\">> After entering the NaaS page, click on the \"Simulation\" tab, adjust the current strength with the appropriate value, and run the simulation by clicking the \"Start simulation\" button.</span>\n</p>\n<div style=\"margin-left:25px\">\n    <table>\n        <tbody>\n        <tr>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_011023HP2_20180116154023?amp=0.6')\">int bAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980120A_20180115155814?amp=0.4')\">int cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_980513B_20180119155127?amp=0.4')\">int cNAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141208_B_idA_20170915151855_lp?amp=0.4')\">pyr cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n        </tr>\n        <tr>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_971114B_20180117154233_lp?amp=1.0')\">int bAC 1.0 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980513B_20180119155952?amp=0.6')\">int cAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_060314AM2_20180120154747?amp=0.8')\">int cNAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141209_A_idA_20170912152008?amp=0.8')\">pyr cAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n</div>"
+        }
+    ]
+}

@@ -118,7 +118,7 @@ export default class SectionCustom extends React.Component {
       //   description: "", // no description field for SectionCustom
       data: "",
       // NOTE: in KG schema, dataFormatted is stored under "description" field (for schema purposes),
-      // Handled by adjustForKGSchema()
+      // Handled by SaveModal.adjustForKGSchema()
       dataFormatted: "",
       showHelp: false,
       deleteOpen: false,

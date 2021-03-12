@@ -443,8 +443,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
   }
 
   render() {
-    console.log(this.state);
-
+    // console.log(this.state);
     var errorMessage = "";
     if (this.state.showError) {
       errorMessage = (
@@ -501,10 +500,14 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   variant="contained"
                   color="primary"
                   style={{
-                    backgroundColor: "#3F51B5",
-                    color: "#FFFFFF",
+                    width: "150px",
+                    backgroundColor: "#8BC34A",
+                    color: "#000000",
                     fontWeight: "bold",
                     padding: "10px",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
                   }}
                   onClick={this.uploadPDF}
                 >
@@ -522,10 +525,14 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   variant="contained"
                   color="primary"
                   style={{
-                    backgroundColor: "#E27300",
-                    color: "#FFFFFF",
+                    width: "150px",
+                    backgroundColor: "#FF9800",
+                    color: "#000000",
                     fontWeight: "bold",
                     padding: "10px",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
                   }}
                   onClick={this.cancelSelectPDF}
                 >
@@ -571,12 +578,12 @@ class CreateLivePaperLoadPDFData extends React.Component {
                     <tbody>
                       <tr>
                         <td>
-                        <img
-                      className="ebrains-icon-small"
-                      src="./imgs/ebrains_logo.png"
-                      alt="EBRAINS logo"
-                      style={{ width: "25px", height: "25px" }}
-                    />
+                          <img
+                            className="ebrains-icon-small"
+                            src="./imgs/ebrains_logo.png"
+                            alt="EBRAINS logo"
+                            style={{ width: "25px", height: "25px" }}
+                          />
                         </td>
                         <td>
                           <span
@@ -632,6 +639,9 @@ class CreateLivePaperLoadPDFData extends React.Component {
                       backgroundColor: "#009688",
                       color: "#000000",
                       fontWeight: "bold",
+                      border: "solid",
+                      borderColor: "#000000",
+                      borderWidth: "1px",
                     }}
                     onClick={this.browseForPDF}
                   >
@@ -647,6 +657,9 @@ class CreateLivePaperLoadPDFData extends React.Component {
                       backgroundColor: "#E57373",
                       color: "#000000",
                       fontWeight: "bold",
+                      border: "solid",
+                      borderColor: "#000000",
+                      borderWidth: "1px",
                     }}
                     onClick={this.skipContinue}
                   >

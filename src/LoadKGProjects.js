@@ -122,8 +122,7 @@ export default class LoadKGProjects extends React.Component {
   }
 
   render() {
-    console.log(this.state);
-
+    // console.log(this.state);
     if (this.state.error) {
       return (
         <ErrorDialog
@@ -210,7 +209,7 @@ export default class LoadKGProjects extends React.Component {
                 color="primary"
                 style={{
                   width: "20%",
-                  backgroundColor: "#969696",
+                  backgroundColor: "#FF9800",
                   color: "#000000",
                   fontWeight: "bold",
                   border: "solid",
@@ -229,8 +228,9 @@ export default class LoadKGProjects extends React.Component {
                 style={{
                   width: "20%",
                   backgroundColor:
-                    this.state.selectedRow && this.state.selectedRow >= 0
-                      ? "#FF9800"
+                    (this.state.selectedRow || this.state.selectedRow === 0) &&
+                    this.state.selectedRow >= 0
+                      ? "#8BC34A"
                       : "#FFFFFF",
                   color: "#000000",
                   fontWeight: "bold",
@@ -240,7 +240,10 @@ export default class LoadKGProjects extends React.Component {
                 }}
                 onClick={this.handleSelectProject}
                 disabled={
-                  !(this.state.selectedRow && this.state.selectedRow >= 0)
+                  !(
+                    (this.state.selectedRow || this.state.selectedRow === 0) &&
+                    this.state.selectedRow >= 0
+                  )
                 }
               >
                 Load Project
