@@ -7,7 +7,7 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p>{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{data["description"]}}</p>
             {% endif %}
 
             <div style="margin-left:25px">
@@ -37,6 +37,62 @@
     </li>
 {% endmacro %}
 
+{% macro sectionMorphologyWithTabs(data, index) %}
+    <li>
+        <div class="collapsible-header amber lighten-5">
+            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+        </div>
+        <div class="collapsible-body ">
+            {% if data["description"] %}
+                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+            {% endif %}
+
+            <div class="collapsible">
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            {% for tab in data["tabs"] %}
+                                <li class="tab col s3">
+                                    <a href='#res_{{index}}_tab_{{tab|replace(" ", "_")}}'>{{tab}}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% for tab in data["tabs"] %}
+                    <div id='res_{{index}}_tab_{{tab|replace(" ", "_")}}' class="col s12">
+                        <div style="margin-left:25px">
+                            <table class="striped">
+                                <tbody>
+                                    {% for item in data["dataFormatted"] %}
+                                        {% if item["tab_name"] == tab %}
+                                            <tr>
+                                                <td>
+                                                    {{item["label"]}}
+                                                </td>
+                                                <td style="width: 175px">
+                                                    <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                                        <i class="material-icons left">archive</i>Download
+                                                    </a>
+                                                </td>
+                                                <td style="width: 175px">
+                                                    <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{item["url"]}}' target=" _blank" class="waves-effect waves-light">
+                                                        <i class="material-icons left">3d_rotation</i>View
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
 {% macro sectionTraces(data) %}
     <li>
         <div class="collapsible-header amber lighten-5">
@@ -44,22 +100,66 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p>{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{data["description"]}}</p>
             {% endif %}
             <div ng-app="neo-visualizer">
-                <div style="margin-left:25px">
-                    <ul class="collapsible" data-collapsible="expandable">
-                        {% for item in data["dataFormatted"] %}
-                            <li>
-                                <div class="collapsible-header">{{item["label"]}}</div>
-                                <div class="collapsible-body">
-                                    <span>
-                                        <visualizer-view source='{{item["url"]}}' height="300"></visualizer-view>
-                                    </span>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                <ul class="collapsible" data-collapsible="expandable">
+                    {% for item in data["dataFormatted"] %}
+                        <li>
+                            <div class="collapsible-header">{{item["label"]}}</div>
+                            <div class="collapsible-body">
+                                <span>
+                                    <visualizer-view source='{{item["url"]}}' height="300"></visualizer-view>
+                                </span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro sectionTracesWithTabs(data, index) %}
+    <li>
+        <div class="collapsible-header amber lighten-5">
+            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+        </div>
+        <div class="collapsible-body ">
+            {% if data["description"] %}
+                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+            {% endif %}
+            <div ng-app="neo-visualizer">
+                <div class="collapsible">
+                    <div class="row">
+                        <div class="col s12">
+                            <ul class="tabs">
+                                {% for tab in data["tabs"] %}
+                                    <li class="tab col s3">
+                                        <a href='#res_{{index}}_tab_{{tab}}'>{{tab}}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% for tab in data["tabs"] %}
+                        <div id="res_{{index}}_tab_{{tab}}" class="col s12">
+                            <ul class="collapsible" data-collapsible="expandable">
+                                {% for item in data["dataFormatted"] %}
+                                    {% if item["tab_name"] == tab %}
+                                        <li>
+                                            <div class="collapsible-header">{{item["label"]}}</div>
+                                            <div class="collapsible-body">
+                                                <span>
+                                                    <visualizer-view source='{{item["url"]}}' height="300"></visualizer-view>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -73,7 +173,7 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p>{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{data["description"]}}</p>
             {% endif %}
 
             <div style="margin-left:25px">
@@ -107,6 +207,66 @@
     </li>
 {% endmacro %}
 
+{% macro sectionModelsWithTabs(data, index) %}
+    <li>
+        <div class="collapsible-header amber lighten-5">
+            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+        </div>
+        <div class="collapsible-body ">
+            {% if data["description"] %}
+                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+            {% endif %}
+
+            <div class="collapsible">
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            {% for tab in data["tabs"] %}
+                                <li class="tab col s3">
+                                    <a href='#res_{{index}}_tab_{{tab|replace(" ", "_")}}'>{{tab}}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% for tab in data["tabs"] %}
+                    <div id='res_{{index}}_tab_{{tab|replace(" ", "_")}}' class="col s12">
+                        <div style="margin-left:25px">
+                            <table class="striped">
+                                <tbody>
+                                    {% for item in data["dataFormatted"] %}
+                                        {% if item["tab_name"] == tab %}
+                                            <tr>
+                                                <td>
+                                                    {{item["label"]}}
+                                                </td>
+                                                <td style="width: 175px">
+                                                    {% if item["url"] %}
+                                                        <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                                            <i class="material-icons left">archive</i>Download
+                                                        </a>
+                                                    {% endif %}
+                                                </td>
+                                                <td style="width: 175px">
+                                                    {% if item["mc_url"] %}
+                                                        <a href='{{item["mc_url"]}}' target="_blank" class="waves-effect waves-light">
+                                                            <i class="material-icons left">pageview</i>View
+                                                        </a>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
 {% macro sectionGeneric(data) %}
     <li>
         <div class="collapsible-header amber lighten-5">
@@ -114,7 +274,7 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p>{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{data["description"]}}</p>
             {% endif %}
 
             <div style="margin-left:25px">
@@ -134,6 +294,57 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro sectionGenericWithTabs(data, index) %}
+    <li>
+        <div class="collapsible-header amber lighten-5">
+            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+        </div>
+        <div class="collapsible-body ">
+            {% if data["description"] %}
+                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+            {% endif %}
+
+            <div class="collapsible">
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            {% for tab in data["tabs"] %}
+                                <li class="tab col s3">
+                                    <a href='#res_{{index}}_tab_{{tab|replace(" ", "_")}}'>{{tab}}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% for tab in data["tabs"] %}
+                    <div id='res_{{index}}_tab_{{tab|replace(" ", "_")}}' class="col s12">
+                        <div style="margin-left:25px">
+                            <table class="striped">
+                                <tbody>
+                                    {% for item in data["dataFormatted"] %}
+                                        {% if item["tab_name"] == tab %}
+                                            <tr>
+                                                <td>
+                                                    {{item["label"]}}
+                                                </td>
+                                                <td style="width: 175px">
+                                                    <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                                        <i class="material-icons left">archive</i>Download
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </li>
@@ -351,13 +562,29 @@
         <ul class="collapsible" data-collapsible="expandable">
             {% for data in resources %}
                 {% if data["type"] == "section_morphology" %}
-                    {{ sectionMorphology(data=data) }}
+                    {% if data["tabs"] | length == 1 %}
+                        {{ sectionMorphology(data=data) }}
+                    {% else %}
+                        {{ sectionMorphologyWithTabs(data=data, index=loop.index) }}
+                    {% endif %}
                 {% elseif data["type"] == "section_traces" %}
-                    {{ sectionTraces(data=data) }}
+                    {% if data["tabs"] | length == 1 %}
+                        {{ sectionTraces(data=data) }}
+                    {% else %}
+                        {{ sectionTracesWithTabs(data=data, index=loop.index) }}
+                    {% endif %}
                 {% elseif data["type"] == "section_models" %}
-                    {{ sectionModels(data=data) }}
+                    {% if data["tabs"] | length == 1 %}
+                        {{ sectionModels(data=data) }}
+                    {% else %}
+                        {{ sectionModelsWithTabs(data=data, index=loop.index) }}
+                    {% endif %}
                 {% elseif data["type"] == "section_generic" %}
-                    {{ sectionGeneric(data=data) }}
+                    {% if data["tabs"] | length == 1 %}
+                        {{ sectionGeneric(data=data) }}
+                    {% else %}
+                        {{ sectionGenericWithTabs(data=data, index=loop.index) }}
+                    {% endif %}
                 {% elseif data["type"] == "section_custom" %}
                     {{ sectionCustom(data=data) }}
                 {% else %}

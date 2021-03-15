@@ -131,6 +131,20 @@ class App extends React.Component {
         }
       });
 
+      // handle useTabs for resources
+      data.resources.forEach(function (res, index) {
+        if (res.type !== "section_custom") {
+          let tabs = [];
+          res.dataFormatted.forEach(function (res_item, index) {
+            tabs.push(res_item.tab_name || "");
+          });
+          // get only unique elements
+          tabs = tabs.filter((x, i, a) => a.indexOf(x) === i);
+          // add tab names to resource data
+          res["useTabs"] = tabs.length > 1 || tabs[0] !== "" ? true : false;
+        }
+      });
+
       this.setState({
         loadProjectKGOpen: false,
         projectData: data,
@@ -156,6 +170,20 @@ class App extends React.Component {
 
         // sort resource sections by order #
         data.resources.sort(compareArrayoOfObjectsByOrder);
+
+        // handle useTabs for resources
+        data.resources.forEach(function (res, index) {
+          if (res.type !== "section_custom") {
+            let tabs = [];
+            res.dataFormatted.forEach(function (res_item, index) {
+              tabs.push(res_item.tab_name || "");
+            });
+            // get only unique elements
+            tabs = tabs.filter((x, i, a) => a.indexOf(x) === i);
+            // add tab names to resource data
+            res["useTabs"] = tabs.length > 1 || tabs[0] !== "" ? true : false;
+          }
+        });
 
         // console.log(data);
         scope.setState({

@@ -7,6 +7,7 @@ import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import DynamicTableItems from "./DynamicTableItems";
 import KGInputModels from "./KGInputModels";
+import ToggleSwitch from "./ToggleSwitch";
 import { mc_baseUrl } from "./globals";
 
 import Accordion from "@material-ui/core/Accordion";
@@ -124,9 +125,11 @@ export class SectionModelsEdit extends React.Component {
           "url" in item &&
           "label" in item &&
           "mc_url" in item &&
+          "tab_name" in item &&
           typeof item["url"] === "string" &&
           typeof item["label"] === "string" &&
-          typeof item["mc_url"] === "string"
+          typeof item["mc_url"] === "string" &&
+          typeof item["tab_name"] === "string"
         );
       }
 
@@ -283,6 +286,7 @@ export default class SectionModels extends React.Component {
     this.handleMoveUp = this.handleMoveUp.bind(this);
     this.toggleExpanded = this.toggleExpanded.bind(this);
     this.handleItemsChange = this.handleItemsChange.bind(this);
+    this.toggleUseTabs = this.toggleUseTabs.bind(this);
   }
 
   componentDidMount() {
@@ -306,7 +310,14 @@ export default class SectionModels extends React.Component {
     // console.log(items_data);
     if (items_data.length === 0) {
       items_data = [
-        { type: "URL", label: "", url: "", mc_url: "", identifier: null },
+        {
+          type: "URL",
+          label: "",
+          url: "",
+          mc_url: "",
+          identifier: null,
+          tab_name: "",
+        },
       ];
     }
 
@@ -406,6 +417,7 @@ export default class SectionModels extends React.Component {
             url: items[model_id][instance_id]["source_url"] || "",
             label: items[model_id][instance_id]["label"] || "",
             mc_url: mc_baseUrl + "/#model_id." + model_id || "",
+            tab_name: "",
             identifier: instance_id,
           });
         }
@@ -431,6 +443,24 @@ export default class SectionModels extends React.Component {
     } else {
       this.setState({
         showKGInput: false,
+      });
+    }
+  }
+
+  toggleUseTabs() {
+    if (this.state.useTabs) {
+      // if turning off, then erase all tabs data
+      let dataFormatted = this.state.dataFormatted;
+      dataFormatted.forEach(function (item, index) {
+        item.tab_name = "";
+      });
+      this.setState({
+        dataFormatted: dataFormatted,
+        useTabs: false,
+      });
+    } else {
+      this.setState({
+        useTabs: true,
       });
     }
   }
@@ -589,12 +619,39 @@ export default class SectionModels extends React.Component {
                   />
                 </Grid>
                 <br />
+                <Grid
+                  item
+                  xs={12}
+                  style={{ paddingLeft: "10px", paddingBottom: "20px" }}
+                >
+                  <span style={{ paddingRight: "10px" }}>
+                    Do you wish to use tabs to group items in this section?
+                  </span>
+                  <ToggleSwitch
+                    id="modelsTabs"
+                    checked={this.state.useTabs}
+                    onChange={this.toggleUseTabs}
+                  />
+                </Grid>
+                {this.state.useTabs && (
+                  <Grid
+                    item
+                    xs={12}
+                    style={{ paddingLeft: "10px", paddingBottom: "20px" }}
+                  >
+                    <em>
+                      Note: All items to be grouped together should be assigned
+                      the same tab name.
+                    </em>
+                  </Grid>
+                )}
                 <DynamicTableItems
                   items={this.state.dataFormatted}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
                   handleKG={this.clickKG}
                   numCols={3}
+                  useTabs={this.state.useTabs}
                 />
                 <br />
                 <br />

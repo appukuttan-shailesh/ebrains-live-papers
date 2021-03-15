@@ -54,31 +54,36 @@
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/010710HP2.asc",
                     "label": "010710HP2",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group 1"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011017HP2.asc",
                     "label": "011017HP2",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group 1"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011023HP2.asc",
                     "label": "011023HP2",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group 2"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011127HP1.asc",
                     "label": "011127HP1",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group 2"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/031031AM1.asc",
                     "label": "031031AM1",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group 3"
                 }
             ]
         },
@@ -93,31 +98,43 @@
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/Ivy_960711AHP3/96711008.abf",
                     "label": "abf-int-bAC/Ivy_960711AHP3/96711008.abf",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "int-bAC"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111000.abf",
                     "label": "abf-int-bAC/PVBC_990111ABHP1/99111000.abf",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "int-bAC"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111001.abf",
                     "label": "abf-int-bAC/PVBC_990111ABHP1/99111001.abf",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "int-cAC"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/PVBC_990111ABHP1/99111002.abf",
                     "label": "abf-int-bAC/PVBC_990111ABHP1/99111002.abf",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "int-cAC"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911000.abf",
                     "label": "abf-int-bAC/SP_AA_970911C/97911000.abf",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "int-cNAC"
+                },
+                {
+                    "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911001.abf",
+                    "label": "abf-int-bAC/SP_AA_970911C/97911001",
+                    "identifier": null,
+                    "tab_name": "int-cNAC"
                 }
             ]
         },
@@ -133,35 +150,40 @@
                     "url": "",
                     "label": "CA1_int_bAC_011017HP2_20180110153901",
                     "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.01284a1d-6fd3-4cc0-8fa7-41eada65d9d9",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group A"
                 },
                 {
                     "type": "URL",
                     "url": "",
                     "label": "CA1_int_bAC_011023HP2_20180116154023",
                     "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.26265178-e07f-402c-8194-b593a9fcdc62",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group A"
                 },
                 {
                     "type": "URL",
                     "url": "",
                     "label": "CA1_int_bAC_011127HP1_20180120115056",
                     "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6584dc03-0469-4b9b-bdd6-cca71011ec31",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group A"
                 },
                 {
                     "type": "URL",
                     "url": "",
                     "label": "CA1_int_cAC_031031AM1_20180201104443",
                     "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.4dec544a-5275-40fa-90a0-5a7f3b601b39",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group B"
                 },
                 {
                     "type": "URL",
                     "url": "",
                     "label": "CA1_int_bAC_060314AM2_20180120154128",
                     "mc_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6c698fa5-6ba4-4ac0-a38e-62cd7d4439ca",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group B"
                 }
             ]
         },
@@ -176,31 +198,36 @@
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/010710HP2.asc",
                     "label": "010710HP2",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group Q1"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011017HP2.asc",
                     "label": "011017HP2",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group Q1"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011023HP2.asc",
                     "label": "011023HP2",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group W1"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/011127HP1.asc",
                     "label": "011127HP1",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group W1"
                 },
                 {
                     "type": "URL",
                     "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/morphologies/031031AM1.asc",
                     "label": "031031AM1",
-                    "identifier": null
+                    "identifier": null,
+                    "tab_name": "Group W1"
                 }
             ]
         },

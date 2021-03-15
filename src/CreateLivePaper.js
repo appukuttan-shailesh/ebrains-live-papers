@@ -299,7 +299,14 @@ class CreateLivePaper extends React.Component {
 
     // remove from within resources objects
     for (let res of req_data.resources) {
-      let remove_keys = ["dataOk", "showHelp", "deleteOpen"];
+      let remove_keys = [
+        "dataOk",
+        "showEdit",
+        "showKGInput",
+        "expanded",
+        "useTabs",
+        "deleteOpen",
+      ];
       remove_keys.forEach((k) => delete res[k]);
     }
 
@@ -311,6 +318,22 @@ class CreateLivePaper extends React.Component {
     data["authors_string"] = this.makeAuthorsString();
     data["created_authors_string"] = this.makeCreatedAuthorsString();
     data["affiliations_string"] = this.makeAffiliationsString();
+
+    // check if resources use tabs; handle appropriately
+    data.resources.forEach(function (res, index) {
+      if (res.type !== "section_custom") {
+        let tabs = [];
+        res.dataFormatted.forEach(function (res_item, index) {
+          tabs.push(res_item.tab_name || "");
+        });
+        // get only unique elements
+        tabs = tabs.filter((x, i, a) => a.indexOf(x) === i);
+        // replace empty string with "(no tab name)"
+        tabs = tabs.map((item) => (item === "" ? "(no tab name)" : item));
+        // add tab names to resource data
+        res["tabs"] = tabs;
+      }
+    });
     return data;
   }
 
@@ -342,9 +365,7 @@ class CreateLivePaper extends React.Component {
   }
 
   handleDownload() {
-    this.makeAuthorsString();
-    this.makeCreatedAuthorsString();
-    this.makeAffiliationsString();
+    let lp_data = this.addDerivedData(this.removeExcessData(this.state));
 
     function render(data) {
       fetch(LivePaper)
@@ -365,7 +386,7 @@ class CreateLivePaper extends React.Component {
           element.click();
         });
     }
-    render(this.removeExcessData(this.state));
+    render(lp_data);
 
     showNotification(
       this.props.enqueueSnackbar,
@@ -374,13 +395,15 @@ class CreateLivePaper extends React.Component {
     );
 
     // create JSON object with live paper info
+    lp_data = this.removeExcessData(this.state);
     let newDate = new Date();
-    let data = {
-      ...this.removeExcessData(this.state),
+    let lp_data_updated = {
+      ...lp_data,
       modified_date: newDate,
     };
-    const lp_data = JSON.stringify(data, null, 4);
-    const blob = new Blob([lp_data], { type: "text/plain" });
+
+    const lp_data_formatted = JSON.stringify(lp_data_updated, null, 4);
+    const blob = new Blob([lp_data_formatted], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     const timestamp = new Date()

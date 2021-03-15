@@ -6,6 +6,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import DynamicTableItems from "./DynamicTableItems";
+import ToggleSwitch from "./ToggleSwitch";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -111,8 +112,10 @@ export class SectionMorphologyEdit extends React.Component {
           item !== null &&
           "url" in item &&
           "label" in item &&
+          "tab_name" in item &&
           typeof item["url"] === "string" &&
-          typeof item["label"] === "string"
+          typeof item["label"] === "string" &&
+          typeof item["tab_name"] === "string"
         );
       }
 
@@ -201,7 +204,7 @@ export class SectionMorphologyEdit extends React.Component {
     return (
       <DialogConfirm
         open={this.props.open}
-        title={"Edit Source: " + this.state.title}
+        title={"Edit Source: " + this.props.title}
         headerBgColor="#FF9800"
         content={this.renderContent()}
         handleClose={this.handleSaveData}
@@ -266,6 +269,7 @@ export default class SectionMorphology extends React.Component {
     this.handleMoveUp = this.handleMoveUp.bind(this);
     this.toggleExpanded = this.toggleExpanded.bind(this);
     this.handleItemsChange = this.handleItemsChange.bind(this);
+    this.toggleUseTabs = this.toggleUseTabs.bind(this);
   }
 
   componentDidMount() {
@@ -285,9 +289,17 @@ export default class SectionMorphology extends React.Component {
     //   }
     // }
     // var items_data = data.filter(isNotEmpty);
-    console.log(items_data);
+    // console.log(items_data);
     if (items_data.length === 0) {
-      items_data = [{ label: "", url: "" }];
+      items_data = [
+        {
+          type: "URL",
+          label: "",
+          url: "",
+          identifier: null,
+          tab_name: "",
+        },
+      ];
     }
 
     this.setState(
@@ -367,6 +379,24 @@ export default class SectionMorphology extends React.Component {
     this.setState({
       showEdit: false,
     });
+  }
+
+  toggleUseTabs() {
+    if (this.state.useTabs) {
+      // if turning off, then erase all tabs data
+      let dataFormatted = this.state.dataFormatted;
+      dataFormatted.forEach(function (item, index) {
+        item.tab_name = "";
+      });
+      this.setState({
+        dataFormatted: dataFormatted,
+        useTabs: false,
+      });
+    } else {
+      this.setState({
+        useTabs: true,
+      });
+    }
   }
 
   render() {
@@ -523,17 +553,45 @@ export default class SectionMorphology extends React.Component {
                   />
                 </Grid>
                 <br />
+                <Grid
+                  item
+                  xs={12}
+                  style={{ paddingLeft: "10px", paddingBottom: "20px" }}
+                >
+                  <span style={{ paddingRight: "10px" }}>
+                    Do you wish to use tabs to group items in this section?
+                  </span>
+                  <ToggleSwitch
+                    id="morphologiesTabs"
+                    checked={this.state.useTabs}
+                    onChange={this.toggleUseTabs}
+                  />
+                </Grid>
+                {this.state.useTabs && (
+                  <Grid
+                    item
+                    xs={12}
+                    style={{ paddingLeft: "10px", paddingBottom: "20px" }}
+                  >
+                    <em>
+                      Note: All items to be grouped together should be assigned
+                      the same tab name.
+                    </em>
+                  </Grid>
+                )}
                 <DynamicTableItems
                   items={this.state.dataFormatted}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
                   numCols={2}
+                  useTabs={this.state.useTabs}
                 />
                 <br />
                 <br />
                 {this.state.showEdit ? (
                   <SectionMorphologyEdit
                     open={this.state.showEdit}
+                    title={this.state.title}
                     data={this.state.dataFormatted}
                     onChangeValue={this.handleItemsChange}
                     handleClose={this.handleEditClose}

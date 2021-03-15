@@ -85,7 +85,14 @@ export class RowURL extends React.Component {
         </td>
         <td
           style={{
-            width: this.props.numCols > 2 ? "30%" : "60%",
+            width:
+              this.props.numCols > 2
+                ? this.props.useTabs
+                  ? "27.5"
+                  : "30%"
+                : this.props.useTabs
+                ? "55%"
+                : "60%",
             padding: "5px 10px 5px 0px",
           }}
         >
@@ -103,13 +110,34 @@ export class RowURL extends React.Component {
           </div>
         </td>
         {this.props.numCols > 2 && (
-          <td style={{ width: "30%", padding: "5px 10px 5px 0px" }}>
+          <td
+            style={{
+              width: this.props.useTabs ? "27.5" : "30%",
+              padding: "5px 10px 5px 0px",
+            }}
+          >
             <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
               <Tooltip title={this.props.item["mc_url"] || ""}>
                 <input
                   name="mc_url"
                   type="text"
                   value={this.props.item["mc_url"]}
+                  onChange={(e) =>
+                    this.props.handleItemChanged(this.props.ind, e)
+                  }
+                />
+              </Tooltip>
+            </div>
+          </td>
+        )}
+        {this.props.useTabs && (
+          <td style={{ width: "12.5%", padding: "5px 10px 5px 0px" }}>
+            <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
+              <Tooltip title={this.props.item["tab_name"] || ""}>
+                <input
+                  name="tab_name"
+                  type="text"
+                  value={this.props.item["tab_name"]}
                   onChange={(e) =>
                     this.props.handleItemChanged(this.props.ind, e)
                   }
@@ -216,6 +244,35 @@ export class RowURLExpanded extends React.Component {
                   </td>
                 </tr>
               )}
+              {this.props.useTabs && (
+                <tr style={{ border: "None" }}>
+                  <td
+                    style={{
+                      width: "100%",
+                      padding: "5px 10px 5px 0px",
+                    }}
+                  >
+                    <Tooltip title={this.props.item["tab_name"] || ""}>
+                      <TextField
+                        label="Tab Name"
+                        variant="outlined"
+                        fullWidth={true}
+                        name="tab_name"
+                        value={this.props.item["tab_name"]}
+                        onChange={(e) =>
+                          this.props.handleItemChanged(this.props.ind, e)
+                        }
+                        InputProps={{
+                          style: {
+                            backgroundColor: "#FFFFFF",
+                            padding: "5px 15px",
+                          },
+                        }}
+                      />
+                    </Tooltip>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </td>
@@ -252,32 +309,70 @@ export class RowKG extends React.Component {
         </td>
         <td
           style={{
-            width: this.props.numCols > 2 ? "30%" : "60%",
+            width:
+              this.props.numCols > 2
+                ? this.props.useTabs
+                  ? "27.5"
+                  : "30%"
+                : this.props.useTabs
+                ? "55%"
+                : "60%",
             padding: "5px 10px 5px 0px",
           }}
         >
           <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
-            <Tooltip title={this.props.item["url"] || ""}>
+            <Tooltip
+              title={this.props.item["url"] || ""}
+              onClick={() =>
+                navigator.clipboard.writeText(this.props.item["url"])
+              }
+            >
               <input
                 name="url"
                 type="text"
                 defaultValue={this.props.item["url"]}
-                onClick={(e) => navigator.clipboard.writeText(e.target.value)}
+                disabled
                 style={{ cursor: "pointer", color: "#808080" }}
               />
             </Tooltip>
           </div>
         </td>
         {this.props.numCols > 2 && (
-          <td style={{ width: "30%", padding: "5px 10px 5px 0px" }}>
+          <td
+            style={{
+              width: this.props.useTabs ? "27.5" : "30%",
+              padding: "5px 10px 5px 0px",
+            }}
+          >
             <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
-              <Tooltip title={this.props.item["mc_url"] || ""}>
+              <Tooltip
+                title={this.props.item["mc_url"] || ""}
+                onClick={() =>
+                  navigator.clipboard.writeText(this.props.item["mc_url"])
+                }
+              >
                 <input
                   name="mc_url"
                   type="text"
                   defaultValue={this.props.item["mc_url"]}
-                  onClick={(e) => navigator.clipboard.writeText(e.target.value)}
+                  disabled
                   style={{ cursor: "pointer", color: "#808080" }}
+                />
+              </Tooltip>
+            </div>
+          </td>
+        )}
+        {this.props.useTabs && (
+          <td style={{ width: "12.5%", padding: "5px 10px 5px 0px" }}>
+            <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
+              <Tooltip title={this.props.item["tab_name"] || ""}>
+                <input
+                  name="tab_name"
+                  type="text"
+                  value={this.props.item["tab_name"]}
+                  onChange={(e) =>
+                    this.props.handleItemChanged(this.props.ind, e)
+                  }
                 />
               </Tooltip>
             </div>
@@ -369,7 +464,7 @@ export class RowKGExpanded extends React.Component {
                     <Tooltip
                       title={this.props.item["mc_url"] || ""}
                       onClick={() =>
-                        navigator.clipboard.writeText(this.props.item["url"])
+                        navigator.clipboard.writeText(this.props.item["mc_url"])
                       }
                     >
                       <TextField
@@ -386,6 +481,35 @@ export class RowKGExpanded extends React.Component {
                             color: "#808080",
                             padding: "5px 15px",
                             cursor: "pointer",
+                          },
+                        }}
+                      />
+                    </Tooltip>
+                  </td>
+                </tr>
+              )}
+              {this.props.useTabs && (
+                <tr style={{ border: "None" }}>
+                  <td
+                    style={{
+                      width: "100%",
+                      padding: "5px 10px 5px 0px",
+                    }}
+                  >
+                    <Tooltip title={this.props.item["tab_name"] || ""}>
+                      <TextField
+                        label="Tab Name"
+                        variant="outlined"
+                        fullWidth={true}
+                        name="tab_name"
+                        value={this.props.item["tab_name"]}
+                        onChange={(e) =>
+                          this.props.handleItemChanged(this.props.ind, e)
+                        }
+                        InputProps={{
+                          style: {
+                            backgroundColor: "#FFFFFF",
+                            padding: "5px 15px",
                           },
                         }}
                       />
@@ -499,6 +623,7 @@ export default class DynamicTableItems extends React.Component {
       label: "",
       url: "",
       mc_url: "",
+      tab_name: "",
       identifier: null,
     });
     this.props.onChangeValue(items);
@@ -550,7 +675,7 @@ export default class DynamicTableItems extends React.Component {
     }
   }
 
-  renderRows(numCols) {
+  renderRows(numCols, useTabs) {
     var context = this;
     var items = this.props.items;
 
@@ -565,6 +690,7 @@ export default class DynamicTableItems extends React.Component {
                 ind={ind}
                 numCols={numCols}
                 numRows={items.length}
+                useTabs={useTabs}
                 handleItemMoveDown={context.handleItemMoveDown}
                 handleItemMoveUp={context.handleItemMoveUp}
                 handleItemDeleted={context.handleItemDeleted}
@@ -576,6 +702,7 @@ export default class DynamicTableItems extends React.Component {
                 ind={ind}
                 numCols={numCols}
                 numRows={items.length}
+                useTabs={useTabs}
                 handleItemMoveDown={context.handleItemMoveDown}
                 handleItemMoveUp={context.handleItemMoveUp}
                 handleItemDeleted={context.handleItemDeleted}
@@ -588,6 +715,7 @@ export default class DynamicTableItems extends React.Component {
               ind={ind}
               numCols={numCols}
               numRows={items.length}
+              useTabs={useTabs}
               handleItemMoveDown={context.handleItemMoveDown}
               handleItemMoveUp={context.handleItemMoveUp}
               handleItemDeleted={context.handleItemDeleted}
@@ -599,6 +727,7 @@ export default class DynamicTableItems extends React.Component {
               ind={ind}
               numCols={numCols}
               numRows={items.length}
+              useTabs={useTabs}
               handleItemMoveDown={context.handleItemMoveDown}
               handleItemMoveUp={context.handleItemMoveUp}
               handleItemDeleted={context.handleItemDeleted}
@@ -623,13 +752,18 @@ export default class DynamicTableItems extends React.Component {
                 {this.props.numCols > 2 && (
                   <th style={{ padding: "5px 10px" }}>Model Catalog URL</th>
                 )}
+                {this.props.useTabs && (
+                  <th style={{ padding: "5px 10px" }}>Tab Name</th>
+                )}
                 <th style={{ padding: "5px 0px 5px 10 px" }}>
                   {/* delete button */}
                 </th>
               </tr>
             </thead>
           )}
-          <tbody>{this.renderRows(this.props.numCols)}</tbody>
+          <tbody>
+            {this.renderRows(this.props.numCols, this.props.useTabs)}
+          </tbody>
         </table>
         <div
           style={{

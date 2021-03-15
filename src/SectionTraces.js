@@ -7,6 +7,7 @@ import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import DynamicTableItems from "./DynamicTableItems";
 import KGInputTraces from "./KGInputTraces";
+import ToggleSwitch from "./ToggleSwitch";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -112,8 +113,10 @@ export class SectionTracesEdit extends React.Component {
           item !== null &&
           "url" in item &&
           "label" in item &&
+          "tab_name" in item &&
           typeof item["url"] === "string" &&
-          typeof item["label"] === "string"
+          typeof item["label"] === "string" &&
+          typeof item["tab_name"] === "string"
         );
       }
 
@@ -256,6 +259,7 @@ export default class SectionTraces extends React.Component {
       showKGInput: false,
       deleteOpen: false,
       expanded: true,
+      useTabs: false,
       ...props.data,
     };
 
@@ -270,6 +274,7 @@ export default class SectionTraces extends React.Component {
     this.handleMoveUp = this.handleMoveUp.bind(this);
     this.toggleExpanded = this.toggleExpanded.bind(this);
     this.handleItemsChange = this.handleItemsChange.bind(this);
+    this.toggleUseTabs = this.toggleUseTabs.bind(this);
   }
 
   componentDidMount() {
@@ -289,9 +294,11 @@ export default class SectionTraces extends React.Component {
     //   }
     // }
     // var items_data = data.filter(isNotEmpty);
-    console.log(items_data);
+    // console.log(items_data);
     if (items_data.length === 0) {
-      items_data = [{ label: "", url: "" }];
+      items_data = [
+        { type: "URL", label: "", url: "", identifier: null, tab_name: "" },
+      ];
     }
 
     this.setState(
@@ -390,6 +397,7 @@ export default class SectionTraces extends React.Component {
             url: items[model_id][instance_id]["source_url"] || "",
             label: items[model_id][instance_id]["label"] || "",
             view_url: items[model_id][instance_id]["view_url"] || "",
+            tab_name: "",
             identifier: instance_id,
           });
         }
@@ -415,6 +423,24 @@ export default class SectionTraces extends React.Component {
     } else {
       this.setState({
         showKGInput: false,
+      });
+    }
+  }
+
+  toggleUseTabs() {
+    if (this.state.useTabs) {
+      // if turning off, then erase all tabs data
+      let dataFormatted = this.state.dataFormatted;
+      dataFormatted.forEach(function (item, index) {
+        item.tab_name = "";
+      });
+      this.setState({
+        dataFormatted: dataFormatted,
+        useTabs: false,
+      });
+    } else {
+      this.setState({
+        useTabs: true,
       });
     }
   }
@@ -573,12 +599,39 @@ export default class SectionTraces extends React.Component {
                   />
                 </Grid>
                 <br />
+                <Grid
+                  item
+                  xs={12}
+                  style={{ paddingLeft: "10px", paddingBottom: "20px" }}
+                >
+                  <span style={{ paddingRight: "10px" }}>
+                    Do you wish to use tabs to group items in this section?
+                  </span>
+                  <ToggleSwitch
+                    id="tracesTabs"
+                    checked={this.state.useTabs}
+                    onChange={this.toggleUseTabs}
+                  />
+                </Grid>
+                {this.state.useTabs && (
+                  <Grid
+                    item
+                    xs={12}
+                    style={{ paddingLeft: "10px", paddingBottom: "20px" }}
+                  >
+                    <em>
+                      Note: All items to be grouped together should be assigned
+                      the same tab name.
+                    </em>
+                  </Grid>
+                )}
                 <DynamicTableItems
                   items={this.state.dataFormatted}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
                   handleKG={this.clickKG}
                   numCols={2}
+                  useTabs={this.state.useTabs}
                 />
                 <br />
                 <br />
