@@ -390,15 +390,15 @@ export default class SectionTraces extends React.Component {
     if (flag) {
       console.log(items);
       let new_items = [];
-      for (const model_id in items) {
-        for (const instance_id in items[model_id]) {
+      for (const trace_id in items) {
+        for (const instance_id in items[trace_id]) {
           new_items.push({
             type: "Recording",
-            url: items[model_id][instance_id]["source_url"] || "",
-            label: items[model_id][instance_id]["label"] || "",
-            view_url: items[model_id][instance_id]["view_url"] || "",
+            url: items[trace_id][instance_id]["source_url"] || "",
+            label: items[trace_id][instance_id]["label"] || "",
+            view_url: items[trace_id][instance_id]["view_url"] || "",
             tab_name: "",
-            identifier: instance_id,
+            identifier: trace_id,
           });
         }
       }
