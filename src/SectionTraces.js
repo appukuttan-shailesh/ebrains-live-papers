@@ -22,24 +22,39 @@ function HelpContent() {
   const list_of_dicts = `
     [
         {
-          url: "https://www.datasource.com/traces/oh140807_A0_idB.abf",
-          label: "file_A",
+          "type": "URL",
+          "url": "https://www.datasource.com/traces/oh140807_A0_idB.abf",
+          "label": "file_A",
+          "identifier": null,
+          "tab_name": "Group A"
         },
         {
-          url: "https://www.datasource.com/traces/oh140807_A0_idC.abf",
-          label: "file_B",
+          "type": "URL",
+          "url": "https://www.datasource.com/traces/oh140807_A0_idC.abf",
+          "label": "file_B",
+          "identifier": null,
+          "tab_name": "Group A"
         },
         {
-          url: "https://www.datasource.com/traces/oh140807_A0_idF.abf",
-          label: "file_C",
+          "type": "URL",
+          "url": "https://www.datasource.com/traces/oh140807_A0_idF.abf",
+          "label": "file_C",
+          "identifier": null,
+          "tab_name": "Group A"
         },
         {
-          url: "https://www.datasource.com/traces/oh140807_A0_idG.abf",
-          label: "file_D",
+          "type": "URL",
+          "url": "https://www.datasource.com/traces/oh140807_A0_idG.abf",
+          "label": "file_D",
+          "identifier": null,
+          "tab_name": "Group A"
         },
         {
-          url: "https://www.datasource.com/traces/oh140807_A0_idH.abf",
-          label: "file_E",
+          "type": "URL",
+          "url": "https://www.datasource.com/traces/oh140807_A0_idH.abf",
+          "label": "file_E",
+          "identifier": null,
+          "tab_name": "Group A"
         },
       ]`;
 
@@ -51,9 +66,10 @@ function HelpContent() {
       <h6>
         <b>List of dicts/objects</b>
       </h6>
-      This format allows you to specify the labels for each entry. Each dict in
-      the list should have keys named 'url' and 'label'.
-      <i>Example:</i>
+      Each dict in the list should have keys named 'type', 'url', 'label',
+      'identifier' and 'tab_name'. The 'identifier' field corresponds to the
+      Knowledge Graph UUID. For manually entered items, 'type' and 'identifier'
+      can be set to 'URL' and 'null', respectively. <i>Example:</i>
       <br />
       <pre>
         <code>{list_of_dicts}</code>

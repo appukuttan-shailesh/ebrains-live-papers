@@ -23,34 +23,49 @@ function HelpContent() {
   const list_of_dicts = `
     [
         {
-        url: "https://www.datasource.com/models/model_1.zip",
-        label: "file_A",
-        mc_url:
+        "type": "URL",
+        "url": "https://www.datasource.com/models/model_1.zip",
+        "label": "file_A",
+        "mc_url":
             "https://model-catalog.brainsimulation.eu/#model_id.00f2e856-27a8-4b8d-9ec3-4e2581c546e4",
+        "identifier": null,
+        "tab_name": "Group A"
         },
         {
-        url: "https://www.datasource.com/models/model_2.zip",
-        label: "file_B",
-        mc_url:
+        "type": "URL",
+        "url": "https://www.datasource.com/models/model_2.zip",
+        "label": "file_B",
+        "mc_url":
             "https://model-catalog.brainsimulation.eu/#model_id.01006de7-e861-45fb-abf4-3c84e609d33b",
+        "identifier": null,
+        "tab_name": "Group A"
         },
         {
-        url: "https://www.datasource.com/models/model_3.zip",
-        label: "file_C",
-        mc_url:
+        "type": "URL",
+        "url": "https://www.datasource.com/models/model_3.zip",
+        "label": "file_C",
+        "mc_url":
             "https://model-catalog.brainsimulation.eu/#model_id.01afb341-7ca2-4694-9968-16fc7d8fc765",
+        "identifier": null,
+        "tab_name": "Group A"
         },
         {
-        url: "https://www.datasource.com/models/model_4.zip",
-        label: "file_D",
-        mc_url:
+        "type": "URL",
+        "url": "https://www.datasource.com/models/model_4.zip",
+        "label": "file_D",
+        "mc_url":
             "https://model-catalog.brainsimulation.eu/#model_id.01da73a6-8715-431b-aaa7-efcd9358c786",
+        "identifier": null,
+        "tab_name": "Group A"
         },
         {
-        url: "https://www.datasource.com/models/model_5.zip",
-        label: "file_E",
-        mc_url:
+        "type": "URL",
+        "url": "https://www.datasource.com/models/model_5.zip",
+        "label": "file_E",
+        "mc_url":
             "https://model-catalog.brainsimulation.eu/#model_id.01f49d73-e8a1-4f23-be30-d01bd52f89a2",
+        "identifier": null,
+        "tab_name": "Group A"
         },
     ]`;
 
@@ -62,10 +77,13 @@ function HelpContent() {
       <h6>
         <b>List of dicts/objects</b>
       </h6>
-      This format allows you to specify the labels and model catalog URL for
-      each model. Each dict in the list should have keys named 'url' (download
-      URL for model), 'label' and 'mc_url' (model catalog page URL). You may
-      enter an empty string ("") to ignore any field. <i>Example:</i>
+      Each dict in the list should have keys named 'type', 'url', 'label',
+      'mc_url,' 'identifier' and 'tab_name'. You can specify the model catalog
+      URL for each model using their `mc_url' field. The 'identifier' field
+      corresponds to the Knowledge Graph UUID. For manually entered items,
+      'type' and 'identifier' can be set to 'URL' and 'null', respectively.{" "}
+      <i>Example:</i>
+      <br />
       <pre>
         <code>{list_of_dicts}</code>
       </pre>

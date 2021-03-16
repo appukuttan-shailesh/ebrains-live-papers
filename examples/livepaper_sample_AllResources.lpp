@@ -128,13 +128,6 @@
                     "label": "abf-int-bAC/SP_AA_970911C/97911000.abf",
                     "identifier": null,
                     "tab_name": "int-cNAC"
-                },
-                {
-                    "type": "URL",
-                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/exp_data/abf-int-bAC/SP_AA_970911C/97911001.abf",
-                    "label": "abf-int-bAC/SP_AA_970911C/97911001",
-                    "identifier": null,
-                    "tab_name": "int-cNAC"
                 }
             ]
         },
