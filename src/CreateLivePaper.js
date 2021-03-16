@@ -62,14 +62,13 @@ const footerStyle = {
   backgroundColor: "#FFD180",
   fontSize: "20px",
   color: "black",
-  border: "1px solid #000000",
   textAlign: "center",
   position: "fixed",
   left: "50%",
   transform: "translateX(-50%)",
   bottom: "0",
-  height: "70px",
-  width: "70%",
+  height: "80px",
+  //   width: "70%",
   zIndex: "1",
   paddingBottom: "75px",
 };
@@ -78,14 +77,16 @@ const phantomStyle = {
   display: "block",
   padding: "20px",
   height: "60px",
-  width: "70%",
+  //   width: "70%",
 };
 
 function Footer({ children }) {
   return (
     <div style={{ zIndex: "2147483638" }}>
-      <div style={phantomStyle} />
-      <div style={footerStyle}>{children}</div>
+      <div style={phantomStyle} className="mycontainer" />
+      <div style={footerStyle} className="mycontainer">
+        {children}
+      </div>
     </div>
   );
 }
@@ -1664,94 +1665,97 @@ class CreateLivePaper extends React.Component {
           </div>
 
           <Footer>
-            <div
-              className="rainbow-row"
-              style={{ borderBottom: "1px solid #000000" }}
-            >
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-              }}
-            >
-              <Button
-                variant="contained"
-                color="primary"
-                style={{
-                  width: "17.5%",
-                  backgroundColor: "#FF9800",
-                  color: "#000000",
-                  fontWeight: "bold",
-                  border: "solid",
-                  borderColor: "#000000",
-                  borderWidth: "1px",
-                }}
-                onClick={this.handlePreview}
+            <div style={{ height: "10px", backgroundColor: "#FFFFFF" }}></div>
+            <div style={{ border: "1px solid #000000" }}>
+              <div
+                className="rainbow-row"
+                style={{ borderBottom: "1px solid #000000" }}
               >
-                Preview
-              </Button>
-              <br />
-              <br />
-              <Button
-                variant="contained"
-                color="primary"
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <div
                 style={{
-                  width: "17.5%",
-                  backgroundColor: "#009688",
-                  color: "#000000",
-                  fontWeight: "bold",
-                  border: "solid",
-                  borderColor: "#000000",
-                  borderWidth: "1px",
+                  display: "flex",
+                  justifyContent: "space-around",
+                  alignItems: "center",
                 }}
-                onClick={this.handleDownload}
               >
-                Download
-              </Button>
-              <br />
-              <br />
-              <Button
-                variant="contained"
-                color="secondary"
-                style={{
-                  width: "17.5%",
-                  backgroundColor: "#01579b",
-                  fontWeight: "bold",
-                  border: "solid",
-                  borderColor: "#000000",
-                  borderWidth: "1px",
-                }}
-                onClick={this.handleSaveOpen}
-              >
-                Save
-              </Button>
-              <br />
-              <br />
-              <Button
-                variant="contained"
-                color="secondary"
-                style={{
-                  width: "17.5%",
-                  backgroundColor: "#8b0d0d",
-                  fontWeight: "bold",
-                  border: "solid",
-                  borderColor: "#000000",
-                  borderWidth: "1px",
-                }}
-                onClick={this.handleSubmitOpen}
-              >
-                Submit
-              </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    width: "17.5%",
+                    backgroundColor: "#FF9800",
+                    color: "#000000",
+                    fontWeight: "bold",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  onClick={this.handlePreview}
+                >
+                  Preview
+                </Button>
+                <br />
+                <br />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    width: "17.5%",
+                    backgroundColor: "#009688",
+                    color: "#000000",
+                    fontWeight: "bold",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  onClick={this.handleDownload}
+                >
+                  Download
+                </Button>
+                <br />
+                <br />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{
+                    width: "17.5%",
+                    backgroundColor: "#01579b",
+                    fontWeight: "bold",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  onClick={this.handleSaveOpen}
+                >
+                  Save
+                </Button>
+                <br />
+                <br />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{
+                    width: "17.5%",
+                    backgroundColor: "#8b0d0d",
+                    fontWeight: "bold",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  onClick={this.handleSubmitOpen}
+                >
+                  Submit
+                </Button>
+              </div>
             </div>
           </Footer>
           {saveModal}
