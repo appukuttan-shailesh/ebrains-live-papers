@@ -1,27 +1,18 @@
-export function copyToClipboard(
-  value,
+export function showNotification(
   enqueueSnackbar,
+  closeSnackbar,
   message,
   type = "default"
 ) {
   // type: default, success, error, warning, info
-  navigator.clipboard.writeText(value);
-  enqueueSnackbar(message, {
+  const key = enqueueSnackbar(message, {
     variant: type,
     anchorOrigin: {
       vertical: "bottom",
       horizontal: "right",
     },
-  });
-}
-
-export function showNotification(enqueueSnackbar, message, type = "default") {
-  // type: default, success, error, warning, info
-  enqueueSnackbar(message, {
-    variant: type,
-    anchorOrigin: {
-      vertical: "bottom",
-      horizontal: "right",
+    onClick: () => {
+      closeSnackbar(key);
     },
   });
 }

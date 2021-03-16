@@ -472,14 +472,24 @@ export default class SectionModels extends React.Component {
       dataFormatted.forEach(function (item, index) {
         item.tab_name = "";
       });
-      this.setState({
-        dataFormatted: dataFormatted,
-        useTabs: false,
-      });
+      this.setState(
+        {
+          dataFormatted: dataFormatted,
+          useTabs: false,
+        },
+        () => {
+          this.props.storeSectionInfo(this.state);
+        }
+      );
     } else {
-      this.setState({
-        useTabs: true,
-      });
+      this.setState(
+        {
+          useTabs: true,
+        },
+        () => {
+          this.props.storeSectionInfo(this.state);
+        }
+      );
     }
   }
 

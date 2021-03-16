@@ -15,7 +15,7 @@ import { baseUrl } from "./globals";
 // define the columns for the material data table
 const TABLE_COLUMNS = [
   {
-    title: "Article Title",
+    title: "Live Paper Name",
     field: "title",
   },
   {

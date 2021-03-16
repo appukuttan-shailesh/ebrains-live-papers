@@ -6,9 +6,11 @@ import CreateLivePaperLoadPDFData from "./CreateLivePaperLoadPDFData";
 import LoadKGProjects from "./LoadKGProjects";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
-import { baseUrl } from "./globals";
-import { compareArrayoOfObjectsByOrder } from "./utils";
-import { replaceNullWithEmptyStrings } from "./utils";
+import { baseUrl, separator } from "./globals";
+import {
+  compareArrayoOfObjectsByOrder,
+  replaceNullWithEmptyStrings,
+} from "./utils";
 
 class App extends React.Component {
   signal = axios.CancelToken.source();
@@ -132,11 +134,19 @@ class App extends React.Component {
       });
 
       // handle useTabs for resources
+      // KG doesn't have a separate field for saving tabs_name;
+      // this is handled by appending it to the label with a separator (#-#)
+      // we do the reverse when loading LP project from KG
       data.resources.forEach(function (res, index) {
         if (res.type !== "section_custom") {
           let tabs = [];
           res.dataFormatted.forEach(function (res_item, index) {
-            tabs.push(res_item.tab_name || "");
+            let parts = res_item.label.split(separator);
+            if (parts.length > 1) {
+              tabs.push(parts[1] || "");
+              res_item.label = parts[0];
+              res_item.tab_name = parts[1];
+            }
           });
           // get only unique elements
           tabs = tabs.filter((x, i, a) => a.indexOf(x) === i);

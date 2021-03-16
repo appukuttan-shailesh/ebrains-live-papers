@@ -6,13 +6,14 @@ import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
+import SwitchTwoWay from "./SwitchTwoWay";
 import ContextMain from "./ContextMain";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import TextField from "@material-ui/core/TextField";
 import SingleSelect from "./SingleSelect";
 import ErrorDialog from "./ErrorDialog";
-import { baseUrl } from "./globals";
-import { replaceEmptyStringsWithNull } from "./utils";
+import { baseUrl, separator } from "./globals";
+import { replaceEmptyStringsWithNull, showNotification } from "./utils";
 
 export default class SaveModal extends React.Component {
   signal = axios.CancelToken.source();
@@ -28,6 +29,7 @@ export default class SaveModal extends React.Component {
       collab_id: props.data.collab_id,
       live_paper_name: props.data.live_paper_title,
       live_paper_name_unique: true,
+      mode: props.data.id ? "Save to Existing" : null,
     };
 
     // const [authContext,] = this.context.auth;
@@ -43,6 +45,7 @@ export default class SaveModal extends React.Component {
     this.handleLivePaperNameChange = this.handleLivePaperNameChange.bind(this);
     this.checkLivePaperNameUnique = this.checkLivePaperNameUnique.bind(this);
     this.adjustForKGSchema = this.adjustForKGSchema.bind(this);
+    this.handleModeChange = this.handleModeChange.bind(this);
   }
 
   handleCancel() {
@@ -124,8 +127,17 @@ export default class SaveModal extends React.Component {
     await axios
       .get(url, config)
       .then((res) => {
-        // item.title to be changed in future to live_paper_title
-        const found = res.data.find((item) => item.title === name);
+        // item.title to be changed in future to live_paper_title'
+        let found = null;
+        if (this.state.mode === "Save to Existing") {
+          found = res.data.find(
+            // allow if it is the existing LP entry with same name and id
+            (item) => item.title === name && item.id !== this.props.data.id
+          );
+        } else {
+          found = res.data.find((item) => item.title === name);
+        }
+        console.log(found);
         if (found) {
           // duplicate
           this.setState({
@@ -154,7 +166,7 @@ export default class SaveModal extends React.Component {
         collab_id: this.state.collab_id,
         live_paper_title: this.state.live_paper_name,
       };
-      //   console.log(payload);
+      console.log(payload);
       if (
         this.checkRequirementsOnPage() &&
         this.checkRequirementsOnPayload(payload)
@@ -173,30 +185,75 @@ export default class SaveModal extends React.Component {
             },
           };
 
-          axios
-            .post(url, payload, config)
-            .then((res) => {
-              console.log(res);
-              console.log("UUID = ", res.data.id);
-              this.props.setID(res.data.id);
-              this.props.setCollabID(this.state.collab_id);
-              this.props.setLivePaperTitle(this.state.live_paper_name);
-              this.props.setLivePaperModifiedDate(payload.modified_date);
-              this.setState({ loading: false });
-              this.props.onClose(true);
-            })
-            .catch((err) => {
-              if (axios.isCancel(err)) {
-                console.log("Error: ", err.message);
-              } else {
-                console.log(err);
-                console.log(err.response);
-                this.setState({
-                  error: err.response,
-                });
-              }
-              this.setState({ loading: false });
-            });
+          if (this.state.mode === "Save to Existing") {
+            console.log("PUT");
+            url = url + this.props.data.id;
+            axios
+              .put(url, payload, config)
+              .then((res) => {
+                // PUT returns null on success
+                // console.log(res);
+                // console.log("UUID = ", res.data.id);
+                // this.props.setID(res.data.id);
+                this.props.setCollabID(this.state.collab_id);
+                this.props.setLivePaperTitle(this.state.live_paper_name);
+                this.props.setLivePaperModifiedDate(payload.modified_date);
+                this.setState({ loading: false });
+                showNotification(
+                  this.props.enqueueSnackbar,
+                  this.props.closeSnackbar,
+                  "Saved to KG!",
+                  "success"
+                );
+                this.props.onClose(true);
+              })
+              .catch((err) => {
+                if (axios.isCancel(err)) {
+                  console.log("Error: ", err.message);
+                } else {
+                  console.log(err);
+                  console.log(err.response);
+                  this.setState({
+                    error: err.response,
+                  });
+                }
+                this.setState({ loading: false });
+              });
+          } else {
+            console.log("POST");
+            // Set id to null for creating new entry via POST
+            payload.id = null;
+            axios
+              .post(url, payload, config)
+              .then((res) => {
+                console.log(res);
+                console.log("UUID = ", res.data.id);
+                this.props.setID(res.data.id);
+                this.props.setCollabID(this.state.collab_id);
+                this.props.setLivePaperTitle(this.state.live_paper_name);
+                this.props.setLivePaperModifiedDate(payload.modified_date);
+                this.setState({ loading: false });
+                showNotification(
+                  this.props.enqueueSnackbar,
+                  this.props.closeSnackbar,
+                  "Saved to KG!",
+                  "success"
+                );
+                this.props.onClose(true);
+              })
+              .catch((err) => {
+                if (axios.isCancel(err)) {
+                  console.log("Error: ", err.message);
+                } else {
+                  console.log(err);
+                  console.log(err.response);
+                  this.setState({
+                    error: err.response,
+                  });
+                }
+                this.setState({ loading: false });
+              });
+          }
         } else {
           this.setState({ loading: false });
         }
@@ -237,8 +294,25 @@ export default class SaveModal extends React.Component {
       }
     });
 
+    // handle useTabs for resources
+    // KG doesn't have a separate field for saving tabs_name;
+    // this is handled by appending it to the label with a separator (#-#)
+    payload.resources.forEach(function (res, index) {
+      if (res.type !== "section_custom") {
+        res.dataFormatted.forEach(function (res_item, index) {
+          if (res_item.tab_name) {
+            res_item.label = res_item.label + separator + res_item.tab_name;
+          }
+        });
+      }
+    });
+
     // console.log(replaceEmptyStringsWithNull(payload));
     return replaceEmptyStringsWithNull(payload);
+  }
+
+  handleModeChange(mode) {
+    this.setState({ mode: mode });
   }
 
   render() {
@@ -347,16 +421,35 @@ export default class SaveModal extends React.Component {
                 this.state.live_paper_name_unique === false && (
                   <div style={{ color: "red", paddingTop: "10px" }}>
                     <strong>
-                      The live paper name{" "}
+                      The live paper name '
                       <pre style={{ display: "inline" }}>
                         {this.state.live_paper_name}
-                      </pre>{" "}
-                      is already us use by another live paper. Please enter a
+                      </pre>
+                      ' is already us use by another live paper. Please enter a
                       different name.
                     </strong>
                   </div>
                 )}
             </Box>
+            {this.props.data.id && (
+              <Box my={3}>
+                <div>
+                  <p>
+                    <strong>
+                      This live paper has previously been saved on the Knowledge
+                      Graph. Overwrite the existing entry, or save as new entry:
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <SwitchTwoWay
+                    values={["Save to Existing", "Save as New"]}
+                    selected={this.state.mode}
+                    onChange={this.handleModeChange}
+                  />
+                </div>
+              </Box>
+            )}
             <div
               style={{
                 display: "flex",

@@ -68,7 +68,6 @@ const footerStyle = {
   transform: "translateX(-50%)",
   bottom: "0",
   height: "80px",
-  //   width: "70%",
   zIndex: "1",
   paddingBottom: "75px",
 };
@@ -77,7 +76,6 @@ const phantomStyle = {
   display: "block",
   padding: "20px",
   height: "60px",
-  //   width: "70%",
 };
 
 function Footer({ children }) {
@@ -223,7 +221,12 @@ class CreateLivePaper extends React.Component {
       resources: temp_resources,
     });
 
-    showNotification(this.props.enqueueSnackbar, "Section deleted!", "info");
+    showNotification(
+      this.props.enqueueSnackbar,
+      this.props.closeSnackbar,
+      "Section deleted!",
+      "info"
+    );
   }
 
   moveDownResourceSection(order) {
@@ -360,6 +363,7 @@ class CreateLivePaper extends React.Component {
 
     showNotification(
       this.props.enqueueSnackbar,
+      this.props.closeSnackbar,
       "Preview generated...",
       "info"
     );
@@ -391,6 +395,7 @@ class CreateLivePaper extends React.Component {
 
     showNotification(
       this.props.enqueueSnackbar,
+      this.props.closeSnackbar,
       "HTML file downloaded...",
       "success"
     );
@@ -418,6 +423,7 @@ class CreateLivePaper extends React.Component {
 
     showNotification(
       this.props.enqueueSnackbar,
+      this.props.closeSnackbar,
       ".lpp file downloaded...",
       "success"
     );
@@ -432,17 +438,10 @@ class CreateLivePaper extends React.Component {
     });
   }
 
-  handleSaveClose(flag) {
+  handleSaveClose() {
     this.setState({
       saveOpen: false,
     });
-    if (flag) {
-      showNotification(
-        this.props.enqueueSnackbar,
-        "Live Paper has been saved on KG!",
-        "info"
-      );
-    }
   }
 
   handleSubmitOpen() {
@@ -865,6 +864,8 @@ class CreateLivePaper extends React.Component {
           setLivePaperTitle={this.setLivePaperTitle}
           setLivePaperModifiedDate={this.setLivePaperModifiedDate}
           collab_list={this.state.collab_list}
+          enqueueSnackbar={this.props.enqueueSnackbar}
+          closeSnackbar={this.props.closeSnackbar}
         />
       );
     }
@@ -876,6 +877,8 @@ class CreateLivePaper extends React.Component {
           data={this.state}
           open={this.state.submitOpen}
           onClose={this.handleSubmitClose}
+          enqueueSnackbar={this.props.enqueueSnackbar}
+          closeSnackbar={this.props.closeSnackbar}
         />
       );
     }

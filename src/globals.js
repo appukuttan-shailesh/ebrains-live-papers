@@ -6,3 +6,4 @@ export const lp_tool_version = "0.2";
 export const timeout = 1000;
 export const querySizeLimit = 10;
 // export const querySizeLimit = 1000000;
+export const separator = "#-#";

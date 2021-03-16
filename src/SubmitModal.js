@@ -10,7 +10,7 @@ import axios from "axios";
 import SwitchTwoWay from "./SwitchTwoWay";
 import ErrorDialog from "./ErrorDialog";
 import Link from "@material-ui/core/Link";
-export const validModes = ["Private", "Password-Protected", "Public"];
+import { showNotification } from "./utils";
 
 export default class SubmitModal extends React.Component {
   signal = axios.CancelToken.source();
@@ -24,6 +24,10 @@ export default class SubmitModal extends React.Component {
       password: "",
       error: null,
     };
+
+    this.mailTo = React.createRef();
+    this.mailSubject = React.createRef();
+    this.mailBodyRef = React.createRef();
 
     this.handleCancel = this.handleCancel.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -144,9 +148,29 @@ export default class SubmitModal extends React.Component {
                     }}
                   >
                     Alternatively, copy the content below and email it to:{" "}
-                    <strong>lucaleonardo.bologna@cnr.it</strong> with the
-                    following subject:{" "}
-                    <strong>Request to publish Live Paper</strong>
+                    <strong
+                      ref={this.mailTo}
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          this.mailTo.current.innerText
+                        )
+                      }
+                      style={{ cursor: "pointer" }}
+                    >
+                      lucaleonardo.bologna@cnr.it
+                    </strong>{" "}
+                    with the following subject:{" "}
+                    <strong
+                      ref={this.mailSubject}
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          this.mailSubject.current.innerText
+                        )
+                      }
+                      style={{ cursor: "pointer" }}
+                    >
+                      Request to publish Live Paper
+                    </strong>
                     <div
                       style={{
                         marginTop: "10px",
@@ -155,6 +179,19 @@ export default class SubmitModal extends React.Component {
                         borderColor: "#000000",
                         borderWidth: "2px",
                         backgroundColor: "#D9D9D9",
+                        cursor: "pointer",
+                      }}
+                      ref={this.mailBodyRef}
+                      onClick={() => {
+                        navigator.clipboard.writeText(
+                          this.mailBodyRef.current.innerText
+                        );
+                        showNotification(
+                          this.props.enqueueSnackbar,
+                          this.props.closeSnackbar,
+                          "Copied to clipboard!",
+                          "info"
+                        );
                       }}
                     >
                       We would like to request the publication of our live
