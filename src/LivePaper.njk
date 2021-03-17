@@ -49,11 +49,11 @@
 
             <div class="collapsible">
                 <div class="row">
-                    <div class="col s12">
-                        <ul class="tabs">
+                    <div class="col s12" style="padding-left: 0px;padding-right: 0px;">
+                        <ul class="tabs" style="width: 100%;background-color: #FFD878;">
                             {% for tab in data["tabs"] %}
                                 <li class="tab col s3">
-                                    <a href='#res_{{index}}_tab_{{tab|replace(" ", "_")}}'>{{tab}}</a>
+                                    <a href='#res_{{index}}_tab_{{tab|replace(" ", "_")}}' style="color: #000000;">{{tab}}</a>
                                 </li>
                             {% endfor %}
                         </ul>
