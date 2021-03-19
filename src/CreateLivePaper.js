@@ -158,6 +158,7 @@ class CreateLivePaper extends React.Component {
       resources: [],
       saveOpen: false,
       submitOpen: false,
+      validFilterValues: null,
     };
     this.state = { ...this.state, ...props.data };
 
@@ -193,10 +194,12 @@ class CreateLivePaper extends React.Component {
     this.deleteResourceSection = this.deleteResourceSection.bind(this);
     this.moveDownResourceSection = this.moveDownResourceSection.bind(this);
     this.moveUpResourceSection = this.moveUpResourceSection.bind(this);
+    this.retrieveFilterValidValues = this.retrieveFilterValidValues.bind(this);
   }
 
   componentDidMount() {
     this.getCollabList();
+    this.retrieveFilterValidValues();
   }
 
   deleteResourceSection(order) {
@@ -298,6 +301,7 @@ class CreateLivePaper extends React.Component {
       "submitOpen",
       "collab_list",
       "paper_published",
+      "validFilterValues"
     ];
     remove_keys.forEach((k) => delete req_data[k]);
 
@@ -843,6 +847,24 @@ class CreateLivePaper extends React.Component {
   }
 
   verifyDataBeforeSubmit() {}
+
+  retrieveFilterValidValues() {
+    let url = baseUrl + "/vocab/";
+    let config = {
+      cancelToken: this.signal.token,
+      headers: { Authorization: "Bearer " + this.context.auth[0].token },
+    };
+    axios
+      .get(url, config)
+      .then((res) => {
+        this.setState({
+          validFilterValues: res.data,
+        });
+      })
+      .catch((err) => {
+        console.log("Error: ", err.message);
+      });
+  }
 
   render() {
     console.log(this.state);
@@ -1465,6 +1487,7 @@ class CreateLivePaper extends React.Component {
                           handleDelete={this.deleteResourceSection}
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
+                          validFilterValues={this.state.validFilterValues}
                         />
                       );
                     } else if (item["type"] === "section_models") {
@@ -1479,6 +1502,7 @@ class CreateLivePaper extends React.Component {
                           handleDelete={this.deleteResourceSection}
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
+                          validFilterValues={this.state.validFilterValues}
                         />
                       );
                     } else if (item["type"] === "section_generic") {

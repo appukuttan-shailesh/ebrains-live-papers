@@ -273,6 +273,7 @@ export default class SectionMorphology extends React.Component {
       showEdit: false,
       deleteOpen: false,
       expanded: true,
+      useTabs: false,
       ...props.data,
     };
 

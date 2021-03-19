@@ -92,3 +92,35 @@ export const flattenNestedObject = (obj) => {
   });
   return flattened;
 };
+
+export function formatLabel(label) {
+  // function to format labels by converting underscores and hyphens to spaces, and
+  // capitalizing each word; certain specific labels are changed entirely to uppercase
+  if (["id", "uri"].indexOf(label) > -1) {
+    label = label.toUpperCase();
+  } else {
+    if (label === "project_id") {
+      label = "collab_id";
+    }
+    label = label.replace(/_/g, " ");
+    label = label.replace(/-/g, " ");
+    label = label
+      .toLowerCase()
+      .split(" ")
+      .map((word) =>
+        word === "id" ? "ID" : word.charAt(0).toUpperCase() + word.slice(1)
+      )
+      .join(" ");
+  }
+  return label;
+}
+
+export function buildQuery(filterDict) {
+  let q = "";
+  for (var key in filterDict) {
+    for (var value of filterDict[key]) {
+      q += `&${key}=${value}`;
+    }
+  }
+  return q.slice(1);
+}

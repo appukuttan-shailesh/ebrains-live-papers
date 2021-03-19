@@ -20,10 +20,12 @@ import MaterialTable, { MTableToolbar } from "@material-table/core";
 import ErrorDialog from "./ErrorDialog";
 import LoadingIndicator from "./LoadingIndicator";
 import ContextMain from "./ContextMain";
+import MultipleSelect from "./MultipleSelect";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
-import { nar_baseUrl, querySizeLimit } from "./globals";
+import { nar_baseUrl, querySizeLimit, filterTracesKeys } from "./globals";
+import { buildQuery } from "./utils";
 
 const styles = (theme) => ({
   root: {
@@ -390,68 +392,87 @@ export class KGContent extends React.Component {
 
   render() {
     return (
-      <MaterialTable
-        title="Electrophysiological Recordings"
-        data={this.props.data}
-        columns={TABLE_COLUMNS}
-        options={{
-          columnsButton: true,
-          search: true,
-          paging: false,
-          filtering: this.state.filtering,
-          sorting: true,
-          //   selection: true,
-          exportButton: false,
-          maxBodyHeight: "60vh",
-          headerStyle: {
-            position: "sticky",
-            top: 0,
-            backgroundColor: "#FFF",
-            fontWeight: "bolder",
-            fontSize: 15,
-          },
-          rowStyle: (rowData) => ({
-            backgroundColor: this.state.selectedRows.includes(
-              rowData.tableData.id
-            )
-              ? "#FFD180"
-              : "#EEEEEE",
-          }),
-        }}
-        actions={[
-          {
-            icon: "filter_list",
-            onClick: () => this.setState({ filtering: !this.state.filtering }),
-            position: "toolbar",
-            tooltip: "Show Filters",
-          },
-        ]}
-        detailPanel={(rowData) => {
-          return (
-            <TraceVersionsPanel
-              data={rowData}
-              addInstanceCollection={this.props.addInstanceCollection}
-              removeInstanceCollection={this.props.removeInstanceCollection}
-              checkInstanceInCollection={this.props.checkInstanceInCollection}
-            />
-          );
-        }}
-        onRowClick={(event, selectedRow, togglePanel) => {
-          togglePanel();
-        }}
-        components={{
-          Toolbar: (props) => (
-            <div
-              style={{
-                backgroundColor: "#FFD180",
-                fontWeight: "bolder !important",
-              }}
-            >
-              <MTableToolbar {...props} />
-            </div>
-          ),
-        }}
-      />
+      <div>
+        <MaterialTable
+          title="Electrophysiological Recordings"
+          data={this.props.data}
+          columns={TABLE_COLUMNS}
+          options={{
+            columnsButton: true,
+            search: true,
+            paging: false,
+            filtering: this.state.filtering,
+            sorting: true,
+            //   selection: true,
+            exportButton: false,
+            maxBodyHeight: "60vh",
+            headerStyle: {
+              position: "sticky",
+              top: 0,
+              backgroundColor: "#FFF",
+              fontWeight: "bolder",
+              fontSize: 15,
+            },
+            rowStyle: (rowData) => ({
+              backgroundColor: this.state.selectedRows.includes(
+                rowData.tableData.id
+              )
+                ? "#FFD180"
+                : "#EEEEEE",
+            }),
+          }}
+          actions={[
+            {
+              icon: "filter_list",
+              onClick: () =>
+                this.setState({ filtering: !this.state.filtering }),
+              position: "toolbar",
+              tooltip: "Show Filters",
+            },
+          ]}
+          detailPanel={(rowData) => {
+            return (
+              <TraceVersionsPanel
+                data={rowData}
+                addInstanceCollection={this.props.addInstanceCollection}
+                removeInstanceCollection={this.props.removeInstanceCollection}
+                checkInstanceInCollection={this.props.checkInstanceInCollection}
+              />
+            );
+          }}
+          onRowClick={(event, selectedRow, togglePanel) => {
+            togglePanel();
+          }}
+          components={{
+            Toolbar: (props) => (
+              <div
+                style={{
+                  backgroundColor: "#FFD180",
+                  fontWeight: "bolder !important",
+                }}
+              >
+                <MTableToolbar {...props} />
+              </div>
+            ),
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            paddingLeft: "2.5%",
+            paddingRight: "2.5%",
+            paddingTop: "10px",
+            width: "100%",
+          }}
+        >
+          <h6>
+            {"Number of trace instances selected: " +
+              this.props.countTotalInstances()}
+          </h6>
+        </div>
+      </div>
     );
   }
 }
@@ -468,6 +489,8 @@ export default class KGInputTraces extends React.Component {
       list_traces: [],
       error: null,
       trace_collection: {},
+      showFilters: true,
+      configFilters: {},
     };
 
     this.getListTraces = this.getListTraces.bind(this);
@@ -476,10 +499,9 @@ export default class KGInputTraces extends React.Component {
     this.removeInstanceCollection = this.removeInstanceCollection.bind(this);
     this.checkInstanceInCollection = this.checkInstanceInCollection.bind(this);
     this.countTotalInstances = this.countTotalInstances.bind(this);
-  }
-
-  componentDidMount() {
-    this.getListTraces();
+    this.showFiltersPanel = this.showFiltersPanel.bind(this);
+    this.handleFiltersChange = this.handleFiltersChange.bind(this);
+    this.handleKGProceed = this.handleKGProceed.bind(this);
   }
 
   getListTraces() {
@@ -489,9 +511,12 @@ export default class KGInputTraces extends React.Component {
         Authorization: "Bearer " + this.context.auth[0].token,
       },
     };
+    let query = buildQuery(this.state.configFilters);
     let url =
       nar_baseUrl +
-      "/recordings/?summary=false&size=" +
+      "/recordings/?" +
+      encodeURI(query) +
+      "summary=false&size=" +
       querySizeLimit +
       "&from_index=0";
     this.setState({ loading: true });
@@ -595,9 +620,6 @@ export default class KGInputTraces extends React.Component {
   checkInstanceInCollection(trace_id, instance_id) {
     let flag = false;
     let trace_collection = this.state.trace_collection;
-    console.log(trace_collection);
-    console.log(trace_id);
-    console.log(instance_id);
     if (Object.keys(trace_collection).includes(trace_id)) {
       if (Object.keys(trace_collection[trace_id]).includes(instance_id)) {
         flag = true;
@@ -616,8 +638,52 @@ export default class KGInputTraces extends React.Component {
     return total;
   }
 
+  showFiltersPanel() {
+    let showFilters = filterTracesKeys;
+    return (
+      <Box my={2}>
+        <h6>Please specify filters to search KG:</h6>
+        <em>Note: you can select multiple values for each filter</em>
+        <form>
+          {showFilters.map((filter) => (
+            <MultipleSelect
+              itemNames={
+                !this.props.validFilterValues
+                  ? []
+                  : this.props.validFilterValues[filter]
+              }
+              label={filter}
+              value={this.state.configFilters[filter] || []}
+              handleChange={this.handleFiltersChange}
+              key={filter}
+            />
+          ))}
+        </form>
+      </Box>
+    );
+  }
+
+  handleFiltersChange(event) {
+    const newConfig = { ...this.state.configFilters };
+    newConfig[event.target.name] = event.target.value;
+    this.setState({ configFilters: newConfig });
+  }
+
+  handleKGProceed() {
+    this.setState(
+      {
+        showFilters: false,
+      },
+      () => {
+        this.getListTraces();
+      }
+    );
+  }
+
   render() {
-    console.log(this.state.trace_collection);
+    console.log(this.props);
+    console.log(this.state);
+
     if (this.state.error) {
       return (
         <ErrorDialog
@@ -633,7 +699,7 @@ export default class KGInputTraces extends React.Component {
           onClose={() => this.props.handleClose(false)}
           aria-labelledby="customized-dialog-title"
           open={this.props.open}
-          fullWidth={true}
+          fullWidth={this.state.showFilters ? false : true}
           maxWidth={"xl"}
           //   disableBackdropClick={true}
           //   disableEscapeKeyDown={true}
@@ -648,14 +714,18 @@ export default class KGInputTraces extends React.Component {
             </span>
           </DialogTitle>
           <DialogContent dividers>
-            {this.state.loading ? (
+            {(!this.props.validFilterValues && this.state.showFilters) ||
+            this.state.loading ? (
               <LoadingIndicator />
+            ) : this.state.showFilters ? (
+              this.showFiltersPanel()
             ) : (
               <KGContent
                 data={this.state.list_traces}
                 addInstanceCollection={this.addInstanceCollection}
                 removeInstanceCollection={this.removeInstanceCollection}
                 checkInstanceInCollection={this.checkInstanceInCollection}
+                countTotalInstances={this.countTotalInstances}
               />
             )}
           </DialogContent>
@@ -690,14 +760,30 @@ export default class KGInputTraces extends React.Component {
               </Button>
               <br />
               <br />
-              <span>
-                <h6>
-                  {"Number of trace instances selected: " +
-                    this.countTotalInstances()}
-                </h6>
-              </span>
-              <br />
-              <br />
+              {!this.state.showFilters && (
+                <>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{
+                      width: "150px",
+                      backgroundColor: "#01579B",
+                      color: "#FFFFFF",
+                      fontWeight: "bold",
+                      border: "solid",
+                      borderColor: "#000000",
+                      borderWidth: "1px",
+                    }}
+                    onClick={() => {
+                      this.setState({ showFilters: true });
+                    }}
+                  >
+                    Filters
+                  </Button>
+                  <br />
+                  <br />
+                </>
+              )}
               <Button
                 variant="contained"
                 color="primary"
@@ -711,10 +797,12 @@ export default class KGInputTraces extends React.Component {
                   borderWidth: "1px",
                 }}
                 onClick={() =>
-                  this.props.handleClose(true, this.state.trace_collection)
+                  this.state.showFilters
+                    ? this.handleKGProceed()
+                    : this.props.handleClose(true, this.state.trace_collection)
                 }
               >
-                Proceed
+                {this.state.showFilters ? "Proceed" : "Add KG Items"}
               </Button>
             </div>
           </DialogActions>

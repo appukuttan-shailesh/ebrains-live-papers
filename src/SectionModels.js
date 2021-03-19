@@ -290,6 +290,7 @@ export default class SectionModels extends React.Component {
       showKGInput: false,
       deleteOpen: false,
       expanded: true,
+      useTabs: false,
       ...props.data,
     };
 
@@ -696,6 +697,7 @@ export default class SectionModels extends React.Component {
                   <KGInputModels
                     open={this.state.showKGInput}
                     handleClose={this.handleKGClose}
+                    validFilterValues={this.props.validFilterValues}
                   />
                 ) : null}
               </div>

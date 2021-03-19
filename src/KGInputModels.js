@@ -20,11 +20,21 @@ import MaterialTable, { MTableToolbar } from "@material-table/core";
 import ErrorDialog from "./ErrorDialog";
 import LoadingIndicator from "./LoadingIndicator";
 import ContextMain from "./ContextMain";
+import MultipleSelect from "./MultipleSelect";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
-import { baseUrl, mc_baseUrl, querySizeLimit } from "./globals";
-import { formatAuthors, formatTimeStampToLongString } from "./utils";
+import {
+  baseUrl,
+  mc_baseUrl,
+  querySizeLimit,
+  filterModelsKeys,
+} from "./globals";
+import {
+  formatAuthors,
+  formatTimeStampToLongString,
+  buildQuery,
+} from "./utils";
 
 const styles = (theme) => ({
   root: {
@@ -387,6 +397,7 @@ class ModelVersionsPanel extends React.Component {
             <Link
               href={mc_baseUrl + "/#model_id." + this.props.data.id}
               target="_blank"
+              rel="noreferrer"
               underline="none"
             >
               <Button
@@ -435,68 +446,87 @@ export class KGContent extends React.Component {
 
   render() {
     return (
-      <MaterialTable
-        title="Models"
-        data={this.props.data}
-        columns={TABLE_COLUMNS}
-        options={{
-          columnsButton: true,
-          search: true,
-          paging: false,
-          filtering: this.state.filtering,
-          sorting: true,
-          //   selection: true,
-          exportButton: false,
-          maxBodyHeight: "60vh",
-          headerStyle: {
-            position: "sticky",
-            top: 0,
-            backgroundColor: "#FFF",
-            fontWeight: "bolder",
-            fontSize: 15,
-          },
-          rowStyle: (rowData) => ({
-            backgroundColor: this.state.selectedRows.includes(
-              rowData.tableData.id
-            )
-              ? "#FFD180"
-              : "#EEEEEE",
-          }),
-        }}
-        actions={[
-          {
-            icon: "filter_list",
-            onClick: () => this.setState({ filtering: !this.state.filtering }),
-            position: "toolbar",
-            tooltip: "Show Filters",
-          },
-        ]}
-        detailPanel={(rowData) => {
-          return (
-            <ModelVersionsPanel
-              data={rowData}
-              addInstanceCollection={this.props.addInstanceCollection}
-              removeInstanceCollection={this.props.removeInstanceCollection}
-              checkInstanceInCollection={this.props.checkInstanceInCollection}
-            />
-          );
-        }}
-        onRowClick={(event, selectedRow, togglePanel) => {
-          togglePanel();
-        }}
-        components={{
-          Toolbar: (props) => (
-            <div
-              style={{
-                backgroundColor: "#FFD180",
-                fontWeight: "bolder !important",
-              }}
-            >
-              <MTableToolbar {...props} />
-            </div>
-          ),
-        }}
-      />
+      <div>
+        <MaterialTable
+          title="Models"
+          data={this.props.data}
+          columns={TABLE_COLUMNS}
+          options={{
+            columnsButton: true,
+            search: true,
+            paging: false,
+            filtering: this.state.filtering,
+            sorting: true,
+            //   selection: true,
+            exportButton: false,
+            maxBodyHeight: "60vh",
+            headerStyle: {
+              position: "sticky",
+              top: 0,
+              backgroundColor: "#FFF",
+              fontWeight: "bolder",
+              fontSize: 15,
+            },
+            rowStyle: (rowData) => ({
+              backgroundColor: this.state.selectedRows.includes(
+                rowData.tableData.id
+              )
+                ? "#FFD180"
+                : "#EEEEEE",
+            }),
+          }}
+          actions={[
+            {
+              icon: "filter_list",
+              onClick: () =>
+                this.setState({ filtering: !this.state.filtering }),
+              position: "toolbar",
+              tooltip: "Show Filters",
+            },
+          ]}
+          detailPanel={(rowData) => {
+            return (
+              <ModelVersionsPanel
+                data={rowData}
+                addInstanceCollection={this.props.addInstanceCollection}
+                removeInstanceCollection={this.props.removeInstanceCollection}
+                checkInstanceInCollection={this.props.checkInstanceInCollection}
+              />
+            );
+          }}
+          onRowClick={(event, selectedRow, togglePanel) => {
+            togglePanel();
+          }}
+          components={{
+            Toolbar: (props) => (
+              <div
+                style={{
+                  backgroundColor: "#FFD180",
+                  fontWeight: "bolder !important",
+                }}
+              >
+                <MTableToolbar {...props} />
+              </div>
+            ),
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            paddingLeft: "2.5%",
+            paddingRight: "2.5%",
+            paddingTop: "10px",
+            width: "100%",
+          }}
+        >
+          <h6>
+            {"Number of model instances selected: " +
+              this.props.countTotalInstances()}
+          </h6>
+        </div>
+      </div>
     );
   }
 }
@@ -513,6 +543,8 @@ export default class KGInputModels extends React.Component {
       list_models: [],
       error: null,
       model_collection: {},
+      showFilters: true,
+      configFilters: {},
     };
 
     this.getListModels = this.getListModels.bind(this);
@@ -521,10 +553,9 @@ export default class KGInputModels extends React.Component {
     this.removeInstanceCollection = this.removeInstanceCollection.bind(this);
     this.checkInstanceInCollection = this.checkInstanceInCollection.bind(this);
     this.countTotalInstances = this.countTotalInstances.bind(this);
-  }
-
-  componentDidMount() {
-    this.getListModels();
+    this.showFiltersPanel = this.showFiltersPanel.bind(this);
+    this.handleFiltersChange = this.handleFiltersChange.bind(this);
+    this.handleKGProceed = this.handleKGProceed.bind(this);
   }
 
   getListModels() {
@@ -534,7 +565,9 @@ export default class KGInputModels extends React.Component {
         Authorization: "Bearer " + this.context.auth[0].token,
       },
     };
-    let url = baseUrl + "/models/?size=" + querySizeLimit;
+    let query = buildQuery(this.state.configFilters);
+    let url =
+      baseUrl + "/models/?" + encodeURI(query) + "&size=" + querySizeLimit;
     this.setState({ loading: true });
     axios
       .get(url, config)
@@ -634,8 +667,52 @@ export default class KGInputModels extends React.Component {
     return total;
   }
 
+  showFiltersPanel() {
+    let showFilters = filterModelsKeys;
+    return (
+      <Box my={2}>
+        <h6>Please specify filters to search KG:</h6>
+        <em>Note: you can select multiple values for each filter</em>
+        <form>
+          {showFilters.map((filter) => (
+            <MultipleSelect
+              itemNames={
+                !this.props.validFilterValues
+                  ? []
+                  : this.props.validFilterValues[filter]
+              }
+              label={filter}
+              value={this.state.configFilters[filter] || []}
+              handleChange={this.handleFiltersChange}
+              key={filter}
+            />
+          ))}
+        </form>
+      </Box>
+    );
+  }
+
+  handleFiltersChange(event) {
+    const newConfig = { ...this.state.configFilters };
+    newConfig[event.target.name] = event.target.value;
+    this.setState({ configFilters: newConfig });
+  }
+
+  handleKGProceed() {
+    this.setState(
+      {
+        showFilters: false,
+      },
+      () => {
+        this.getListModels();
+      }
+    );
+  }
+
   render() {
-    console.log(this.state.model_collection);
+    // console.log(this.props);
+    // console.log(this.state);
+
     if (this.state.error) {
       return (
         <ErrorDialog
@@ -651,7 +728,7 @@ export default class KGInputModels extends React.Component {
           onClose={() => this.props.handleClose(false)}
           aria-labelledby="customized-dialog-title"
           open={this.props.open}
-          fullWidth={true}
+          fullWidth={this.state.showFilters ? false : true}
           maxWidth={"xl"}
           //   disableBackdropClick={true}
           //   disableEscapeKeyDown={true}
@@ -666,14 +743,18 @@ export default class KGInputModels extends React.Component {
             </span>
           </DialogTitle>
           <DialogContent dividers>
-            {this.state.loading ? (
+            {(!this.props.validFilterValues && this.state.showFilters) ||
+            this.state.loading ? (
               <LoadingIndicator />
+            ) : this.state.showFilters ? (
+              this.showFiltersPanel()
             ) : (
               <KGContent
                 data={this.state.list_models}
                 addInstanceCollection={this.addInstanceCollection}
                 removeInstanceCollection={this.removeInstanceCollection}
                 checkInstanceInCollection={this.checkInstanceInCollection}
+                countTotalInstances={this.countTotalInstances}
               />
             )}
           </DialogContent>
@@ -708,14 +789,30 @@ export default class KGInputModels extends React.Component {
               </Button>
               <br />
               <br />
-              <span>
-                <h6>
-                  {"Number of model instances selected: " +
-                    this.countTotalInstances()}
-                </h6>
-              </span>
-              <br />
-              <br />
+              {!this.state.showFilters && (
+                <>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{
+                      width: "150px",
+                      backgroundColor: "#01579B",
+                      color: "#FFFFFF",
+                      fontWeight: "bold",
+                      border: "solid",
+                      borderColor: "#000000",
+                      borderWidth: "1px",
+                    }}
+                    onClick={() => {
+                      this.setState({ showFilters: true });
+                    }}
+                  >
+                    Filters
+                  </Button>
+                  <br />
+                  <br />
+                </>
+              )}
               <Button
                 variant="contained"
                 color="primary"
@@ -729,10 +826,12 @@ export default class KGInputModels extends React.Component {
                   borderWidth: "1px",
                 }}
                 onClick={() =>
-                  this.props.handleClose(true, this.state.model_collection)
+                  this.state.showFilters
+                    ? this.handleKGProceed()
+                    : this.props.handleClose(true, this.state.model_collection)
                 }
               >
-                Proceed
+                {this.state.showFilters ? "Proceed" : "Add KG Items"}
               </Button>
             </div>
           </DialogActions>

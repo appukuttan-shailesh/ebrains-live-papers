@@ -273,6 +273,7 @@ export default class SectionGeneric extends React.Component {
       showEdit: false,
       deleteOpen: false,
       expanded: true,
+      useTabs: false,
       ...props.data,
     };
 

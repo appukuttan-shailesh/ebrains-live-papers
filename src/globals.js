@@ -7,3 +7,5 @@ export const timeout = 1000;
 export const querySizeLimit = 10;
 // export const querySizeLimit = 1000000;
 export const separator = "#-#";
+export const filterModelsKeys = ["species", "brain_region", "cell_type", "model_scope", "abstraction_level"];
+export const filterTracesKeys = ["species", "brain_region", "cell_type"];
