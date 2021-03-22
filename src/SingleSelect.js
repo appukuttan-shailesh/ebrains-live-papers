@@ -10,8 +10,9 @@ import Select from "@material-ui/core/Select";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    minWidth: "92.5%",
-    maxWidth: "97.5%",
+    margin: theme.spacing(1),
+    minWidth: 700,
+    maxWidth: 900,
   },
   noLabel: {
     marginTop: theme.spacing(3),
@@ -23,7 +24,7 @@ const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      maxHeight: ITEM_HEIGHT * 8.5 + ITEM_PADDING_TOP,
       width: 250,
     },
   },
@@ -37,7 +38,10 @@ export default function SingleSelect(props) {
 
   return (
     <div>
-      <FormControl className={classes.formControl} disabled={props.disabled || false}>
+      <FormControl
+        className={classes.formControl}
+        disabled={props.disabled || false}
+      >
         <InputLabel id={fieldLabelId}>{props.label}</InputLabel>
         <Select
           labelId={fieldLabelId}
@@ -54,7 +58,9 @@ export default function SingleSelect(props) {
             </MenuItem>
           ))}
         </Select>
-        <FormHelperText>{props.helperText}</FormHelperText>
+        {props.helperText && (
+          <FormHelperText>{props.helperText}</FormHelperText>
+        )}
       </FormControl>
     </div>
   );

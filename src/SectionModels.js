@@ -6,7 +6,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import DynamicTableItems from "./DynamicTableItems";
-import KGInputModels from "./KGInputModels";
+import DBInputModels from "./DBInputModels";
 import ToggleSwitch from "./ToggleSwitch";
 import { mc_baseUrl } from "./globals";
 
@@ -287,7 +287,7 @@ export default class SectionModels extends React.Component {
       dataOk: true,
       dataFormatted: [],
       showEdit: false,
-      showKGInput: false,
+      showDBInput: false,
       deleteOpen: false,
       expanded: true,
       useTabs: false,
@@ -297,8 +297,8 @@ export default class SectionModels extends React.Component {
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.clickEdit = this.clickEdit.bind(this);
     this.handleEditClose = this.handleEditClose.bind(this);
-    this.clickKG = this.clickKG.bind(this);
-    this.handleKGClose = this.handleKGClose.bind(this);
+    this.clickDB = this.clickDB.bind(this);
+    this.handleDBClose = this.handleDBClose.bind(this);
     this.setIcon = this.setIcon.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleMoveDown = this.handleMoveDown.bind(this);
@@ -419,13 +419,13 @@ export default class SectionModels extends React.Component {
     });
   }
 
-  clickKG() {
+  clickDB() {
     this.setState({
-      showKGInput: true,
+      showDBInput: true,
     });
   }
 
-  handleKGClose(flag, items) {
+  handleDBClose(flag, items) {
     if (flag) {
       console.log(items);
       let new_items = [];
@@ -453,7 +453,7 @@ export default class SectionModels extends React.Component {
             prevState.dataFormatted[0].mc_url === ""
               ? new_items
               : prevState.dataFormatted.concat(new_items),
-          showKGInput: false,
+          showDBInput: false,
         }),
         () => {
           this.props.storeSectionInfo(this.state);
@@ -461,7 +461,7 @@ export default class SectionModels extends React.Component {
       );
     } else {
       this.setState({
-        showKGInput: false,
+        showDBInput: false,
       });
     }
   }
@@ -678,7 +678,7 @@ export default class SectionModels extends React.Component {
                   items={this.state.dataFormatted}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
-                  handleKG={this.clickKG}
+                  handleDB={this.clickDB}
                   numCols={3}
                   useTabs={this.state.useTabs}
                 />
@@ -693,11 +693,14 @@ export default class SectionModels extends React.Component {
                     handleClose={this.handleEditClose}
                   />
                 ) : null}
-                {this.state.showKGInput ? (
-                  <KGInputModels
-                    open={this.state.showKGInput}
-                    handleClose={this.handleKGClose}
-                    validFilterValues={this.props.validFilterValues}
+                {this.state.showDBInput ? (
+                  <DBInputModels
+                    open={this.state.showDBInput}
+                    handleClose={this.handleDBClose}
+                    validKGFilterValues={this.props.validKGFilterValues}
+                    validModelDBFilterValues={
+                      this.props.validModelDBFilterValues
+                    }
                   />
                 ) : null}
               </div>

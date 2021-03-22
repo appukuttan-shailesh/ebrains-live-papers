@@ -24,7 +24,7 @@ import MultipleSelect from "./MultipleSelect";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
-import { nar_baseUrl, querySizeLimit, filterTracesKeys } from "./globals";
+import { nar_baseUrl, querySizeLimit, filterKGTracesKeys } from "./globals";
 import { buildQuery } from "./utils";
 
 const styles = (theme) => ({
@@ -639,7 +639,7 @@ export default class KGInputTraces extends React.Component {
   }
 
   showFiltersPanel() {
-    let showFilters = filterTracesKeys;
+    let showFilters = filterKGTracesKeys;
     return (
       <Box my={2}>
         <h6>Please specify filters to search KG:</h6>

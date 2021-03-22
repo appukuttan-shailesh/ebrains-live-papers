@@ -799,11 +799,11 @@ export default class DynamicTableItems extends React.Component {
           >
             Edit Source
           </Button>
-          {this.props.handleKG && (
+          {this.props.handleDB && (
             <Button
               variant="contained"
               color="primary"
-              onClick={this.props.handleKG}
+              onClick={this.props.handleDB}
               style={{
                 width: "160px",
                 marginRight: "25px",
@@ -811,7 +811,7 @@ export default class DynamicTableItems extends React.Component {
               }}
               startIcon={<StorageIcon />}
             >
-              Add From KG
+              Add From DB
             </Button>
           )}
           <Button

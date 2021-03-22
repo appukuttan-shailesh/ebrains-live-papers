@@ -674,7 +674,7 @@ export default class SectionTraces extends React.Component {
                   <KGInputTraces
                     open={this.state.showKGInput}
                     handleClose={this.handleKGClose}
-                    validFilterValues={this.props.validFilterValues}
+                    validKGFilterValues={this.props.validKGFilterValues}
                   />
                 ) : null}
               </div>

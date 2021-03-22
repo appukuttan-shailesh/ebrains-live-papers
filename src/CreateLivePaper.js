@@ -35,7 +35,13 @@ import nunjucks from "nunjucks";
 import LivePaper from "./LivePaper.njk";
 import SaveModal from "./SaveModal";
 import SubmitModal from "./SubmitModal";
-import { baseUrl, lp_tool_version } from "./globals";
+import {
+  baseUrl,
+  lp_tool_version,
+  modelDB_baseUrl,
+  corsProxy,
+  filterModelDBKeys,
+} from "./globals";
 import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
 
 axiosRetry(axios, {
@@ -158,7 +164,8 @@ class CreateLivePaper extends React.Component {
       resources: [],
       saveOpen: false,
       submitOpen: false,
-      validFilterValues: null,
+      validKGFilterValues: null,
+      validModelDBFilterValues: null,
     };
     this.state = { ...this.state, ...props.data };
 
@@ -194,12 +201,18 @@ class CreateLivePaper extends React.Component {
     this.deleteResourceSection = this.deleteResourceSection.bind(this);
     this.moveDownResourceSection = this.moveDownResourceSection.bind(this);
     this.moveUpResourceSection = this.moveUpResourceSection.bind(this);
-    this.retrieveFilterValidValues = this.retrieveFilterValidValues.bind(this);
+    this.retrieveKGFilterValidValues = this.retrieveKGFilterValidValues.bind(
+      this
+    );
+    this.retrieveModelDBFilterValidValues = this.retrieveModelDBFilterValidValues.bind(
+      this
+    );
   }
 
   componentDidMount() {
     this.getCollabList();
-    this.retrieveFilterValidValues();
+    this.retrieveKGFilterValidValues();
+    this.retrieveModelDBFilterValidValues();
   }
 
   deleteResourceSection(order) {
@@ -301,7 +314,7 @@ class CreateLivePaper extends React.Component {
       "submitOpen",
       "collab_list",
       "paper_published",
-      "validFilterValues"
+      "validKGFilterValues",
     ];
     remove_keys.forEach((k) => delete req_data[k]);
 
@@ -848,7 +861,7 @@ class CreateLivePaper extends React.Component {
 
   verifyDataBeforeSubmit() {}
 
-  retrieveFilterValidValues() {
+  retrieveKGFilterValidValues() {
     let url = baseUrl + "/vocab/";
     let config = {
       cancelToken: this.signal.token,
@@ -858,12 +871,48 @@ class CreateLivePaper extends React.Component {
       .get(url, config)
       .then((res) => {
         this.setState({
-          validFilterValues: res.data,
+          validKGFilterValues: res.data,
         });
       })
       .catch((err) => {
         console.log("Error: ", err.message);
       });
+  }
+
+  retrieveModelDBFilterValidValues() {
+    let modelDBreqs = [];
+    for (let item of filterModelDBKeys) {
+      let url = corsProxy + modelDB_baseUrl + "/" + item + "/name";
+      modelDBreqs.push(axios.get(url));
+    }
+    const context = this;
+
+    Promise.all(modelDBreqs).then(function (res) {
+      console.log(res);
+      let data_dict = {};
+
+      filterModelDBKeys.forEach(function (item, i) {
+        data_dict[item] = res[i].data;
+      });
+      context.setState({
+        validModelDBFilterValues: data_dict,
+      });
+    });
+    // let url = modelDB_baseUrl + "/vocab/";
+    // let config = {
+    //   cancelToken: this.signal.token,
+    //   headers: { Authorization: "Bearer " + this.context.auth[0].token },
+    // };
+    // axios
+    //   .get(url, config)
+    //   .then((res) => {
+    //     this.setState({
+    //       validKGFilterValues: res.data,
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log("Error: ", err.message);
+    //   });
   }
 
   render() {
@@ -1487,7 +1536,7 @@ class CreateLivePaper extends React.Component {
                           handleDelete={this.deleteResourceSection}
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
-                          validFilterValues={this.state.validFilterValues}
+                          validKGFilterValues={this.state.validKGFilterValues}
                         />
                       );
                     } else if (item["type"] === "section_models") {
@@ -1502,7 +1551,8 @@ class CreateLivePaper extends React.Component {
                           handleDelete={this.deleteResourceSection}
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
-                          validFilterValues={this.state.validFilterValues}
+                          validKGFilterValues={this.state.validKGFilterValues}
+                          validModelDBFilterValues={this.state.validModelDBFilterValues}
                         />
                       );
                     } else if (item["type"] === "section_generic") {
