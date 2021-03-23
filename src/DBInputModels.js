@@ -20,12 +20,15 @@ import MaterialTable, { MTableToolbar } from "@material-table/core";
 import ErrorDialog from "./ErrorDialog";
 import LoadingIndicator from "./LoadingIndicator";
 import ContextMain from "./ContextMain";
+import TextField from "@material-ui/core/TextField";
 import SingleSelect from "./SingleSelect";
 import MultipleSelect from "./MultipleSelect";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
 import SwitchTwoWay from "./SwitchTwoWay";
+import ToggleSwitch from "./ToggleSwitch";
+
 import {
   baseUrl,
   mc_baseUrl,
@@ -171,6 +174,7 @@ const MODELDB_TABLE_COLUMNS = [
   {
     field: "id",
     title: "ID",
+    width: 100,
   },
   {
     field: "name",
@@ -204,7 +208,6 @@ const MODELDB_TABLE_COLUMNS = [
   {
     field: "modeling_application",
     title: "Simulator",
-    hidden: true,
   },
   //   {
   //     field: "date_created",
@@ -687,7 +690,7 @@ export class ModelDBContent extends React.Component {
   }
 }
 
-export default class DBInputModels extends React.Component {
+export class FilterPanelKG extends React.Component {
   signal = axios.CancelToken.source();
   static contextType = ContextMain;
 
@@ -695,27 +698,16 @@ export default class DBInputModels extends React.Component {
     super(props, context);
 
     this.state = {
-      loading: false,
-      list_models: [],
-      error: null,
-      model_collection: {},
-      showFilters: true,
       configFilters: {},
-      sourceDB: "Knowledge Graph",
     };
 
     this.getListModelsKG = this.getListModelsKG.bind(this);
-    this.getListModelsModelDB = this.getListModelsModelDB.bind(this);
-    this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
-    this.addInstanceCollection = this.addInstanceCollection.bind(this);
-    this.removeInstanceCollection = this.removeInstanceCollection.bind(this);
-    this.checkInstanceInCollection = this.checkInstanceInCollection.bind(this);
-    this.countTotalInstances = this.countTotalInstances.bind(this);
-    this.showFiltersPanel = this.showFiltersPanel.bind(this);
     this.handleFiltersChange = this.handleFiltersChange.bind(this);
-    this.handleKGProceed = this.handleKGProceed.bind(this);
-    this.handleModelDBProceed = this.handleModelDBProceed.bind(this);
-    this.handleDBChange = this.handleDBChange.bind(this);
+  }
+
+  componentDidMount() {
+    // Child passes its method to the parent
+    this.props.shareGetListModels(this.getListModelsKG);
   }
 
   getListModelsKG() {
@@ -729,88 +721,353 @@ export default class DBInputModels extends React.Component {
     let query = buildQuery(this.state.configFilters);
     let url =
       baseUrl + "/models/?" + encodeURI(query) + "&size=" + querySizeLimit;
-    this.setState({ loading: true });
     axios
       .get(url, config)
       .then((res) => {
         const models = res.data;
         console.log(models);
-        this.setState({
-          list_models: models,
-          loading: false,
-          error: null,
-        });
+        this.props.setListModels(models, false, null);
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
           console.log("errorUpdate: ", err.message);
         } else {
           // Something went wrong. Save the error in state and re-render.
-          this.setState({
-            loading: false,
-            error: err,
-          });
+          this.props.setListModels([], false, err);
         }
       });
   }
 
+  handleFiltersChange(event) {
+    const newConfig = { ...this.state.configFilters };
+    newConfig[event.target.name] =
+      typeof event.target.value === "string"
+        ? [event.target.value]
+        : event.target.value;
+    this.setState({ configFilters: newConfig });
+  }
+
+  render() {
+    return (
+      <div>
+        <h6>Please specify filters to search KG:</h6>
+        <em>Note: you can select multiple values for each filter</em>
+        <form>
+          {this.props.showFilters.map((filter) => (
+            <MultipleSelect
+              itemNames={
+                !this.props.validKGFilterValues
+                  ? []
+                  : this.props.validKGFilterValues[filter]
+              }
+              label={filter}
+              value={this.state.configFilters[filter] || []}
+              handleChange={this.handleFiltersChange}
+              key={filter}
+            />
+          ))}
+        </form>
+      </div>
+    );
+  }
+}
+
+export class FilterPanelModelDB extends React.Component {
+  signal = axios.CancelToken.source();
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      configFilters: {},
+      searchByID: true,
+      model_ids: "",
+    };
+
+    this.getListModelsModelDB = this.getListModelsModelDB.bind(this);
+    this.handleFiltersChange = this.handleFiltersChange.bind(this);
+    this.toggleSearchByID = this.toggleSearchByID.bind(this);
+    this.handleIDsChange = this.handleIDsChange.bind(this);
+  }
+
+  componentDidMount() {
+    // Child passes its method to the parent
+    this.props.shareGetListModels(this.getListModelsModelDB);
+  }
+
   getListModelsModelDB() {
     console.log("Query ModelDB");
-    this.setState({ loading: true });
-    let query = buildQuery(this.state.configFilters);
 
-    let modelDBreqs = [];
-    for (let item of [
-      "id",
-      "name",
-      ...Object.values(filterAttributeMappingModelDB),
-    ]) {
-      let url =
-        corsProxy +
-        modelDB_baseUrl +
-        "/models/" +
-        item +
-        "?" +
-        encodeURI(query);
-      modelDBreqs.push(axios.get(url));
-    }
+    if (this.state.searchByID) {
+      // one query per input model ID
+      // each query will correspond to a specific model
+      let modelDBreqs = [];
+      // split csv to list
+      let list_model_ids = this.state.model_ids
+        .split(",")
+        .map((item) => item.trim())
+        .filter((item) => item !== "");
 
-    const context = this;
-    Promise.all(modelDBreqs)
-      .then(function (res) {
-        console.log(res);
-        let model_list = [];
-        for (let ind in res[0].data) {
-          let data_dict = {};
-          [
-            "id",
-            "name",
-            ...Object.values(filterAttributeMappingModelDB),
-          ].forEach(function (item, i) {
-            data_dict[item] = res[i].data[ind];
-          });
-          model_list.push(data_dict);
-        }
-
-        console.log(model_list);
-        // create model entries from collected attributes
-        context.setState({
-          list_models: model_list,
-          loading: false,
-          error: null,
-        });
-      })
-      .catch((err) => {
-        if (axios.isCancel(err)) {
-          console.log("errorUpdate: ", err.message);
-        } else {
-          // Something went wrong. Save the error in state and re-render.
-          context.setState({
-            loading: false,
-            error: err,
-          });
-        }
+      list_model_ids.forEach(function (model_id, i) {
+        let url = corsProxy + modelDB_baseUrl + "/models/" + model_id;
+        modelDBreqs.push(axios.get(url));
       });
+
+      const context = this;
+      Promise.all(modelDBreqs)
+        .then(function (res) {
+          console.log(res);
+          let model_list = [];
+          for (let ind in list_model_ids) {
+            let data_dict = {};
+            [
+              "id",
+              "name",
+              ...Object.values(filterAttributeMappingModelDB),
+            ].forEach(function (item, i) {
+              if (
+                typeof res[ind].data[item] === "string" ||
+                !res[ind].data[item]
+              ) {
+                data_dict[item] = res[ind].data[item];
+              } else if (typeof res[ind].data[item] === "number") {
+                data_dict[item] = res[ind].data[item].toString();
+              } else {
+                let value = "";
+                res[ind].data[item].value.forEach(function (subitem, j) {
+                  value = value + subitem.object_name + ", ";
+                });
+                data_dict[item] = value.slice(0, -2);
+              }
+            });
+            model_list.push(data_dict);
+          }
+
+          console.log(model_list);
+          // create model entries from collected attributes
+          context.props.setListModels(model_list, false, null);
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("errorUpdate: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            this.props.setListModels([], false, err);
+          }
+        });
+    } else {
+      // one query per required column (attribute)
+      // each query will correspond to values for specific attribute
+      let query = buildQuery(this.state.configFilters);
+      let modelDBreqs = [];
+      for (let item of [
+        "id",
+        "name",
+        ...Object.values(filterAttributeMappingModelDB),
+      ]) {
+        let url =
+          corsProxy +
+          modelDB_baseUrl +
+          "/models/" +
+          item +
+          "?" +
+          encodeURI(query);
+        modelDBreqs.push(axios.get(url));
+      }
+
+      const context = this;
+      Promise.all(modelDBreqs)
+        .then(function (res) {
+          console.log(res);
+          let model_list = [];
+          for (let ind in res[0].data) {
+            let data_dict = {};
+            [
+              "id",
+              "name",
+              ...Object.values(filterAttributeMappingModelDB),
+            ].forEach(function (item, i) {
+              if (typeof res[i].data[ind] === "string" || !res[i].data[ind]) {
+                data_dict[item] = res[i].data[ind];
+              } else if (typeof res[i].data[ind] === "number") {
+                data_dict[item] = res[i].data[ind].toString();
+              } else {
+                let value = "";
+                res[i].data[ind].value.forEach(function (subitem, j) {
+                  value = value + subitem.object_name + ", ";
+                });
+                data_dict[item] = value.slice(0, -2);
+              }
+            });
+            model_list.push(data_dict);
+          }
+
+          console.log(model_list);
+          // create model entries from collected attributes
+          context.props.setListModels(model_list, false, null);
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("errorUpdate: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            this.props.setListModels([], false, err);
+          }
+        });
+    }
+  }
+
+  handleFiltersChange(event) {
+    const newConfig = { ...this.state.configFilters };
+    newConfig[event.target.name] =
+      typeof event.target.value === "string"
+        ? [event.target.value]
+        : event.target.value;
+    this.setState({ configFilters: newConfig });
+  }
+
+  toggleSearchByID() {
+    if (this.state.searchByID) {
+      this.setState({
+        model_ids: "",
+        searchByID: false,
+      });
+    } else {
+      this.setState({
+        configFilters: {},
+        searchByID: true,
+      });
+    }
+  }
+
+  handleIDsChange(event) {
+    this.setState({
+      model_ids: event.target.value,
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <Grid item xs={12} style={{ paddingBottom: "10px" }}>
+          <h6>
+            <span style={{ paddingRight: "10px" }}>
+              Do you wish to search by model ID?
+            </span>
+            <ToggleSwitch
+              id="searchSwitch"
+              checked={this.state.searchByID}
+              onChange={this.toggleSearchByID}
+            />
+          </h6>
+        </Grid>
+        {this.state.searchByID && (
+          <div>
+            <h6>Please enter the model IDs below:</h6>
+            <em>
+              Note: you can enter multiple IDs by separating them with a comma
+              (,)
+            </em>
+            <form>
+              <TextField
+                variant="outlined"
+                fullWidth={true}
+                name="model_ids"
+                value={this.state.model_ids}
+                onChange={this.handleIDsChange}
+                InputProps={{
+                  style: {
+                    padding: "5px 15px",
+                    minWidth: 700,
+                    maxWidth: 900,
+                    marginTop: "10px",
+                  },
+                }}
+              />
+            </form>
+          </div>
+        )}
+        {!this.state.searchByID && (
+          <div>
+            <h6>Please specify filters to search ModelDB:</h6>
+            <em>Note: you can select only one value for each filter</em>
+            <form>
+              {this.props.showFilters.map((filter) => (
+                <SingleSelect
+                  itemNames={
+                    !this.props.validModelDBFilterValues
+                      ? []
+                      : this.props.validModelDBFilterValues[filter]
+                  }
+                  label={labelsModelDBKeys[filter]}
+                  name={filterAttributeMappingModelDB[filter]}
+                  value={
+                    this.state.configFilters[
+                      filterAttributeMappingModelDB[filter]
+                    ] || ""
+                  }
+                  handleChange={this.handleFiltersChange}
+                  key={filter}
+                />
+              ))}
+            </form>
+          </div>
+        )}
+      </div>
+    );
+  }
+}
+
+export default class DBInputModels extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: false,
+      list_models: [],
+      error: null,
+      model_collection: {},
+      showFilters: true,
+      sourceDB: "Knowledge Graph",
+    };
+
+    this.acceptsProceedMethod = this.acceptsProceedMethod.bind(this);
+    this.handleProceed = this.handleProceed.bind(this);
+    this.setListModels = this.setListModels.bind(this);
+
+    this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
+    this.addInstanceCollection = this.addInstanceCollection.bind(this);
+    this.removeInstanceCollection = this.removeInstanceCollection.bind(this);
+    this.checkInstanceInCollection = this.checkInstanceInCollection.bind(this);
+    this.countTotalInstances = this.countTotalInstances.bind(this);
+    this.showFiltersPanel = this.showFiltersPanel.bind(this);
+    this.handleDBChange = this.handleDBChange.bind(this);
+  }
+
+  acceptsProceedMethod(childGetListMethod) {
+    // Parent stores the method that the child passed
+    this.getListModels = childGetListMethod;
+  }
+
+  handleProceed() {
+    this.setState(
+      {
+        showFilters: false,
+        loading: true,
+      },
+      () => {
+        this.getListModels();
+      }
+    );
+  }
+
+  setListModels(list_models, loading, error) {
+    console.log("Hello");
+    this.setState({
+      list_models: list_models,
+      loading: loading,
+      error: error,
+    });
   }
 
   handleErrorDialogClose() {
@@ -902,84 +1159,24 @@ export default class DBInputModels extends React.Component {
         />
         <br />
         {this.state.sourceDB === "Knowledge Graph" && (
-          <div>
-            <h6>Please specify filters to search KG:</h6>
-            <em>Note: you can select multiple values for each filter</em>
-            <form>
-              {showFilters.map((filter) => (
-                <MultipleSelect
-                  itemNames={
-                    !this.props.validKGFilterValues
-                      ? []
-                      : this.props.validKGFilterValues[filter]
-                  }
-                  label={filter}
-                  value={this.state.configFilters[filter] || []}
-                  handleChange={this.handleFiltersChange}
-                  key={filter}
-                />
-              ))}
-            </form>
-          </div>
+          <FilterPanelKG
+            showFilters={showFilters}
+            validKGFilterValues={this.props.validKGFilterValues}
+            handleFiltersChange={this.handleFiltersChange}
+            shareGetListModels={this.acceptsProceedMethod}
+            setListModels={this.setListModels}
+          />
         )}
         {this.state.sourceDB === "ModelDB" && (
-          <div>
-            <h6>Please specify filters to search ModelDB:</h6>
-            <em>Note: you can select only one value for each filter</em>
-            <form>
-              {showFilters.map((filter) => (
-                <SingleSelect
-                  itemNames={
-                    !this.props.validModelDBFilterValues
-                      ? ["a"]
-                      : this.props.validModelDBFilterValues[filter]
-                  }
-                  label={labelsModelDBKeys[filter]}
-                  name={filterAttributeMappingModelDB[filter]}
-                  value={
-                    this.state.configFilters[
-                      filterAttributeMappingModelDB[filter]
-                    ] || ""
-                  }
-                  handleChange={this.handleFiltersChange}
-                  key={filter}
-                />
-              ))}
-            </form>
-          </div>
+          <FilterPanelModelDB
+            showFilters={showFilters}
+            validModelDBFilterValues={this.props.validModelDBFilterValues}
+            handleFiltersChange={this.handleFiltersChange}
+            shareGetListModels={this.acceptsProceedMethod}
+            setListModels={this.setListModels}
+          />
         )}
       </Box>
-    );
-  }
-
-  handleFiltersChange(event) {
-    const newConfig = { ...this.state.configFilters };
-    newConfig[event.target.name] =
-      typeof event.target.value === "string"
-        ? [event.target.value]
-        : event.target.value;
-    this.setState({ configFilters: newConfig });
-  }
-
-  handleKGProceed() {
-    this.setState(
-      {
-        showFilters: false,
-      },
-      () => {
-        this.getListModelsKG();
-      }
-    );
-  }
-
-  handleModelDBProceed() {
-    this.setState(
-      {
-        showFilters: false,
-      },
-      () => {
-        this.getListModelsModelDB();
-      }
     );
   }
 
@@ -987,7 +1184,6 @@ export default class DBInputModels extends React.Component {
     console.log(value);
     this.setState({
       sourceDB: value,
-      configFilters: {},
       list_models: [],
     });
   }
@@ -1118,9 +1314,7 @@ export default class DBInputModels extends React.Component {
                 }}
                 onClick={() =>
                   this.state.showFilters
-                    ? this.state.sourceDB === "Knowledge Graph"
-                      ? this.handleKGProceed()
-                      : this.handleModelDBProceed()
+                    ? this.handleProceed()
                     : this.props.handleClose(true, this.state.model_collection)
                 }
               >
