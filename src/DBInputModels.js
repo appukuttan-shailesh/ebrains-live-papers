@@ -38,6 +38,7 @@ import {
   labelsModelDBKeys,
   filterAttributeMappingModelDB,
   modelDB_baseUrl,
+  modelDB_viewUrl,
   corsProxy,
 } from "./globals";
 import {
@@ -210,11 +211,6 @@ const MODELDB_TABLE_COLUMNS = [
     field: "modeling_application",
     title: "Simulator",
   },
-  //   {
-  //     field: "date_created",
-  //     title: "Created Date",
-  //     hidden: true,
-  //   },
   // {
   //   field: "instances",
   //   title: "Instances",
@@ -283,7 +279,6 @@ function InstanceParameter(props) {
         <Grid item xs={9}>
           <Box
             component="div"
-            my={2}
             bgcolor="white"
             overflow="scroll"
             border={1}
@@ -316,7 +311,7 @@ function InstanceParameter(props) {
   );
 }
 
-class ModelVersion extends React.Component {
+class KGContentModelVersion extends React.Component {
   constructor(props) {
     super(props);
 
@@ -398,7 +393,11 @@ class ModelVersion extends React.Component {
                     clickable
                     onClick={() => this.setState({ selectedParam: param })}
                     variant="outlined"
-                    style={{ color: "#000000", marginRight: "10px" }}
+                    style={{
+                      color: "#000000",
+                      marginRight: "10px",
+                      marginBottom: "10px",
+                    }}
                   />
                 ))}
               </div>
@@ -429,15 +428,7 @@ class ModelVersion extends React.Component {
   }
 }
 
-class ModelVersionsPanel extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selectedParam: "source",
-    };
-  }
-
+class KGContentModelVersionsPanel extends React.Component {
   render() {
     // console.log(this.props);
     return (
@@ -480,7 +471,7 @@ class ModelVersionsPanel extends React.Component {
         ) : (
           this.props.data.instances.map((instance, ind) => (
             <div style={{ marginBottom: "25px" }} key={ind}>
-              <ModelVersion
+              <KGContentModelVersion
                 model_id={this.props.data.id}
                 model_name={this.props.data.name}
                 instance={instance}
@@ -548,7 +539,7 @@ export class KGContent extends React.Component {
           ]}
           detailPanel={(rowData) => {
             return (
-              <ModelVersionsPanel
+              <KGContentModelVersionsPanel
                 data={rowData}
                 addInstanceCollection={this.props.addInstanceCollection}
                 removeInstanceCollection={this.props.removeInstanceCollection}
@@ -593,6 +584,136 @@ export class KGContent extends React.Component {
   }
 }
 
+class ModelDBContentModelPanel extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedParam: "implemented_by",
+    };
+  }
+
+  render() {
+    // console.log(this.props);
+    return (
+      <Grid item style={{ backgroundColor: "#CFD8DC", padding: "20px" }}>
+        <Grid container direction="row">
+          <Grid
+            item
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              verticalAlign: "middle",
+            }}
+          >
+            <Typography variant="subtitle1">
+              <b>Model Details:</b>
+            </Typography>
+            <Link
+              href={
+                modelDB_viewUrl +
+                "/ShowModel.cshtml?model=" +
+                this.props.data.id
+              }
+              target="_blank"
+              rel="noreferrer"
+              underline="none"
+            >
+              <Button
+                variant="contained"
+                style={{ color: "#455A64" }}
+                startIcon={<OpenInNewIcon />}
+              >
+                Open Model
+              </Button>
+            </Link>
+          </Grid>
+        </Grid>
+        <div style={{ marginBottom: "25px" }}>
+          <Box
+            my={2}
+            pb={0}
+            style={{ backgroundColor: "#FFF1CC", marginBottom: "20px" }}
+          >
+            <Grid
+              container
+              style={{
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#FFD180",
+              }}
+            >
+              <Grid item xs={6}>
+                <Box px={2} display="flex" flexDirection="row">
+                  <p variant="subtitle2">
+                    Model ID:{" "}
+                    <span style={{ cursor: "pointer", fontWeight: "bold" }}>
+                      {this.props.data.id}
+                    </span>
+                  </p>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container spacing={3} alignItems="flex-end">
+              <Grid item xs={9}>
+                <div style={{ padding: "10px 0px 0px 10px" }}>
+                  <div>
+                    {Object.entries(filterAttributeMappingModelDB).map(
+                      ([key, param], ind) => (
+                        <Chip
+                          icon={
+                            this.state.selectedParam === param ? (
+                              <RadioButtonCheckedIcon />
+                            ) : (
+                              <RadioButtonUncheckedIcon />
+                            )
+                          }
+                          key={ind}
+                          label={labelsModelDBKeys[key]}
+                          clickable
+                          onClick={() =>
+                            this.setState({ selectedParam: param })
+                          }
+                          variant="outlined"
+                          style={{
+                            color: "#000000",
+                            marginRight: "10px",
+                            marginBottom: "10px",
+                          }}
+                        />
+                      )
+                    )}
+                  </div>
+                  <InstanceParameter
+                    label={"param"}
+                    value={this.props.data[this.state.selectedParam]}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={3} style={{ paddingBottom: "35px" }}>
+                {/* <IncludeButton
+                  includeFlag={this.props.checkInstanceInCollection(
+                    this.props.instance.model_id,
+                    this.props.instance.id
+                  )}
+                  model_id={this.props.model_id}
+                  model_name={this.props.model_name}
+                  instance_id={this.props.instance.id}
+                  instance_name={this.props.instance.version}
+                  source_url={this.props.instance.source}
+                  addInstanceCollection={this.props.addInstanceCollection}
+                  removeInstanceCollection={this.props.removeInstanceCollection}
+                /> */}
+              </Grid>
+            </Grid>
+          </Box>
+        </div>
+      </Grid>
+    );
+  }
+}
 export class ModelDBContent extends React.Component {
   constructor(props) {
     super(props);
@@ -646,7 +767,7 @@ export class ModelDBContent extends React.Component {
           ]}
           detailPanel={(rowData) => {
             return (
-              <ModelVersionsPanel
+              <ModelDBContentModelPanel
                 data={rowData}
                 addInstanceCollection={this.props.addInstanceCollection}
                 removeInstanceCollection={this.props.removeInstanceCollection}
@@ -830,16 +951,24 @@ export class FilterPanelModelDB extends React.Component {
                 ...Object.values(filterAttributeMappingModelDB),
               ].forEach(function (item, i) {
                 let value = res[ind].value.data[item];
+                console.log(item);
+                console.log(value);
                 if (typeof value === "string" || !value) {
                   data_dict[item] = value;
                 } else if (typeof value === "number") {
                   data_dict[item] = value.toString();
                 } else {
-                  let item_value = "";
-                  value.value.forEach(function (subitem, j) {
-                    item_value = item_value + subitem.object_name + ", ";
-                  });
-                  data_dict[item] = item_value.slice(0, -2);
+                  if (item === "notes" || item === "public_submitter_email") {
+                    data_dict[item] = value.value;
+                  } else {
+                    let item_value = "";
+                    console.log(item);
+                    console.log(value);
+                    value.value.forEach(function (subitem, j) {
+                      item_value = item_value + subitem.object_name + ", ";
+                    });
+                    data_dict[item] = item_value.slice(0, -2);
+                  }
                 }
               });
               model_list.push(data_dict);
@@ -1141,7 +1270,7 @@ export default class DBInputModels extends React.Component {
         flag = true;
       }
     }
-    console.log(flag);
+    // console.log(flag);
     return flag;
   }
 
