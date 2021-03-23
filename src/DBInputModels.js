@@ -44,6 +44,7 @@ import {
   formatAuthors,
   formatTimeStampToLongString,
   buildQuery,
+  showNotification,
 } from "./utils";
 
 const styles = (theme) => ({
@@ -807,6 +808,8 @@ export class FilterPanelModelDB extends React.Component {
         .split(",")
         .map((item) => item.trim())
         .filter((item) => item !== "");
+      // remove duplicates
+      list_model_ids = [...new Set(list_model_ids)];
 
       list_model_ids.forEach(function (model_id, i) {
         let url = corsProxy + modelDB_baseUrl + "/models/" + model_id;
@@ -814,33 +817,41 @@ export class FilterPanelModelDB extends React.Component {
       });
 
       const context = this;
-      Promise.all(modelDBreqs)
+      Promise.allSettled(modelDBreqs)
         .then(function (res) {
           console.log(res);
           let model_list = [];
           for (let ind in list_model_ids) {
-            let data_dict = {};
-            [
-              "id",
-              "name",
-              ...Object.values(filterAttributeMappingModelDB),
-            ].forEach(function (item, i) {
-              if (
-                typeof res[ind].data[item] === "string" ||
-                !res[ind].data[item]
-              ) {
-                data_dict[item] = res[ind].data[item];
-              } else if (typeof res[ind].data[item] === "number") {
-                data_dict[item] = res[ind].data[item].toString();
-              } else {
-                let value = "";
-                res[ind].data[item].value.forEach(function (subitem, j) {
-                  value = value + subitem.object_name + ", ";
-                });
-                data_dict[item] = value.slice(0, -2);
-              }
-            });
-            model_list.push(data_dict);
+            if (res[ind].status === "fulfilled") {
+              let data_dict = {};
+              [
+                "id",
+                "name",
+                ...Object.values(filterAttributeMappingModelDB),
+              ].forEach(function (item, i) {
+                let value = res[ind].value.data[item];
+                if (typeof value === "string" || !value) {
+                  data_dict[item] = value;
+                } else if (typeof value === "number") {
+                  data_dict[item] = value.toString();
+                } else {
+                  let item_value = "";
+                  value.value.forEach(function (subitem, j) {
+                    item_value = item_value + subitem.object_name + ", ";
+                  });
+                  data_dict[item] = item_value.slice(0, -2);
+                }
+              });
+              model_list.push(data_dict);
+            } else {
+              showNotification(
+                context.props.enqueueSnackbar,
+                context.props.closeSnackbar,
+                "Invalid Model ID: " + list_model_ids[ind] + "!",
+                "error"
+              );
+              console.log("a");
+            }
           }
 
           console.log(model_list);
@@ -1062,7 +1073,6 @@ export default class DBInputModels extends React.Component {
   }
 
   setListModels(list_models, loading, error) {
-    console.log("Hello");
     this.setState({
       list_models: list_models,
       loading: loading,
@@ -1174,6 +1184,8 @@ export default class DBInputModels extends React.Component {
             handleFiltersChange={this.handleFiltersChange}
             shareGetListModels={this.acceptsProceedMethod}
             setListModels={this.setListModels}
+            enqueueSnackbar={this.props.enqueueSnackbar}
+            closeSnackbar={this.props.closeSnackbar}
           />
         )}
       </Box>

@@ -1552,7 +1552,11 @@ class CreateLivePaper extends React.Component {
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
                           validKGFilterValues={this.state.validKGFilterValues}
-                          validModelDBFilterValues={this.state.validModelDBFilterValues}
+                          validModelDBFilterValues={
+                            this.state.validModelDBFilterValues
+                          }
+                          enqueueSnackbar={this.props.enqueueSnackbar}
+                          closeSnackbar={this.props.closeSnackbar}
                         />
                       );
                     } else if (item["type"] === "section_generic") {

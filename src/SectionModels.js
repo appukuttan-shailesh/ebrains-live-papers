@@ -701,6 +701,8 @@ export default class SectionModels extends React.Component {
                     validModelDBFilterValues={
                       this.props.validModelDBFilterValues
                     }
+                    enqueueSnackbar={this.props.enqueueSnackbar}
+                    closeSnackbar={this.props.closeSnackbar}
                   />
                 ) : null}
               </div>
