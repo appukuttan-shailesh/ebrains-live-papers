@@ -59,6 +59,12 @@ export const filterAttributeMappingModelDB = {
   public_submitter_email: "public_submitter_email",
   ver_date: "ver_date",
 };
+export const resourseTypeBadgeMappings = {
+  URL: ["", "Manual Entry"],
+  ModelInstance: ["KG", "KG Entry"],
+  Recording: ["KG", "KG Entry"],
+  ModelDB: ["MDB", "ModelDB Entry"],
+};
 
 // To access ModelDB APIs; doesn't work with localhost during development
 export const corsProxy = "https://cors-clear.herokuapp.com/";

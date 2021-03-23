@@ -211,12 +211,6 @@ const MODELDB_TABLE_COLUMNS = [
     field: "modeling_application",
     title: "Simulator",
   },
-  // {
-  //   field: "instances",
-  //   title: "Instances",
-  //   hidden: true,
-  //   hiddenByColumnsButton: true,
-  // },
 ];
 
 function IncludeButton(props) {
@@ -261,7 +255,8 @@ function IncludeButton(props) {
               props.model_name,
               props.instance_id,
               props.instance_name,
-              props.source_url
+              props.source_url,
+              props.view_url
             )
           }
         >
@@ -418,6 +413,7 @@ class KGContentModelVersion extends React.Component {
               instance_id={this.props.instance.id}
               instance_name={this.props.instance.version}
               source_url={this.props.instance.source}
+              view_url={mc_baseUrl + "/#model_id." + this.props.model_id}
               addInstanceCollection={this.props.addInstanceCollection}
               removeInstanceCollection={this.props.removeInstanceCollection}
             />
@@ -693,19 +689,29 @@ class ModelDBContentModelPanel extends React.Component {
                 </div>
               </Grid>
               <Grid item xs={3} style={{ paddingBottom: "35px" }}>
-                {/* <IncludeButton
+                <IncludeButton
                   includeFlag={this.props.checkInstanceInCollection(
-                    this.props.instance.model_id,
-                    this.props.instance.id
+                    this.props.data.id,
+                    "0"
                   )}
-                  model_id={this.props.model_id}
-                  model_name={this.props.model_name}
-                  instance_id={this.props.instance.id}
-                  instance_name={this.props.instance.version}
-                  source_url={this.props.instance.source}
+                  model_id={this.props.data.id}
+                  model_name={this.props.data.name}
+                  instance_id={"0"}
+                  instance_name={""}
+                  source_url={
+                    modelDB_viewUrl +
+                    "/eavBinDown?o=" +
+                    this.props.data.id +
+                    "&a=23&mime=application/zip"
+                  }
+                  view_url={
+                    modelDB_viewUrl +
+                    "/ShowModel.cshtml?model=" +
+                    this.props.data.id
+                  }
                   addInstanceCollection={this.props.addInstanceCollection}
                   removeInstanceCollection={this.props.removeInstanceCollection}
-                /> */}
+                />
               </Grid>
             </Grid>
           </Box>
@@ -1218,7 +1224,8 @@ export default class DBInputModels extends React.Component {
     model_name,
     instance_id,
     instance_name,
-    source_url
+    source_url,
+    view_url
   ) {
     console.log("Add");
 
@@ -1226,15 +1233,21 @@ export default class DBInputModels extends React.Component {
     if (Object.keys(model_collection).includes(model_id)) {
       if (!Object.keys(model_collection[model_id]).includes(instance_id)) {
         model_collection[model_id][instance_id] = {
-          label: model_name + " (" + instance_name + ")",
+          label: instance_name
+            ? model_name + " (" + instance_name + ")"
+            : model_name,
           source_url: source_url,
+          view_url: view_url,
         };
       }
     } else {
       model_collection[model_id] = {
         [instance_id]: {
-          label: model_name + " (" + instance_name + ")",
+          label: instance_name
+            ? model_name + " (" + instance_name + ")"
+            : model_name,
           source_url: source_url,
+          view_url: view_url,
         },
       };
     }
@@ -1248,6 +1261,7 @@ export default class DBInputModels extends React.Component {
     console.log("Remove");
 
     let model_collection = this.state.model_collection;
+    console.log(model_collection);
     if (Object.keys(model_collection).includes(model_id)) {
       if (Object.keys(model_collection[model_id]).includes(instance_id)) {
         delete model_collection[model_id][instance_id];
@@ -1270,7 +1284,7 @@ export default class DBInputModels extends React.Component {
         flag = true;
       }
     }
-    // console.log(flag);
+    console.log(flag);
     return flag;
   }
 
@@ -1456,10 +1470,14 @@ export default class DBInputModels extends React.Component {
                 onClick={() =>
                   this.state.showFilters
                     ? this.handleProceed()
-                    : this.props.handleClose(true, this.state.model_collection)
+                    : this.props.handleClose(
+                        true,
+                        this.state.model_collection,
+                        this.state.sourceDB
+                      )
                 }
               >
-                {this.state.showFilters ? "Proceed" : "Add KG Items"}
+                {this.state.showFilters ? "Proceed" : "Add Items"}
               </Button>
             </div>
           </DialogActions>

@@ -13,6 +13,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
+import { resourseTypeBadgeMappings } from "./globals";
 
 const styles = () => ({
   customBadge: {
@@ -23,7 +24,6 @@ const styles = () => ({
 });
 
 const RowIndex = withStyles(styles)((props) => {
-  //   console.log(props);
   return (
     <td
       style={{
@@ -33,11 +33,11 @@ const RowIndex = withStyles(styles)((props) => {
       }}
     >
       <Tooltip
-        title={props.type === "URL" ? "Manual Entry" : "KG Entry"}
+        title={resourseTypeBadgeMappings[props.type][1] || ""}
         placement="left"
       >
         <Badge
-          badgeContent={"KG"}
+          badgeContent={resourseTypeBadgeMappings[props.type][0] || ""}
           // color="default"
           invisible={props.type === "URL"}
           anchorOrigin={{

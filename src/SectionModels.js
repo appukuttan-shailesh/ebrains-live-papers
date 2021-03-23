@@ -8,7 +8,6 @@ import DialogConfirm from "./DialogConfirm";
 import DynamicTableItems from "./DynamicTableItems";
 import DBInputModels from "./DBInputModels";
 import ToggleSwitch from "./ToggleSwitch";
-import { mc_baseUrl } from "./globals";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -425,17 +424,17 @@ export default class SectionModels extends React.Component {
     });
   }
 
-  handleDBClose(flag, items) {
+  handleDBClose(flag, items, sourceDB) {
     if (flag) {
       console.log(items);
       let new_items = [];
       for (const model_id in items) {
         for (const instance_id in items[model_id]) {
           new_items.push({
-            type: "ModelInstance",
-            url: items[model_id][instance_id]["source_url"] || "",
+            type: sourceDB === "Knowledge Graph" ? "ModelInstance" : "ModelDB",
             label: items[model_id][instance_id]["label"] || "",
-            mc_url: mc_baseUrl + "/#model_id." + model_id || "",
+            url: items[model_id][instance_id]["source_url"] || "",
+            mc_url: items[model_id][instance_id]["view_url"] || "",
             tab_name: "",
             identifier: instance_id,
           });

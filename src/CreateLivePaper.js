@@ -349,8 +349,8 @@ class CreateLivePaper extends React.Component {
         });
         // get only unique elements
         tabs = tabs.filter((x, i, a) => a.indexOf(x) === i);
-        // replace empty string with "(no tab name)"
-        tabs = tabs.map((item) => (item === "" ? "(no tab name)" : item));
+        // replace empty string with "no tab name"
+        tabs = tabs.map((item) => (item === "" ? "no tab name" : item));
         // add tab names to resource data
         res["tabs"] = tabs;
       }
