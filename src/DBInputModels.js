@@ -26,27 +26,64 @@ import MultipleSelect from "./MultipleSelect";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
-import SwitchTwoWay from "./SwitchTwoWay";
+import SwitchThreeWay from "./SwitchThreeWay";
 import ToggleSwitch from "./ToggleSwitch";
-
+import FilterListIcon from "@material-ui/icons/FilterList";
+import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 import {
   baseUrl,
   mc_baseUrl,
   querySizeLimit,
   filterKGModelsKeys,
   filterModelDBKeys,
-  labelsModelDBKeys,
-  filterAttributeMappingModelDB,
   modelDB_baseUrl,
   modelDB_viewUrl,
   corsProxy,
+  osb_baseUrl,
 } from "./globals";
 import {
   formatAuthors,
   formatTimeStampToLongString,
   buildQuery,
   showNotification,
+  formatLabel,
 } from "./utils";
+
+const labelsModelDBKeys = {
+  regions: "Brain Region",
+  celltypes: "Cell Type",
+  modeltypes: "Model Type",
+  modelconcepts: "Model Concept",
+  simenvironments: "Simulator",
+  implemented_by: "Implemented By",
+  currents: "Currents",
+  gap_junctions: "Gap Junctions",
+  receptors: "Receptors",
+  gene: "Gene",
+  neurotransmitters: "Neurotransmitters",
+  model_paper: "Model Paper",
+  notes: "Notes",
+  public_submitter_email: "Email",
+  ver_date: "Date",
+};
+
+const filterAttributeMappingModelDB = {
+  regions: "region",
+  celltypes: "neurons",
+  modeltypes: "model_type",
+  modelconcepts: "model_concept",
+  simenvironments: "modeling_application",
+  implemented_by: "implemented_by",
+  currents: "currents",
+  gap_junctions: "gap_junctions",
+  receptors: "receptors",
+  gene: "gene",
+  neurotransmitters: "neurotransmitters",
+  model_paper: "model_paper",
+  notes: "notes",
+  public_submitter_email: "public_submitter_email",
+  ver_date: "ver_date",
+};
 
 const styles = (theme) => ({
   root: {
@@ -165,12 +202,6 @@ const KG_TABLE_COLUMNS = [
     title: "Created Date",
     hidden: true,
   },
-  {
-    field: "instances",
-    title: "Instances",
-    hidden: true,
-    hiddenByColumnsButton: true,
-  },
 ];
 const MODELDB_TABLE_COLUMNS = [
   {
@@ -182,11 +213,6 @@ const MODELDB_TABLE_COLUMNS = [
     field: "name",
     title: "Name",
   },
-  //   {
-  //     field: "author",
-  //     title: "Author",
-  //     hidden: true,
-  //   },
   {
     field: "region",
     title: "Brain Region",
@@ -210,6 +236,38 @@ const MODELDB_TABLE_COLUMNS = [
   {
     field: "modeling_application",
     title: "Simulator",
+  },
+];
+const OSB_TABLE_COLUMNS = [
+  {
+    field: "id",
+    title: "ID",
+    hidden: true,
+  },
+  {
+    field: "identifier",
+    title: "Identifier",
+  },
+  {
+    field: "name",
+    title: "Name",
+  },
+  {
+    field: "species",
+    title: "Species",
+  },
+  {
+    field: "brain_region",
+    title: "Brain Region",
+  },
+  {
+    field: "cell_type",
+    title: "Cell Type",
+  },
+  {
+    field: "original_format",
+    title: "Original Format",
+    hidden: true,
   },
 ];
 
@@ -351,7 +409,7 @@ class KGContentModelVersion extends React.Component {
               }}
             >
               <Typography variant="body2" color="textSecondary">
-                ID: <span>{this.props.instance.id}</span>
+                Model Instance ID: <span>{this.props.instance.id}</span>
               </Typography>
               <Typography
                 variant="body2"
@@ -405,10 +463,10 @@ class KGContentModelVersion extends React.Component {
           <Grid item xs={3} style={{ paddingBottom: "35px" }}>
             <IncludeButton
               includeFlag={this.props.checkInstanceInCollection(
-                this.props.instance.model_id,
+                "KG_" + this.props.instance.model_id,
                 this.props.instance.id
               )}
-              model_id={this.props.model_id}
+              model_id={"KG_" + this.props.model_id}
               model_name={this.props.model_name}
               instance_id={this.props.instance.id}
               instance_name={this.props.instance.version}
@@ -496,6 +554,17 @@ export class KGContent extends React.Component {
   render() {
     return (
       <div>
+        <div
+          style={{
+            paddingBottom: "15px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          Please click on &nbsp; <ViewColumnIcon /> &nbsp; to hide/show other
+          columns, and click on &nbsp; <FilterListIcon /> &nbsp; to filter the
+          contents for each column.
+        </div>
         <MaterialTable
           title="Models"
           data={this.props.data}
@@ -691,10 +760,10 @@ class ModelDBContentModelPanel extends React.Component {
               <Grid item xs={3} style={{ paddingBottom: "35px" }}>
                 <IncludeButton
                   includeFlag={this.props.checkInstanceInCollection(
-                    this.props.data.id,
+                    "ModelDB_" + this.props.data.id,
                     "0"
                   )}
-                  model_id={this.props.data.id}
+                  model_id={"ModelDB_" + this.props.data.id}
                   model_name={this.props.data.name}
                   instance_id={"0"}
                   instance_name={""}
@@ -720,6 +789,7 @@ class ModelDBContentModelPanel extends React.Component {
     );
   }
 }
+
 export class ModelDBContent extends React.Component {
   constructor(props) {
     super(props);
@@ -734,6 +804,17 @@ export class ModelDBContent extends React.Component {
     console.log(this.props);
     return (
       <div>
+        <div
+          style={{
+            paddingBottom: "15px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          Please click on &nbsp; <ViewColumnIcon /> &nbsp; to hide/show other
+          columns, and click on &nbsp; <FilterListIcon /> &nbsp; to filter the
+          contents for each column.
+        </div>
         <MaterialTable
           title="Models"
           data={this.props.data}
@@ -774,6 +855,271 @@ export class ModelDBContent extends React.Component {
           detailPanel={(rowData) => {
             return (
               <ModelDBContentModelPanel
+                data={rowData}
+                addInstanceCollection={this.props.addInstanceCollection}
+                removeInstanceCollection={this.props.removeInstanceCollection}
+                checkInstanceInCollection={this.props.checkInstanceInCollection}
+              />
+            );
+          }}
+          onRowClick={(event, selectedRow, togglePanel) => {
+            togglePanel();
+          }}
+          components={{
+            Toolbar: (props) => (
+              <div
+                style={{
+                  backgroundColor: "#FFD180",
+                  fontWeight: "bolder !important",
+                }}
+              >
+                <MTableToolbar {...props} />
+              </div>
+            ),
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            paddingLeft: "2.5%",
+            paddingRight: "2.5%",
+            paddingTop: "10px",
+            width: "100%",
+          }}
+        >
+          <h6>
+            {"Number of model instances selected: " +
+              this.props.countTotalInstances()}
+          </h6>
+        </div>
+      </div>
+    );
+  }
+}
+
+class OSBContentModelPanel extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedParam: "name",
+    };
+  }
+
+  render() {
+    // console.log(this.props);
+    return (
+      <Grid item style={{ backgroundColor: "#CFD8DC", padding: "20px" }}>
+        <Grid container direction="row">
+          <Grid
+            item
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              verticalAlign: "middle",
+            }}
+          >
+            <Typography variant="subtitle1">
+              <b>Model Details:</b>
+            </Typography>
+            <Link
+              href={osb_baseUrl + "/projects/" + this.props.data.identifier}
+              target="_blank"
+              rel="noreferrer"
+              underline="none"
+            >
+              <Button
+                variant="contained"
+                style={{ color: "#455A64" }}
+                startIcon={<OpenInNewIcon />}
+              >
+                Open Model
+              </Button>
+            </Link>
+          </Grid>
+        </Grid>
+        <div style={{ marginBottom: "25px" }}>
+          <Box
+            my={2}
+            pb={0}
+            style={{ backgroundColor: "#FFF1CC", marginBottom: "20px" }}
+          >
+            <Grid
+              container
+              style={{
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#FFD180",
+              }}
+            >
+              <Grid item xs={6}>
+                <Box px={2} display="flex" flexDirection="row">
+                  <p variant="subtitle2">
+                    Model Identifier:{" "}
+                    <span style={{ cursor: "pointer", fontWeight: "bold" }}>
+                      {this.props.data.identifier}
+                    </span>
+                  </p>
+                </Box>
+              </Grid>
+              <Grid container item justify="flex-end" xs={6}>
+                <Box
+                  px={2}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography variant="body2" color="textSecondary">
+                    Model ID: <span>{this.props.data.id}</span>
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container spacing={3} alignItems="flex-end">
+              <Grid item xs={9}>
+                <div style={{ padding: "10px 0px 0px 10px" }}>
+                  <div>
+                    {[
+                      "name",
+                      "description",
+                      "homepage",
+                      "original_format",
+                      "classification",
+                      "family",
+                      "species",
+                      "brain_region",
+                      "cell_type",
+                      "created_on",
+                      "updated_on",
+                      "is_public",
+                    ].map((item, ind) => (
+                      <Chip
+                        icon={
+                          this.state.selectedParam === item ? (
+                            <RadioButtonCheckedIcon />
+                          ) : (
+                            <RadioButtonUncheckedIcon />
+                          )
+                        }
+                        key={ind}
+                        label={formatLabel(item)}
+                        clickable
+                        onClick={() => this.setState({ selectedParam: item })}
+                        variant="outlined"
+                        style={{
+                          color: "#000000",
+                          marginRight: "10px",
+                          marginBottom: "10px",
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <InstanceParameter
+                    label={"param"}
+                    value={this.props.data[this.state.selectedParam]}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={3} style={{ paddingBottom: "35px" }}>
+                <IncludeButton
+                  includeFlag={this.props.checkInstanceInCollection(
+                    "OSB_" + this.props.data.id,
+                    "0"
+                  )}
+                  model_id={"OSB_" + this.props.data.id}
+                  model_name={this.props.data.name}
+                  instance_id={"0"}
+                  instance_name={""}
+                  source_url={
+                    // TODO: decide what to keep as download url for OSB models
+                    osb_baseUrl + "/projects/" + this.props.data.identifier
+                  }
+                  view_url={
+                    osb_baseUrl + "/projects/" + this.props.data.identifier
+                  }
+                  addInstanceCollection={this.props.addInstanceCollection}
+                  removeInstanceCollection={this.props.removeInstanceCollection}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </div>
+      </Grid>
+    );
+  }
+}
+
+export class OSBContent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedRows: [],
+      filtering: false,
+    };
+  }
+
+  render() {
+    console.log(this.props);
+    return (
+      <div>
+        <div
+          style={{
+            paddingBottom: "15px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          Please click on &nbsp; <ViewColumnIcon /> &nbsp; to hide/show other
+          columns, and click on &nbsp; <FilterListIcon /> &nbsp; to filter the
+          contents for each column.
+        </div>
+        <MaterialTable
+          title="Models"
+          data={this.props.data}
+          columns={OSB_TABLE_COLUMNS}
+          options={{
+            columnsButton: true,
+            search: true,
+            paging: false,
+            filtering: this.state.filtering,
+            sorting: true,
+            //   selection: true,
+            exportButton: false,
+            maxBodyHeight: "60vh",
+            headerStyle: {
+              position: "sticky",
+              top: 0,
+              backgroundColor: "#FFF",
+              fontWeight: "bolder",
+              fontSize: 15,
+            },
+            rowStyle: (rowData) => ({
+              backgroundColor: this.state.selectedRows.includes(
+                rowData.tableData.id
+              )
+                ? "#FFD180"
+                : "#EEEEEE",
+            }),
+          }}
+          actions={[
+            {
+              icon: "filter_list",
+              onClick: () =>
+                this.setState({ filtering: !this.state.filtering }),
+              position: "toolbar",
+              tooltip: "Show Filters",
+            },
+          ]}
+          detailPanel={(rowData) => {
+            return (
+              <OSBContentModelPanel
                 data={rowData}
                 addInstanceCollection={this.props.addInstanceCollection}
                 removeInstanceCollection={this.props.removeInstanceCollection}
@@ -985,7 +1331,6 @@ export class FilterPanelModelDB extends React.Component {
                 "Invalid Model ID: " + list_model_ids[ind] + "!",
                 "error"
               );
-              console.log("a");
             }
           }
 
@@ -1112,7 +1457,7 @@ export class FilterPanelModelDB extends React.Component {
             <h6>Please enter the model IDs below:</h6>
             <em>
               Note: you can enter multiple IDs by separating them with a comma
-              (,)
+              (e.g. 87284, 128079)
             </em>
             <form>
               <TextField
@@ -1164,6 +1509,210 @@ export class FilterPanelModelDB extends React.Component {
   }
 }
 
+export class FilterPanelOSB extends React.Component {
+  signal = axios.CancelToken.source();
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      searchByID: true,
+      model_ids: "",
+    };
+
+    this.getListModelsOSB = this.getListModelsOSB.bind(this);
+    this.toggleSearchByID = this.toggleSearchByID.bind(this);
+    this.handleIDsChange = this.handleIDsChange.bind(this);
+  }
+
+  componentDidMount() {
+    // Child passes its method to the parent
+    this.props.shareGetListModels(this.getListModelsOSB);
+  }
+
+  getListModelsOSB() {
+    console.log("Query ModelDB");
+
+    if (this.state.searchByID) {
+      // one query per input model identifier
+      // each query will correspond to a specific model
+      let modelDBreqs = [];
+      // split csv to list
+      let list_model_ids = this.state.model_ids
+        .split(",")
+        .map((item) => item.trim())
+        .filter((item) => item !== "");
+      // remove duplicates
+      list_model_ids = [...new Set(list_model_ids)];
+
+      list_model_ids.forEach(function (model_id, i) {
+        let url = corsProxy + osb_baseUrl + "/projects/" + model_id + ".json";
+        modelDBreqs.push(axios.get(url));
+      });
+
+      const context = this;
+      Promise.allSettled(modelDBreqs)
+        .then(function (res) {
+          console.log(res);
+          let model_list = [];
+          for (let ind in list_model_ids) {
+            if (res[ind].status === "fulfilled") {
+              let model = res[ind].value.data.project;
+              model_list.push({
+                id: model.id.toString(),
+                identifier: model.identifier,
+                name: model.name,
+                created_on: model.created_on,
+                updated_on: model.updated_on,
+                is_public: model.is_public.toString(),
+                description: model.description,
+                homepage: model.homepage,
+                classification: model.custom_fields[11].value,
+                family: model.custom_fields[12].value,
+                species: model.custom_fields[13].value,
+                brain_region: model.custom_fields[14].value,
+                cell_type: model.custom_fields[15].value,
+                original_format: model.custom_fields[0].value,
+              });
+            } else {
+              showNotification(
+                context.props.enqueueSnackbar,
+                context.props.closeSnackbar,
+                "Invalid Model Identifier: " + list_model_ids[ind] + "!",
+                "error"
+              );
+            }
+          }
+
+          console.log(model_list);
+          // create model entries from collected attributes
+          context.props.setListModels(model_list, false, null);
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("errorUpdate: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            this.props.setListModels([], false, err);
+          }
+        });
+    } else {
+      // as OSB APIs don't accept filters, we retrieve all the models (projects)
+      let url =
+        corsProxy + osb_baseUrl + "/projects.json?limit=" + querySizeLimit;
+      const context = this;
+      axios
+        .get(url)
+        .then(function (res) {
+          console.log(res);
+          let model_list = [];
+          for (let model of res.data.projects) {
+            model_list.push({
+              id: model.id.toString(),
+              identifier: model.identifier,
+              name: model.name,
+              created_on: model.created_on,
+              updated_on: model.updated_on,
+              is_public: model.is_public.toString(),
+              description: model.description,
+              homepage: model.homepage,
+              classification: model.custom_fields[11].value,
+              family: model.custom_fields[12].value,
+              species: model.custom_fields[13].value,
+              brain_region: model.custom_fields[14].value,
+              cell_type: model.custom_fields[15].value,
+              original_format: model.custom_fields[0].value,
+            });
+          }
+
+          console.log(model_list);
+          // create model entries from collected attributes
+          context.props.setListModels(model_list, false, null);
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("errorUpdate: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            this.props.setListModels([], false, err);
+          }
+        });
+    }
+  }
+
+  toggleSearchByID() {
+    if (this.state.searchByID) {
+      this.setState({
+        model_ids: "",
+        searchByID: false,
+      });
+    } else {
+      this.setState({
+        searchByID: true,
+      });
+    }
+  }
+
+  handleIDsChange(event) {
+    this.setState({
+      model_ids: event.target.value,
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <Grid item xs={12} style={{ paddingBottom: "10px" }}>
+          <h6>
+            <span style={{ paddingRight: "10px" }}>
+              Do you wish to search by model identifier?
+            </span>
+            <ToggleSwitch
+              id="searchSwitch"
+              checked={this.state.searchByID}
+              onChange={this.toggleSearchByID}
+            />
+          </h6>
+        </Grid>
+        {this.state.searchByID && (
+          <div>
+            <h6>Please enter the model identifiers below:</h6>
+            <em>
+              Note: you can enter multiple identifiers by separating them with a
+              comma (e.g. thalamocortical, potjansdiesmann2014)
+            </em>
+            <form>
+              <TextField
+                variant="outlined"
+                fullWidth={true}
+                name="model_ids"
+                value={this.state.model_ids}
+                onChange={this.handleIDsChange}
+                InputProps={{
+                  style: {
+                    padding: "5px 15px",
+                    minWidth: 700,
+                    maxWidth: 900,
+                    marginTop: "10px",
+                  },
+                }}
+              />
+            </form>
+          </div>
+        )}
+        {!this.state.searchByID && (
+          <div>
+            <h6>
+              Click "Proceed" to fetch all entries from OSB, and you can
+              subsequently filter them by individual attributes.
+            </h6>
+          </div>
+        )}
+      </div>
+    );
+  }
+}
+
 export default class DBInputModels extends React.Component {
   constructor(props) {
     super(props);
@@ -1187,6 +1736,7 @@ export default class DBInputModels extends React.Component {
     this.checkInstanceInCollection = this.checkInstanceInCollection.bind(this);
     this.countTotalInstances = this.countTotalInstances.bind(this);
     this.showFiltersPanel = this.showFiltersPanel.bind(this);
+    this.showContentsPanel = this.showContentsPanel.bind(this);
     this.handleDBChange = this.handleDBChange.bind(this);
   }
 
@@ -1305,8 +1855,8 @@ export default class DBInputModels extends React.Component {
     return (
       <Box my={2}>
         <h6 style={{ marginBottom: "20px" }}>Please specify the database:</h6>
-        <SwitchTwoWay
-          values={["Knowledge Graph", "ModelDB"]}
+        <SwitchThreeWay
+          values={["Knowledge Graph", "ModelDB", "Open Source Brain"]}
           selected={this.state.sourceDB}
           onChange={this.handleDBChange}
         />
@@ -1331,8 +1881,55 @@ export default class DBInputModels extends React.Component {
             closeSnackbar={this.props.closeSnackbar}
           />
         )}
+        {this.state.sourceDB === "Open Source Brain" && (
+          <FilterPanelOSB
+            showFilters={showFilters}
+            validModelDBFilterValues={this.props.validModelDBFilterValues}
+            handleFiltersChange={this.handleFiltersChange}
+            shareGetListModels={this.acceptsProceedMethod}
+            setListModels={this.setListModels}
+            enqueueSnackbar={this.props.enqueueSnackbar}
+            closeSnackbar={this.props.closeSnackbar}
+          />
+        )}
       </Box>
     );
+  }
+
+  showContentsPanel() {
+    if (this.state.sourceDB === "Knowledge Graph") {
+      return (
+        <KGContent
+          data={this.state.list_models}
+          addInstanceCollection={this.addInstanceCollection}
+          removeInstanceCollection={this.removeInstanceCollection}
+          checkInstanceInCollection={this.checkInstanceInCollection}
+          countTotalInstances={this.countTotalInstances}
+        />
+      );
+    } else if (this.state.sourceDB === "ModelDB") {
+      return (
+        <ModelDBContent
+          data={this.state.list_models}
+          addInstanceCollection={this.addInstanceCollection}
+          removeInstanceCollection={this.removeInstanceCollection}
+          checkInstanceInCollection={this.checkInstanceInCollection}
+          countTotalInstances={this.countTotalInstances}
+        />
+      );
+    } else if (this.state.sourceDB === "Open Source Brain") {
+      return (
+        <OSBContent
+          data={this.state.list_models}
+          addInstanceCollection={this.addInstanceCollection}
+          removeInstanceCollection={this.removeInstanceCollection}
+          checkInstanceInCollection={this.checkInstanceInCollection}
+          countTotalInstances={this.countTotalInstances}
+        />
+      );
+    } else {
+      return null;
+    }
   }
 
   handleDBChange(value) {
@@ -1379,25 +1976,18 @@ export default class DBInputModels extends React.Component {
           <DialogContent dividers>
             {(!this.props.validKGFilterValues && this.state.showFilters) ||
             this.state.loading ? (
-              <LoadingIndicator />
+              <div
+                style={{
+                  minWidth: 700,
+                  maxWidth: 900,
+                }}
+              >
+                <LoadingIndicator />
+              </div>
             ) : this.state.showFilters ? (
               this.showFiltersPanel()
-            ) : this.state.sourceDB === "Knowledge Graph" ? (
-              <KGContent
-                data={this.state.list_models}
-                addInstanceCollection={this.addInstanceCollection}
-                removeInstanceCollection={this.removeInstanceCollection}
-                checkInstanceInCollection={this.checkInstanceInCollection}
-                countTotalInstances={this.countTotalInstances}
-              />
             ) : (
-              <ModelDBContent
-                data={this.state.list_models}
-                addInstanceCollection={this.addInstanceCollection}
-                removeInstanceCollection={this.removeInstanceCollection}
-                checkInstanceInCollection={this.checkInstanceInCollection}
-                countTotalInstances={this.countTotalInstances}
-              />
+              this.showContentsPanel()
             )}
           </DialogContent>
           <DialogActions>

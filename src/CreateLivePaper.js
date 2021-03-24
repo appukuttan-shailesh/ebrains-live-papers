@@ -898,21 +898,6 @@ class CreateLivePaper extends React.Component {
         validModelDBFilterValues: data_dict,
       });
     });
-    // let url = modelDB_baseUrl + "/vocab/";
-    // let config = {
-    //   cancelToken: this.signal.token,
-    //   headers: { Authorization: "Bearer " + this.context.auth[0].token },
-    // };
-    // axios
-    //   .get(url, config)
-    //   .then((res) => {
-    //     this.setState({
-    //       validKGFilterValues: res.data,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     console.log("Error: ", err.message);
-    //   });
   }
 
   render() {

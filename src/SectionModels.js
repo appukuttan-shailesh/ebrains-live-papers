@@ -431,7 +431,12 @@ export default class SectionModels extends React.Component {
       for (const model_id in items) {
         for (const instance_id in items[model_id]) {
           new_items.push({
-            type: sourceDB === "Knowledge Graph" ? "ModelInstance" : "ModelDB",
+            type:
+              sourceDB === "Knowledge Graph"
+                ? "ModelInstance"
+                : sourceDB === "Open Source Brain"
+                ? "OSB"
+                : "ModelDB",
             label: items[model_id][instance_id]["label"] || "",
             url: items[model_id][instance_id]["source_url"] || "",
             mc_url: items[model_id][instance_id]["view_url"] || "",

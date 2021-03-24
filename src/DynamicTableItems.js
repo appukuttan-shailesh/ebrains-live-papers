@@ -13,15 +13,42 @@ import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
-import { resourseTypeBadgeMappings } from "./globals";
+
+const resourseTypeBadgeMappings = {
+    URL: ["", "Manual Entry"],
+    ModelInstance: ["KG", "Knowledge Graph Entry"],
+    Recording: ["KG", "Knowledge Graph Entry"],
+    ModelDB: ["MDB", "ModelDB Entry"],
+    OSB: ["OSB", "Open Source Brain Entry"],
+  };
 
 const styles = () => ({
-  customBadge: {
+  customBadge_KG: {
     backgroundColor: "#388E3C",
     color: "white",
     fontSize: 10,
   },
+  customBadge_ModelDB: {
+    backgroundColor: "#F57C00",
+    color: "white",
+    fontSize: 10,
+  },
+  customBadge_OSB: {
+    backgroundColor: "#03A9F4",
+    color: "white",
+    fontSize: 10,
+  },
 });
+
+function setBadgeClass(type, classes) {
+  if (type === "ModelDB") {
+    return classes.customBadge_ModelDB;
+  } else if (type === "OSB") {
+    return classes.customBadge_OSB;
+  } else {
+    return classes.customBadge_KG;
+  }
+}
 
 const RowIndex = withStyles(styles)((props) => {
   return (
@@ -44,7 +71,7 @@ const RowIndex = withStyles(styles)((props) => {
             vertical: "top",
             horizontal: "left",
           }}
-          classes={{ badge: props.classes.customBadge }}
+          classes={{ badge: setBadgeClass(props.type, props.classes) }}
         >
           <Avatar
             style={{

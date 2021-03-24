@@ -1,30 +1,29 @@
 {# All Nunjucks macros defined here at the top #}
-
 {% macro sectionMorphology(data) %}
     <li>
         <div class="collapsible-header amber lighten-5">
-            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+            <i class="material-icons">{{ data["icon"] }}</i>
+            {{ data["title"] }}
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
             {% endif %}
-
             <div style="margin-left:25px">
                 <table class="striped">
                     <tbody>
                         {% for item in data["dataFormatted"] %}
                             <tr>
                                 <td>
-                                    {{item["label"]}}
+                                    {{ item["label"] }}
                                 </td>
                                 <td style="width: 175px">
-                                    <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                    <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                         <i class="material-icons left">archive</i>Download
                                     </a>
                                 </td>
                                 <td style="width: 175px">
-                                    <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{item["url"]}}' target=" _blank" class="waves-effect waves-light">
+                                    <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{ item["url"] }}' target=" _blank" class="waves-effect waves-light">
                                         <i class="material-icons left">3d_rotation</i>View
                                     </a>
                                 </td>
@@ -36,47 +35,46 @@
         </div>
     </li>
 {% endmacro %}
-
 {% macro sectionMorphologyWithTabs(data, index) %}
     <li>
         <div class="collapsible-header amber lighten-5">
-            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+            <i class="material-icons">{{ data["icon"] }}</i>
+            {{ data["title"] }}
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
             {% endif %}
-
             <div class="collapsible">
                 <div class="row">
                     <div class="col s12" style="padding-left: 0px;padding-right: 0px;">
                         <ul class="tabs" style="width: 100%;background-color: #FFD878;">
                             {% for tab in data["tabs"] %}
                                 <li class="tab col s3">
-                                    <a href='#res_{{index}}_tab_{{tab|replace(" ", "_")}}' style="color: #000000;">{{tab}}</a>
+                                    <a href='#res_{{ index }}_tab_{{ tab|replace(" ", "_") }}' style="color: #000000;">{{ tab }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
                 {% for tab in data["tabs"] %}
-                    <div id='res_{{index}}_tab_{{tab|replace(" ", "_")}}' class="col s12">
+                    <div id='res_{{ index }}_tab_{{ tab|replace(" ", "_") }}' class="col s12">
                         <div style="margin-left:25px">
                             <table class="striped">
                                 <tbody>
                                     {% for item in data["dataFormatted"] %}
-                                        {% if item["tab_name"] == tab %}
+                                        {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
                                             <tr>
                                                 <td>
-                                                    {{item["label"]}}
+                                                    {{ item["label"] }}
                                                 </td>
                                                 <td style="width: 175px">
-                                                    <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                                    <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                                         <i class="material-icons left">archive</i>Download
                                                     </a>
                                                 </td>
                                                 <td style="width: 175px">
-                                                    <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{item["url"]}}' target=" _blank" class="waves-effect waves-light">
+                                                    <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{ item["url"] }}' target=" _blank" class="waves-effect waves-light">
                                                         <i class="material-icons left">3d_rotation</i>View
                                                     </a>
                                                 </td>
@@ -92,24 +90,24 @@
         </div>
     </li>
 {% endmacro %}
-
 {% macro sectionTraces(data) %}
     <li>
         <div class="collapsible-header amber lighten-5">
-            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+            <i class="material-icons">{{ data["icon"] }}</i>
+            {{ data["title"] }}
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
             {% endif %}
             <div ng-app="neo-visualizer">
                 <ul class="collapsible" data-collapsible="expandable">
                     {% for item in data["dataFormatted"] %}
                         <li>
-                            <div class="collapsible-header">{{item["label"]}}</div>
+                            <div class="collapsible-header">{{ item["label"] }}</div>
                             <div class="collapsible-body">
                                 <span>
-                                    <visualizer-view source='{{item["url"]}}' height="300"></visualizer-view>
+                                    <visualizer-view source='{{ item["url"] }}' height="300"></visualizer-view>
                                 </span>
                             </div>
                         </li>
@@ -119,15 +117,15 @@
         </div>
     </li>
 {% endmacro %}
-
 {% macro sectionTracesWithTabs(data, index) %}
     <li>
         <div class="collapsible-header amber lighten-5">
-            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+            <i class="material-icons">{{ data["icon"] }}</i>
+            {{ data["title"] }}
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
             {% endif %}
             <div ng-app="neo-visualizer">
                 <div class="collapsible">
@@ -136,22 +134,22 @@
                             <ul class="tabs">
                                 {% for tab in data["tabs"] %}
                                     <li class="tab col s3">
-                                        <a href='#res_{{index}}_tab_{{tab}}'>{{tab}}</a>
+                                        <a href='#res_{{ index }}_tab_{{ tab }}'>{{ tab }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>
                         </div>
                     </div>
                     {% for tab in data["tabs"] %}
-                        <div id="res_{{index}}_tab_{{tab}}" class="col s12">
+                        <div id="res_{{ index }}_tab_{{ tab }}" class="col s12">
                             <ul class="collapsible" data-collapsible="expandable">
                                 {% for item in data["dataFormatted"] %}
                                     {% if item["tab_name"] == tab %}
                                         <li>
-                                            <div class="collapsible-header">{{item["label"]}}</div>
+                                            <div class="collapsible-header">{{ item["label"] }}</div>
                                             <div class="collapsible-body">
                                                 <span>
-                                                    <visualizer-view source='{{item["url"]}}' height="300"></visualizer-view>
+                                                    <visualizer-view source='{{ item["url"] }}' height="300"></visualizer-view>
                                                 </span>
                                             </div>
                                         </li>
@@ -165,35 +163,34 @@
         </div>
     </li>
 {% endmacro %}
-
 {% macro sectionModels(data) %}
     <li>
         <div class="collapsible-header amber lighten-5">
-            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+            <i class="material-icons">{{ data["icon"] }}</i>
+            {{ data["title"] }}
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
             {% endif %}
-
             <div style="margin-left:25px">
                 <table class="striped">
                     <tbody>
                         {% for item in data["dataFormatted"] %}
                             <tr>
                                 <td>
-                                    {{item["label"]}}
+                                    {{ item["label"] }}
                                 </td>
                                 <td style="width: 175px">
                                     {% if item["url"] %}
-                                        <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                        <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                             <i class="material-icons left">archive</i>Download
                                         </a>
                                     {% endif %}
                                 </td>
                                 <td style="width: 175px">
                                     {% if item["mc_url"] %}
-                                        <a href='{{item["mc_url"]}}' target="_blank" class="waves-effect waves-light">
+                                        <a href='{{ item["mc_url"] }}' target="_blank" class="waves-effect waves-light">
                                             <i class="material-icons left">pageview</i>View
                                         </a>
                                     {% endif %}
@@ -206,31 +203,30 @@
         </div>
     </li>
 {% endmacro %}
-
 {% macro sectionModelsWithTabs(data, index) %}
     <li>
         <div class="collapsible-header amber lighten-5">
-            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+            <i class="material-icons">{{ data["icon"] }}</i>
+            {{ data["title"] }}
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
             {% endif %}
-
             <div class="collapsible">
                 <div class="row">
                     <div class="col s12">
                         <ul class="tabs">
                             {% for tab in data["tabs"] %}
                                 <li class="tab col s3">
-                                    <a href='#res_{{index}}_tab_{{tab|replace(" ", "_")}}'>{{tab}}</a>
+                                    <a href='#res_{{ index }}_tab_{{ tab|replace(" ", "_") }}'>{{ tab }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
                 {% for tab in data["tabs"] %}
-                    <div id='res_{{index}}_tab_{{tab|replace(" ", "_")}}' class="col s12">
+                    <div id='res_{{ index }}_tab_{{ tab|replace(" ", "_") }}' class="col s12">
                         <div style="margin-left:25px">
                             <table class="striped">
                                 <tbody>
@@ -238,18 +234,18 @@
                                         {% if item["tab_name"] == tab %}
                                             <tr>
                                                 <td>
-                                                    {{item["label"]}}
+                                                    {{ item["label"] }}
                                                 </td>
                                                 <td style="width: 175px">
                                                     {% if item["url"] %}
-                                                        <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                                        <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                                             <i class="material-icons left">archive</i>Download
                                                         </a>
                                                     {% endif %}
                                                 </td>
                                                 <td style="width: 175px">
                                                     {% if item["mc_url"] %}
-                                                        <a href='{{item["mc_url"]}}' target="_blank" class="waves-effect waves-light">
+                                                        <a href='{{ item["mc_url"] }}' target="_blank" class="waves-effect waves-light">
                                                             <i class="material-icons left">pageview</i>View
                                                         </a>
                                                     {% endif %}
@@ -266,27 +262,26 @@
         </div>
     </li>
 {% endmacro %}
-
 {% macro sectionGeneric(data) %}
     <li>
         <div class="collapsible-header amber lighten-5">
-            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+            <i class="material-icons">{{ data["icon"] }}</i>
+            {{ data["title"] }}
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
             {% endif %}
-
             <div style="margin-left:25px">
                 <table class="striped">
                     <tbody>
                         {% for item in data["dataFormatted"] %}
                             <tr>
                                 <td>
-                                    {{item["label"]}}
+                                    {{ item["label"] }}
                                 </td>
                                 <td style="width: 175px">
-                                    <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                    <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                         <i class="material-icons left">archive</i>Download
                                     </a>
                                 </td>
@@ -298,31 +293,30 @@
         </div>
     </li>
 {% endmacro %}
-
 {% macro sectionGenericWithTabs(data, index) %}
     <li>
         <div class="collapsible-header amber lighten-5">
-            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+            <i class="material-icons">{{ data["icon"] }}</i>
+            {{ data["title"] }}
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{data["description"]}}</p>
+                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
             {% endif %}
-
             <div class="collapsible">
                 <div class="row">
                     <div class="col s12">
                         <ul class="tabs">
                             {% for tab in data["tabs"] %}
                                 <li class="tab col s3">
-                                    <a href='#res_{{index}}_tab_{{tab|replace(" ", "_")}}'>{{tab}}</a>
+                                    <a href='#res_{{ index }}_tab_{{ tab|replace(" ", "_") }}'>{{ tab }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
                 {% for tab in data["tabs"] %}
-                    <div id='res_{{index}}_tab_{{tab|replace(" ", "_")}}' class="col s12">
+                    <div id='res_{{ index }}_tab_{{ tab|replace(" ", "_") }}' class="col s12">
                         <div style="margin-left:25px">
                             <table class="striped">
                                 <tbody>
@@ -330,10 +324,10 @@
                                         {% if item["tab_name"] == tab %}
                                             <tr>
                                                 <td>
-                                                    {{item["label"]}}
+                                                    {{ item["label"] }}
                                                 </td>
                                                 <td style="width: 175px">
-                                                    <a href='{{item["url"]}}' class="waves-effect waves-light">
+                                                    <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                                         <i class="material-icons left">archive</i>Download
                                                     </a>
                                                 </td>
@@ -349,15 +343,15 @@
         </div>
     </li>
 {% endmacro %}
-
 {% macro sectionCustom(data) %}
     <li>
         <div class="collapsible-header amber lighten-5">
-            <i class="material-icons">{{data["icon"]}}</i>{{data["title"]}}
+            <i class="material-icons">{{ data["icon"] }}</i>
+            {{ data["title"] }}
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p>{{data["description"]}}</p>
+                <p>{{ data["description"] }}</p>
             {% endif %}
             <div style="margin-left:25px">
                 {{ data["dataFormatted"] | safe }}
@@ -365,10 +359,8 @@
         </div>
     </li>
 {% endmacro %}
-
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <title>
             {% if page_title %}
@@ -393,7 +385,6 @@
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/NeuralEnsemble/neo-viewer@master/js/src/services.js"></script>
     </head>
-
     <body class="container">
         <br>
         <div class="box rounded centered">
@@ -426,7 +417,7 @@
                 <strong style="font-weight:bolder">Authors:
                 </strong>
                 {% if authors_string %}
-                    {{ authors_string | safe  }}
+                    {{ authors_string | safe }}
                 {% else %}
                     To be filled...
                 {% endif %}
@@ -435,7 +426,7 @@
                 <strong style="font-weight:bolder">Author information:
                 </strong>
                 {% if affiliations_string %}
-                    {{ affiliations_string | safe  }}
+                    {{ affiliations_string | safe }}
                 {% else %}
                     To be filled...
                 {% endif %}
@@ -454,12 +445,12 @@
                         )
                     {% endif %}
                     {# {% if corresponding_author.email %}
-                        (
-                        <em>
-                            <a href="mailto:{{corresponding_author.email}}" ">{{ corresponding_author.email }}</a>
-                        </em>
-                        )
-                    {% endif %} #}
+                                                                (
+                                                                <em>
+                                                                    <a href="mailto:{{corresponding_author.email}}" ">{{ corresponding_author.email }}</a>
+                                                                </em>
+                                                                )
+                                                            {% endif %} #}
                 {% else %}
                     To be filled...
                 {% endif %}
@@ -468,7 +459,7 @@
                 <strong style="font-weight:bolder">Created by:
                 </strong>
                 {% if created_authors_string %}
-                    {{ created_authors_string | safe  }}
+                    {{ created_authors_string | safe }}
                 {% else %}
                     To be filled...
                 {% endif %}
@@ -484,12 +475,12 @@
                         )
                     {% endif %}
                     {# {% if approved_author.email %}
-                        (
-                        <em>
-                            <a href="mailto:{{approved_author.email}}" ">{{ approved_author.email }}</a>
-                        </em>
-                        )
-                    {% endif %} #}
+                                                                (
+                                                                <em>
+                                                                    <a href="mailto:{{approved_author.email}}" ">{{ approved_author.email }}</a>
+                                                                </em>
+                                                                )
+                                                            {% endif %} #}
                 </p>
             {% endif %}
         </div>
@@ -543,7 +534,8 @@
             </p>
             <p>
                 <strong style="font-weight:bolder">Licence:
-                </strong>{{ license }}</p>
+                </strong>
+                {{ license }}</p>
         </div>
         <div class="note rounded">
             <h5>Abstract:</h5>
@@ -606,5 +598,4 @@
         <br>
         <br>
     </body>
-
 </html>
