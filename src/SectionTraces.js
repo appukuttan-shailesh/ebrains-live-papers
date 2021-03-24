@@ -6,7 +6,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import DynamicTableItems from "./DynamicTableItems";
-import KGInputTraces from "./KGInputTraces";
+import DBInputTraces from "./DBInputTraces";
 import ToggleSwitch from "./ToggleSwitch";
 
 import Accordion from "@material-ui/core/Accordion";
@@ -23,36 +23,41 @@ function HelpContent() {
     [
         {
           "type": "URL",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idB.abf",
           "label": "file_A",
+          "url": "https://www.datasource.com/traces/oh140807_A0_idB.abf",
+          "view_url": null,
           "identifier": null,
           "tab_name": "Group A"
         },
         {
           "type": "URL",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idC.abf",
           "label": "file_B",
+          "url": "https://www.datasource.com/traces/oh140807_A0_idC.abf",
+          "view_url": null,
           "identifier": null,
           "tab_name": "Group A"
         },
         {
           "type": "URL",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idF.abf",
           "label": "file_C",
+          "url": "https://www.datasource.com/traces/oh140807_A0_idF.abf",
+          "view_url": null,
           "identifier": null,
           "tab_name": "Group A"
         },
         {
           "type": "URL",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idG.abf",
           "label": "file_D",
+          "url": "https://www.datasource.com/traces/oh140807_A0_idG.abf",
+          "view_url": null,
           "identifier": null,
           "tab_name": "Group A"
         },
         {
           "type": "URL",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idH.abf",
           "label": "file_E",
+          "url": "https://www.datasource.com/traces/oh140807_A0_idH.abf",
+          "view_url": null,
           "identifier": null,
           "tab_name": "Group A"
         },
@@ -66,7 +71,7 @@ function HelpContent() {
       <h6>
         <b>List of dicts/objects</b>
       </h6>
-      Each dict in the list should have keys named 'type', 'url', 'label',
+      Each dict in the list should have keys named 'type', 'url', 'view_url', 'label',
       'identifier' and 'tab_name'. The 'identifier' field corresponds to the
       Knowledge Graph UUID. For manually entered items, 'type' and 'identifier'
       can be set to 'URL' and 'null', respectively. <i>Example:</i>
@@ -129,9 +134,11 @@ export class SectionTracesEdit extends React.Component {
           item !== null &&
           "url" in item &&
           "label" in item &&
+          "view_url" in item &&
           "tab_name" in item &&
           typeof item["url"] === "string" &&
           typeof item["label"] === "string" &&
+          typeof item["view_url"] === "string" &&
           typeof item["tab_name"] === "string"
         );
       }
@@ -272,7 +279,7 @@ export default class SectionTraces extends React.Component {
       dataOk: true,
       dataFormatted: [],
       showEdit: false,
-      showKGInput: false,
+      showDBInput: false,
       deleteOpen: false,
       expanded: true,
       useTabs: false,
@@ -282,8 +289,8 @@ export default class SectionTraces extends React.Component {
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.clickEdit = this.clickEdit.bind(this);
     this.handleEditClose = this.handleEditClose.bind(this);
-    this.clickKG = this.clickKG.bind(this);
-    this.handleKGClose = this.handleKGClose.bind(this);
+    this.clickDB = this.clickDB.bind(this);
+    this.handleDBClose = this.handleDBClose.bind(this);
     this.setIcon = this.setIcon.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleMoveDown = this.handleMoveDown.bind(this);
@@ -298,11 +305,12 @@ export default class SectionTraces extends React.Component {
   }
 
   handleItemsChange(items_data) {
-    // remove all entries where label and url are all empty
+    // remove all entries where label, url and view_url are all empty
     // function isNotEmpty(item) {
     //   if (
     //     item.label.trim() !== "" ||
-    //     item.url.trim() !== ""
+    //     item.url.trim() !== "" ||
+    //     item.view_url.trim() !== ""
     //   ) {
     //     return true;
     //   } else {
@@ -313,7 +321,14 @@ export default class SectionTraces extends React.Component {
     // console.log(items_data);
     if (items_data.length === 0) {
       items_data = [
-        { type: "URL", label: "", url: "", identifier: null, tab_name: "" },
+        {
+          type: "URL",
+          label: "",
+          url: "",
+          view_url: "",
+          identifier: null,
+          tab_name: "",
+        },
       ];
     }
 
@@ -396,22 +411,28 @@ export default class SectionTraces extends React.Component {
     });
   }
 
-  clickKG() {
+  clickDB() {
     this.setState({
-      showKGInput: true,
+      showDBInput: true,
     });
   }
 
-  handleKGClose(flag, items) {
+  handleDBClose(flag, items, sourceDB) {
     if (flag) {
       console.log(items);
       let new_items = [];
       for (const trace_id in items) {
         for (const instance_id in items[trace_id]) {
           new_items.push({
-            type: "Recording",
+            type:
+              sourceDB === "Knowledge Graph"
+                ? "Recording"
+                : sourceDB === "Open Source Brain"
+                ? "OSB"
+                : "ModelDB",
+label: items[trace_id][instance_id]["label"] || "",
             url: items[trace_id][instance_id]["source_url"] || "",
-            label: items[trace_id][instance_id]["label"] || "",
+           
             view_url: items[trace_id][instance_id]["view_url"] || "",
             tab_name: "",
             identifier: trace_id,
@@ -427,10 +448,10 @@ export default class SectionTraces extends React.Component {
             prevState.dataFormatted[0].type === "URL" &&
             prevState.dataFormatted[0].label === "" &&
             prevState.dataFormatted[0].url === "" &&
-            prevState.dataFormatted[0].mc_url === ""
+            prevState.dataFormatted[0].view_url === ""
               ? new_items
               : prevState.dataFormatted.concat(new_items),
-          showKGInput: false,
+          showDBInput: false,
         }),
         () => {
           this.props.storeSectionInfo(this.state);
@@ -438,7 +459,7 @@ export default class SectionTraces extends React.Component {
       );
     } else {
       this.setState({
-        showKGInput: false,
+        showDBInput: false,
       });
     }
   }
@@ -655,8 +676,8 @@ export default class SectionTraces extends React.Component {
                   items={this.state.dataFormatted}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
-                  handleKG={this.clickKG}
-                  numCols={2}
+                  handleDB={this.clickDB}
+                  numCols={3}
                   useTabs={this.state.useTabs}
                 />
                 <br />
@@ -670,11 +691,16 @@ export default class SectionTraces extends React.Component {
                     handleClose={this.handleEditClose}
                   />
                 ) : null}
-                {this.state.showKGInput ? (
-                  <KGInputTraces
-                    open={this.state.showKGInput}
-                    handleClose={this.handleKGClose}
+                {this.state.showDBInput ? (
+                  <DBInputTraces
+                    open={this.state.showDBInput}
+                    handleClose={this.handleDBClose}
                     validKGFilterValues={this.props.validKGFilterValues}
+                    validNeuroMorphoFilterValues={
+                      this.props.validNeuroMorphoFilterValues
+                    }
+                    enqueueSnackbar={this.props.enqueueSnackbar}
+                    closeSnackbar={this.props.closeSnackbar}
                   />
                 ) : null}
               </div>

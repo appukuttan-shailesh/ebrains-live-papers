@@ -20,12 +20,23 @@ import MaterialTable, { MTableToolbar } from "@material-table/core";
 import ErrorDialog from "./ErrorDialog";
 import LoadingIndicator from "./LoadingIndicator";
 import ContextMain from "./ContextMain";
+import TextField from "@material-ui/core/TextField";
 import MultipleSelect from "./MultipleSelect";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
-import { nar_baseUrl, querySizeLimit, filterKGTracesKeys } from "./globals";
-import { buildQuery } from "./utils";
+import SwitchTwoWay from "./SwitchTwoWay";
+import ToggleSwitch from "./ToggleSwitch";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import ViewColumnIcon from "@material-ui/icons/ViewColumn";
+import {
+  nar_baseUrl,
+  querySizeLimit,
+  filterKGTracesKeys,
+  filterNeuroMorphoKeys,
+  neuromorpho_baseUrl,
+} from "./globals";
+import { buildQuery, showNotification } from "./utils";
 
 const styles = (theme) => ({
   root: {
@@ -72,7 +83,7 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 // define the columns for the material data table
-const TABLE_COLUMNS = [
+const KG_TABLE_COLUMNS = [
   {
     field: "id",
     title: "ID",
@@ -109,25 +120,21 @@ const TABLE_COLUMNS = [
     field: "location",
     title: "Location",
     hidden: true,
-    hiddenByColumnsButton: true,
   },
   {
     field: "view_url",
     title: "View URL",
     hidden: true,
-    hiddenByColumnsButton: true,
   },
   {
     field: "parent_name",
     title: "Parent Name",
     hidden: true,
-    hiddenByColumnsButton: true,
   },
   {
     field: "parent_id",
     title: "Parent ID",
     hidden: true,
-    hiddenByColumnsButton: true,
   },
 ];
 
@@ -396,7 +403,7 @@ export class KGContent extends React.Component {
         <MaterialTable
           title="Electrophysiological Recordings"
           data={this.props.data}
-          columns={TABLE_COLUMNS}
+          columns={KG_TABLE_COLUMNS}
           options={{
             columnsButton: true,
             search: true,
@@ -477,7 +484,7 @@ export class KGContent extends React.Component {
   }
 }
 
-export default class KGInputTraces extends React.Component {
+export default class DBInputTraces extends React.Component {
   signal = axios.CancelToken.source();
   static contextType = ContextMain;
 

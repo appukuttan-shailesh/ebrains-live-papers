@@ -39,8 +39,10 @@ import {
   baseUrl,
   lp_tool_version,
   modelDB_baseUrl,
+  neuromorpho_baseUrl,
   corsProxy,
   filterModelDBKeys,
+  filterNeuroMorphoKeys,
 } from "./globals";
 import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
 
@@ -166,6 +168,7 @@ class CreateLivePaper extends React.Component {
       submitOpen: false,
       validKGFilterValues: null,
       validModelDBFilterValues: null,
+      validNeuroMorphoFilterValues: null,
     };
     this.state = { ...this.state, ...props.data };
 
@@ -207,12 +210,16 @@ class CreateLivePaper extends React.Component {
     this.retrieveModelDBFilterValidValues = this.retrieveModelDBFilterValidValues.bind(
       this
     );
+    this.retrieveNeuroMorphoFilterValidValues = this.retrieveNeuroMorphoFilterValidValues.bind(
+      this
+    );
   }
 
   componentDidMount() {
     this.getCollabList();
     this.retrieveKGFilterValidValues();
     this.retrieveModelDBFilterValidValues();
+    this.retrieveNeuroMorphoFilterValidValues();
   }
 
   deleteResourceSection(order) {
@@ -880,14 +887,14 @@ class CreateLivePaper extends React.Component {
   }
 
   retrieveModelDBFilterValidValues() {
-    let modelDBreqs = [];
+    let modelDBReqs = [];
     for (let item of filterModelDBKeys) {
       let url = corsProxy + modelDB_baseUrl + "/" + item + "/name";
-      modelDBreqs.push(axios.get(url));
+      modelDBReqs.push(axios.get(url));
     }
     const context = this;
 
-    Promise.all(modelDBreqs).then(function (res) {
+    Promise.all(modelDBReqs).then(function (res) {
       console.log(res);
       let data_dict = {};
 
@@ -896,6 +903,28 @@ class CreateLivePaper extends React.Component {
       });
       context.setState({
         validModelDBFilterValues: data_dict,
+      });
+    });
+  }
+
+  retrieveNeuroMorphoFilterValidValues() {
+    let neuroMorphoReqs = [];
+    for (let item of filterNeuroMorphoKeys) {
+      let url = neuromorpho_baseUrl + "/neuron/fields/" + item;
+      neuroMorphoReqs.push(axios.get(url));
+    }
+    const context = this;
+
+    Promise.all(neuroMorphoReqs).then(function (res) {
+      console.log(res);
+      let data_dict = {};
+
+      filterNeuroMorphoKeys.forEach(function (item, i) {
+        data_dict[item] = res[i].data.fields;
+      });
+      console.log(data_dict);
+      context.setState({
+        validNeuroMorphoFilterValues: data_dict,
       });
     });
   }
@@ -1522,6 +1551,9 @@ class CreateLivePaper extends React.Component {
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
                           validKGFilterValues={this.state.validKGFilterValues}
+                          validNeuroMorphoFilterValues={
+                            this.state.validNeuroMorphoFilterValues
+                          }
                         />
                       );
                     } else if (item["type"] === "section_models") {

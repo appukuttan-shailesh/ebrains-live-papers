@@ -23,45 +23,45 @@ function HelpContent() {
     [
         {
         "type": "URL",
-        "url": "https://www.datasource.com/models/model_1.zip",
         "label": "file_A",
-        "mc_url":
+        "url": "https://www.datasource.com/models/model_1.zip",
+        "view_url":
             "https://model-catalog.brainsimulation.eu/#model_id.00f2e856-27a8-4b8d-9ec3-4e2581c546e4",
         "identifier": null,
         "tab_name": "Group A"
         },
         {
         "type": "URL",
-        "url": "https://www.datasource.com/models/model_2.zip",
         "label": "file_B",
-        "mc_url":
+        "url": "https://www.datasource.com/models/model_2.zip",
+        "view_url":
             "https://model-catalog.brainsimulation.eu/#model_id.01006de7-e861-45fb-abf4-3c84e609d33b",
         "identifier": null,
         "tab_name": "Group A"
         },
         {
         "type": "URL",
-        "url": "https://www.datasource.com/models/model_3.zip",
         "label": "file_C",
-        "mc_url":
+        "url": "https://www.datasource.com/models/model_3.zip",
+        "view_url":
             "https://model-catalog.brainsimulation.eu/#model_id.01afb341-7ca2-4694-9968-16fc7d8fc765",
         "identifier": null,
         "tab_name": "Group A"
         },
         {
         "type": "URL",
-        "url": "https://www.datasource.com/models/model_4.zip",
         "label": "file_D",
-        "mc_url":
+        "url": "https://www.datasource.com/models/model_4.zip",
+        "view_url":
             "https://model-catalog.brainsimulation.eu/#model_id.01da73a6-8715-431b-aaa7-efcd9358c786",
         "identifier": null,
         "tab_name": "Group A"
         },
         {
         "type": "URL",
-        "url": "https://www.datasource.com/models/model_5.zip",
         "label": "file_E",
-        "mc_url":
+        "url": "https://www.datasource.com/models/model_5.zip",
+        "view_url":
             "https://model-catalog.brainsimulation.eu/#model_id.01f49d73-e8a1-4f23-be30-d01bd52f89a2",
         "identifier": null,
         "tab_name": "Group A"
@@ -77,8 +77,8 @@ function HelpContent() {
         <b>List of dicts/objects</b>
       </h6>
       Each dict in the list should have keys named 'type', 'url', 'label',
-      'mc_url,' 'identifier' and 'tab_name'. You can specify the model catalog
-      URL for each model using their `mc_url' field. The 'identifier' field
+      'view_url', 'identifier' and 'tab_name'. You can specify the model catalog
+      URL for each model using their `view_url' field. The 'identifier' field
       corresponds to the Knowledge Graph UUID. For manually entered items,
       'type' and 'identifier' can be set to 'URL' and 'null', respectively.{" "}
       <i>Example:</i>
@@ -141,11 +141,11 @@ export class SectionModelsEdit extends React.Component {
           item !== null &&
           "url" in item &&
           "label" in item &&
-          "mc_url" in item &&
+          "view_url" in item &&
           "tab_name" in item &&
           typeof item["url"] === "string" &&
           typeof item["label"] === "string" &&
-          typeof item["mc_url"] === "string" &&
+          typeof item["view_url"] === "string" &&
           typeof item["tab_name"] === "string"
         );
       }
@@ -312,12 +312,12 @@ export default class SectionModels extends React.Component {
   }
 
   handleItemsChange(items_data) {
-    // remove all entries where label, url and mc_url are all empty
+    // remove all entries where label, url and view_url are all empty
     // function isNotEmpty(item) {
     //   if (
     //     item.label.trim() !== "" ||
     //     item.url.trim() !== "" ||
-    //     item.mc_url.trim() !== ""
+    //     item.view_url.trim() !== ""
     //   ) {
     //     return true;
     //   } else {
@@ -332,7 +332,7 @@ export default class SectionModels extends React.Component {
           type: "URL",
           label: "",
           url: "",
-          mc_url: "",
+          view_url: "",
           identifier: null,
           tab_name: "",
         },
@@ -439,7 +439,7 @@ export default class SectionModels extends React.Component {
                 : "ModelDB",
             label: items[model_id][instance_id]["label"] || "",
             url: items[model_id][instance_id]["source_url"] || "",
-            mc_url: items[model_id][instance_id]["view_url"] || "",
+            view_url: items[model_id][instance_id]["view_url"] || "",
             tab_name: "",
             identifier: instance_id,
           });
@@ -454,7 +454,7 @@ export default class SectionModels extends React.Component {
             prevState.dataFormatted[0].type === "URL" &&
             prevState.dataFormatted[0].label === "" &&
             prevState.dataFormatted[0].url === "" &&
-            prevState.dataFormatted[0].mc_url === ""
+            prevState.dataFormatted[0].view_url === ""
               ? new_items
               : prevState.dataFormatted.concat(new_items),
           showDBInput: false,

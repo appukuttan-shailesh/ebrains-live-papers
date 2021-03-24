@@ -189,8 +189,8 @@
                                     {% endif %}
                                 </td>
                                 <td style="width: 175px">
-                                    {% if item["mc_url"] %}
-                                        <a href='{{ item["mc_url"] }}' target="_blank" class="waves-effect waves-light">
+                                    {% if item["view_url"] %}
+                                        <a href='{{ item["view_url"] }}' target="_blank" class="waves-effect waves-light">
                                             <i class="material-icons left">pageview</i>View
                                         </a>
                                     {% endif %}
@@ -244,8 +244,8 @@
                                                     {% endif %}
                                                 </td>
                                                 <td style="width: 175px">
-                                                    {% if item["mc_url"] %}
-                                                        <a href='{{ item["mc_url"] }}' target="_blank" class="waves-effect waves-light">
+                                                    {% if item["view_url"] %}
+                                                        <a href='{{ item["view_url"] }}' target="_blank" class="waves-effect waves-light">
                                                             <i class="material-icons left">pageview</i>View
                                                         </a>
                                                     {% endif %}
@@ -445,12 +445,12 @@
                         )
                     {% endif %}
                     {# {% if corresponding_author.email %}
-                                                                (
-                                                                <em>
-                                                                    <a href="mailto:{{corresponding_author.email}}" ">{{ corresponding_author.email }}</a>
-                                                                </em>
-                                                                )
-                                                            {% endif %} #}
+                                                                                    (
+                                                                                    <em>
+                                                                                        <a href="mailto:{{corresponding_author.email}}" ">{{ corresponding_author.email }}</a>
+                                                                                    </em>
+                                                                                    )
+                                                                                {% endif %} #}
                 {% else %}
                     To be filled...
                 {% endif %}
@@ -475,12 +475,12 @@
                         )
                     {% endif %}
                     {# {% if approved_author.email %}
-                                                                (
-                                                                <em>
-                                                                    <a href="mailto:{{approved_author.email}}" ">{{ approved_author.email }}</a>
-                                                                </em>
-                                                                )
-                                                            {% endif %} #}
+                                                                                    (
+                                                                                    <em>
+                                                                                        <a href="mailto:{{approved_author.email}}" ">{{ approved_author.email }}</a>
+                                                                                    </em>
+                                                                                    )
+                                                                                {% endif %} #}
                 </p>
             {% endif %}
         </div>

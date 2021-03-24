@@ -144,11 +144,11 @@ export class RowURL extends React.Component {
             }}
           >
             <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
-              <Tooltip title={this.props.item["mc_url"] || ""}>
+              <Tooltip title={this.props.item["view_url"] || ""}>
                 <input
-                  name="mc_url"
+                  name="view_url"
                   type="text"
-                  value={this.props.item["mc_url"]}
+                  value={this.props.item["view_url"]}
                   onChange={(e) =>
                     this.props.handleItemChanged(this.props.ind, e)
                   }
@@ -250,13 +250,13 @@ export class RowURLExpanded extends React.Component {
                       padding: "5px 10px 5px 0px",
                     }}
                   >
-                    <Tooltip title={this.props.item["mc_url"] || ""}>
+                    <Tooltip title={this.props.item["view_url"] || ""}>
                       <TextField
                         label="Model Catalog URL"
                         variant="outlined"
                         fullWidth={true}
-                        name="mc_url"
-                        value={this.props.item["mc_url"]}
+                        name="view_url"
+                        value={this.props.item["view_url"]}
                         onChange={(e) =>
                           this.props.handleItemChanged(this.props.ind, e)
                         }
@@ -373,15 +373,15 @@ export class RowKG extends React.Component {
           >
             <div style={{ backgroundColor: "#FFFFFF", padding: "0px 10px" }}>
               <Tooltip
-                title={this.props.item["mc_url"] || ""}
+                title={this.props.item["view_url"] || ""}
                 onClick={() =>
-                  navigator.clipboard.writeText(this.props.item["mc_url"])
+                  navigator.clipboard.writeText(this.props.item["view_url"])
                 }
               >
                 <input
-                  name="mc_url"
+                  name="view_url"
                   type="text"
-                  defaultValue={this.props.item["mc_url"]}
+                  defaultValue={this.props.item["view_url"]}
                   disabled
                   style={{ cursor: "pointer", color: "#808080" }}
                 />
@@ -489,17 +489,17 @@ export class RowKGExpanded extends React.Component {
                     }}
                   >
                     <Tooltip
-                      title={this.props.item["mc_url"] || ""}
+                      title={this.props.item["view_url"] || ""}
                       onClick={() =>
-                        navigator.clipboard.writeText(this.props.item["mc_url"])
+                        navigator.clipboard.writeText(this.props.item["view_url"])
                       }
                     >
                       <TextField
                         label="Model Catalog URL"
                         variant="outlined"
                         fullWidth={true}
-                        name="mc_url"
-                        defaultValue={this.props.item["mc_url"]}
+                        name="view_url"
+                        defaultValue={this.props.item["view_url"]}
                         disabled
                         style={{ cursor: "pointer", color: "#808080" }}
                         InputProps={{
@@ -649,7 +649,7 @@ export default class DynamicTableItems extends React.Component {
       type: "URL",
       label: "",
       url: "",
-      mc_url: "",
+      view_url: "",
       tab_name: "",
       identifier: null,
     });

@@ -5,12 +5,15 @@ export const nar_baseUrl =
   "https://neural-activity-resource.brainsimulation.eu";
 export const modelDB_baseUrl = "http://modeldb.science/api/v1";
 export const modelDB_viewUrl = "https://senselab.med.yale.edu/modeldb";
-export const osb_baseUrl = "https://www.opensourcebrain.org/";
+export const osb_baseUrl = "https://www.opensourcebrain.org";
+export const neuromorpho_baseUrl = "http://neuromorpho.org/api";
+
 export const lp_tool_version = "0.2";
 export const timeout = 1000;
 export const querySizeLimit = 10;
 // export const querySizeLimit = 1000000;
 export const separator = "#-#";
+
 export const filterKGModelsKeys = [
   "species",
   "brain_region",
@@ -26,7 +29,13 @@ export const filterModelDBKeys = [
   "modelconcepts",
   "simenvironments",
 ];
-
+export const filterNeuroMorphoKeys = [
+  "species",
+  "brain_region_1",
+  "cell_type_1",
+  "reconstruction_software",
+  "protocol",
+];
 // To access ModelDB APIs; doesn't work with localhost during development
 export const corsProxy = "https://cors-clear.herokuapp.com/";
 // previously used https://cors-anywhere.herokuapp.com/ - but now has request limits
