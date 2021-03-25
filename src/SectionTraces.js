@@ -71,10 +71,10 @@ function HelpContent() {
       <h6>
         <b>List of dicts/objects</b>
       </h6>
-      Each dict in the list should have keys named 'type', 'url', 'view_url', 'label',
-      'identifier' and 'tab_name'. The 'identifier' field corresponds to the
-      Knowledge Graph UUID. For manually entered items, 'type' and 'identifier'
-      can be set to 'URL' and 'null', respectively. <i>Example:</i>
+      Each dict in the list should have keys named 'type', 'url', 'view_url',
+      'label', 'identifier' and 'tab_name'. The 'identifier' field corresponds
+      to the Knowledge Graph UUID. For manually entered items, 'type' and
+      'identifier' can be set to 'URL' and 'null', respectively. <i>Example:</i>
       <br />
       <pre>
         <code>{list_of_dicts}</code>
@@ -427,12 +427,12 @@ export default class SectionTraces extends React.Component {
             type:
               sourceDB === "Knowledge Graph"
                 ? "Recording"
-                : sourceDB === "Open Source Brain"
-                ? "OSB"
+                : sourceDB === "AllenBrain"
+                ? "AllenBrain"
                 : "ModelDB",
-label: items[trace_id][instance_id]["label"] || "",
+            label: items[trace_id][instance_id]["label"] || "",
             url: items[trace_id][instance_id]["source_url"] || "",
-           
+
             view_url: items[trace_id][instance_id]["view_url"] || "",
             tab_name: "",
             identifier: trace_id,
@@ -696,9 +696,6 @@ label: items[trace_id][instance_id]["label"] || "",
                     open={this.state.showDBInput}
                     handleClose={this.handleDBClose}
                     validKGFilterValues={this.props.validKGFilterValues}
-                    validNeuroMorphoFilterValues={
-                      this.props.validNeuroMorphoFilterValues
-                    }
                     enqueueSnackbar={this.props.enqueueSnackbar}
                     closeSnackbar={this.props.closeSnackbar}
                   />

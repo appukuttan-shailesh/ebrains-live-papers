@@ -21,6 +21,7 @@ import ErrorDialog from "./ErrorDialog";
 import LoadingIndicator from "./LoadingIndicator";
 import ContextMain from "./ContextMain";
 import TextField from "@material-ui/core/TextField";
+import SingleSelect from "./SingleSelect";
 import MultipleSelect from "./MultipleSelect";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -33,7 +34,6 @@ import {
   nar_baseUrl,
   querySizeLimit,
   filterKGTracesKeys,
-  filterNeuroMorphoKeys,
   neuromorpho_baseUrl,
 } from "./globals";
 import { buildQuery, showNotification } from "./utils";
@@ -199,7 +199,6 @@ function InstanceParameter(props) {
         <Grid item xs={9}>
           <Box
             component="div"
-            my={2}
             bgcolor="white"
             overflow="scroll"
             border={1}
@@ -232,7 +231,7 @@ function InstanceParameter(props) {
   );
 }
 
-class TraceVersion extends React.Component {
+class KGContentTraceVersion extends React.Component {
   constructor(props) {
     super(props);
 
@@ -286,7 +285,11 @@ class TraceVersion extends React.Component {
                     clickable
                     onClick={() => this.setState({ selectedParam: param })}
                     variant="outlined"
-                    style={{ color: "#000000", marginRight: "10px" }}
+                    style={{
+                      color: "#000000",
+                      marginRight: "10px",
+                      marginBottom: "10px",
+                    }}
                   />
                 ))}
               </div>
@@ -299,10 +302,10 @@ class TraceVersion extends React.Component {
           <Grid item xs={3} style={{ paddingBottom: "35px" }}>
             <IncludeButton
               includeFlag={this.props.checkInstanceInCollection(
-                this.props.trace_id,
+                "KG_" + this.props.trace_id,
                 this.props.ind.toString()
               )}
-              trace_id={this.props.trace_id}
+              trace_id={"KG_" + this.props.trace_id}
               trace_name={this.props.trace_name}
               instance_id={this.props.ind.toString()}
               instance_name={this.props.ind.toString()}
@@ -318,15 +321,7 @@ class TraceVersion extends React.Component {
   }
 }
 
-class TraceVersionsPanel extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selectedParam: "source",
-    };
-  }
-
+class KGContentTraceVersionsPanel extends React.Component {
   render() {
     // console.log(this.props);
     return (
@@ -369,7 +364,7 @@ class TraceVersionsPanel extends React.Component {
         ) : (
           this.props.data.instances.map((instance, ind) => (
             <div style={{ marginBottom: "25px" }} key={ind}>
-              <TraceVersion
+              <KGContentTraceVersion
                 trace_id={this.props.data.id}
                 trace_name={this.props.data.label}
                 instance={instance}
@@ -400,6 +395,17 @@ export class KGContent extends React.Component {
   render() {
     return (
       <div>
+        <div
+          style={{
+            paddingBottom: "15px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          Please click on &nbsp; <ViewColumnIcon /> &nbsp; to hide/show other
+          columns, and click on &nbsp; <FilterListIcon /> &nbsp; to filter the
+          contents for each column.
+        </div>
         <MaterialTable
           title="Electrophysiological Recordings"
           data={this.props.data}
@@ -439,7 +445,7 @@ export class KGContent extends React.Component {
           ]}
           detailPanel={(rowData) => {
             return (
-              <TraceVersionsPanel
+              <KGContentTraceVersionsPanel
                 data={rowData}
                 addInstanceCollection={this.props.addInstanceCollection}
                 removeInstanceCollection={this.props.removeInstanceCollection}
@@ -484,7 +490,7 @@ export class KGContent extends React.Component {
   }
 }
 
-export default class DBInputTraces extends React.Component {
+export class FilterPanelKG extends React.Component {
   signal = axios.CancelToken.source();
   static contextType = ContextMain;
 
@@ -492,26 +498,20 @@ export default class DBInputTraces extends React.Component {
     super(props, context);
 
     this.state = {
-      loading: false,
-      list_traces: [],
-      error: null,
-      trace_collection: {},
-      showFilters: true,
       configFilters: {},
     };
 
-    this.getListTraces = this.getListTraces.bind(this);
-    this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
-    this.addInstanceCollection = this.addInstanceCollection.bind(this);
-    this.removeInstanceCollection = this.removeInstanceCollection.bind(this);
-    this.checkInstanceInCollection = this.checkInstanceInCollection.bind(this);
-    this.countTotalInstances = this.countTotalInstances.bind(this);
-    this.showFiltersPanel = this.showFiltersPanel.bind(this);
+    this.getListTracesKG = this.getListTracesKG.bind(this);
     this.handleFiltersChange = this.handleFiltersChange.bind(this);
-    this.handleKGProceed = this.handleKGProceed.bind(this);
   }
 
-  getListTraces() {
+  componentDidMount() {
+    // Child passes its method to the parent
+    this.props.shareGetListTraces(this.getListTracesKG);
+  }
+
+  getListTracesKG() {
+    console.log("Query KG");
     let config = {
       cancelToken: this.signal.token,
       headers: {
@@ -549,23 +549,102 @@ export default class DBInputTraces extends React.Component {
         );
 
         console.log(traces);
-        this.setState({
-          list_traces: traces,
-          loading: false,
-          error: null,
-        });
+        this.props.setListTraces(traces, false, null);
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
           console.log("errorUpdate: ", err.message);
         } else {
           // Something went wrong. Save the error in state and re-render.
-          this.setState({
-            loading: false,
-            error: err,
-          });
+          this.props.setListTraces([], false, err);
         }
       });
+  }
+
+  handleFiltersChange(event) {
+    const newConfig = { ...this.state.configFilters };
+    newConfig[event.target.name] =
+      typeof event.target.value === "string"
+        ? [event.target.value]
+        : event.target.value;
+    this.setState({ configFilters: newConfig });
+  }
+
+  render() {
+    return (
+      <div>
+        <h6>Please specify filters to search KG:</h6>
+        <em>Note: you can select multiple values for each filter</em>
+        <form>
+          {this.props.showFilters.map((filter) => (
+            <MultipleSelect
+              itemNames={
+                !this.props.validKGFilterValues
+                  ? []
+                  : this.props.validKGFilterValues[filter]
+              }
+              label={filter}
+              value={this.state.configFilters[filter] || []}
+              handleChange={this.handleFiltersChange}
+              key={filter}
+            />
+          ))}
+        </form>
+      </div>
+    );
+  }
+}
+
+export default class DBInputTraces extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: false,
+      list_traces: [],
+      error: null,
+      trace_collection: {},
+      showFilters: true,
+      sourceDB: "Knowledge Graph",
+    };
+
+    this.acceptsProceedMethod = this.acceptsProceedMethod.bind(this);
+    this.handleProceed = this.handleProceed.bind(this);
+    this.setListTraces = this.setListTraces.bind(this);
+
+    this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
+    this.addInstanceCollection = this.addInstanceCollection.bind(this);
+    this.removeInstanceCollection = this.removeInstanceCollection.bind(this);
+    this.checkInstanceInCollection = this.checkInstanceInCollection.bind(this);
+    this.countTotalInstances = this.countTotalInstances.bind(this);
+    this.showFiltersPanel = this.showFiltersPanel.bind(this);
+    this.showContentsPanel = this.showContentsPanel.bind(this);
+    this.handleDBChange = this.handleDBChange.bind(this);
+  }
+
+  acceptsProceedMethod(childGetListMethod) {
+    // Parent stores the method that the child passed
+    this.getListTraces = childGetListMethod;
+  }
+
+  handleProceed() {
+    this.setState(
+      {
+        showFilters: false,
+        loading: true,
+      },
+      () => {
+        this.getListTraces();
+      }
+    );
+  }
+
+  setListTraces(list_traces, loading, error) {
+    this.setState({
+      list_traces: list_traces,
+      loading: loading,
+      error: error,
+    });
   }
 
   handleErrorDialogClose() {
@@ -586,7 +665,9 @@ export default class DBInputTraces extends React.Component {
     if (Object.keys(trace_collection).includes(trace_id)) {
       if (!Object.keys(trace_collection[trace_id]).includes(instance_id)) {
         trace_collection[trace_id][instance_id] = {
-          label: trace_name + " (" + instance_name + ")",
+          label: instance_name
+            ? trace_name + " (" + instance_name + ")"
+            : trace_name,
           source_url: source_url,
           view_url: view_url,
         };
@@ -594,7 +675,9 @@ export default class DBInputTraces extends React.Component {
     } else {
       trace_collection[trace_id] = {
         [instance_id]: {
-          label: trace_name + " (" + instance_name + ")",
+          label: instance_name
+            ? trace_name + " (" + instance_name + ")"
+            : trace_name,
           source_url: source_url,
           view_url: view_url,
         },
@@ -646,45 +729,55 @@ export default class DBInputTraces extends React.Component {
   }
 
   showFiltersPanel() {
-    let showFilters = filterKGTracesKeys;
+    let showFilters =
+      this.state.sourceDB === "Knowledge Graph" ? filterKGTracesKeys : null; // TODO
     return (
       <Box my={2}>
-        <h6>Please specify filters to search KG:</h6>
-        <em>Note: you can select multiple values for each filter</em>
-        <form>
-          {showFilters.map((filter) => (
-            <MultipleSelect
-              itemNames={
-                !this.props.validFilterValues
-                  ? []
-                  : this.props.validFilterValues[filter]
-              }
-              label={filter}
-              value={this.state.configFilters[filter] || []}
-              handleChange={this.handleFiltersChange}
-              key={filter}
-            />
-          ))}
-        </form>
+        <h6 style={{ marginBottom: "20px" }}>Please specify the database:</h6>
+        <SwitchTwoWay
+          values={["Knowledge Graph", "Allen Brain"]}
+          selected={this.state.sourceDB}
+          onChange={this.handleDBChange}
+        />
+        <br />
+        {this.state.sourceDB === "Knowledge Graph" && (
+          <FilterPanelKG
+            showFilters={showFilters}
+            validKGFilterValues={this.props.validKGFilterValues}
+            handleFiltersChange={this.handleFiltersChange}
+            shareGetListTraces={this.acceptsProceedMethod}
+            setListTraces={this.setListTraces}
+          />
+        )}
+        {/* TODO: add for Allen Brain */}
       </Box>
     );
   }
 
-  handleFiltersChange(event) {
-    const newConfig = { ...this.state.configFilters };
-    newConfig[event.target.name] = event.target.value;
-    this.setState({ configFilters: newConfig });
+  showContentsPanel() {
+    if (this.state.sourceDB === "Knowledge Graph") {
+      return (
+        <KGContent
+          data={this.state.list_traces}
+          addInstanceCollection={this.addInstanceCollection}
+          removeInstanceCollection={this.removeInstanceCollection}
+          checkInstanceInCollection={this.checkInstanceInCollection}
+          countTotalInstances={this.countTotalInstances}
+        />
+      );
+    } else if (this.state.sourceDB === "AllenBrain") {
+      return null; // TODO
+    } else {
+      return null;
+    }
   }
 
-  handleKGProceed() {
-    this.setState(
-      {
-        showFilters: false,
-      },
-      () => {
-        this.getListTraces();
-      }
-    );
+  handleDBChange(value) {
+    console.log(value);
+    this.setState({
+      sourceDB: value,
+      list_traces: [],
+    });
   }
 
   render() {
@@ -717,23 +810,24 @@ export default class DBInputTraces extends React.Component {
             style={{ backgroundColor: "#ffd180" }}
           >
             <span style={{ fontWeight: "bolder", fontSize: 18 }}>
-              KG Data Input
+              Input From Database
             </span>
           </DialogTitle>
           <DialogContent dividers>
-            {(!this.props.validFilterValues && this.state.showFilters) ||
+            {(!this.props.validKGFilterValues && this.state.showFilters) ||
             this.state.loading ? (
-              <LoadingIndicator />
+              <div
+                style={{
+                  minWidth: 700,
+                  maxWidth: 900,
+                }}
+              >
+                <LoadingIndicator />
+              </div>
             ) : this.state.showFilters ? (
               this.showFiltersPanel()
             ) : (
-              <KGContent
-                data={this.state.list_traces}
-                addInstanceCollection={this.addInstanceCollection}
-                removeInstanceCollection={this.removeInstanceCollection}
-                checkInstanceInCollection={this.checkInstanceInCollection}
-                countTotalInstances={this.countTotalInstances}
-              />
+              this.showContentsPanel()
             )}
           </DialogContent>
           <DialogActions>
@@ -805,11 +899,15 @@ export default class DBInputTraces extends React.Component {
                 }}
                 onClick={() =>
                   this.state.showFilters
-                    ? this.handleKGProceed()
-                    : this.props.handleClose(true, this.state.trace_collection)
+                    ? this.handleProceed()
+                    : this.props.handleClose(
+                        true,
+                        this.state.trace_collection,
+                        this.state.sourceDB
+                      )
                 }
               >
-                {this.state.showFilters ? "Proceed" : "Add KG Items"}
+                {this.state.showFilters ? "Proceed" : "Add Items"}
               </Button>
             </div>
           </DialogActions>

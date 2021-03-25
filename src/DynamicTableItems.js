@@ -15,12 +15,13 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 
 const resourseTypeBadgeMappings = {
-    URL: ["", "Manual Entry"],
-    ModelInstance: ["KG", "Knowledge Graph Entry"],
-    Recording: ["KG", "Knowledge Graph Entry"],
-    ModelDB: ["MDB", "ModelDB Entry"],
-    OSB: ["OSB", "Open Source Brain Entry"],
-  };
+  URL: ["", "Manual Entry"],
+  ModelInstance: ["KG", "Knowledge Graph Entry"],
+  Recording: ["KG", "Knowledge Graph Entry"],
+  ModelDB: ["MDB", "ModelDB Entry"],
+  OSB: ["OSB", "Open Source Brain Entry"],
+  AllenBrain: ["AB", "Allen Brain Atlas Entry"],
+};
 
 const styles = () => ({
   customBadge_KG: {
@@ -491,7 +492,9 @@ export class RowKGExpanded extends React.Component {
                     <Tooltip
                       title={this.props.item["view_url"] || ""}
                       onClick={() =>
-                        navigator.clipboard.writeText(this.props.item["view_url"])
+                        navigator.clipboard.writeText(
+                          this.props.item["view_url"]
+                        )
                       }
                     >
                       <TextField
