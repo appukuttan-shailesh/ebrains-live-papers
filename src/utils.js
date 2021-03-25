@@ -115,12 +115,26 @@ export function formatLabel(label) {
   return label;
 }
 
-export function buildQuery(filterDict) {
+export function buildQuery(filterDict, target = "") {
   let q = "";
-  for (var key in filterDict) {
-    for (var value of filterDict[key]) {
-      q += `&${key}=${value}`;
+  if (target === "NeuroMorpho") {
+    // see: http://neuromorpho.org/apiReference.html#neuron-filter-query
+    for (let key in filterDict) {
+      if (q === "") {
+        // first param
+        q += "&q=" + key + ":" + filterDict[key].join(",");
+      } else {
+        // other params
+        q += "&fq=" + key + ":" + filterDict[key].join(",");
+      }
+    }
+    q += "&sort=neuron_id,asc";
+  } else {
+    for (let key in filterDict) {
+      for (let value of filterDict[key]) {
+        q += `&${key}=${value}`;
+      }
     }
   }
-  return q.slice(1);
+  return q.slice(1); // to remove leading &
 }

@@ -1536,6 +1536,9 @@ class CreateLivePaper extends React.Component {
                           handleDelete={this.deleteResourceSection}
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
+                          validNeuroMorphoFilterValues={
+                            this.state.validNeuroMorphoFilterValues
+                          }
                         />
                       );
                     } else if (item["type"] === "section_traces") {
@@ -1551,9 +1554,6 @@ class CreateLivePaper extends React.Component {
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
                           validKGFilterValues={this.state.validKGFilterValues}
-                          validNeuroMorphoFilterValues={
-                            this.state.validNeuroMorphoFilterValues
-                          }
                         />
                       );
                     } else if (item["type"] === "section_models") {

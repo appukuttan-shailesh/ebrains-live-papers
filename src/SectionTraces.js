@@ -424,12 +424,7 @@ export default class SectionTraces extends React.Component {
       for (const trace_id in items) {
         for (const instance_id in items[trace_id]) {
           new_items.push({
-            type:
-              sourceDB === "Knowledge Graph"
-                ? "Recording"
-                : sourceDB === "AllenBrain"
-                ? "AllenBrain"
-                : "ModelDB",
+            type: sourceDB === "Knowledge Graph" ? "Recording" : "AllenBrain",
             label: items[trace_id][instance_id]["label"] || "",
             url: items[trace_id][instance_id]["source_url"] || "",
 

@@ -7,6 +7,7 @@ export const modelDB_baseUrl = "http://modeldb.science/api/v1";
 export const modelDB_viewUrl = "https://senselab.med.yale.edu/modeldb";
 export const osb_baseUrl = "https://www.opensourcebrain.org";
 export const neuromorpho_baseUrl = "http://neuromorpho.org/api";
+export const neuromorpho_viewUrl = "http://neuromorpho.org";
 
 export const lp_tool_version = "0.2";
 export const timeout = 1000;

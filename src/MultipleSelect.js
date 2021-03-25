@@ -3,12 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import ListItemText from "@material-ui/core/ListItemText";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
-
-import { formatLabel } from "./utils";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -34,24 +33,22 @@ const MenuProps = {
 
 export default function MultipleSelect(props) {
   const classes = useStyles();
-  //const [itemName, setItemName] = React.useState([]);
   const fieldId = "select-" + props.label.replace(" ", "-");
   const fieldLabelId = fieldId + "-label";
-  const fieldName = props.label.replace(" ", "_");
-
-  //   const handleChange = event => {
-  //     setItemName(event.target.value);
-  //   };
+  const fieldName = props.name.replace(" ", "_");
 
   return (
     <div>
-      <FormControl className={classes.formControl}>
-        <InputLabel id={fieldLabelId}>{formatLabel(props.label)}</InputLabel>
+      <FormControl
+        className={classes.formControl}
+        disabled={props.disabled || false}
+      >
+        <InputLabel id={fieldLabelId}>{props.label}</InputLabel>
         <Select
           labelId={fieldLabelId}
           id={fieldId}
           multiple
-          value={props.value}
+          value={props.value ? props.value : ""}
           name={fieldName}
           onChange={props.handleChange}
           input={<Input />}
@@ -65,6 +62,9 @@ export default function MultipleSelect(props) {
             </MenuItem>
           ))}
         </Select>
+        {props.helperText && (
+          <FormHelperText>{props.helperText}</FormHelperText>
+        )}
       </FormControl>
     </div>
   );

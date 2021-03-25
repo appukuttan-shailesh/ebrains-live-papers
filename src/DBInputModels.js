@@ -1234,7 +1234,8 @@ export class FilterPanelKG extends React.Component {
                   ? []
                   : this.props.validKGFilterValues[filter]
               }
-              label={filter}
+              label={formatLabel(filter)}
+              name={filter}
               value={this.state.configFilters[filter] || []}
               handleChange={this.handleFiltersChange}
               key={filter}

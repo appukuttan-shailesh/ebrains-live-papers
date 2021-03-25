@@ -20,6 +20,7 @@ const resourseTypeBadgeMappings = {
   Recording: ["KG", "Knowledge Graph Entry"],
   ModelDB: ["MDB", "ModelDB Entry"],
   OSB: ["OSB", "Open Source Brain Entry"],
+  NeuroMorpho: ["NMO", "NeuroMorpho.Org Entry"],
   AllenBrain: ["AB", "Allen Brain Atlas Entry"],
 };
 
@@ -29,7 +30,7 @@ const styles = () => ({
     color: "white",
     fontSize: 10,
   },
-  customBadge_ModelDB: {
+  customBadge_MDB: {
     backgroundColor: "#F57C00",
     color: "white",
     fontSize: 10,
@@ -39,13 +40,20 @@ const styles = () => ({
     color: "white",
     fontSize: 10,
   },
+  customBadge_NMO: {
+    backgroundColor: "#B7BF40",
+    color: "white",
+    fontSize: 10,
+  },
 });
 
 function setBadgeClass(type, classes) {
   if (type === "ModelDB") {
-    return classes.customBadge_ModelDB;
-  } else if (type === "OSB") {
+    return classes.customBadge_MDB;
+  } else if (type === "Open Source Brain") {
     return classes.customBadge_OSB;
+  } else if (type === "NeuroMorpho") {
+    return classes.customBadge_NMO;
   } else {
     return classes.customBadge_KG;
   }

@@ -30,8 +30,39 @@ import SwitchTwoWay from "./SwitchTwoWay";
 import ToggleSwitch from "./ToggleSwitch";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
-import { nar_baseUrl, querySizeLimit, filterKGTracesKeys } from "./globals";
-import { buildQuery, showNotification, formatLabel } from "./utils";
+import {
+  neuromorpho_baseUrl,
+  neuromorpho_viewUrl,
+  querySizeLimit,
+  filterNeuroMorphoKeys,
+} from "./globals";
+import { buildQuery, showNotification } from "./utils";
+
+const labelsNeuroMorphoKeys = {
+  age_classification: "Age Classification",
+  age_scale: "Age Scale",
+  archive: "Archive",
+  brain_region_1: "Primary Brain Region",
+  brain_region_2: "Secondary Brain Region",
+  brain_region_3: "Tertiary Brain Region",
+  cell_type_1: "Primary Cell Type",
+  cell_type_2: "Secondary Cell Type",
+  cell_type_3: "Tertiary Cell Type",
+  deposition_date: "Deposition Date",
+  domain: "Domain",
+  gender: "Gender",
+  neuron_id: "Neuron ID",
+  neuron_name: "Neuron Name",
+  note: "Note",
+  objective_type: "Objective Type",
+  original_format: "Original Format",
+  protocol: "Protocol",
+  reconstruction_software: "Reconstruction Software",
+  scientific_name: "Scientific Name",
+  species: "Species",
+  strain: "Strain",
+  upload_date: "Upload Date",
+};
 
 const styles = (theme) => ({
   root: {
@@ -78,27 +109,18 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 // define the columns for the material data table
-const KG_TABLE_COLUMNS = [
+const NeuroMorpho_TABLE_COLUMNS = [
   {
-    field: "id",
-    title: "ID",
-    hidden: true,
+    field: "neuron_id",
+    title: "Neuron ID",
   },
   {
-    field: "label",
-    title: "Label",
+    field: "neuron_name",
+    title: "Neuron Name",
   },
   {
-    field: "modality",
-    title: "Modality",
-  },
-  {
-    field: "stimulation",
-    title: "Stimulation",
-  },
-  {
-    field: "timestamp",
-    title: "Timestamp",
+    field: "gender",
+    title: "Gender",
     hidden: true,
   },
   {
@@ -107,29 +129,47 @@ const KG_TABLE_COLUMNS = [
     hidden: true,
   },
   {
-    field: "cell_type",
-    title: "Cell Type",
+    field: "brain_region_1",
+    title: "Primary Brain Region",
     hidden: true,
   },
   {
-    field: "location",
-    title: "Location",
+    field: "brain_region_2",
+    title: "Secondary Brain Region",
     hidden: true,
   },
   {
-    field: "view_url",
-    title: "View URL",
+    field: "brain_region_3",
+    title: "Tertiary Brain Region",
     hidden: true,
   },
   {
-    field: "parent_name",
-    title: "Parent Name",
+    field: "cell_type_1",
+    title: "Primary Cell Class",
     hidden: true,
   },
   {
-    field: "parent_id",
-    title: "Parent ID",
+    field: "cell_type_2",
+    title: "Secondary Cell Class",
     hidden: true,
+  },
+  {
+    field: "cell_type_3",
+    title: "Tertiary Cell Class",
+    hidden: true,
+  },
+  {
+    field: "strain",
+    title: "Strain",
+    hidden: true,
+  },
+  {
+    field: "reconstruction_software",
+    title: "Software",
+  },
+  {
+    field: "protocol",
+    title: "Protocol",
   },
 ];
 
@@ -137,7 +177,10 @@ function IncludeButton(props) {
   //   console.log(props);
   if (props.includeFlag) {
     return (
-      <Tooltip title="Remove trace instance from collection" placement="top">
+      <Tooltip
+        title="Remove morphology instance from collection"
+        placement="top"
+      >
         <Button
           variant="contained"
           style={{
@@ -149,7 +192,10 @@ function IncludeButton(props) {
           }}
           startIcon={<RemoveFromQueueIcon />}
           onClick={() =>
-            props.removeInstanceCollection(props.trace_id, props.instance_id)
+            props.removeInstanceCollection(
+              props.morphology_id,
+              props.instance_id
+            )
           }
         >
           Remove
@@ -158,7 +204,7 @@ function IncludeButton(props) {
     );
   } else {
     return (
-      <Tooltip title="Add trace instance to collection" placement="top">
+      <Tooltip title="Add morphology instance to collection" placement="top">
         <Button
           variant="contained"
           style={{
@@ -171,8 +217,8 @@ function IncludeButton(props) {
           startIcon={<AddToQueueIcon />}
           onClick={() =>
             props.addInstanceCollection(
-              props.trace_id,
-              props.trace_name,
+              props.morphology_id,
+              props.morphology_name,
               props.instance_id,
               props.instance_name,
               props.source_url,
@@ -226,99 +272,17 @@ function InstanceParameter(props) {
   );
 }
 
-class KGContentTraceVersion extends React.Component {
+class NeuroMorphoContentMorphologyPanel extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selectedParam: "location",
+      selectedParam: "name",
     };
   }
 
   render() {
-    return (
-      <Box
-        my={2}
-        pb={0}
-        style={{ backgroundColor: "#FFF1CC", marginBottom: "20px" }}
-        key={this.props.ind}
-      >
-        <Grid
-          container
-          style={{
-            display: "flex",
-            alignItems: "center",
-            backgroundColor: "#FFD180",
-          }}
-        >
-          <Grid item xs={6}>
-            <Box px={2} display="flex" flexDirection="row">
-              <p variant="subtitle2">
-                Record #:{" "}
-                <span style={{ cursor: "pointer", fontWeight: "bold" }}>
-                  {this.props.ind + 1}
-                </span>
-              </p>
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid container spacing={3} alignItems="flex-end">
-          <Grid item xs={9}>
-            <div style={{ padding: "10px 0px 0px 10px" }}>
-              <div>
-                {["description", "location"].map((param, ind) => (
-                  <Chip
-                    icon={
-                      this.state.selectedParam === param ? (
-                        <RadioButtonCheckedIcon />
-                      ) : (
-                        <RadioButtonUncheckedIcon />
-                      )
-                    }
-                    key={ind}
-                    label={param}
-                    clickable
-                    onClick={() => this.setState({ selectedParam: param })}
-                    variant="outlined"
-                    style={{
-                      color: "#000000",
-                      marginRight: "10px",
-                      marginBottom: "10px",
-                    }}
-                  />
-                ))}
-              </div>
-              <InstanceParameter
-                label={"param"}
-                value={this.props.instance[this.state.selectedParam]}
-              />
-            </div>
-          </Grid>
-          <Grid item xs={3} style={{ paddingBottom: "35px" }}>
-            <IncludeButton
-              includeFlag={this.props.checkInstanceInCollection(
-                "KG_" + this.props.trace_id,
-                this.props.ind.toString()
-              )}
-              trace_id={"KG_" + this.props.trace_id}
-              trace_name={this.props.trace_name}
-              instance_id={this.props.ind.toString()}
-              instance_name={this.props.ind.toString()}
-              source_url={this.props.instance.location}
-              view_url={this.props.view_url}
-              addInstanceCollection={this.props.addInstanceCollection}
-              removeInstanceCollection={this.props.removeInstanceCollection}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-    );
-  }
-}
-
-class KGContentTraceVersionsPanel extends React.Component {
-  render() {
-    // console.log(this.props);
+    console.log(this.props);
     return (
       <Grid item style={{ backgroundColor: "#CFD8DC", padding: "20px" }}>
         <Grid container direction="row">
@@ -333,10 +297,14 @@ class KGContentTraceVersionsPanel extends React.Component {
             }}
           >
             <Typography variant="subtitle1">
-              <b>Versions</b>
+              <b>Morphology Details:</b>
             </Typography>
             <Link
-              href={this.props.data.view_url}
+              href={
+                neuromorpho_viewUrl +
+                "/neuron_info.jsp?neuron_name=" +
+                this.props.data.neuron_name
+              }
               target="_blank"
               rel="noreferrer"
               underline="none"
@@ -351,33 +319,115 @@ class KGContentTraceVersionsPanel extends React.Component {
             </Link>
           </Grid>
         </Grid>
-        {this.props.data.instances.length === 0 ? (
-          <div style={{ fontSize: 14 }}>
-            <br />
-            No records have yet been registered for this trace.
-          </div>
-        ) : (
-          this.props.data.instances.map((instance, ind) => (
-            <div style={{ marginBottom: "25px" }} key={ind}>
-              <KGContentTraceVersion
-                trace_id={this.props.data.id}
-                trace_name={this.props.data.label}
-                instance={instance}
-                view_url={this.props.data.view_url}
-                ind={ind}
-                addInstanceCollection={this.props.addInstanceCollection}
-                removeInstanceCollection={this.props.removeInstanceCollection}
-                checkInstanceInCollection={this.props.checkInstanceInCollection}
-              />
-            </div>
-          ))
-        )}
+        <div style={{ marginBottom: "25px" }}>
+          <Box
+            my={2}
+            pb={0}
+            style={{ backgroundColor: "#FFF1CC", marginBottom: "20px" }}
+          >
+            <Grid
+              container
+              style={{
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#FFD180",
+              }}
+            >
+              <Grid item xs={6}>
+                <Box px={2} display="flex" flexDirection="row">
+                  <p variant="subtitle2">
+                    Morphology Name:{" "}
+                    <span style={{ cursor: "pointer", fontWeight: "bold" }}>
+                      {this.props.data.neuron_name}
+                    </span>
+                  </p>
+                </Box>
+              </Grid>
+              <Grid container item justify="flex-end" xs={6}>
+                <Box
+                  px={2}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography variant="body2" color="textSecondary">
+                    Morphology ID: <span>{this.props.data.neuron_id}</span>
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container spacing={3} alignItems="flex-end">
+              <Grid item xs={9}>
+                <div style={{ padding: "10px 0px 0px 10px" }}>
+                  <div>
+                    {Object.keys(labelsNeuroMorphoKeys).map((item, ind) => (
+                      <Chip
+                        icon={
+                          this.state.selectedParam === item ? (
+                            <RadioButtonCheckedIcon />
+                          ) : (
+                            <RadioButtonUncheckedIcon />
+                          )
+                        }
+                        key={ind}
+                        label={labelsNeuroMorphoKeys[item]}
+                        clickable
+                        onClick={() => this.setState({ selectedParam: item })}
+                        variant="outlined"
+                        style={{
+                          color: "#000000",
+                          marginRight: "10px",
+                          marginBottom: "10px",
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <InstanceParameter
+                    label={"param"}
+                    value={this.props.data[this.state.selectedParam]}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={3} style={{ paddingBottom: "35px" }}>
+                <IncludeButton
+                  includeFlag={this.props.checkInstanceInCollection(
+                    "NeuroMorpho_" + this.props.data.neuron_id.toString(),
+                    "0"
+                  )}
+                  morphology_id={
+                    "NeuroMorpho_" + this.props.data.neuron_id.toString()
+                  }
+                  morphology_name={this.props.data.neuron_name}
+                  instance_id={"0"}
+                  instance_name={""}
+                  source_url={
+                    neuromorpho_viewUrl +
+                    "/dableFiles/" +
+                    this.props.data.archive +
+                    "/CNG%20version/" +
+                    this.props.data.neuron_name +
+                    ".CNG.swc"
+                  }
+                  view_url={
+                    neuromorpho_viewUrl +
+                    "/neuron_info.jsp?neuron_name=" +
+                    this.props.data.neuron_name
+                  }
+                  addInstanceCollection={this.props.addInstanceCollection}
+                  removeInstanceCollection={this.props.removeInstanceCollection}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </div>
       </Grid>
     );
   }
 }
 
-export class KGContent extends React.Component {
+export class NeuroMorphoContent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -404,7 +454,7 @@ export class KGContent extends React.Component {
         <MaterialTable
           title="Electrophysiological Recordings"
           data={this.props.data}
-          columns={KG_TABLE_COLUMNS}
+          columns={NeuroMorpho_TABLE_COLUMNS}
           options={{
             columnsButton: true,
             search: true,
@@ -440,7 +490,7 @@ export class KGContent extends React.Component {
           ]}
           detailPanel={(rowData) => {
             return (
-              <KGContentTraceVersionsPanel
+              <NeuroMorphoContentMorphologyPanel
                 data={rowData}
                 addInstanceCollection={this.props.addInstanceCollection}
                 removeInstanceCollection={this.props.removeInstanceCollection}
@@ -476,7 +526,7 @@ export class KGContent extends React.Component {
           }}
         >
           <h6>
-            {"Number of trace instances selected: " +
+            {"Number of morphology instances selected: " +
               this.props.countTotalInstances()}
           </h6>
         </div>
@@ -485,7 +535,7 @@ export class KGContent extends React.Component {
   }
 }
 
-export class FilterPanelKG extends React.Component {
+export class FilterPanelNeuroMorpho extends React.Component {
   signal = axios.CancelToken.source();
   static contextType = ContextMain;
 
@@ -496,67 +546,141 @@ export class FilterPanelKG extends React.Component {
       configFilters: {},
     };
 
-    this.getListTracesKG = this.getListTracesKG.bind(this);
+    this.getListMorphologyNeuroMorpho = this.getListMorphologyNeuroMorpho.bind(
+      this
+    );
     this.handleFiltersChange = this.handleFiltersChange.bind(this);
   }
 
   componentDidMount() {
     // Child passes its method to the parent
-    this.props.shareGetListTraces(this.getListTracesKG);
+    this.props.shareGetListMorphology(this.getListMorphologyNeuroMorpho);
   }
 
-  getListTracesKG() {
-    console.log("Query KG");
+  getListMorphologyNeuroMorpho() {
+    console.log("Query NeuroMorpho");
     let config = {
       cancelToken: this.signal.token,
       headers: {
         Authorization: "Bearer " + this.context.auth[0].token,
       },
     };
-    let query = buildQuery(this.state.configFilters);
-    let url =
-      nar_baseUrl +
-      "/recordings/?" +
-      encodeURI(query) +
-      "summary=false&size=" +
-      querySizeLimit +
-      "&from_index=0";
+    let query = buildQuery(this.state.configFilters, "NeuroMorpho");
+    let url = neuromorpho_baseUrl + "/neuron/select?" + encodeURI(query);
     this.setState({ loading: true });
+    let results = [];
+    const context = this;
+
     axios
       .get(url, config)
       .then((res) => {
-        console.log(res.data.results);
-        let traces = [];
-        res.data.results.forEach((item) =>
-          traces.push({
-            id: item.identifier,
-            label: item.label,
-            modality: item.modality,
-            stimulation: item.stimulation,
-            timestamp: item.timestamp,
-            species: item.recorded_from ? item.recorded_from.species : null,
-            cell_type: item.recorded_from ? item.recorded_from.cell_type : null,
-            instances: item.data_location,
-            view_url: item.part_of ? item.part_of.uri : null,
-            parent_name: item.part_of ? item.part_of.name : null,
-            parent_id: item.part_of ? item.part_of.identifier : null,
-          })
-        );
+        console.log(results.length);
+        console.log(res.data["_embedded"]["neuronResources"]);
+        results.push(...res.data["_embedded"]["neuronResources"]);
+        console.log(results.length);
 
-        console.log(traces);
-        this.props.setListTraces(traces, false, null);
+        const numPages = res.data.page.totalPages;
+        console.log(numPages);
+        let neuroMorphoreqs = [];
+        if (numPages > 1) {
+          for (let ind = 1; ind < numPages; ind++) {
+            url =
+              neuromorpho_baseUrl +
+              "/neuron/select?" +
+              encodeURI(query) +
+              "&page=" +
+              ind;
+            neuroMorphoreqs.push(axios.get(url));
+          }
+        }
+
+        Promise.all(neuroMorphoreqs)
+          .then(function (res) {
+            for (let item of res) {
+              results.push(...item.data["_embedded"]["neuronResources"]);
+            }
+            console.log(results.length);
+
+            let morphologies = [];
+            results.forEach((item) =>
+              morphologies.push({
+                age_classification: "Age Classification",
+                age_scale: "Age Scale",
+                archive: "Archive",
+
+                brain_region_1: item.brain_region
+                  ? item.brain_region.length > 0
+                    ? item.brain_region[0]
+                    : null
+                  : null,
+                brain_region_2: item.brain_region
+                  ? item.brain_region.length > 1
+                    ? item.brain_region[1]
+                    : null
+                  : null,
+                brain_region_3: item.brain_region
+                  ? item.brain_region.length > 2
+                    ? item.brain_region.splice(2).join(", ")
+                    : null
+                  : null,
+                cell_type_1: item.cell_type
+                  ? item.cell_type.length > 0
+                    ? item.cell_type[item.cell_type.length - 1]
+                    : null
+                  : null,
+                cell_type_2: item.cell_type
+                  ? item.cell_type.length > 1
+                    ? item.cell_type[item.cell_type.length - 2]
+                    : null
+                  : null,
+                cell_type_3: item.cell_type
+                  ? item.cell_type.length > 2
+                    ? item.cell_type
+                        .splice(0, item.cell_type.length - 2)
+                        .join(", ")
+                    : null
+                  : null,
+                deposition_date: item.deposition_date,
+                domain: item.domain,
+                gender: item.gender,
+                neuron_id: item.neuron_id,
+                neuron_name: item.neuron_name,
+                note: item.note,
+                objective_type: item.objective_type,
+                original_format: item.original_format,
+                protocol: item.protocol,
+                reconstruction_software: item.reconstruction_software,
+                scientific_name: item.scientific_name,
+                species: item.species,
+                strain: item.strain,
+                upload_date: item.upload_date,
+              })
+            );
+
+            console.log(morphologies);
+            context.props.setListMorphology(morphologies, false, null);
+          })
+          .catch((err) => {
+            if (axios.isCancel(err)) {
+              console.log("errorUpdate: ", err.message);
+            } else {
+              // Something went wrong. Save the error in state and re-render.
+              context.props.setListMorphology([], false, err);
+            }
+          });
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
           console.log("errorUpdate: ", err.message);
         } else {
           // Something went wrong. Save the error in state and re-render.
-          this.props.setListTraces([], false, err);
+          context.props.setListMorphology([], false, err);
         }
       });
   }
 
   handleFiltersChange(event) {
+    console.log(event);
     const newConfig = { ...this.state.configFilters };
     newConfig[event.target.name] =
       typeof event.target.value === "string"
@@ -568,17 +692,17 @@ export class FilterPanelKG extends React.Component {
   render() {
     return (
       <div>
-        <h6>Please specify filters to search KG:</h6>
+        <h6>Please specify filters to search NeuroMorpho:</h6>
         <em>Note: you can select multiple values for each filter</em>
         <form>
           {this.props.showFilters.map((filter) => (
             <MultipleSelect
               itemNames={
-                !this.props.validKGFilterValues
+                !this.props.validNeuroMorphoFilterValues
                   ? []
-                  : this.props.validKGFilterValues[filter]
+                  : this.props.validNeuroMorphoFilterValues[filter]
               }
-              label={formatLabel(filter)}
+              label={labelsNeuroMorphoKeys[filter]}
               name={filter}
               value={this.state.configFilters[filter] || []}
               handleChange={this.handleFiltersChange}
@@ -591,22 +715,22 @@ export class FilterPanelKG extends React.Component {
   }
 }
 
-export default class DBInputTraces extends React.Component {
+export default class DBInputMorphology extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       loading: false,
-      list_traces: [],
+      list_morphologies: [],
       error: null,
-      trace_collection: {},
+      morphology_collection: {},
       showFilters: true,
-      sourceDB: "Knowledge Graph",
+      sourceDB: "NeuroMorpho",
     };
 
     this.acceptsProceedMethod = this.acceptsProceedMethod.bind(this);
     this.handleProceed = this.handleProceed.bind(this);
-    this.setListTraces = this.setListTraces.bind(this);
+    this.setListMorphology = this.setListMorphology.bind(this);
 
     this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
     this.addInstanceCollection = this.addInstanceCollection.bind(this);
@@ -620,7 +744,7 @@ export default class DBInputTraces extends React.Component {
 
   acceptsProceedMethod(childGetListMethod) {
     // Parent stores the method that the child passed
-    this.getListTraces = childGetListMethod;
+    this.getListMorphology = childGetListMethod;
   }
 
   handleProceed() {
@@ -630,14 +754,14 @@ export default class DBInputTraces extends React.Component {
         loading: true,
       },
       () => {
-        this.getListTraces();
+        this.getListMorphology();
       }
     );
   }
 
-  setListTraces(list_traces, loading, error) {
+  setListMorphology(list_morphologies, loading, error) {
     this.setState({
-      list_traces: list_traces,
+      list_morphologies: list_morphologies,
       loading: loading,
       error: error,
     });
@@ -648,8 +772,8 @@ export default class DBInputTraces extends React.Component {
   }
 
   addInstanceCollection(
-    trace_id,
-    trace_name,
+    morphology_id,
+    morphology_name,
     instance_id,
     instance_name,
     source_url,
@@ -657,23 +781,25 @@ export default class DBInputTraces extends React.Component {
   ) {
     console.log("Add");
 
-    let trace_collection = this.state.trace_collection;
-    if (Object.keys(trace_collection).includes(trace_id)) {
-      if (!Object.keys(trace_collection[trace_id]).includes(instance_id)) {
-        trace_collection[trace_id][instance_id] = {
+    let morphology_collection = this.state.morphology_collection;
+    if (Object.keys(morphology_collection).includes(morphology_id)) {
+      if (
+        !Object.keys(morphology_collection[morphology_id]).includes(instance_id)
+      ) {
+        morphology_collection[morphology_id][instance_id] = {
           label: instance_name
-            ? trace_name + " (" + instance_name + ")"
-            : trace_name,
+            ? morphology_name + " (" + instance_name + ")"
+            : morphology_name,
           source_url: source_url,
           view_url: view_url,
         };
       }
     } else {
-      trace_collection[trace_id] = {
+      morphology_collection[morphology_id] = {
         [instance_id]: {
           label: instance_name
-            ? trace_name + " (" + instance_name + ")"
-            : trace_name,
+            ? morphology_name + " (" + instance_name + ")"
+            : morphology_name,
           source_url: source_url,
           view_url: view_url,
         },
@@ -681,33 +807,37 @@ export default class DBInputTraces extends React.Component {
     }
 
     this.setState({
-      trace_collection: trace_collection,
+      morphology_collection: morphology_collection,
     });
   }
 
-  removeInstanceCollection(trace_id, instance_id) {
+  removeInstanceCollection(morphology_id, instance_id) {
     console.log("Remove");
 
-    let trace_collection = this.state.trace_collection;
-    if (Object.keys(trace_collection).includes(trace_id)) {
-      if (Object.keys(trace_collection[trace_id]).includes(instance_id)) {
-        delete trace_collection[trace_id][instance_id];
+    let morphology_collection = this.state.morphology_collection;
+    if (Object.keys(morphology_collection).includes(morphology_id)) {
+      if (
+        Object.keys(morphology_collection[morphology_id]).includes(instance_id)
+      ) {
+        delete morphology_collection[morphology_id][instance_id];
       }
-      if (Object.keys(trace_collection[trace_id]).length === 0) {
-        delete trace_collection[trace_id];
+      if (Object.keys(morphology_collection[morphology_id]).length === 0) {
+        delete morphology_collection[morphology_id];
       }
     }
 
     this.setState({
-      trace_collection: trace_collection,
+      morphology_collection: morphology_collection,
     });
   }
 
-  checkInstanceInCollection(trace_id, instance_id) {
+  checkInstanceInCollection(morphology_id, instance_id) {
     let flag = false;
-    let trace_collection = this.state.trace_collection;
-    if (Object.keys(trace_collection).includes(trace_id)) {
-      if (Object.keys(trace_collection[trace_id]).includes(instance_id)) {
+    let morphology_collection = this.state.morphology_collection;
+    if (Object.keys(morphology_collection).includes(morphology_id)) {
+      if (
+        Object.keys(morphology_collection[morphology_id]).includes(instance_id)
+      ) {
         flag = true;
       }
     }
@@ -717,32 +847,34 @@ export default class DBInputTraces extends React.Component {
 
   countTotalInstances() {
     let total = 0;
-    let trace_collection = this.state.trace_collection;
-    for (const trace_id in trace_collection) {
-      total += Object.keys(trace_collection[trace_id]).length;
+    let morphology_collection = this.state.morphology_collection;
+    for (const morphology_id in morphology_collection) {
+      total += Object.keys(morphology_collection[morphology_id]).length;
     }
     return total;
   }
 
   showFiltersPanel() {
     let showFilters =
-      this.state.sourceDB === "Knowledge Graph" ? filterKGTracesKeys : null; // TODO
+      this.state.sourceDB === "NeuroMorpho" ? filterNeuroMorphoKeys : null; // TODO
     return (
       <Box my={2}>
         <h6 style={{ marginBottom: "20px" }}>Please specify the database:</h6>
         <SwitchTwoWay
-          values={["Knowledge Graph", "Allen Brain"]}
+          values={["NeuroMorpho", "Allen Brain"]}
           selected={this.state.sourceDB}
           onChange={this.handleDBChange}
         />
         <br />
-        {this.state.sourceDB === "Knowledge Graph" && (
-          <FilterPanelKG
+        {this.state.sourceDB === "NeuroMorpho" && (
+          <FilterPanelNeuroMorpho
             showFilters={showFilters}
-            validKGFilterValues={this.props.validKGFilterValues}
+            validNeuroMorphoFilterValues={
+              this.props.validNeuroMorphoFilterValues
+            }
             handleFiltersChange={this.handleFiltersChange}
-            shareGetListTraces={this.acceptsProceedMethod}
-            setListTraces={this.setListTraces}
+            shareGetListMorphology={this.acceptsProceedMethod}
+            setListMorphology={this.setListMorphology}
           />
         )}
         {/* TODO: add for Allen Brain */}
@@ -751,10 +883,10 @@ export default class DBInputTraces extends React.Component {
   }
 
   showContentsPanel() {
-    if (this.state.sourceDB === "Knowledge Graph") {
+    if (this.state.sourceDB === "NeuroMorpho") {
       return (
-        <KGContent
-          data={this.state.list_traces}
+        <NeuroMorphoContent
+          data={this.state.list_morphologies}
           addInstanceCollection={this.addInstanceCollection}
           removeInstanceCollection={this.removeInstanceCollection}
           checkInstanceInCollection={this.checkInstanceInCollection}
@@ -772,7 +904,7 @@ export default class DBInputTraces extends React.Component {
     console.log(value);
     this.setState({
       sourceDB: value,
-      list_traces: [],
+      list_morphologies: [],
     });
   }
 
@@ -810,7 +942,8 @@ export default class DBInputTraces extends React.Component {
             </span>
           </DialogTitle>
           <DialogContent dividers>
-            {(!this.props.validKGFilterValues && this.state.showFilters) ||
+            {(!this.props.validNeuroMorphoFilterValues &&
+              this.state.showFilters) ||
             this.state.loading ? (
               <div
                 style={{
@@ -898,7 +1031,7 @@ export default class DBInputTraces extends React.Component {
                     ? this.handleProceed()
                     : this.props.handleClose(
                         true,
-                        this.state.trace_collection,
+                        this.state.morphology_collection,
                         this.state.sourceDB
                       )
                 }
