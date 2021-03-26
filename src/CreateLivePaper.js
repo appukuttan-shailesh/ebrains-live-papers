@@ -1539,6 +1539,8 @@ class CreateLivePaper extends React.Component {
                           validNeuroMorphoFilterValues={
                             this.state.validNeuroMorphoFilterValues
                           }
+                          enqueueSnackbar={this.props.enqueueSnackbar}
+                          closeSnackbar={this.props.closeSnackbar}
                         />
                       );
                     } else if (item["type"] === "section_traces") {
@@ -1554,6 +1556,8 @@ class CreateLivePaper extends React.Component {
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
                           validKGFilterValues={this.state.validKGFilterValues}
+                          enqueueSnackbar={this.props.enqueueSnackbar}
+                          closeSnackbar={this.props.closeSnackbar}
                         />
                       );
                     } else if (item["type"] === "section_models") {

@@ -566,7 +566,11 @@ export class KGContent extends React.Component {
           contents for each column.
         </div>
         <MaterialTable
-          title="Models"
+          title={
+            "Models (" +
+            this.props.data.length +
+            (this.props.data.length === 1 ? " entry)" : " entries)")
+          }
           data={this.props.data}
           columns={KG_TABLE_COLUMNS}
           options={{
@@ -816,7 +820,11 @@ export class ModelDBContent extends React.Component {
           contents for each column.
         </div>
         <MaterialTable
-          title="Models"
+          title={
+            "Models (" +
+            this.props.data.length +
+            (this.props.data.length === 1 ? " entry)" : " entries)")
+          }
           data={this.props.data}
           columns={MODELDB_TABLE_COLUMNS}
           options={{
@@ -1081,7 +1089,11 @@ export class OSBContent extends React.Component {
           contents for each column.
         </div>
         <MaterialTable
-          title="Models"
+          title={
+            "Models (" +
+            this.props.data.length +
+            (this.props.data.length === 1 ? " entry)" : " entries)")
+          }
           data={this.props.data}
           columns={OSB_TABLE_COLUMNS}
           options={{
@@ -1344,7 +1356,7 @@ export class FilterPanelModelDB extends React.Component {
             console.log("errorUpdate: ", err.message);
           } else {
             // Something went wrong. Save the error in state and re-render.
-            this.props.setListModels([], false, err);
+            context.props.setListModels([], false, err);
           }
         });
     } else {

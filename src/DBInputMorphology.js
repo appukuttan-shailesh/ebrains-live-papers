@@ -452,7 +452,11 @@ export class NeuroMorphoContent extends React.Component {
           contents for each column.
         </div>
         <MaterialTable
-          title="Electrophysiological Recordings"
+          title={
+            "Electrophysiological Recordings (" +
+            this.props.data.length +
+            (this.props.data.length === 1 ? " entry)" : " entries)")
+          }
           data={this.props.data}
           columns={NeuroMorpho_TABLE_COLUMNS}
           options={{
@@ -543,13 +547,17 @@ export class FilterPanelNeuroMorpho extends React.Component {
     super(props, context);
 
     this.state = {
+      searchByID: true,
       configFilters: {},
+      morphology_ids: "",
     };
 
     this.getListMorphologyNeuroMorpho = this.getListMorphologyNeuroMorpho.bind(
       this
     );
     this.handleFiltersChange = this.handleFiltersChange.bind(this);
+    this.toggleSearchByID = this.toggleSearchByID.bind(this);
+    this.handleIDsChange = this.handleIDsChange.bind(this);
   }
 
   componentDidMount() {
@@ -559,51 +567,44 @@ export class FilterPanelNeuroMorpho extends React.Component {
 
   getListMorphologyNeuroMorpho() {
     console.log("Query NeuroMorpho");
-    let config = {
-      cancelToken: this.signal.token,
-      headers: {
-        Authorization: "Bearer " + this.context.auth[0].token,
-      },
-    };
-    let query = buildQuery(this.state.configFilters, "NeuroMorpho");
-    let url = neuromorpho_baseUrl + "/neuron/select?" + encodeURI(query);
-    this.setState({ loading: true });
-    let results = [];
-    const context = this;
 
-    axios
-      .get(url, config)
-      .then((res) => {
-        console.log(results.length);
-        console.log(res.data["_embedded"]["neuronResources"]);
-        results.push(...res.data["_embedded"]["neuronResources"]);
-        console.log(results.length);
+    function isPostiveNumeric(value) {
+      return /^\d+$/.test(value);
+    }
 
-        const numPages = res.data.page.totalPages;
-        console.log(numPages);
-        let neuroMorphoreqs = [];
-        if (numPages > 1) {
-          for (let ind = 1; ind < numPages; ind++) {
-            url =
-              neuromorpho_baseUrl +
-              "/neuron/select?" +
-              encodeURI(query) +
-              "&page=" +
-              ind;
-            neuroMorphoreqs.push(axios.get(url));
-          }
-        }
+    if (this.state.searchByID) {
+      // one query per input morphology ID
+      // each query will correspond to a specific morphology
+      let neuroMorphoreqs = [];
+      // split csv to list
+      let list_morphology_ids = this.state.morphology_ids
+        .split(",")
+        .map((item) =>
+          item.trim().startsWith("NMO_")
+            ? isPostiveNumeric(item.split("NMO_")[1].trim())
+              ? parseInt(item.split("NMO_")[1].trim())
+              : item.trim()
+            : item.trim()
+        );
+      // remove duplicates
+      list_morphology_ids = [...new Set(list_morphology_ids)];
 
-        Promise.all(neuroMorphoreqs)
-          .then(function (res) {
-            for (let item of res) {
-              results.push(...item.data["_embedded"]["neuronResources"]);
-            }
-            console.log(results.length);
+      list_morphology_ids.forEach(function (morphology_id, i) {
+        let url =
+          neuromorpho_baseUrl + "/neuron/id/" + parseInt(morphology_id, 10);
+        neuroMorphoreqs.push(axios.get(url));
+      });
 
-            let morphologies = [];
-            results.forEach((item) =>
-              morphologies.push({
+      const context = this;
+      Promise.allSettled(neuroMorphoreqs)
+        .then(function (res) {
+          console.log(res);
+          let morphology_list = [];
+          for (let ind in list_morphology_ids) {
+            if (res[ind].status === "fulfilled") {
+              let item = res[ind].value.data;
+              console.log(item);
+              morphology_list.push({
                 age_classification: "Age Classification",
                 age_scale: "Age Scale",
                 archive: "Archive",
@@ -654,29 +655,154 @@ export class FilterPanelNeuroMorpho extends React.Component {
                 species: item.species,
                 strain: item.strain,
                 upload_date: item.upload_date,
-              })
-            );
-
-            console.log(morphologies);
-            context.props.setListMorphology(morphologies, false, null);
-          })
-          .catch((err) => {
-            if (axios.isCancel(err)) {
-              console.log("errorUpdate: ", err.message);
+              });
             } else {
-              // Something went wrong. Save the error in state and re-render.
-              context.props.setListMorphology([], false, err);
+              showNotification(
+                context.props.enqueueSnackbar,
+                context.props.closeSnackbar,
+                "Invalid Morphology ID: " + list_morphology_ids[ind] + "!",
+                "error"
+              );
             }
-          });
-      })
-      .catch((err) => {
-        if (axios.isCancel(err)) {
-          console.log("errorUpdate: ", err.message);
-        } else {
-          // Something went wrong. Save the error in state and re-render.
-          context.props.setListMorphology([], false, err);
-        }
-      });
+          }
+
+          console.log(morphology_list);
+          // create model entries from collected attributes
+          context.props.setListMorphology(morphology_list, false, null);
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("errorUpdate: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            context.props.setListMorphology([], false, err);
+          }
+        });
+    } else {
+      let config = {
+        cancelToken: this.signal.token,
+        headers: {
+          Authorization: "Bearer " + this.context.auth[0].token,
+        },
+      };
+      let query = buildQuery(this.state.configFilters, "NeuroMorpho");
+      let url = neuromorpho_baseUrl + "/neuron/select?" + encodeURI(query);
+      this.setState({ loading: true });
+      let results = [];
+      const context = this;
+
+      axios
+        .get(url, config)
+        .then((res) => {
+          console.log(results.length);
+          console.log(res.data["_embedded"]["neuronResources"]);
+          results.push(...res.data["_embedded"]["neuronResources"]);
+          console.log(results.length);
+
+          const numPages = res.data.page.totalPages;
+          console.log(numPages);
+          let neuroMorphoreqs = [];
+          if (numPages > 1) {
+            for (let ind = 1; ind < numPages; ind++) {
+              url =
+                neuromorpho_baseUrl +
+                "/neuron/select?" +
+                encodeURI(query) +
+                "&page=" +
+                ind;
+              neuroMorphoreqs.push(axios.get(url));
+            }
+          }
+
+          Promise.all(neuroMorphoreqs)
+            .then(function (res) {
+              for (let item of res) {
+                results.push(...item.data["_embedded"]["neuronResources"]);
+              }
+              console.log(results.length);
+
+              let morphology_list = [];
+              results.forEach((item) =>
+                morphology_list.push({
+                  age_classification: "Age Classification",
+                  age_scale: "Age Scale",
+                  archive: "Archive",
+
+                  brain_region_1: item.brain_region
+                    ? item.brain_region.length > 0
+                      ? item.brain_region[0]
+                      : null
+                    : null,
+                  brain_region_2: item.brain_region
+                    ? item.brain_region.length > 1
+                      ? item.brain_region[1]
+                      : null
+                    : null,
+                  brain_region_3: item.brain_region
+                    ? item.brain_region.length > 2
+                      ? item.brain_region.splice(2).join(", ")
+                      : null
+                    : null,
+                  cell_type_1: item.cell_type
+                    ? item.cell_type.length > 0
+                      ? item.cell_type[item.cell_type.length - 1]
+                      : null
+                    : null,
+                  cell_type_2: item.cell_type
+                    ? item.cell_type.length > 1
+                      ? item.cell_type[item.cell_type.length - 2]
+                      : null
+                    : null,
+                  cell_type_3: item.cell_type
+                    ? item.cell_type.length > 2
+                      ? item.cell_type
+                          .splice(0, item.cell_type.length - 2)
+                          .join(", ")
+                      : null
+                    : null,
+                  deposition_date: item.deposition_date,
+                  domain: item.domain,
+                  gender: item.gender,
+                  neuron_id: item.neuron_id,
+                  neuron_name: item.neuron_name,
+                  note: item.note,
+                  objective_type: item.objective_type,
+                  original_format: item.original_format,
+                  protocol: item.protocol,
+                  reconstruction_software: item.reconstruction_software,
+                  scientific_name: item.scientific_name,
+                  species: item.species,
+                  strain: item.strain,
+                  upload_date: item.upload_date,
+                })
+              );
+
+              console.log(morphology_list);
+              context.props.setListMorphology(morphology_list, false, null);
+            })
+            .catch((err) => {
+              if (axios.isCancel(err)) {
+                console.log("errorUpdate: ", err.message);
+              } else {
+                // Something went wrong. Save the error in state and re-render.
+                context.props.setListMorphology([], false, err);
+              }
+            });
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("errorUpdate: ", err.message);
+          } else if (
+            err.response.status === 404 &&
+            err.response.statusText === "Not Found"
+          ) {
+            context.props.setListMorphology([], false, null);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            context.props.setListMorphology([], false, err);
+          }
+        });
+    }
   }
 
   handleFiltersChange(event) {
@@ -689,27 +815,88 @@ export class FilterPanelNeuroMorpho extends React.Component {
     this.setState({ configFilters: newConfig });
   }
 
+  toggleSearchByID() {
+    if (this.state.searchByID) {
+      this.setState({
+        morphology_ids: "",
+        searchByID: false,
+      });
+    } else {
+      this.setState({
+        searchByID: true,
+      });
+    }
+  }
+
+  handleIDsChange(event) {
+    this.setState({
+      morphology_ids: event.target.value,
+    });
+  }
+
   render() {
     return (
       <div>
-        <h6>Please specify filters to search NeuroMorpho:</h6>
-        <em>Note: you can select multiple values for each filter</em>
-        <form>
-          {this.props.showFilters.map((filter) => (
-            <MultipleSelect
-              itemNames={
-                !this.props.validNeuroMorphoFilterValues
-                  ? []
-                  : this.props.validNeuroMorphoFilterValues[filter]
-              }
-              label={labelsNeuroMorphoKeys[filter]}
-              name={filter}
-              value={this.state.configFilters[filter] || []}
-              handleChange={this.handleFiltersChange}
-              key={filter}
+        <Grid item xs={12} style={{ paddingBottom: "10px" }}>
+          <h6>
+            <span style={{ paddingRight: "10px" }}>
+              Do you wish to search by NeuroMorpho.Org ID?
+            </span>
+            <ToggleSwitch
+              id="searchSwitch"
+              checked={this.state.searchByID}
+              onChange={this.toggleSearchByID}
             />
-          ))}
-        </form>
+          </h6>
+        </Grid>
+        {this.state.searchByID && (
+          <div>
+            <h6>Please enter the morphology IDs below:</h6>
+            <em>
+              Note: you can enter multiple IDs by separating them with a comma
+              (e.g. NMO_00001, NMO_124073)
+            </em>
+            <form>
+              <TextField
+                variant="outlined"
+                fullWidth={true}
+                name="morphology_ids"
+                value={this.state.morphology_ids}
+                onChange={this.handleIDsChange}
+                InputProps={{
+                  style: {
+                    padding: "5px 15px",
+                    minWidth: 700,
+                    maxWidth: 900,
+                    marginTop: "10px",
+                  },
+                }}
+              />
+            </form>
+          </div>
+        )}
+        {!this.state.searchByID && (
+          <div>
+            <h6>Please specify filters to search NeuroMorpho:</h6>
+            <em>Note: you can select multiple values for each filter</em>
+            <form>
+              {this.props.showFilters.map((filter) => (
+                <MultipleSelect
+                  itemNames={
+                    !this.props.validNeuroMorphoFilterValues
+                      ? []
+                      : this.props.validNeuroMorphoFilterValues[filter]
+                  }
+                  label={labelsNeuroMorphoKeys[filter]}
+                  name={filter}
+                  value={this.state.configFilters[filter] || []}
+                  handleChange={this.handleFiltersChange}
+                  key={filter}
+                />
+              ))}
+            </form>
+          </div>
+        )}
       </div>
     );
   }
@@ -875,6 +1062,8 @@ export default class DBInputMorphology extends React.Component {
             handleFiltersChange={this.handleFiltersChange}
             shareGetListMorphology={this.acceptsProceedMethod}
             setListMorphology={this.setListMorphology}
+            enqueueSnackbar={this.props.enqueueSnackbar}
+            closeSnackbar={this.props.closeSnackbar}
           />
         )}
         {/* TODO: add for Allen Brain */}

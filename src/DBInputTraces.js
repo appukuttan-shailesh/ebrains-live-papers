@@ -402,7 +402,11 @@ export class KGContent extends React.Component {
           contents for each column.
         </div>
         <MaterialTable
-          title="Electrophysiological Recordings"
+          title={
+            "Electrophysiological Recordings (" +
+            this.props.data.length +
+            (this.props.data.length === 1 ? " entry)" : " entries)")
+          }
           data={this.props.data}
           columns={KG_TABLE_COLUMNS}
           options={{
