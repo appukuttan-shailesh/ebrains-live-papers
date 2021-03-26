@@ -749,7 +749,11 @@ export default class DBInputTraces extends React.Component {
             setListTraces={this.setListTraces}
           />
         )}
-        {/* TODO: add for Allen Brain */}
+        {this.state.sourceDB === "Allen Brain" && (
+          <h6>
+            <em>Under development!</em>
+          </h6>
+        )}
       </Box>
     );
   }

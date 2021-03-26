@@ -405,7 +405,7 @@ class NeuroMorphoContentMorphologyPanel extends React.Component {
                   source_url={
                     neuromorpho_viewUrl +
                     "/dableFiles/" +
-                    this.props.data.archive +
+                    this.props.data.archive.toLowerCase() +
                     "/CNG%20version/" +
                     this.props.data.neuron_name +
                     ".CNG.swc"
@@ -605,10 +605,9 @@ export class FilterPanelNeuroMorpho extends React.Component {
               let item = res[ind].value.data;
               console.log(item);
               morphology_list.push({
-                age_classification: "Age Classification",
-                age_scale: "Age Scale",
-                archive: "Archive",
-
+                age_classification: item.age_classification,
+                age_scale: item.age_scale,
+                archive: item.archive,
                 brain_region_1: item.brain_region
                   ? item.brain_region.length > 0
                     ? item.brain_region[0]
@@ -724,10 +723,9 @@ export class FilterPanelNeuroMorpho extends React.Component {
               let morphology_list = [];
               results.forEach((item) =>
                 morphology_list.push({
-                  age_classification: "Age Classification",
-                  age_scale: "Age Scale",
-                  archive: "Archive",
-
+                  age_classification: item.age_classification,
+                  age_scale: item.age_scale,
+                  archive: item.archive,
                   brain_region_1: item.brain_region
                     ? item.brain_region.length > 0
                       ? item.brain_region[0]
@@ -1066,7 +1064,11 @@ export default class DBInputMorphology extends React.Component {
             closeSnackbar={this.props.closeSnackbar}
           />
         )}
-        {/* TODO: add for Allen Brain */}
+        {this.state.sourceDB === "Allen Brain" && (
+          <h6>
+            <em>Under development!</em>
+          </h6>
+        )}
       </Box>
     );
   }
