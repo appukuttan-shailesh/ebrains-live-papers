@@ -102,6 +102,7 @@ export function formatLabel(label) {
     if (label === "project_id") {
       label = "collab_id";
     }
+    label = label.replace(/__/g, " "); // replace double underscores with spaces as well (for Allen Brain)
     label = label.replace(/_/g, " ");
     label = label.replace(/-/g, " ");
     label = label

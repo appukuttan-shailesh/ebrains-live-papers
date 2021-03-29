@@ -21,7 +21,7 @@ import ErrorDialog from "./ErrorDialog";
 import LoadingIndicator from "./LoadingIndicator";
 import ContextMain from "./ContextMain";
 import TextField from "@material-ui/core/TextField";
-import SingleSelect from "./SingleSelect";
+// import SingleSelect from "./SingleSelect";
 import MultipleSelect from "./MultipleSelect";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -30,7 +30,16 @@ import SwitchTwoWay from "./SwitchTwoWay";
 import ToggleSwitch from "./ToggleSwitch";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
-import { nar_baseUrl, querySizeLimit, filterKGTracesKeys } from "./globals";
+import { readRemoteFile } from "react-papaparse";
+import {
+  nar_baseUrl,
+  allenbrain_baseUrl,
+  allenbrain_downloadUrl,
+  allenbrain_viewUrl,
+  querySizeLimit,
+  filterKGTracesKeys,
+  corsProxy,
+} from "./globals";
 import { buildQuery, showNotification, formatLabel } from "./utils";
 
 const styles = (theme) => ({
@@ -129,6 +138,70 @@ const KG_TABLE_COLUMNS = [
   {
     field: "parent_id",
     title: "Parent ID",
+    hidden: true,
+  },
+];
+
+const AllenBrain_TABLE_COLUMNS = [
+  {
+    field: "specimen__id",
+    title: "Specimen ID",
+  },
+  {
+    field: "specimen__name",
+    title: "Specimen Name",
+  },
+  {
+    field: "specimen__hemisphere",
+    title: "Specimen Hemisphere",
+    hidden: true,
+  },
+  {
+    field: "structure__name",
+    title: "Structure Name",
+  },
+  {
+    field: "structure__layer",
+    title: "Structure Layer",
+    hidden: true,
+  },
+  {
+    field: "donor__name",
+    title: "Donor Name",
+    hidden: true,
+  },
+  {
+    field: "donor__species",
+    title: "Donor Species",
+  },
+  {
+    field: "donor__sex",
+    title: "Donor Sex",
+    hidden: true,
+  },
+  {
+    field: "donor__race",
+    title: "Donor Race",
+    hidden: true,
+  },
+  {
+    field: "donor__disease_state",
+    title: "Donor Disease State",
+    hidden: true,
+  },
+  {
+    field: "line_name",
+    title: "Line Name",
+    hidden: true,
+  },
+  {
+    field: "tag__apical",
+    title: "Apical",
+    hidden: true,
+  },
+  {
+    field: "tag__dendrite_type",
+    title: "Dendrite Type",
     hidden: true,
   },
 ];
@@ -489,6 +562,277 @@ export class KGContent extends React.Component {
   }
 }
 
+class AllenBrainContentTracePanel extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedParam: "specimen__name",
+    };
+  }
+
+  render() {
+    // console.log(this.props);
+    return (
+      <Grid item style={{ backgroundColor: "#CFD8DC", padding: "20px" }}>
+        <Grid container direction="row">
+          <Grid
+            item
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              verticalAlign: "middle",
+            }}
+          >
+            <Typography variant="subtitle1">
+              <b>Morphology Details:</b>
+            </Typography>
+            <Link
+              href={allenbrain_viewUrl + "/" + this.props.data.specimen__id}
+              target="_blank"
+              rel="noreferrer"
+              underline="none"
+            >
+              <Button
+                variant="contained"
+                style={{ color: "#455A64" }}
+                startIcon={<OpenInNewIcon />}
+              >
+                Open Trace
+              </Button>
+            </Link>
+          </Grid>
+        </Grid>
+        <div style={{ marginBottom: "25px" }}>
+          <Box
+            my={2}
+            pb={0}
+            style={{ backgroundColor: "#FFF1CC", marginBottom: "20px" }}
+          >
+            <Grid
+              container
+              style={{
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#FFD180",
+              }}
+            >
+              <Grid item xs={6}>
+                <Box px={2} display="flex" flexDirection="row">
+                  <p variant="subtitle2">
+                    Trace Identifier:{" "}
+                    <span style={{ cursor: "pointer", fontWeight: "bold" }}>
+                      {this.props.data.identifier}
+                    </span>
+                  </p>
+                </Box>
+              </Grid>
+              <Grid container item justify="flex-end" xs={6}>
+                <Box
+                  px={2}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography variant="body2" color="textSecondary">
+                    Trace ID: <span>{this.props.data.id}</span>
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container spacing={3} alignItems="flex-end">
+              <Grid item xs={9}>
+                <div style={{ padding: "10px 0px 0px 10px" }}>
+                  <div>
+                    {[
+                      "specimen__id",
+                      "specimen__name",
+                      "specimen__hemisphere",
+                      "structure__name",
+                      "structure__layer",
+                      "donor__id",
+                      "donor__name",
+                      "donor__species",
+                      "donor__sex",
+                      "donor__race",
+                      "donor__age",
+                      "donor__disease_state",
+                      "line_name",
+                      "tag__apical",
+                      "tag__dendrite_type",
+                    ].map((item, ind) => (
+                      <Chip
+                        icon={
+                          this.state.selectedParam === item ? (
+                            <RadioButtonCheckedIcon />
+                          ) : (
+                            <RadioButtonUncheckedIcon />
+                          )
+                        }
+                        key={ind}
+                        label={formatLabel(item)}
+                        clickable
+                        onClick={() => this.setState({ selectedParam: item })}
+                        variant="outlined"
+                        style={{
+                          color: "#000000",
+                          marginRight: "10px",
+                          marginBottom: "10px",
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <InstanceParameter
+                    label={"param"}
+                    value={this.props.data[this.state.selectedParam]}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={3} style={{ paddingBottom: "35px" }}>
+                <IncludeButton
+                  includeFlag={this.props.checkInstanceInCollection(
+                    "AllenBrain_" + this.props.data.specimen__id,
+                    "0"
+                  )}
+                  trace_id={"AllenBrain_" + this.props.data.specimen__id}
+                  trace_name={this.props.data.specimen__name}
+                  instance_id={"0"}
+                  instance_name={""}
+                  source_url={
+                    allenbrain_downloadUrl + "/" + this.props.data.download__id
+                  }
+                  view_url={
+                    allenbrain_viewUrl + "/" + this.props.data.specimen__id
+                  }
+                  addInstanceCollection={this.props.addInstanceCollection}
+                  removeInstanceCollection={this.props.removeInstanceCollection}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </div>
+      </Grid>
+    );
+  }
+}
+
+export class AllenBrainContent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedRows: [],
+      filtering: false,
+    };
+  }
+
+  render() {
+    console.log(this.props);
+    return (
+      <div>
+        <div
+          style={{
+            paddingBottom: "15px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          Please click on &nbsp; <ViewColumnIcon /> &nbsp; to hide/show other
+          columns, and click on &nbsp; <FilterListIcon /> &nbsp; to filter the
+          contents for each column.
+        </div>
+        <MaterialTable
+          title={
+            "Electrophysiological Recordings (" +
+            this.props.data.length +
+            (this.props.data.length === 1 ? " entry)" : " entries)")
+          }
+          data={this.props.data}
+          columns={AllenBrain_TABLE_COLUMNS}
+          options={{
+            columnsButton: true,
+            search: true,
+            paging: false,
+            filtering: this.state.filtering,
+            sorting: true,
+            //   selection: true,
+            exportButton: false,
+            maxBodyHeight: "60vh",
+            headerStyle: {
+              position: "sticky",
+              top: 0,
+              backgroundColor: "#FFF",
+              fontWeight: "bolder",
+              fontSize: 15,
+            },
+            rowStyle: (rowData) => ({
+              backgroundColor: this.state.selectedRows.includes(
+                rowData.tableData.id
+              )
+                ? "#FFD180"
+                : "#EEEEEE",
+            }),
+          }}
+          actions={[
+            {
+              icon: "filter_list",
+              onClick: () =>
+                this.setState({ filtering: !this.state.filtering }),
+              position: "toolbar",
+              tooltip: "Show Filters",
+            },
+          ]}
+          detailPanel={(rowData) => {
+            return (
+              <AllenBrainContentTracePanel
+                data={rowData}
+                addInstanceCollection={this.props.addInstanceCollection}
+                removeInstanceCollection={this.props.removeInstanceCollection}
+                checkInstanceInCollection={this.props.checkInstanceInCollection}
+              />
+            );
+          }}
+          onRowClick={(event, selectedRow, togglePanel) => {
+            togglePanel();
+          }}
+          components={{
+            Toolbar: (props) => (
+              <div
+                style={{
+                  backgroundColor: "#FFD180",
+                  fontWeight: "bolder !important",
+                }}
+              >
+                <MTableToolbar {...props} />
+              </div>
+            ),
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            paddingLeft: "2.5%",
+            paddingRight: "2.5%",
+            paddingTop: "10px",
+            width: "100%",
+          }}
+        >
+          <h6>
+            {"Number of trace instances selected: " +
+              this.props.countTotalInstances()}
+          </h6>
+        </div>
+      </div>
+    );
+  }
+}
+
 export class FilterPanelKG extends React.Component {
   signal = axios.CancelToken.source();
   static contextType = ContextMain;
@@ -590,6 +934,220 @@ export class FilterPanelKG extends React.Component {
             />
           ))}
         </form>
+      </div>
+    );
+  }
+}
+
+export class FilterPanelAllenBrain extends React.Component {
+  signal = axios.CancelToken.source();
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      searchByID: true,
+      trace_ids: "",
+    };
+
+    this.getListTracesAllenBrain = this.getListTracesAllenBrain.bind(this);
+    this.toggleSearchByID = this.toggleSearchByID.bind(this);
+    this.handleIDsChange = this.handleIDsChange.bind(this);
+  }
+
+  componentDidMount() {
+    // Child passes its method to the parent
+    this.props.shareGetListTraces(this.getListTracesAllenBrain);
+  }
+
+  getListTracesAllenBrain() {
+    console.log("Query Allen Brain Atlas");
+
+    if (this.state.searchByID) {
+      // one query per input cell ID
+      // each query will correspond to a specific trace
+      let traceDBreqs = [];
+      // split csv to list
+      let list_trace_ids = this.state.trace_ids
+        .split(",")
+        .map((item) => item.trim())
+        .filter((item) => item !== "");
+      // remove duplicates
+      list_trace_ids = [...new Set(list_trace_ids)];
+      list_trace_ids.forEach(function (trace_id, i) {
+        let url =
+          corsProxy +
+          allenbrain_baseUrl +
+          "/query.json?wrap=true&criteria=%5Bspecimen__id%24eq" +
+          trace_id +
+          "%5D";
+        traceDBreqs.push(axios.get(url));
+      });
+      const context = this;
+      Promise.allSettled(traceDBreqs)
+        .then(function (res) {
+          console.log(res);
+          let trace_list = [];
+          for (let ind in list_trace_ids) {
+            if (res[ind].status === "fulfilled") {
+              let item = res[ind].value.data.msg[0];
+              trace_list.push({
+                specimen__id: item.specimen__id,
+                specimen__name: item.specimen__name,
+                specimen__hemisphere: item.specimen__hemisphere,
+                structure__name: item.structure__name,
+                structure__layer: item.structure__layer,
+                donor__id: item.donor__id,
+                donor__name: item.donor__name,
+                donor__species: item.donor__species,
+                donor__sex: item.donor__sex,
+                donor__race: item.donor__race,
+                donor__age: item.donor__age,
+                donor__disease_state: item.donor__disease_state,
+                line_name: item.line_name,
+                tag__apical: item.tag__apical,
+                tag__dendrite_type: item.tag__dendrite_type,
+                ephys_thumb_path: item.ephys_thumb_path,
+                ephys_inst_thresh_thumb_path: item.ephys_inst_thresh_thumb_path,
+                download__id: item.erwkf__id,
+              });
+            } else {
+              showNotification(
+                context.props.enqueueSnackbar,
+                context.props.closeSnackbar,
+                "Invalid Cell ID: " + list_trace_ids[ind] + "!",
+                "error"
+              );
+            }
+          }
+          console.log(trace_list);
+          // create trace entries from collected attributes
+          context.props.setListTraces(trace_list, false, null);
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("errorUpdate: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            this.props.setListTraces([], false, err);
+          }
+        });
+    } else {
+      // as AllenBrain collection is loaded via CSV file, we offer filtering on the front-end
+      let url =
+        corsProxy +
+        "https://celltypes.brain-map.org/cell_types_specimen_details.csv";
+      try {
+        readRemoteFile(url, {
+          header: true,
+          complete: (res) => {
+            console.log(res);
+            let trace_list = [];
+            for (let item of res.data) {
+              trace_list.push({
+                specimen__id: item.specimen__id,
+                specimen__name: item.specimen__name,
+                specimen__hemisphere: item.specimen__hemisphere,
+                structure__name: item.structure__name,
+                structure__layer: item.structure__layer,
+                donor__id: item.donor__id,
+                donor__name: item.donor__name,
+                donor__species: item.donor__species,
+                donor__sex: item.donor__sex,
+                donor__race: item.donor__race,
+                donor__age: item.donor__age,
+                donor__disease_state: item.donor__disease_state,
+                line_name: item.line_name,
+                tag__apical: item.tag__apical,
+                tag__dendrite_type: item.tag__dendrite_type,
+                ephys_thumb_path: item.ephys_thumb_path,
+                ephys_inst_thresh_thumb_path: item.ephys_inst_thresh_thumb_path,
+                download__id: item.erwkf__id,
+              });
+            }
+            console.log(trace_list);
+            this.props.setListTraces(trace_list, false, null);
+          },
+        });
+      } catch (err) {
+        if (axios.isCancel(err)) {
+          console.log("errorUpdate: ", err.message);
+        } else {
+          // Something went wrong. Save the error in state and re-render.
+          this.props.setListTraces([], false, err);
+        }
+      }
+    }
+  }
+
+  toggleSearchByID() {
+    if (this.state.searchByID) {
+      this.setState({
+        trace_ids: "",
+        searchByID: false,
+      });
+    } else {
+      this.setState({
+        searchByID: true,
+      });
+    }
+  }
+
+  handleIDsChange(event) {
+    this.setState({
+      trace_ids: event.target.value,
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <Grid item xs={12} style={{ paddingBottom: "10px" }}>
+          <h6>
+            <span style={{ paddingRight: "10px" }}>
+              Do you wish to search by cell ID?
+            </span>
+            <ToggleSwitch
+              id="searchSwitch"
+              checked={this.state.searchByID}
+              onChange={this.toggleSearchByID}
+            />
+          </h6>
+        </Grid>
+        {this.state.searchByID && (
+          <div>
+            <h6>Please enter the cell IDs below:</h6>
+            <em>
+              Note: you can enter multiple IDs by separating them with a comma
+              (e.g. 643575207, 628700262)
+            </em>
+            <form>
+              <TextField
+                variant="outlined"
+                fullWidth={true}
+                name="AllenBrain_trace_ids"
+                value={this.state.trace_ids}
+                onChange={this.handleIDsChange}
+                InputProps={{
+                  style: {
+                    padding: "5px 15px",
+                    minWidth: 700,
+                    maxWidth: 900,
+                    marginTop: "10px",
+                  },
+                }}
+              />
+            </form>
+          </div>
+        )}
+        {!this.state.searchByID && (
+          <div>
+            <h6>
+              Click "Proceed" to fetch all entries from Allen Brain Atlas, and
+              you can subsequently filter them by individual attributes.
+            </h6>
+          </div>
+        )}
       </div>
     );
   }
@@ -730,7 +1288,7 @@ export default class DBInputTraces extends React.Component {
 
   showFiltersPanel() {
     let showFilters =
-      this.state.sourceDB === "Knowledge Graph" ? filterKGTracesKeys : null; // TODO
+      this.state.sourceDB === "Knowledge Graph" ? filterKGTracesKeys : null;
     return (
       <Box my={2}>
         <h6 style={{ marginBottom: "20px" }}>Please specify the database:</h6>
@@ -744,15 +1302,18 @@ export default class DBInputTraces extends React.Component {
           <FilterPanelKG
             showFilters={showFilters}
             validKGFilterValues={this.props.validKGFilterValues}
-            handleFiltersChange={this.handleFiltersChange}
             shareGetListTraces={this.acceptsProceedMethod}
             setListTraces={this.setListTraces}
           />
         )}
         {this.state.sourceDB === "Allen Brain" && (
-          <h6>
-            <em>Under development!</em>
-          </h6>
+          <FilterPanelAllenBrain
+            showFilters={showFilters}
+            shareGetListTraces={this.acceptsProceedMethod}
+            setListTraces={this.setListTraces}
+            enqueueSnackbar={this.props.enqueueSnackbar}
+            closeSnackbar={this.props.closeSnackbar}
+          />
         )}
       </Box>
     );
@@ -769,8 +1330,16 @@ export default class DBInputTraces extends React.Component {
           countTotalInstances={this.countTotalInstances}
         />
       );
-    } else if (this.state.sourceDB === "AllenBrain") {
-      return null; // TODO
+    } else if (this.state.sourceDB === "Allen Brain") {
+      return (
+        <AllenBrainContent
+          data={this.state.list_traces}
+          addInstanceCollection={this.addInstanceCollection}
+          removeInstanceCollection={this.removeInstanceCollection}
+          checkInstanceInCollection={this.checkInstanceInCollection}
+          countTotalInstances={this.countTotalInstances}
+        />
+      );
     } else {
       return null;
     }

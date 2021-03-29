@@ -21,7 +21,7 @@ import ErrorDialog from "./ErrorDialog";
 import LoadingIndicator from "./LoadingIndicator";
 import ContextMain from "./ContextMain";
 import TextField from "@material-ui/core/TextField";
-import SingleSelect from "./SingleSelect";
+// import SingleSelect from "./SingleSelect";
 import MultipleSelect from "./MultipleSelect";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -33,7 +33,7 @@ import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 import {
   neuromorpho_baseUrl,
   neuromorpho_viewUrl,
-  querySizeLimit,
+//   querySizeLimit,
   filterNeuroMorphoKeys,
 } from "./globals";
 import { buildQuery, showNotification } from "./utils";
@@ -858,7 +858,7 @@ export class FilterPanelNeuroMorpho extends React.Component {
               <TextField
                 variant="outlined"
                 fullWidth={true}
-                name="morphology_ids"
+                name="NeuroMorpho_morphology_ids"
                 value={this.state.morphology_ids}
                 onChange={this.handleIDsChange}
                 InputProps={{
@@ -1057,7 +1057,6 @@ export default class DBInputMorphology extends React.Component {
             validNeuroMorphoFilterValues={
               this.props.validNeuroMorphoFilterValues
             }
-            handleFiltersChange={this.handleFiltersChange}
             shareGetListMorphology={this.acceptsProceedMethod}
             setListMorphology={this.setListMorphology}
             enqueueSnackbar={this.props.enqueueSnackbar}

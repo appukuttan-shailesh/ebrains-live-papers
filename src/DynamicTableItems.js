@@ -45,6 +45,11 @@ const styles = () => ({
     color: "white",
     fontSize: 10,
   },
+  customBadge_AB: {
+    backgroundColor: "#0A3474",
+    color: "white",
+    fontSize: 10,
+  },
 });
 
 function setBadgeClass(type, classes) {
@@ -54,6 +59,8 @@ function setBadgeClass(type, classes) {
     return classes.customBadge_OSB;
   } else if (type === "NeuroMorpho") {
     return classes.customBadge_NMO;
+  } else if (type === "AllenBrain") {
+    return classes.customBadge_AB;
   } else {
     return classes.customBadge_KG;
   }

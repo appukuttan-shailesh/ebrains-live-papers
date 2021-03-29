@@ -1476,7 +1476,7 @@ export class FilterPanelModelDB extends React.Component {
               <TextField
                 variant="outlined"
                 fullWidth={true}
-                name="model_ids"
+                name="ModelDB_model_ids"
                 value={this.state.model_ids}
                 onChange={this.handleIDsChange}
                 InputProps={{
@@ -1698,7 +1698,7 @@ export class FilterPanelOSB extends React.Component {
               <TextField
                 variant="outlined"
                 fullWidth={true}
-                name="model_ids"
+                name="OSB_model_ids"
                 value={this.state.model_ids}
                 onChange={this.handleIDsChange}
                 InputProps={{

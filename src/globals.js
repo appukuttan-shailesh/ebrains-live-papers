@@ -8,6 +8,12 @@ export const modelDB_viewUrl = "https://senselab.med.yale.edu/modeldb";
 export const osb_baseUrl = "https://www.opensourcebrain.org";
 export const neuromorpho_baseUrl = "http://neuromorpho.org/api";
 export const neuromorpho_viewUrl = "http://neuromorpho.org";
+export const allenbrain_baseUrl =
+  "https://celltypes.brain-map.org/api/v2/data/ApiCellTypesSpecimenDetail";
+export const allenbrain_downloadUrl =
+  "https://celltypes.brain-map.org/api/v2/well_known_file_download";
+export const allenbrain_viewUrl =
+  "https://celltypes.brain-map.org/experiment/electrophysiology";
 
 export const lp_tool_version = "0.2";
 export const timeout = 1000;
