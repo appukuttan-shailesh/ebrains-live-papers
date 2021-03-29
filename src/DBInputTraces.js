@@ -1105,6 +1105,33 @@ export class FilterPanelAllenBrain extends React.Component {
         <Grid item xs={12} style={{ paddingBottom: "10px" }}>
           <h6>
             <span style={{ paddingRight: "10px" }}>
+              Allen Brain Atlas Citation Policy
+            </span>
+          </h6>
+          <p>
+            Use one of the following general citation formats for any Allen
+            Institute resource:
+            <ul>
+              <li style={{ marginBottom: "10px" }}>
+                <em>
+                  © [[year of first publication]] Allen Institute for Brain
+                  Science. [Name of Allen Institute Resource]. Available from:
+                  [Resource URL]
+                </em>
+              </li>
+              <li style={{ marginBottom: "10px" }}>
+                <em>
+                  © [[year of first publication]] Allen Institute for Cell
+                  Science. [Name of Allen Institute Resource]. Available from:
+                  [Resource URL]
+                </em>
+              </li>
+            </ul>
+          </p>
+        </Grid>
+        <Grid item xs={12} style={{ paddingBottom: "10px" }}>
+          <h6>
+            <span style={{ paddingRight: "10px" }}>
               Do you wish to search by cell ID?
             </span>
             <ToggleSwitch
