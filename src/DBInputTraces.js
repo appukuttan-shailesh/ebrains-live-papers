@@ -21,7 +21,6 @@ import ErrorDialog from "./ErrorDialog";
 import LoadingIndicator from "./LoadingIndicator";
 import ContextMain from "./ContextMain";
 import TextField from "@material-ui/core/TextField";
-// import SingleSelect from "./SingleSelect";
 import MultipleSelect from "./MultipleSelect";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -202,6 +201,11 @@ const AllenBrain_TABLE_COLUMNS = [
   {
     field: "tag__dendrite_type",
     title: "Dendrite Type",
+    hidden: true,
+  },
+  {
+    field: "reconstruction_type",
+    title: "Reconstruction Type",
     hidden: true,
   },
 ];
@@ -622,9 +626,9 @@ class AllenBrainContentTracePanel extends React.Component {
               <Grid item xs={6}>
                 <Box px={2} display="flex" flexDirection="row">
                   <p variant="subtitle2">
-                    Trace Identifier:{" "}
+                    Trace Name:{" "}
                     <span style={{ cursor: "pointer", fontWeight: "bold" }}>
-                      {this.props.data.identifier}
+                      {this.props.data.specimen__name}
                     </span>
                   </p>
                 </Box>
@@ -639,7 +643,7 @@ class AllenBrainContentTracePanel extends React.Component {
                   }}
                 >
                   <Typography variant="body2" color="textSecondary">
-                    Trace ID: <span>{this.props.data.id}</span>
+                    Trace ID: <span>{this.props.data.specimen__id}</span>
                   </Typography>
                 </Box>
               </Grid>
@@ -1010,6 +1014,7 @@ export class FilterPanelAllenBrain extends React.Component {
                 ephys_thumb_path: item.ephys_thumb_path,
                 ephys_inst_thresh_thumb_path: item.ephys_inst_thresh_thumb_path,
                 download__id: item.erwkf__id,
+                reconstruction_type: item.nr__reconstruction_type,
               });
             } else {
               showNotification(
@@ -1063,6 +1068,7 @@ export class FilterPanelAllenBrain extends React.Component {
                 ephys_thumb_path: item.ephys_thumb_path,
                 ephys_inst_thresh_thumb_path: item.ephys_inst_thresh_thumb_path,
                 download__id: item.erwkf__id,
+                reconstruction_type: item.nr__reconstruction_type,
               });
             }
             console.log(trace_list);
@@ -1104,9 +1110,14 @@ export class FilterPanelAllenBrain extends React.Component {
       <div>
         <Grid item xs={12} style={{ paddingBottom: "10px" }}>
           <h6>
-            <span style={{ paddingRight: "10px" }}>
-              Allen Brain Atlas Citation Policy
-            </span>
+            Allen Brain Atlas:{" "}
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://alleninstitute.org/legal/citation-policy/"
+            >
+              Citation Policy
+            </a>
           </h6>
           <p>
             Use one of the following general citation formats for any Allen
