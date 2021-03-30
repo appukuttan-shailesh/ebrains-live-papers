@@ -226,7 +226,6 @@ const MODELDB_TABLE_COLUMNS = [
   {
     field: "model_type",
     title: "Model Type",
-    hidden: true,
   },
   {
     field: "model_concept",
@@ -1305,7 +1304,6 @@ export class FilterPanelModelDB extends React.Component {
       const context = this;
       Promise.allSettled(modelDBreqs)
         .then(function (res) {
-          console.log(res);
           let model_list = [];
           for (let ind in list_model_ids) {
             if (res[ind].status === "fulfilled") {
@@ -1316,8 +1314,6 @@ export class FilterPanelModelDB extends React.Component {
                 ...Object.values(filterAttributeMappingModelDB),
               ].forEach(function (item, i) {
                 let value = res[ind].value.data[item];
-                console.log(item);
-                console.log(value);
                 if (typeof value === "string" || !value) {
                   data_dict[item] = value;
                 } else if (typeof value === "number") {
@@ -1327,8 +1323,6 @@ export class FilterPanelModelDB extends React.Component {
                     data_dict[item] = value.value;
                   } else {
                     let item_value = "";
-                    console.log(item);
-                    console.log(value);
                     value.value.forEach(function (subitem, j) {
                       item_value = item_value + subitem.object_name + ", ";
                     });
@@ -1396,11 +1390,18 @@ export class FilterPanelModelDB extends React.Component {
               } else if (typeof res[i].data[ind] === "number") {
                 data_dict[item] = res[i].data[ind].toString();
               } else {
+                console.log(res[i].data[ind].value);
+                console.log(typeof res[i].data[ind].value);
+                console.log(item);
                 let value = "";
-                res[i].data[ind].value.forEach(function (subitem, j) {
-                  value = value + subitem.object_name + ", ";
-                });
-                data_dict[item] = value.slice(0, -2);
+                if (typeof res[i].data[ind].value === "string") {
+                  data_dict[item] = res[i].data[ind].value;
+                } else {
+                  res[i].data[ind].value.forEach(function (subitem, j) {
+                    value = value + subitem.object_name + ", ";
+                  });
+                  data_dict[item] = value.slice(0, -2);
+                }
               }
             });
             model_list.push(data_dict);
