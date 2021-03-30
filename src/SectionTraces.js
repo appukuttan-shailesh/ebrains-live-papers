@@ -674,6 +674,7 @@ export default class SectionTraces extends React.Component {
                   handleDB={this.clickDB}
                   numCols={3}
                   useTabs={this.state.useTabs}
+                  type={"section_traces"}
                 />
                 <br />
                 <br />

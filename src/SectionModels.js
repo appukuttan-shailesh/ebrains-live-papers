@@ -685,6 +685,7 @@ export default class SectionModels extends React.Component {
                   handleDB={this.clickDB}
                   numCols={3}
                   useTabs={this.state.useTabs}
+                  type={"section_models"}
                 />
                 <br />
                 <br />

@@ -268,7 +268,11 @@ export class RowURLExpanded extends React.Component {
                   >
                     <Tooltip title={this.props.item["view_url"] || ""}>
                       <TextField
-                        label="Model Catalog URL"
+                        label={
+                          this.props.type === "section_models"
+                            ? "Model Catalog URL1"
+                            : "View URL"
+                        }
                         variant="outlined"
                         fullWidth={true}
                         name="view_url"
@@ -331,7 +335,7 @@ export class RowURLExpanded extends React.Component {
   }
 }
 
-export class RowKG extends React.Component {
+export class RowDB extends React.Component {
   render() {
     return (
       <tr>
@@ -433,7 +437,7 @@ export class RowKG extends React.Component {
   }
 }
 
-export class RowKGExpanded extends React.Component {
+export class RowDBExpanded extends React.Component {
   render() {
     return (
       <tr>
@@ -513,7 +517,11 @@ export class RowKGExpanded extends React.Component {
                       }
                     >
                       <TextField
-                        label="Model Catalog URL"
+                        label={
+                          this.props.type === "section_models"
+                            ? "Model Catalog URL"
+                            : "View URL"
+                        }
                         variant="outlined"
                         fullWidth={true}
                         name="view_url"
@@ -739,6 +747,7 @@ export default class DynamicTableItems extends React.Component {
                 handleItemMoveDown={context.handleItemMoveDown}
                 handleItemMoveUp={context.handleItemMoveUp}
                 handleItemDeleted={context.handleItemDeleted}
+                type={context.props.type}
               />
             ) : (
               <RowURLExpanded
@@ -751,10 +760,11 @@ export default class DynamicTableItems extends React.Component {
                 handleItemMoveDown={context.handleItemMoveDown}
                 handleItemMoveUp={context.handleItemMoveUp}
                 handleItemDeleted={context.handleItemDeleted}
+                type={context.props.type}
               />
             )
           ) : !context.state.expandTable ? (
-            <RowKG
+            <RowDB
               item={item}
               handleItemChanged={context.handleItemChanged}
               ind={ind}
@@ -764,9 +774,10 @@ export default class DynamicTableItems extends React.Component {
               handleItemMoveDown={context.handleItemMoveDown}
               handleItemMoveUp={context.handleItemMoveUp}
               handleItemDeleted={context.handleItemDeleted}
+              type={context.props.type}
             />
           ) : (
-            <RowKGExpanded
+            <RowDBExpanded
               item={item}
               handleItemChanged={context.handleItemChanged}
               ind={ind}
@@ -776,6 +787,7 @@ export default class DynamicTableItems extends React.Component {
               handleItemMoveDown={context.handleItemMoveDown}
               handleItemMoveUp={context.handleItemMoveUp}
               handleItemDeleted={context.handleItemDeleted}
+              type={context.props.type}
             />
           )}
         </React.Fragment>
@@ -795,7 +807,11 @@ export default class DynamicTableItems extends React.Component {
                 <th style={{ padding: "5px 10px" }}>Label</th>
                 <th style={{ padding: "5px 10px" }}>Download URL</th>
                 {this.props.numCols > 2 && (
-                  <th style={{ padding: "5px 10px" }}>Model Catalog URL</th>
+                  <th style={{ padding: "5px 10px" }}>
+                    {this.props.type === "section_models"
+                      ? "Model Catalog URL"
+                      : "View URL"}
+                  </th>
                 )}
                 {this.props.useTabs && (
                   <th style={{ padding: "5px 10px" }}>Tab Name</th>

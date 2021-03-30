@@ -612,6 +612,7 @@ export default class SectionGeneric extends React.Component {
                   handleEdit={this.clickEdit}
                   numCols={2}
                   useTabs={this.state.useTabs}
+                  type={"section_generic"}
                 />
                 <br />
                 <br />
