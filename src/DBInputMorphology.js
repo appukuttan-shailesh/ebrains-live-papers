@@ -934,7 +934,7 @@ export class FilterPanelNeuroMorpho extends React.Component {
 
       list_morphology_ids.forEach(function (morphology_id, i) {
         let url =
-          neuromorpho_baseUrl + "/neuron/id/" + parseInt(morphology_id, 10);
+          corsProxy + neuromorpho_baseUrl + "/neuron/id/" + parseInt(morphology_id, 10);
         neuroMorphoreqs.push(axios.get(url));
       });
 
