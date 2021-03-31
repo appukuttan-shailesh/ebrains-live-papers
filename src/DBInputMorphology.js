@@ -934,7 +934,10 @@ export class FilterPanelNeuroMorpho extends React.Component {
 
       list_morphology_ids.forEach(function (morphology_id, i) {
         let url =
-          corsProxy + neuromorpho_baseUrl + "/neuron/id/" + parseInt(morphology_id, 10);
+          corsProxy +
+          neuromorpho_baseUrl +
+          "/neuron/id/" +
+          parseInt(morphology_id, 10);
         neuroMorphoreqs.push(axios.get(url));
       });
 
@@ -1028,7 +1031,8 @@ export class FilterPanelNeuroMorpho extends React.Component {
         },
       };
       let query = buildQuery(this.state.configFilters, "NeuroMorpho");
-      let url = corsProxy + neuromorpho_baseUrl + "/neuron/select?" + encodeURI(query);
+      let url =
+        corsProxy + neuromorpho_baseUrl + "/neuron/select?" + encodeURI(query);
       this.setState({ loading: true });
       let results = [];
       const context = this;
@@ -1047,6 +1051,7 @@ export class FilterPanelNeuroMorpho extends React.Component {
           if (numPages > 1) {
             for (let ind = 1; ind < numPages; ind++) {
               url =
+                corsProxy +
                 neuromorpho_baseUrl +
                 "/neuron/select?" +
                 encodeURI(query) +
