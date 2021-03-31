@@ -910,7 +910,7 @@ class CreateLivePaper extends React.Component {
   retrieveNeuroMorphoFilterValidValues() {
     let neuroMorphoReqs = [];
     for (let item of filterNeuroMorphoKeys) {
-      let url = neuromorpho_baseUrl + "/neuron/fields/" + item;
+      let url = corsProxy + neuromorpho_baseUrl + "/neuron/fields/" + item;
       neuroMorphoReqs.push(axios.get(url));
     }
     const context = this;

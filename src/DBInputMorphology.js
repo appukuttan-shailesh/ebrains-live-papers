@@ -1028,7 +1028,7 @@ export class FilterPanelNeuroMorpho extends React.Component {
         },
       };
       let query = buildQuery(this.state.configFilters, "NeuroMorpho");
-      let url = neuromorpho_baseUrl + "/neuron/select?" + encodeURI(query);
+      let url = corsProxy + neuromorpho_baseUrl + "/neuron/select?" + encodeURI(query);
       this.setState({ loading: true });
       let results = [];
       const context = this;
