@@ -44,6 +44,6 @@ export const filterNeuroMorphoKeys = [
   "protocol",
 ];
 // To access ModelDB APIs; doesn't work with localhost during development
-export const corsProxy = "https://cors-clear.herokuapp.com/";
+export const corsProxy = "https://corsproxy-sa.herokuapp.com/";
 // previously used https://cors-anywhere.herokuapp.com/ - but now has request limits
-// other options: https://cors-fixer.herokuapp.com/, https://cors-handler.herokuapp.com/
+// other options: https://cors-clear.herokuapp.com/, https://cors-fixer.herokuapp.com/, https://cors-handler.herokuapp.com/
