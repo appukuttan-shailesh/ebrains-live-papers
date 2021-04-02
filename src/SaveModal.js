@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
-import SwitchTwoWay from "./SwitchTwoWay";
+import SwitchMultiWay from "./SwitchMultiWay";
 import ContextMain from "./ContextMain";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import TextField from "@material-ui/core/TextField";
@@ -442,7 +442,7 @@ export default class SaveModal extends React.Component {
                   </p>
                 </div>
                 <div>
-                  <SwitchTwoWay
+                  <SwitchMultiWay
                     values={["Save to Existing", "Save as New"]}
                     selected={this.state.mode}
                     onChange={this.handleModeChange}

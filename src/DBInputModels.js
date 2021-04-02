@@ -26,7 +26,7 @@ import MultipleSelect from "./MultipleSelect";
 import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
-import SwitchThreeWay from "./SwitchThreeWay";
+import SwitchMultiWay from "./SwitchMultiWay";
 import ToggleSwitch from "./ToggleSwitch";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
@@ -1869,7 +1869,7 @@ export default class DBInputModels extends React.Component {
     return (
       <Box my={2}>
         <h6 style={{ marginBottom: "20px" }}>Please specify the database:</h6>
-        <SwitchThreeWay
+        <SwitchMultiWay
           values={["Knowledge Graph", "ModelDB", "Open Source Brain"]}
           selected={this.state.sourceDB}
           onChange={this.handleDBChange}

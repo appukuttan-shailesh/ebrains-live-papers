@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
-import SwitchTwoWay from "./SwitchTwoWay";
+import SwitchMultiWay from "./SwitchMultiWay";
 import ErrorDialog from "./ErrorDialog";
 import Link from "@material-ui/core/Link";
 import { showNotification } from "./utils";
@@ -85,7 +85,7 @@ export default class SubmitModal extends React.Component {
               </strong>
               <Box my={2} style={{ marginBottom: "30px" }}>
                 <form>
-                  <SwitchTwoWay
+                  <SwitchMultiWay
                     values={["Password-Protected", "Public"]}
                     selected={this.state.mode}
                     onChange={this.handleModeChange}

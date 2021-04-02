@@ -29,7 +29,7 @@ import SectionTraces from "./SectionTraces";
 import SectionModels from "./SectionModels";
 import SectionGeneric from "./SectionGeneric";
 import SectionCustom from "./SectionCustom";
-import SwitchTwoWay from "./SwitchTwoWay";
+import SwitchMultiWay from "./SwitchMultiWay";
 
 import nunjucks from "nunjucks";
 import LivePaper from "./LivePaper.njk";
@@ -1068,7 +1068,7 @@ class CreateLivePaper extends React.Component {
                 </p>
               </div>
               <form>
-                <SwitchTwoWay
+                <SwitchMultiWay
                   values={["Published", "Unpublished"]}
                   selected={
                     this.state.paper_published ? "Published" : "Unpublished"
