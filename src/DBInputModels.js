@@ -1005,6 +1005,7 @@ class OSBContentModelPanel extends React.Component {
                       "created_on",
                       "updated_on",
                       "is_public",
+                      "repository",
                     ].map((item, ind) => (
                       <Chip
                         icon={
@@ -1044,8 +1045,9 @@ class OSBContentModelPanel extends React.Component {
                   instance_id={"0"}
                   instance_name={""}
                   source_url={
-                    // TODO: decide what to keep as download url for OSB models
-                    osb_baseUrl + "/projects/" + this.props.data.identifier
+                    this.props.data.repository
+                      ? this.props.data.repository
+                      : osb_baseUrl + "/projects/" + this.props.data.identifier
                   }
                   view_url={
                     osb_baseUrl + "/projects/" + this.props.data.identifier
@@ -1587,6 +1589,9 @@ export class FilterPanelOSB extends React.Component {
                 brain_region: model.custom_fields[14].value,
                 cell_type: model.custom_fields[15].value,
                 original_format: model.custom_fields[0].value,
+                repository: model.custom_fields[4].value
+                  ? model.custom_fields[4].value // GitHub repo
+                  : model.custom_fields[16].value, // Bitbucket repo
               });
             } else {
               showNotification(
@@ -1636,6 +1641,9 @@ export class FilterPanelOSB extends React.Component {
               brain_region: model.custom_fields[14].value,
               cell_type: model.custom_fields[15].value,
               original_format: model.custom_fields[0].value,
+              repository: model.custom_fields[4].value
+                ? model.custom_fields[4].value // GitHub repo
+                : model.custom_fields[16].value, // Bitbucket repo
             });
           }
 
@@ -1862,15 +1870,34 @@ export default class DBInputModels extends React.Component {
   }
 
   showFiltersPanel() {
-    let showFilters =
-      this.state.sourceDB === "Knowledge Graph"
-        ? filterKGModelsKeys
-        : filterModelDBKeys;
+    let showFilters = "";
+    switch (this.state.sourceDB) {
+      case "Knowledge Graph":
+        showFilters = filterKGModelsKeys;
+        break;
+      case "ModelDB":
+        showFilters = filterModelDBKeys;
+        break;
+      case "Open Source Brain":
+        showFilters = null;
+        break;
+      case "BioModels":
+        showFilters = null;
+        break;
+      default:
+        showFilters = null;
+    }
+
     return (
       <Box my={2}>
         <h6 style={{ marginBottom: "20px" }}>Please specify the database:</h6>
         <SwitchMultiWay
-          values={["Knowledge Graph", "ModelDB", "Open Source Brain"]}
+          values={[
+            "Knowledge Graph",
+            "ModelDB",
+            "Open Source Brain",
+            "BioModels",
+          ]}
           selected={this.state.sourceDB}
           onChange={this.handleDBChange}
         />
@@ -1879,7 +1906,6 @@ export default class DBInputModels extends React.Component {
           <FilterPanelKG
             showFilters={showFilters}
             validKGFilterValues={this.props.validKGFilterValues}
-            handleFiltersChange={this.handleFiltersChange}
             shareGetListModels={this.acceptsProceedMethod}
             setListModels={this.setListModels}
           />
@@ -1888,7 +1914,6 @@ export default class DBInputModels extends React.Component {
           <FilterPanelModelDB
             showFilters={showFilters}
             validModelDBFilterValues={this.props.validModelDBFilterValues}
-            handleFiltersChange={this.handleFiltersChange}
             shareGetListModels={this.acceptsProceedMethod}
             setListModels={this.setListModels}
             enqueueSnackbar={this.props.enqueueSnackbar}
@@ -1897,9 +1922,6 @@ export default class DBInputModels extends React.Component {
         )}
         {this.state.sourceDB === "Open Source Brain" && (
           <FilterPanelOSB
-            showFilters={showFilters}
-            validModelDBFilterValues={this.props.validModelDBFilterValues}
-            handleFiltersChange={this.handleFiltersChange}
             shareGetListModels={this.acceptsProceedMethod}
             setListModels={this.setListModels}
             enqueueSnackbar={this.props.enqueueSnackbar}

@@ -1649,8 +1649,18 @@ export default class DBInputMorphology extends React.Component {
   }
 
   showFiltersPanel() {
-    let showFilters =
-      this.state.sourceDB === "NeuroMorpho" ? filterNeuroMorphoKeys : null; // TODO
+    let showFilters = "";
+    switch (this.state.sourceDB) {
+      case "NeuroMorpho":
+        showFilters = filterNeuroMorphoKeys;
+        break;
+      case "Allen Brain":
+        showFilters = null;
+        break;
+      default:
+        showFilters = null;
+    }
+
     return (
       <Box my={2}>
         <h6 style={{ marginBottom: "20px" }}>Please specify the database:</h6>

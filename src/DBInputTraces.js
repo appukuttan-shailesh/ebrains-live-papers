@@ -1325,8 +1325,18 @@ export default class DBInputTraces extends React.Component {
   }
 
   showFiltersPanel() {
-    let showFilters =
-      this.state.sourceDB === "Knowledge Graph" ? filterKGTracesKeys : null;
+    let showFilters = "";
+    switch (this.state.sourceDB) {
+      case "Knowledge Graph":
+        showFilters = filterKGTracesKeys;
+        break;
+      case "Allen Brain":
+        showFilters = null;
+        break;
+      default:
+        showFilters = null;
+    }
+
     return (
       <Box my={2}>
         <h6 style={{ marginBottom: "20px" }}>Please specify the database:</h6>
@@ -1346,7 +1356,6 @@ export default class DBInputTraces extends React.Component {
         )}
         {this.state.sourceDB === "Allen Brain" && (
           <FilterPanelAllenBrain
-            showFilters={showFilters}
             shareGetListTraces={this.acceptsProceedMethod}
             setListTraces={this.setListTraces}
             enqueueSnackbar={this.props.enqueueSnackbar}

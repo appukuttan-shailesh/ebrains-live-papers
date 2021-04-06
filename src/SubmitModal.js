@@ -30,7 +30,7 @@ export default class SubmitModal extends React.Component {
     this.mailBodyRef = React.createRef();
 
     this.handleCancel = this.handleCancel.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleProtectedSubmit = this.handleProtectedSubmit.bind(this);
     this.handleModeChange = this.handleModeChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
@@ -39,8 +39,8 @@ export default class SubmitModal extends React.Component {
     this.props.onClose();
   }
 
-  handleSubmit() {
-    console.log("TODO: Handle Submit!");
+  handleProtectedSubmit() {
+    console.log("TODO: Handle Protected Submit!");
   }
 
   handleModeChange(mode) {
@@ -275,7 +275,7 @@ export default class SubmitModal extends React.Component {
                     borderColor: "#000000",
                     borderWidth: "1px",
                   }}
-                  onClick={this.handleSubmit}
+                  onClick={this.handleProtectedSubmit}
                 >
                   Submit
                 </Button>

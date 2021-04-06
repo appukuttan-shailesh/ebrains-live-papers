@@ -435,7 +435,7 @@ export default class SectionModels extends React.Component {
               sourceDB === "Knowledge Graph"
                 ? "ModelInstance"
                 : sourceDB === "Open Source Brain"
-                ? "Open Source Brain"
+                ? "OSB"
                 : "ModelDB",
             label: items[model_id][instance_id]["label"] || "",
             url: items[model_id][instance_id]["source_url"] || "",

@@ -22,6 +22,7 @@ const resourseTypeBadgeMappings = {
   OSB: ["OSB", "Open Source Brain Entry"],
   NeuroMorpho: ["NMO", "NeuroMorpho.Org Entry"],
   AllenBrain: ["AB", "Allen Brain Atlas Entry"],
+  BioModels: ["BM", "BioModels Entry"],
 };
 
 const styles = () => ({
@@ -50,6 +51,11 @@ const styles = () => ({
     color: "white",
     fontSize: 10,
   },
+  customBadge_BM: {
+    backgroundColor: "#194D44",
+    color: "white",
+    fontSize: 10,
+  },
 });
 
 function setBadgeClass(type, classes) {
@@ -61,6 +67,8 @@ function setBadgeClass(type, classes) {
     return classes.customBadge_NMO;
   } else if (type === "AllenBrain") {
     return classes.customBadge_AB;
+  } else if (type === "BioModels") {
+    return classes.customBadge_BM;
   } else {
     return classes.customBadge_KG;
   }
