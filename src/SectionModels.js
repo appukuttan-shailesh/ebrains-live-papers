@@ -436,7 +436,9 @@ export default class SectionModels extends React.Component {
                 ? "ModelInstance"
                 : sourceDB === "Open Source Brain"
                 ? "OSB"
-                : "ModelDB",
+                : sourceDB === "ModelDB"
+                ? "ModelDB"
+                : "BioModels",
             label: items[model_id][instance_id]["label"] || "",
             url: items[model_id][instance_id]["source_url"] || "",
             view_url: items[model_id][instance_id]["view_url"] || "",
@@ -705,6 +707,9 @@ export default class SectionModels extends React.Component {
                     validKGFilterValues={this.props.validKGFilterValues}
                     validModelDBFilterValues={
                       this.props.validModelDBFilterValues
+                    }
+                    validBioModelsFilterValues={
+                      this.props.validBioModelsFilterValues
                     }
                     enqueueSnackbar={this.props.enqueueSnackbar}
                     closeSnackbar={this.props.closeSnackbar}

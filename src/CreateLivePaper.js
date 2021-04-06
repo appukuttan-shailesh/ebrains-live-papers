@@ -40,9 +40,11 @@ import {
   lp_tool_version,
   modelDB_baseUrl,
   neuromorpho_baseUrl,
+  biomodels_baseUrl,
   corsProxy,
   filterModelDBKeys,
   filterNeuroMorphoKeys,
+  filterBioModelsKeys,
 } from "./globals";
 import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
 
@@ -169,6 +171,7 @@ class CreateLivePaper extends React.Component {
       validKGFilterValues: null,
       validModelDBFilterValues: null,
       validNeuroMorphoFilterValues: null,
+      validBioModelsFilterValues: null,
     };
     this.state = { ...this.state, ...props.data };
 
@@ -213,6 +216,9 @@ class CreateLivePaper extends React.Component {
     this.retrieveNeuroMorphoFilterValidValues = this.retrieveNeuroMorphoFilterValidValues.bind(
       this
     );
+    this.retrieveBioModelsFilterValidValues = this.retrieveBioModelsFilterValidValues.bind(
+      this
+    );
   }
 
   componentDidMount() {
@@ -220,6 +226,7 @@ class CreateLivePaper extends React.Component {
     this.retrieveKGFilterValidValues();
     this.retrieveModelDBFilterValidValues();
     this.retrieveNeuroMorphoFilterValidValues();
+    this.retrieveBioModelsFilterValidValues();
   }
 
   deleteResourceSection(order) {
@@ -929,6 +936,32 @@ class CreateLivePaper extends React.Component {
     });
   }
 
+  retrieveBioModelsFilterValidValues() {
+    let url = corsProxy + biomodels_baseUrl + "/search?query=*%3A*&format=json";
+    axios
+      .get(url)
+      .then((res) => {
+        // create list of shortlisted filters
+        let filters = {};
+        console.log(res);
+        for (let item of res.data.facets) {
+          if (filterBioModelsKeys.includes(item.id)) {
+            filters[item.id] = [];
+            for (let option of item.facetValues) {
+              filters[item.id].push(option.value);
+            }
+          }
+        }
+        console.log(filters);
+        this.setState({
+          validBioModelsFilterValues: filters,
+        });
+      })
+      .catch((err) => {
+        console.log("Error: ", err.message);
+      });
+  }
+
   render() {
     console.log(this.state);
     // console.log(this.props.data);
@@ -1575,6 +1608,9 @@ class CreateLivePaper extends React.Component {
                           validKGFilterValues={this.state.validKGFilterValues}
                           validModelDBFilterValues={
                             this.state.validModelDBFilterValues
+                          }
+                          validBioModelsFilterValues={
+                            this.state.validBioModelsFilterValues
                           }
                           enqueueSnackbar={this.props.enqueueSnackbar}
                           closeSnackbar={this.props.closeSnackbar}

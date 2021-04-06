@@ -36,8 +36,10 @@ import {
   querySizeLimit,
   filterKGModelsKeys,
   filterModelDBKeys,
+  filterBioModelsKeys,
   modelDB_baseUrl,
   modelDB_viewUrl,
+  biomodels_baseUrl,
   corsProxy,
   osb_baseUrl,
 } from "./globals";
@@ -83,6 +85,23 @@ const filterAttributeMappingModelDB = {
   notes: "notes",
   public_submitter_email: "public_submitter_email",
   ver_date: "ver_date",
+};
+
+const labelsBioModelsKeys = {
+  curationstatus: "Curation Status",
+  modelflag: "Model Flag",
+  modelformat: "Model Format",
+  modellingapproach: "Modelling Approach",
+};
+
+const labelsPanelBioModelsKeys = {
+  id: "ID",
+  name: "Name",
+  format: "Format",
+  submissionDate: "Submission Date",
+  lastModified: "Last Modified",
+  submitter: "Submitter",
+  url: "URL",
 };
 
 const styles = (theme) => ({
@@ -269,6 +288,39 @@ const OSB_TABLE_COLUMNS = [
     hidden: true,
   },
 ];
+const BIOMODELS_TABLE_COLUMNS = [
+  {
+    field: "id",
+    title: "ID",
+  },
+  {
+    field: "name",
+    title: "Name",
+  },
+  {
+    field: "format",
+    title: "Format",
+  },
+  {
+    field: "submissionDate",
+    title: "Submission Date",
+    hidden: true,
+  },
+  {
+    field: "lastModified",
+    title: "Last Modified",
+    hidden: true,
+  },
+  {
+    field: "submitter",
+    title: "Submitter Format",
+  },
+  {
+    field: "url",
+    title: "URL",
+    hidden: true,
+  },
+];
 
 function IncludeButton(props) {
   //   console.log(props);
@@ -363,7 +415,7 @@ function InstanceParameter(props) {
   );
 }
 
-class KGContentModelVersion extends React.Component {
+export class KGContentModelVersion extends React.Component {
   constructor(props) {
     super(props);
 
@@ -481,7 +533,7 @@ class KGContentModelVersion extends React.Component {
   }
 }
 
-class KGContentModelVersionsPanel extends React.Component {
+export class KGContentModelVersionsPanel extends React.Component {
   render() {
     // console.log(this.props);
     return (
@@ -652,7 +704,7 @@ export class KGContent extends React.Component {
   }
 }
 
-class ModelDBContentModelPanel extends React.Component {
+export class ModelDBContentModelPanel extends React.Component {
   constructor(props) {
     super(props);
 
@@ -906,7 +958,7 @@ export class ModelDBContent extends React.Component {
   }
 }
 
-class OSBContentModelPanel extends React.Component {
+export class OSBContentModelPanel extends React.Component {
   constructor(props) {
     super(props);
 
@@ -1133,6 +1185,247 @@ export class OSBContent extends React.Component {
           detailPanel={(rowData) => {
             return (
               <OSBContentModelPanel
+                data={rowData}
+                addInstanceCollection={this.props.addInstanceCollection}
+                removeInstanceCollection={this.props.removeInstanceCollection}
+                checkInstanceInCollection={this.props.checkInstanceInCollection}
+              />
+            );
+          }}
+          onRowClick={(event, selectedRow, togglePanel) => {
+            togglePanel();
+          }}
+          components={{
+            Toolbar: (props) => (
+              <div
+                style={{
+                  backgroundColor: "#FFD180",
+                  fontWeight: "bolder !important",
+                }}
+              >
+                <MTableToolbar {...props} />
+              </div>
+            ),
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            paddingLeft: "2.5%",
+            paddingRight: "2.5%",
+            paddingTop: "10px",
+            width: "100%",
+          }}
+        >
+          <h6>
+            {"Number of model instances selected: " +
+              this.props.countTotalInstances()}
+          </h6>
+        </div>
+      </div>
+    );
+  }
+}
+
+export class BioModelsContentModelPanel extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedParam: "name",
+    };
+  }
+
+  render() {
+    // console.log(this.props);
+    return (
+      <Grid item style={{ backgroundColor: "#CFD8DC", padding: "20px" }}>
+        <Grid container direction="row">
+          <Grid
+            item
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              verticalAlign: "middle",
+            }}
+          >
+            <Typography variant="subtitle1">
+              <b>Model Details:</b>
+            </Typography>
+            <Link
+              href={this.props.data.url}
+              target="_blank"
+              rel="noreferrer"
+              underline="none"
+            >
+              <Button
+                variant="contained"
+                style={{ color: "#455A64" }}
+                startIcon={<OpenInNewIcon />}
+              >
+                Open Model
+              </Button>
+            </Link>
+          </Grid>
+        </Grid>
+        <div style={{ marginBottom: "25px" }}>
+          <Box
+            my={2}
+            pb={0}
+            style={{ backgroundColor: "#FFF1CC", marginBottom: "20px" }}
+          >
+            <Grid
+              container
+              style={{
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#FFD180",
+              }}
+            >
+              <Grid item xs={6}>
+                <Box px={2} display="flex" flexDirection="row">
+                  <p variant="subtitle2">
+                    Model Identifier:{" "}
+                    <span style={{ cursor: "pointer", fontWeight: "bold" }}>
+                      {this.props.data.id}
+                    </span>
+                  </p>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container spacing={3} alignItems="flex-end">
+              <Grid item xs={9}>
+                <div style={{ padding: "10px 0px 0px 10px" }}>
+                  <div>
+                    {Object.entries(labelsPanelBioModelsKeys).map(
+                      ([key, param], ind) => (
+                        <Chip
+                          icon={
+                            this.state.selectedParam === key ? (
+                              <RadioButtonCheckedIcon />
+                            ) : (
+                              <RadioButtonUncheckedIcon />
+                            )
+                          }
+                          key={ind}
+                          label={param}
+                          clickable
+                          onClick={() => this.setState({ selectedParam: key })}
+                          variant="outlined"
+                          style={{
+                            color: "#000000",
+                            marginRight: "10px",
+                            marginBottom: "10px",
+                          }}
+                        />
+                      )
+                    )}
+                  </div>
+                  <InstanceParameter
+                    label={"param"}
+                    value={this.props.data[this.state.selectedParam]}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={3} style={{ paddingBottom: "35px" }}>
+                <IncludeButton
+                  includeFlag={this.props.checkInstanceInCollection(
+                    "BioModels_" + this.props.data.id,
+                    "0"
+                  )}
+                  model_id={"BioModels_" + this.props.data.id}
+                  model_name={this.props.data.name}
+                  instance_id={"0"}
+                  instance_name={""}
+                  source_url={
+                    biomodels_baseUrl + "/model/download/" + this.props.data.id
+                  }
+                  view_url={this.props.data.url}
+                  addInstanceCollection={this.props.addInstanceCollection}
+                  removeInstanceCollection={this.props.removeInstanceCollection}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </div>
+      </Grid>
+    );
+  }
+}
+
+export class BioModelsContent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedRows: [],
+      filtering: false,
+    };
+  }
+
+  render() {
+    console.log(this.props);
+    return (
+      <div>
+        <div
+          style={{
+            paddingBottom: "15px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          Please click on &nbsp; <ViewColumnIcon /> &nbsp; to hide/show other
+          columns, and click on &nbsp; <FilterListIcon /> &nbsp; to filter the
+          contents for each column.
+        </div>
+        <MaterialTable
+          title={
+            "Models (" +
+            this.props.data.length +
+            (this.props.data.length === 1 ? " entry)" : " entries)")
+          }
+          data={this.props.data}
+          columns={BIOMODELS_TABLE_COLUMNS}
+          options={{
+            columnsButton: true,
+            search: true,
+            paging: false,
+            filtering: this.state.filtering,
+            sorting: true,
+            //   selection: true,
+            exportButton: false,
+            maxBodyHeight: "60vh",
+            headerStyle: {
+              position: "sticky",
+              top: 0,
+              backgroundColor: "#FFF",
+              fontWeight: "bolder",
+              fontSize: 15,
+            },
+            rowStyle: (rowData) => ({
+              backgroundColor: this.state.selectedRows.includes(
+                rowData.tableData.id
+              )
+                ? "#FFD180"
+                : "#EEEEEE",
+            }),
+          }}
+          actions={[
+            {
+              icon: "filter_list",
+              onClick: () =>
+                this.setState({ filtering: !this.state.filtering }),
+              position: "toolbar",
+              tooltip: "Show Filters",
+            },
+          ]}
+          detailPanel={(rowData) => {
+            return (
+              <BioModelsContentModelPanel
                 data={rowData}
                 addInstanceCollection={this.props.addInstanceCollection}
                 removeInstanceCollection={this.props.removeInstanceCollection}
@@ -1735,6 +2028,247 @@ export class FilterPanelOSB extends React.Component {
   }
 }
 
+export class FilterPanelBioModels extends React.Component {
+  signal = axios.CancelToken.source();
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      configFilters: {},
+      searchByID: true,
+      model_ids: "",
+    };
+
+    this.getListModelsBioModels = this.getListModelsBioModels.bind(this);
+    this.handleFiltersChange = this.handleFiltersChange.bind(this);
+    this.toggleSearchByID = this.toggleSearchByID.bind(this);
+    this.handleIDsChange = this.handleIDsChange.bind(this);
+  }
+
+  componentDidMount() {
+    // Child passes its method to the parent
+    this.props.shareGetListModels(this.getListModelsBioModels);
+  }
+
+  getListModelsBioModels() {
+    console.log("Query BioModels");
+
+    if (this.state.searchByID) {
+      // single combined query for all input model IDs
+      // split csv to list
+      let list_model_ids = this.state.model_ids
+        .split(",")
+        .map((item) => item.trim())
+        .filter((item) => item !== "");
+      // remove duplicates
+      list_model_ids = [...new Set(list_model_ids)];
+
+      let url = corsProxy + biomodels_baseUrl + "//search?query=(";
+      list_model_ids.forEach(function (model_id, i) {
+        url = url + "id:" + model_id + " OR ";
+      });
+      url =
+        url.slice(0, -4) + ")&numResults=" + querySizeLimit + "&format=json";
+
+      axios
+        .get(url)
+        .then((res) => {
+          let model_list = [];
+          let models = res.data.models;
+          for (let model_id of list_model_ids) {
+            let model_found = models.filter(function (arr) {
+              return arr.id === model_id;
+            })[0];
+            if (model_found) {
+              model_list.push(model_found);
+            } else {
+              showNotification(
+                this.props.enqueueSnackbar,
+                this.props.closeSnackbar,
+                "Invalid Model identifier: " + model_id + "!",
+                "error"
+              );
+            }
+          }
+
+          console.log(model_list);
+          // create model entries from collected attributes
+          this.props.setListModels(model_list, false, null);
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("errorUpdate: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            this.props.setListModels([], false, err);
+          }
+        });
+    } else {
+      //   // one query per required column (attribute)
+      //   // each query will correspond to values for specific attribute
+      //   let query = buildQuery(this.state.configFilters);
+      //   let biomodelsreqs = [];
+      //   for (let item of [
+      //     "id",
+      //     "name",
+      //     ...Object.values(filterAttributeMappingBioModels),
+      //   ]) {
+      //     let url =
+      //       corsProxy +
+      //       biomodels_baseUrl +
+      //       "/models/" +
+      //       item +
+      //       "?" +
+      //       encodeURI(query);
+      //     biomodelsreqs.push(axios.get(url));
+      //   }
+      //   const context = this;
+      //   Promise.all(biomodelsreqs)
+      //     .then(function (res) {
+      //       console.log(res);
+      //       let model_list = [];
+      //       for (let ind in res[0].data) {
+      //         let data_dict = {};
+      //         [
+      //           "id",
+      //           "name",
+      //           ...Object.values(filterAttributeMappingBioModels),
+      //         ].forEach(function (item, i) {
+      //           if (typeof res[i].data[ind] === "string" || !res[i].data[ind]) {
+      //             data_dict[item] = res[i].data[ind];
+      //           } else if (typeof res[i].data[ind] === "number") {
+      //             data_dict[item] = res[i].data[ind].toString();
+      //           } else {
+      //             console.log(res[i].data[ind].value);
+      //             console.log(typeof res[i].data[ind].value);
+      //             console.log(item);
+      //             let value = "";
+      //             if (typeof res[i].data[ind].value === "string") {
+      //               data_dict[item] = res[i].data[ind].value;
+      //             } else {
+      //               res[i].data[ind].value.forEach(function (subitem, j) {
+      //                 value = value + subitem.object_name + ", ";
+      //               });
+      //               data_dict[item] = value.slice(0, -2);
+      //             }
+      //           }
+      //         });
+      //         model_list.push(data_dict);
+      //       }
+      //       console.log(model_list);
+      //       // create model entries from collected attributes
+      //       context.props.setListModels(model_list, false, null);
+      //     })
+      //     .catch((err) => {
+      //       if (axios.isCancel(err)) {
+      //         console.log("errorUpdate: ", err.message);
+      //       } else {
+      //         // Something went wrong. Save the error in state and re-render.
+      //         this.props.setListModels([], false, err);
+      //       }
+      //     });
+    }
+  }
+
+  handleFiltersChange(event) {
+    const newConfig = { ...this.state.configFilters };
+    newConfig[event.target.name] =
+      typeof event.target.value === "string"
+        ? [event.target.value]
+        : event.target.value;
+    this.setState({ configFilters: newConfig });
+  }
+
+  toggleSearchByID() {
+    if (this.state.searchByID) {
+      this.setState({
+        model_ids: "",
+        searchByID: false,
+      });
+    } else {
+      this.setState({
+        configFilters: {},
+        searchByID: true,
+      });
+    }
+  }
+
+  handleIDsChange(event) {
+    this.setState({
+      model_ids: event.target.value,
+    });
+  }
+
+  render() {
+    console.log(this.props);
+    return (
+      <div>
+        <Grid item xs={12} style={{ paddingBottom: "10px" }}>
+          <h6>
+            <span style={{ paddingRight: "10px" }}>
+              Do you wish to search by model identifier?
+            </span>
+            <ToggleSwitch
+              id="searchSwitch"
+              checked={this.state.searchByID}
+              onChange={this.toggleSearchByID}
+            />
+          </h6>
+        </Grid>
+        {this.state.searchByID && (
+          <div>
+            <h6>Please enter the model identifiers below:</h6>
+            <em>
+              Note: you can enter multiple identifiers by separating them with a
+              comma (e.g. MODEL2003100001, MODEL1611230001)
+            </em>
+            <form>
+              <TextField
+                variant="outlined"
+                fullWidth={true}
+                name="BioModels_model_ids"
+                value={this.state.model_ids}
+                onChange={this.handleIDsChange}
+                InputProps={{
+                  style: {
+                    padding: "5px 15px",
+                    minWidth: 700,
+                    maxWidth: 900,
+                    marginTop: "10px",
+                  },
+                }}
+              />
+            </form>
+          </div>
+        )}
+        {!this.state.searchByID && (
+          <div>
+            <h6>Please specify filters to search BioModels:</h6>
+            <em>Note: you can select multiple values for each filter</em>
+            <form>
+              {this.props.showFilters.map((filter) => (
+                <MultipleSelect
+                  itemNames={
+                    !this.props.validBioModelsFilterValues
+                      ? []
+                      : this.props.validBioModelsFilterValues[filter]
+                  }
+                  label={labelsBioModelsKeys[filter]}
+                  name={filter}
+                  value={this.state.configFilters[filter] || []}
+                  handleChange={this.handleFiltersChange}
+                  key={filter}
+                />
+              ))}
+            </form>
+          </div>
+        )}
+      </div>
+    );
+  }
+}
+
 export default class DBInputModels extends React.Component {
   constructor(props) {
     super(props);
@@ -1882,7 +2416,7 @@ export default class DBInputModels extends React.Component {
         showFilters = null;
         break;
       case "BioModels":
-        showFilters = null;
+        showFilters = filterBioModelsKeys;
         break;
       default:
         showFilters = null;
@@ -1928,6 +2462,16 @@ export default class DBInputModels extends React.Component {
             closeSnackbar={this.props.closeSnackbar}
           />
         )}
+        {this.state.sourceDB === "BioModels" && (
+          <FilterPanelBioModels
+            showFilters={showFilters}
+            validBioModelsFilterValues={this.props.validBioModelsFilterValues}
+            shareGetListModels={this.acceptsProceedMethod}
+            setListModels={this.setListModels}
+            enqueueSnackbar={this.props.enqueueSnackbar}
+            closeSnackbar={this.props.closeSnackbar}
+          />
+        )}
       </Box>
     );
   }
@@ -1956,6 +2500,16 @@ export default class DBInputModels extends React.Component {
     } else if (this.state.sourceDB === "Open Source Brain") {
       return (
         <OSBContent
+          data={this.state.list_models}
+          addInstanceCollection={this.addInstanceCollection}
+          removeInstanceCollection={this.removeInstanceCollection}
+          checkInstanceInCollection={this.checkInstanceInCollection}
+          countTotalInstances={this.countTotalInstances}
+        />
+      );
+    } else if (this.state.sourceDB === "BioModels") {
+      return (
+        <BioModelsContent
           data={this.state.list_models}
           addInstanceCollection={this.addInstanceCollection}
           removeInstanceCollection={this.removeInstanceCollection}

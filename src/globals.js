@@ -14,6 +14,7 @@ export const allenbrain_downloadUrl =
   "https://celltypes.brain-map.org/api/v2/well_known_file_download";
 export const allenbrain_viewUrl =
   "https://celltypes.brain-map.org/experiment/electrophysiology";
+export const biomodels_baseUrl = "https://www.ebi.ac.uk/biomodels";
 
 export const lp_tool_version = "0.2";
 export const timeout = 1000;
@@ -42,6 +43,12 @@ export const filterNeuroMorphoKeys = [
   "cell_type_1",
   "reconstruction_software",
   "protocol",
+];
+export const filterBioModelsKeys = [
+  "curationstatus",
+  "modelflag",
+  "modelformat",
+  "modellingapproach",
 ];
 // To access ModelDB APIs; doesn't work with localhost during development
 export const corsProxy = "https://corsproxy-sa.herokuapp.com/";
