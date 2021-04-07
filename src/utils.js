@@ -130,6 +130,21 @@ export function buildQuery(filterDict, target = "") {
       }
     }
     q += "&sort=neuron_id,asc";
+  } else if (target === "BioModels") {
+    // see: https://www.ebi.ac.uk/biomodels-static/user-guide/model_search.html
+    for (let key in filterDict) {
+      filterDict[key].forEach(function (value, i) {
+        if (i === 0) {
+          // first item in list
+          q += " (" + key + ":" + '"' + value + '"';
+        } else {
+          // other items in list
+          q += " OR " + key + ":" + '"' + value + '"';
+        }
+      });
+      q += ") AND ";
+    }
+    q = q.slice(0, -5); // to remove last AND
   } else {
     for (let key in filterDict) {
       for (let value of filterDict[key]) {

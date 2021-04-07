@@ -2064,12 +2064,17 @@ export class FilterPanelBioModels extends React.Component {
       // remove duplicates
       list_model_ids = [...new Set(list_model_ids)];
 
-      let url = corsProxy + biomodels_baseUrl + "//search?query=(";
-      list_model_ids.forEach(function (model_id, i) {
-        url = url + "id:" + model_id + " OR ";
-      });
-      url =
-        url.slice(0, -4) + ")&numResults=" + querySizeLimit + "&format=json";
+      let query = buildQuery({ id: list_model_ids }, "BioModels");
+      console.log(query);
+      let url =
+        corsProxy +
+        biomodels_baseUrl +
+        "/search?query=" +
+        encodeURI(query) +
+        "&numResults=" +
+        querySizeLimit +
+        "&format=json";
+      console.log(url);
 
       axios
         .get(url)
@@ -2105,69 +2110,34 @@ export class FilterPanelBioModels extends React.Component {
           }
         });
     } else {
-      //   // one query per required column (attribute)
-      //   // each query will correspond to values for specific attribute
-      //   let query = buildQuery(this.state.configFilters);
-      //   let biomodelsreqs = [];
-      //   for (let item of [
-      //     "id",
-      //     "name",
-      //     ...Object.values(filterAttributeMappingBioModels),
-      //   ]) {
-      //     let url =
-      //       corsProxy +
-      //       biomodels_baseUrl +
-      //       "/models/" +
-      //       item +
-      //       "?" +
-      //       encodeURI(query);
-      //     biomodelsreqs.push(axios.get(url));
-      //   }
-      //   const context = this;
-      //   Promise.all(biomodelsreqs)
-      //     .then(function (res) {
-      //       console.log(res);
-      //       let model_list = [];
-      //       for (let ind in res[0].data) {
-      //         let data_dict = {};
-      //         [
-      //           "id",
-      //           "name",
-      //           ...Object.values(filterAttributeMappingBioModels),
-      //         ].forEach(function (item, i) {
-      //           if (typeof res[i].data[ind] === "string" || !res[i].data[ind]) {
-      //             data_dict[item] = res[i].data[ind];
-      //           } else if (typeof res[i].data[ind] === "number") {
-      //             data_dict[item] = res[i].data[ind].toString();
-      //           } else {
-      //             console.log(res[i].data[ind].value);
-      //             console.log(typeof res[i].data[ind].value);
-      //             console.log(item);
-      //             let value = "";
-      //             if (typeof res[i].data[ind].value === "string") {
-      //               data_dict[item] = res[i].data[ind].value;
-      //             } else {
-      //               res[i].data[ind].value.forEach(function (subitem, j) {
-      //                 value = value + subitem.object_name + ", ";
-      //               });
-      //               data_dict[item] = value.slice(0, -2);
-      //             }
-      //           }
-      //         });
-      //         model_list.push(data_dict);
-      //       }
-      //       console.log(model_list);
-      //       // create model entries from collected attributes
-      //       context.props.setListModels(model_list, false, null);
-      //     })
-      //     .catch((err) => {
-      //       if (axios.isCancel(err)) {
-      //         console.log("errorUpdate: ", err.message);
-      //       } else {
-      //         // Something went wrong. Save the error in state and re-render.
-      //         this.props.setListModels([], false, err);
-      //       }
-      //     });
+      let query = buildQuery(this.state.configFilters, "BioModels");
+      console.log(query);
+      let url =
+        corsProxy +
+        biomodels_baseUrl +
+        "/search?query=" +
+        encodeURI(query) +
+        "&numResults=" +
+        querySizeLimit +
+        "&format=json";
+      console.log(url);
+
+      axios
+        .get(url)
+        .then((res) => {
+          let model_list = res.data.models;
+          console.log(model_list);
+          // create model entries from collected attributes
+          this.props.setListModels(model_list, false, null);
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("errorUpdate: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            this.props.setListModels([], false, err);
+          }
+        });
     }
   }
 
