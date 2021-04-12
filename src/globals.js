@@ -12,8 +12,10 @@ export const allenbrain_baseUrl =
   "https://celltypes.brain-map.org/api/v2/data/ApiCellTypesSpecimenDetail";
 export const allenbrain_downloadUrl =
   "https://celltypes.brain-map.org/api/v2/well_known_file_download";
-export const allenbrain_viewUrl =
+export const allenbrain_viewTraceUrl =
   "https://celltypes.brain-map.org/experiment/electrophysiology";
+export const allenbrain_viewMorphologyUrl =
+  "https://celltypes.brain-map.org/experiment/morphology";
 export const biomodels_baseUrl = "https://www.ebi.ac.uk/biomodels";
 
 export const lp_tool_version = "0.2";

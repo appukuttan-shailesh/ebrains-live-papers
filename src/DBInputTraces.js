@@ -34,7 +34,7 @@ import {
   nar_baseUrl,
   allenbrain_baseUrl,
   allenbrain_downloadUrl,
-  allenbrain_viewUrl,
+  allenbrain_viewTraceUrl,
   querySizeLimit,
   filterKGTracesKeys,
   corsProxy,
@@ -594,7 +594,7 @@ class AllenBrainContentTracePanel extends React.Component {
               <b>Morphology Details:</b>
             </Typography>
             <Link
-              href={allenbrain_viewUrl + "/" + this.props.data.specimen__id}
+              href={allenbrain_viewTraceUrl + "/" + this.props.data.specimen__id}
               target="_blank"
               rel="noreferrer"
               underline="none"
@@ -710,7 +710,7 @@ class AllenBrainContentTracePanel extends React.Component {
                     allenbrain_downloadUrl + "/" + this.props.data.download__id
                   }
                   view_url={
-                    allenbrain_viewUrl + "/" + this.props.data.specimen__id
+                    allenbrain_viewTraceUrl + "/" + this.props.data.specimen__id
                   }
                   addInstanceCollection={this.props.addInstanceCollection}
                   removeInstanceCollection={this.props.removeInstanceCollection}

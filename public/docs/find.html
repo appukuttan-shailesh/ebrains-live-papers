@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1;maximum-scale=1; minimum-scale=1;"
+    />
+    <title>EBRAINS Live Papers</title>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+      $(function () {
+        $("head").load("commonLoads.html");
+      });
+    </script>
+  </head>
+
+  <body>
+    <script>
+      $(function () {
+        $("#navContent").load("navigation.html");
+        $("#footerContent").load("footer.html");
+      });
+    </script>
+    <main>
+      <header>
+        <div id="navContent"></div>
+
+        <div class="section title">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm align-self-center">
+                <h1>Find models</h1>
+                <div>Find, understand and use interesting models</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="section">
+        <div class="container">
+          <h5>Configuration</h5>
+          <h3>Configuring the Model Catalog</h3>
+          <p>
+            The default view of the Model Catalog shows a table of models and a
+            table of validation tests, side-by-side:
+          </p>
+          <div style="text-align: center">
+            <img src="static/figures/find/live_paper_homepage.png" />
+          </div>
+          <p>
+            You can choose to show only models or only validation tests, as well
+            as filtering the models/tests that are listed, using the Configure
+            button in the top-left corner:
+          </p>
+          <div style="text-align: center">
+            <img src="static/figures/find/configure_dialog.png" class="small" />
+          </div>
+          <p>
+            If using the stand-alone version of the app, these settings won't be
+            preserved, but if you use the app embedded into the EBRAINS
+            Collaboratory [TODO: link to section where this is demonstrated]
+            then the settings will be kept for next time you visit. Anyone else
+            who visits the same collab will see the same configuration, so you
+            can present a customized view of the Model Catalog, focusing on just
+            hippocampus models, for example.
+          </p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="container">
+          <h5>Filtering</h5>
+          <h3>Filtering the list of models</h3>
+
+          <p>
+            Even after configuring the app to show a subset of models, you can
+            further restrict what is shown in the table using the "Filter Table"
+            button and the Search box, while you can control what information is
+            shown in the table using the "View Columns" button:
+          </p>
+          <div style="text-align: center">
+            <img src="static/figures/find/toolbar_filter.png" class="small" />
+          </div>
+          <div style="text-align: center">
+            <img src="static/figures/find/toolbar_searchbox.png" />
+          </div>
+
+          <!-- <div style="text-align:center;"><img src="static/figures/find/toolbar_viewcolumns.png" class="small"></div> -->
+          <div style="text-align: center">
+            <img
+              src="static/figures/find/toolbar_viewcolumns_dialog.png"
+              class="small"
+            />
+          </div>
+          <div style="text-align: center">
+            <img
+              src="static/figures/find/model_list_multi_column_cerebellum.png"
+            />
+          </div>
+
+          <!--
+                <div style="text-align:center;"><img src="static/figures/find/toolbar_csv.png" class="small"></div>
+                <div style="text-align:center;"><img src="static/figures/find/toolbar_search.png" class="small"></div>
+                <div style="text-align:center;"><img src="static/figures/find/toolbar_print.png" class="small"></div>
+                <div style="width: 400px;"><img src="static/figures/find/toolbar_tablewidth.png" class="small"></div>
+                -->
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="container">
+          <h5>Viewing</h5>
+          <h3>Viewing model entries</h3>
+          <p>
+            To view the detail of a model entry, click on a row in the table.
+            The "Info" tab shows a description of the model, assorted metadata,
+            and gives links to the code/data of all versions of the model. Where
+            the model is also available in another model repository such as
+            <a href="https://senselab.med.yale.edu/modeldb/" target="_blank"
+              >ModelDB</a
+            >,
+            <a href="http://www.opensourcebrain.org" target="_blank"
+              >Open Source Brain</a
+            >, or
+            <a href="https://www.ebi.ac.uk/biomodels/" target="_blank"
+              >BioModels</a
+            >, there are links to those repositories.
+          </p>
+          <p>
+            Where a model can be directly used within the EBRAINS
+            infrastructure, there are links to the available tools that load the
+            model directly into that tool, see <a href="reuse.html">Use</a>.
+          </p>
+          <p>
+            The "Results" and "Figures" tabs show the results of validating the
+            model against experimental data. For more information on model
+            validation, see <a href="validation.html">Validate</a>.
+          </p>
+          <p>
+            To return to the table of models, click "&#215;" in the upper-right
+            corner.
+          </p>
+          <div style="text-align: center">
+            <img src="static/figures/find/example_model.png" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="container">
+          <h5>Contact</h5>
+          <h3>Any questions?</h3>
+
+          <p>
+            If you have questions that are not answered here, contact us by
+            e-mail: <a href="mailto:support@ebrains.eu">support@ebrains.eu</a>
+          </p>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="footer__content">
+        <a
+          href="https://ebrains.eu/"
+          aria-label="EBRAINS homepage"
+          class="logo nuxt-link-exact-active nuxt-link-active"
+        >
+          <img src="static/img/ebrains_logo.svg" alt="ebrains" height="60" />
+        </a>
+
+        <p class="small-text"></p>
+      </div>
+      <div class="footer__end">
+        <div class="footer__copyright">
+          Copyright © 2020 EBRAINS. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -427,7 +427,6 @@ export default class SectionTraces extends React.Component {
             type: sourceDB === "Knowledge Graph" ? "Recording" : "AllenBrain",
             label: items[trace_id][instance_id]["label"] || "",
             url: items[trace_id][instance_id]["source_url"] || "",
-
             view_url: items[trace_id][instance_id]["view_url"] || "",
             tab_name: "",
             identifier: trace_id,

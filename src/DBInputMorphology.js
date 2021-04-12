@@ -35,7 +35,7 @@ import {
   neuromorpho_viewUrl,
   allenbrain_baseUrl,
   allenbrain_downloadUrl,
-  allenbrain_viewUrl,
+  allenbrain_viewMorphologyUrl,
   filterNeuroMorphoKeys,
   corsProxy,
 } from "./globals";
@@ -639,7 +639,7 @@ class AllenBrainContentMorphologyPanel extends React.Component {
               <b>Morphology Details:</b>
             </Typography>
             <Link
-              href={allenbrain_viewUrl + "/" + this.props.data.specimen__id}
+              href={allenbrain_viewMorphologyUrl + "/" + this.props.data.specimen__id}
               target="_blank"
               rel="noreferrer"
               underline="none"
@@ -755,7 +755,7 @@ class AllenBrainContentMorphologyPanel extends React.Component {
                     allenbrain_downloadUrl + "/" + this.props.data.download__id
                   }
                   view_url={
-                    allenbrain_viewUrl + "/" + this.props.data.specimen__id
+                    allenbrain_viewMorphologyUrl + "/" + this.props.data.specimen__id
                   }
                   addInstanceCollection={this.props.addInstanceCollection}
                   removeInstanceCollection={this.props.removeInstanceCollection}
@@ -1325,7 +1325,7 @@ export class FilterPanelAllenBrain extends React.Component {
                 tag__dendrite_type: item.tag__dendrite_type,
                 ephys_thumb_path: item.ephys_thumb_path,
                 ephys_inst_thresh_thumb_path: item.ephys_inst_thresh_thumb_path,
-                download__id: item.erwkf__id,
+                download__id: item.nrwkf__id,
                 reconstruction_type: item.nr__reconstruction_type,
               });
             } else {
@@ -1384,7 +1384,7 @@ export class FilterPanelAllenBrain extends React.Component {
                   ephys_thumb_path: item.ephys_thumb_path,
                   ephys_inst_thresh_thumb_path:
                     item.ephys_inst_thresh_thumb_path,
-                  download__id: item.erwkf__id,
+                  download__id: item.nrwkf__id,
                   reconstruction_type: item.nr__reconstruction_type,
                 });
               }
