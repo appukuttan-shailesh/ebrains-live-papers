@@ -21,6 +21,7 @@
       $(function () {
         $("#navContent").load("navigation.html");
         $("#footerContent").load("footer.html");
+        $("#contactContent").load("contact.html");
       });
     </script>
     <main>
@@ -75,43 +76,35 @@
           <div class="row">
             <div class="col-sm align-self-center">
               <h5>Find</h5>
-              <h3>Find, understand and use interesting models</h3>
-              <p>The Model Catalog lets you filter the list of models by:</p>
+              <h3>Find and explore live papers</h3>
+              <p>
+                All published live papers are categorized by year and listed on
+                the live paper platform. The Live Paper platform lets you
+                search/filter the list of live papers by:
+              </p>
               <ul>
-                <li>
-                  what is being modelled (species, brain region, cell type)
-                </li>
-                <li>
-                  the scope of the model (subcellular, single cell, network,
-                  whole brain)
-                </li>
-                <li>
-                  the abstraction level of the model (cognitive, neural field,
-                  biophysical, spiking point neuron, systems biology)
-                </li>
+                <li>title of associated published article</li>
+                <li>the year of publication</li>
+                <li>the publishing journal</li>
+                <li>names of associated author(s)</li>
+                <li>keyword search of abstract</li>
               </ul>
-              <p>You can also search by author or model name.</p>
 
               <p>
-                The catalog contains a detailed description of each model, a
-                download link for each version of the model, and information
-                about the validation of each model (i.e. comparing simulation
-                results to experimental data).
-              </p>
-              <p>
-                Some models have links to other EBRAINS applications where the
-                models can be simulated and/or or explored in more detail.
+                Each live paper contains the metadata associated with the
+                journal publication, followed by a list of related resources
+                that the authors have shared with the scientific community.
+                These resources are easily downloadable, and certain types of
+                resources can also be explored/executed interactively from
+                within the live paper using tools integrated into the live paper
+                platform.
               </p>
               <p><a class="more" href="find.html">Learn more...</a></p>
             </div>
             <div class="col-sm">
               <img
                 class="align-self-center"
-                src="static/figures/index/model_list.png"
-              />
-              <img
-                class="align-self-center"
-                src="static/figures/index/example_model.png"
+                src="static/figures/index/find.png"
               />
             </div>
           </div>
@@ -124,233 +117,46 @@
             <div class="col-sm">
               <img
                 class="align-self-center"
-                src="static/figures/index/kg_search.png"
+                src="static/figures/index/create.png"
               />
             </div>
             <div class="col-sm align-self-center">
-              <h5>Share</h5>
-              <h3>Share models with others</h3>
+              <h5>Create</h5>
+              <h3>Create live papers, share resources</h3>
               <p>
-                If you are developing your own model and wish to share it
-                through the EBRAINS Knowledge Graph, adding it to the Model
-                Catalog is the first step.
-              </p>
-              <p>
-                You don't need to wait until the model is published in a journal
-                article, entries can be marked as private and shared only with
-                your chosen collaborators.
-              </p>
-              <p>
-                When you're ready to share publicly, our team of professional
-                data and model curators will check the model is ready to be
-                shared (code archived, terms of reuse specified, ...) then
-                release it to the public
-                <a href="https://kg.ebrains.eu/search/" target="_blank"
-                  >KG Search</a
-                >
-                interface.
-              </p>
-              <p>
-                (Coming soon: models released through the EBRAINS Knowledge
-                Graph will received their own DOI through DataCite).
-              </p>
-              <p><a class="more" href="share.html">Learn more...</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm align-self-center">
-              <h5>Use</h5>
-              <h3>
-                Use an existing model with the EBRAINS research infrastructure
-              </h3>
-              <p>
-                Whether you're developing your own model or want to use an
-                existing published model with EBRAINS tools and services,
-                registering it with the Model Catalog is the first step.
-              </p>
-              <p>
-                Two services are already directly linked from the Model Catalog:
+                Authors of scientific publications are encouraged to create live
+                papers to share the resources underlying their study. Live
+                papers allow authors to easily share a variety of resources,
+                such as:
               </p>
               <ul>
                 <li>
-                  NEURON As A Service (aka
-                  <a
-                    href="https://blue-naas.humanbrainproject.eu"
-                    target="_blank"
-                    >BlueNaaS</a
-                  >), for simulations detailed single neuron models in the
-                  browser
+                  <a href="./morphology.html">Morphologies</a>
                 </li>
                 <li>
-                  <a
-                    href="https://neuroinformatics.nl/HBP/morphology-viewer-dev/"
-                    target="_blank"
-                    >Morphology Viewer</a
-                  >, for visualizing the morphology of such models.
+                  <a href="./traces.html">Electrophysiological Recordings</a>
                 </li>
+                <li><a href="./models.html">Models</a></li>
+                <li><a href="./custom.html">Other Content</a></li>
               </ul>
-              <p>More services will be linked soon.</p>
               <p>
-                Using the Model Catalog Python client, you can access models
-                from within a Jupyter notebook (e.g. in the EBRAINS Jupyter
-                Lab), giving you access to a still wider range of tools and
-                services.
+                Live papers can be set to be password-protected, thereby
+                enabling them to be shared solely with reviewers prior to
+                publication, or be made public and thereby freely accessible to
+                the scientific community.
               </p>
-              <p><a class="more" href="reuse.html">Learn more...</a></p>
-            </div>
-            <div class="col-sm">
-              <img
-                class="align-self-center"
-                src="static/figures/index/launch_bluenaas.png"
-              />
-              <img
-                class="align-self-center"
-                src="static/figures/index/bluenaas.png"
-              />
+              <p>
+                <b>Coming soon:</b> The EBRAINS platform will issue DOIs to
+                published live papers. This would assist in the citation of
+                published data and models.
+              </p>
+              <p><a class="more" href="./create.html">Learn more...</a></p>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="section">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm">
-              <img
-                class="align-self-center"
-                src="static/figures/index/example_test_output.png"
-              />
-            </div>
-            <div class="col-sm align-self-center">
-              <h5>Validate</h5>
-              <h3>Compare models to each other and to experimental data</h3>
-              <p>
-                As mentioned above, one of the main aims of the EBRAINS Model
-                Catalog is to show how models compare to experiments.
-              </p>
-              <p>
-                We use the SciUnit framework to formalize the comparison of
-                models and experiments as "validation tests", and show both
-                information about these tests and the results of the tests in
-                the Model Catalog.
-              </p>
-              <p>
-                Running the same set of validation tests with different, but
-                related models, is a powerful tool for comparing models and
-                deciding which is best for your purpose.
-              </p>
-              <p><a class="more" href="validation.html">Learn more...</a></p>
-            </div>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="container">
-            <h5>Links</h5>
-            <h3>
-              How is the EBRAINS Model Catalog different to other model
-              databases?
-            </h3>
-            <p>
-              A number of other model databases are available in neuroscience,
-              including ModelDB, BioModels, and Open Source Brain.
-            </p>
-            <p>
-              The EBRAINS Model Catalog is complementary to these other
-              databases, providing validation results and making it possible to
-              use models with other EBRAINS tools and services.
-            </p>
-            <p>
-              Where a model is also available in one of these other databases,
-              it is cross-linked.
-            </p>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="container">
-            <h5>Knowledge Graph</h5>
-            <h3>
-              How does the EBRAINS Model Catalog relate to the EBRAINS Knowledge
-              Graph Search user interface?
-            </h3>
-            <p>
-              The Model Catalog can be used for models at all stages of
-              development, from initial experimentation through to published
-              models.
-            </p>
-            <p>
-              Models that satisfy certain quality control criteria: verified
-              source code, a detailed description, and a complete set of
-              metadata, can also be found through the EBRAINS
-              <a href="https://kg.ebrains.eu/search/" target="_blank"
-                >Knowledge Graph Search</a
-              >
-              application, where additional information, in particular about
-              links to related experimental datasets, can be found.
-            </p>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm">
-                <img
-                  class="align-self-center"
-                  src="static/figures/index/python_client_example.png"
-                />
-              </div>
-              <div class="col-sm align-self-center">
-                <h5>Develop</h5>
-                <h3>Develop tools and workflows based on the Model Catalog</h3>
-                <p>
-                  The Model Catalog Python client provides programmatic access
-                  to the database of models, validation tests and test results,
-                  and lets you build the catalog into your model development and
-                  simulation workflow.
-                </p>
-                <p><a class="more" href="develop.html">Learn more...</a></p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="container">
-            <h5>Contact</h5>
-            <h3>Any questions?</h3>
-
-            <p>
-              If you have questions that are not answered here, contact us by
-              e-mail: <a href="mailto:support@ebrains.eu">support@ebrains.eu</a>
-            </p>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="container">
-            <h3>Acknowledgements</h3>
-            <p>
-              This open source software code was developed in part or in whole
-              in the Human Brain Project, funded from the European Union’s
-              Horizon 2020 Framework Programme for Research and Innovation under
-              Specific Grant Agreements No.785907 and 945539 (Human Brain
-              Project SGA2 and SGA3).
-              <img
-                src="static/img/eu_cofunded_logo.png"
-                alt=""
-                class="eu-logo"
-              />
-            </p>
-          </div>
-        </div>
-      </div>
+      <div id="contactContent"></div>
     </main>
 
     <div id="footerContent"></div>
