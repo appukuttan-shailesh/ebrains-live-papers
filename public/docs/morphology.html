@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1;maximum-scale=1; minimum-scale=1;"
+    />
+    <title>EBRAINS Live Papers</title>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+      $(function () {
+        $("head").load("commonLoads.html");
+      });
+    </script>
+  </head>
+
+  <body>
+    <script>
+      $(function () {
+        $("#navContent").load("navigation.html");
+        $("#footerContent").load("footer.html");
+        $("#contactContent").load("contact.html");
+      });
+    </script>
+    <main>
+      <header>
+        <div id="navContent"></div>
+
+        <div class="section title">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm align-self-center">
+                <h1>Resource Type: Morphology</h1>
+                <div>How to share... How to use...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="section">
+        <div class="container">
+          <h5>Share Resource</h5>
+          <h3>Collection of all public live papers</h3>
+          <p>
+            Published live papers are freely accessible on the live paper
+            platform. The live papers are listed in reverse chronological order:
+          </p>
+          <div style="text-align: center">
+            <img src="static/figures/find/live_paper_homepage.png" />
+          </div>
+          <p>You can click on any entry to view that specific live paper:</p>
+          <div style="text-align: center">
+            <img src="static/figures/find/live_paper_migliore_2018.png" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="container">
+          <h5>Download & Explore Resource</h5>
+          <h3>Searching / Filtering the list of live papers</h3>
+
+          <p>
+            The live paper platform allows users to search for specific live
+            papers and/or shortlist live papers based on specific criteria, such
+            as:
+          </p>
+          <ul>
+            <li>title of associated published article</li>
+            <li>the year of publication</li>
+            <li>the publishing journal</li>
+            <li>names of associated author(s)</li>
+            <li>keyword search of abstract</li>
+          </ul>
+          <p><i>Work in progress!</i></p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="container">
+          <h5>Resources</h5>
+          <h3>Accessing shared resources</h3>
+          <p>
+            For computational modeling studies, we have found that the most
+            common resources being distributed comprise of the following:
+          </p>
+          <ul>
+            <li>
+              <a href="./morphology.html">Morphologies</a>
+            </li>
+            <li>
+              <a href="./traces.html">Electrophysiological Recordings</a>
+            </li>
+            <li><a href="./models.html">Models</a></li>
+            <li><a href="./custom.html">Other Content</a></li>
+          </ul>
+          <p>
+            Click on the above links for more details on how to access and
+            explore each type of resource.
+          </p>
+        </div>
+      </div>
+
+      <div id="contactContent"></div>
+    </main>
+
+    <div id="footerContent"></div>
+  </body>
+</html>

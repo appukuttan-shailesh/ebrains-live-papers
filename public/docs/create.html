@@ -42,55 +42,85 @@
 
       <div class="section">
         <div class="container">
-          <h5>Live Paper Platform</h5>
-          <h3>Collection of all public live papers</h3>
+          <h5>Live Paper Builder</h5>
+          <h3>Online tool for creating live papers</h3>
           <p>
-            Published live papers are freely accessible oon the live paper
-            platform. The live papers are listed in reverse chronological order:
+            The live paper builder tool has been developed with the primary
+            focus on making the data sharing process as simple as possible. It
+            allows authors to construct live papers by simply filling info into
+            a form based interface.
+          </p>
+          <p>
+            The first step towards creating a live paper is to apply for an
+            EBRAINS account. Interested users can create an account
+            <a href="https://iam.ebrains.eu/register" target="_blank">here</a>.
+            It is free and simple to create a new account, and mainly requires
+            an institutional email account. Once they have an EBRAINS account,
+            they can access the
+            <a href="https://iam.ebrains.eu/register" target="_blank"
+              >live paper builder tool</a
+            >.
+          </p>
+          <p>
+            On opening the tool, users are given an option to continue working
+            on an existing project, either by loading a previously downloaded
+            project file or selecting a live paper project saved on the
+            KnowledgeGraph. Alternatively, they can start creating a new live
+            paper project as we demonstrate here.
           </p>
           <div style="text-align: center">
-            <img src="static/figures/find/live_paper_homepage.png" />
+            <img src="static/figures/create/lp_builder_homepage.png" />
           </div>
-          <p>You can click on any entry to view that specific live paper:</p>
-          <div style="text-align: center">
-            <img src="static/figures/find/live_paper_migliore_2018.png" />
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="container">
-          <h5>Searching / Filtering</h5>
-          <h3>Searching / Filtering the list of live papers</h3>
-
           <p>
-            TODO: The live paper platform allows users to search for specific
-            live papers and/or shortlist live papers based on specific criteria.
+            Metadata about the associated publication can either be manually
+            entered field by field, or users can avail of the feature to upload
+            the PDF version of the manuscript and have the tool attempt to
+            auto-extract all the relevant info and populate the corresponding
+            fields.
+          </p>
+          <div style="text-align: center">
+            <img src="static/figures/create/lp_builder_create_home.png" />
+          </div>
+          <p>
+            An example outcome of auto-extracting the metadata from the PDF is
+            shown below. We employ
+            <a href="https://github.com/kermitt2/grobid" target="_blank"
+              >GROBID</a
+            >, a tool for extracting metadata from scholarly publications, for
+            this purpose. As this is an automated process, it is advised that
+            the the output be verified, and corrections be made as required.
+          </p>
+          <div style="text-align: center">
+            <img src="static/figures/create/lp_builder_pdf_extract.png" />
+          </div>
+          <p>
+            The data extracted from the PDF would be auto-populated into the
+            corresponding fields of the live paper builder. If no article PDF
+            was upload at the earlier stage, then all fields would start empty
+            and the authors would need to manually fill all of these. Also,
+            there are some additional fields (such as the license to be applied
+            to the shared resources) which are to be manually specified by the
+            authors irrespective of the two approaches.
           </p>
           <div style="text-align: center">
             <img
-              src="static/figures/find/live_paper_platform_search.png"
-              class="small"
+              src="static/figures/create/lp_builder_main_filled.png"
+              class="big"
             />
           </div>
-          <div style="text-align: center">
-            <img src="static/figures/find/live_paper_platform_filter.png" />
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="container">
-          <h5>Resources</h5>
-          <h3>Accessing shared resources</h3>
           <p>
-            For computational modeling studies, we have found that the most
-            common resources being distributed comprise of the following:
+            Once all the metadata has been inserted, authors can proceed to
+            listing the resources that they wish to share through the developed
+            live paper. For computational modeling studies, we have found that
+            the most common resources being distributed comprise of the
+            following:
           </p>
           <div style="text-align: center">
-            <img src="static/figures/create/resource_panel.png" class="big" />
+            <img
+              src="static/figures/create/lp_builder_resource_panel.png"
+              class="big"
+            />
           </div>
-
           <ul>
             <li>
               <a href="./morphology.html">Morphologies</a>
@@ -104,6 +134,44 @@
           <p>
             Click on the above links for more details on how to share each type
             of resource in a live paper.
+          </p>
+          <p>
+            As seen on the toolbar at the bottom of the live paper builder, it
+            allows authors to preview any changes, download locally the
+            resultant HTML file as well as the project file, with all data saved
+            in JSON format, and also to save the project data on the KG. This
+            allows users to develop the live papers across multiple sessions
+            and/or enhance them over time, by either loading the previously
+            downloaded project files, or via selecting from a list of live paper
+            projects from the KG that the user has access to. Once the live
+            paper development is completed, users can raise requests for them to
+            be published on the platform.
+          </p>
+          <div style="text-align: center">
+            <img src="static/figures/create/lp_builder_toolbar.png" />
+          </div>
+          <p>
+            Live papers can be set to be password-protected, thereby enabling
+            them to be shared solely with reviewers prior to publication. When
+            you're ready to share publicly, the authors need to submit the live
+            paper for publication, after which it will undergo a review process.
+            Once reviewed, the live paper will be published and made available
+            to the scientific community.
+          </p>
+          <div style="text-align: center">
+            <img src="static/figures/create/lp_builder_submit_password.png" />
+          </div>
+          <p>
+            The review process primarily involves verifying that all contained
+            resources are actually accessible and that these are hosted on
+            reliable data storage repositories. Resources hosted on authors' or
+            universities' own websites are copied over to our own central data
+            repository, to ensure long term accessibility and availability of
+            these resources. In view of other established neuroscience data
+            repositories, such as ModelDB, OSB, BioModels, NeuroMorpho and the Allen Brain
+            Atlas, resources already hosted on these platforms are not
+            duplicated, but instead we provide redirects to the corresponding
+            entries on these platforms
           </p>
         </div>
       </div>
