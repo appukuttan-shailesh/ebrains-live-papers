@@ -12,7 +12,7 @@ export default class TopNavigation extends React.Component {
         <Grid item>
           <Tooltip title={"See Live Papers"}>
             <a
-              href="https://live-paper-builder.netlify.app/"
+              href="https://live-paper-platform.netlify.app/"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -23,7 +23,7 @@ export default class TopNavigation extends React.Component {
           </Tooltip>
           <Tooltip title={"Open Documentation"}>
             <a
-              href="https://live-paper-builder.netlify.app/docs"
+              href="https://live-paper-docs.netlify.app/docs/"
               target="_blank"
               rel="noopener noreferrer"
             >
