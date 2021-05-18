@@ -23,7 +23,7 @@ export default class TopNavigation extends React.Component {
           </Tooltip>
           <Tooltip title={"Open Documentation"}>
             <a
-              href="https://live-paper-docs.netlify.app/docs/"
+              href="https://live-paper-docs.netlify.app/"
               target="_blank"
               rel="noopener noreferrer"
             >
