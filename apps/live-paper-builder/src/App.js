@@ -115,6 +115,8 @@ class App extends React.Component {
   handleLoadProjectKGClose(data) {
     // console.log(data);
     if (data) {
+      // along the lines of LivePaperPlatform.LivePaperViewer.componentDidMount()
+
       // replace null values with empty strings
       // avoids errors, e.g. `value` prop on `textarea` should not be null
       data = replaceNullWithEmptyStrings(data);

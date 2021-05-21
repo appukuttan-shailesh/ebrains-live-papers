@@ -223,6 +223,7 @@ export default class SaveModal extends React.Component {
             console.log("POST");
             // Set id to null for creating new entry via POST
             payload.id = null;
+            console.log(payload);
             axios
               .post(url, payload, config)
               .then((res) => {

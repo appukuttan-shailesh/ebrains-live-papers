@@ -10,6 +10,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import ErrorDialog from "./ErrorDialog";
 import LivePaperViewer from "./LivePaperViewer";
 import { baseUrl, updateHash } from "./globals";
+import { isUUID } from "./utils";
 
 // define the columns for the material data table
 const TABLE_COLUMNS = [
@@ -51,17 +52,30 @@ export default class App extends React.Component {
       lp_open_id: false,
     };
 
-    this.handleLoadListing = this.handleLoadListing.bind(this);
+    this.handleLoadListingLP = this.handleLoadListingLP.bind(this);
     this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
     this.handleSelectedLP = this.handleSelectedLP.bind(this);
     this.handleCloseLP = this.handleCloseLP.bind(this);
   }
 
   componentDidMount() {
-    this.handleLoadListing();
+    this.handleLoadListingLP();
+    if (window.location.hash) {
+      let error_message = "";
+      const lp_id = window.location.hash.slice(1);
+      console.log(lp_id);
+      if (!isUUID(lp_id)) {
+        error_message =
+          "Specified live paper ID '" + lp_id + "' is not a valid UUID.";
+        this.setState({ error: error_message });
+        updateHash("");
+      } else {
+        this.handleSelectedLP(lp_id, true);
+      }
+    }
   }
 
-  handleLoadListing() {
+  handleLoadListingLP() {
     this.setState({ loadingListing: true }, () => {
       let url = baseUrl + "/livepapers-published/";
       let config = {
@@ -70,7 +84,7 @@ export default class App extends React.Component {
       axios
         .get(url, config)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.setState({
             lp_listing: res.data,
             loadingListing: false,
@@ -99,7 +113,7 @@ export default class App extends React.Component {
     });
   }
 
-  handleSelectedLP(lp_id) {
+  handleSelectedLP(lp_id, open = false) {
     console.log("Get LP data from KG");
     let url = baseUrl + "/livepapers-published/" + lp_id;
     let config = {
@@ -115,6 +129,11 @@ export default class App extends React.Component {
             [lp_id]: res.data,
           },
         }));
+        if (open) {
+          this.setState({
+            lp_open_id: lp_id,
+          });
+        }
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
@@ -141,7 +160,7 @@ export default class App extends React.Component {
   }
 
   renderDetailPanel(data) {
-    console.log(this.props.lp_open_id);
+    // console.log(this.props.lp_open_id);
 
     if (data === null) {
       return (
@@ -252,8 +271,8 @@ export default class App extends React.Component {
         />
       );
     }
-    console.log(this.state.dataLPs);
-    console.log(this.state.selectedLPs);
+    // console.log(this.state.dataLPs);
+    // console.log(this.state.selectedLPs);
 
     return (
       <div className="container" style={{ textAlign: "left" }}>
@@ -421,7 +440,7 @@ export default class App extends React.Component {
                   },
                 ]}
                 onRowClick={(event, selectedRow, togglePanel) => {
-                  console.log(selectedRow.id);
+                  // console.log(selectedRow.id);
                   togglePanel();
                   let selectedLPs = this.state.selectedLPs;
                   let index = selectedLPs.indexOf(selectedRow.tableData.id);

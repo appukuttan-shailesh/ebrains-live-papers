@@ -2,6 +2,7 @@
 export const baseUrl = "https://validation-v2.brainsimulation.eu";
 // export const querySizeLimit = 10;
 export const querySizeLimit = 1000000;
+export const separator = "#-#";
 
 // To access ModelDB APIs; doesn't work with localhost during development
 export const corsProxy = "https://corsproxy-sa.herokuapp.com/";

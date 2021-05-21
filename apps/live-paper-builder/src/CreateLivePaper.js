@@ -326,6 +326,9 @@ class CreateLivePaper extends React.Component {
       "collab_list",
       "paper_published",
       "validKGFilterValues",
+      "validBioModelsFilterValues",
+      "validModelDBFilterValues",
+      "validNeuroMorphoFilterValues"
     ];
     remove_keys.forEach((k) => delete req_data[k]);
 
