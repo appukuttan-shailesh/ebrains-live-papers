@@ -254,8 +254,24 @@ export default class LivePaperViewer extends React.Component {
       >
         <MyDialogTitle onClose={this.handleClose} />
         <DialogContent>
-          {/* <Iframe content={this.state.html_content} /> */}
-          {/* <FullheightIframe content={this.state.html_content} /> */}
+          <div
+            className="centered"
+            style={{
+              marginTop: "5px",
+              paddingTop: "50px",
+              paddingBottom: "50px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItem: "center",
+              }}
+            >
+              <span style={{ fontSize: 16 }}>Loading... please wait</span>
+            </div>
+          </div>
           <iframe
             title={this.makePageTitleString()}
             srcDoc={this.state.html_content}
