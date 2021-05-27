@@ -654,6 +654,29 @@ export default class SectionTraces extends React.Component {
                     onChange={this.toggleUseTabs}
                   />
                 </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    paddingBottom: "20px",
+                  }}
+                >
+                  <span style={{ paddingRight: "10px" }}>
+                    <strong>Note:</strong> This section employs the{" "}
+                    <a
+                      href="https://neo-viewer.brainsimulation.eu/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      NEO Viewer
+                    </a>{" "}
+                    to visualize each of the listed data files. If you wish to
+                    list data without including this tool, please replace this
+                    section with a section of type <strong>'Generic Listing'</strong>.
+                  </span>
+                </Grid>
                 {this.state.useTabs && (
                   <Grid
                     item
@@ -671,7 +694,7 @@ export default class SectionTraces extends React.Component {
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
                   handleDB={this.clickDB}
-                  numCols={3}
+                  numCols={2}
                   useTabs={this.state.useTabs}
                   type={"section_traces"}
                 />

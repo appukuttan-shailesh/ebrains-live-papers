@@ -57,9 +57,9 @@ export default class LivePaperViewer extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.addDerivedData = this.addDerivedData.bind(this);
     this.makePageTitleString = this.makePageTitleString.bind(this);
-    this.makeAuthorsString = this.makeAuthorsString.bind(this);
+    this.makeAuthorsAndAffiliationsString =
+      this.makeAuthorsAndAffiliationsString.bind(this);
     this.makeCreatedAuthorsString = this.makeCreatedAuthorsString.bind(this);
-    this.makeAffiliationsString = this.makeAffiliationsString.bind(this);
   }
 
   componentDidMount() {
@@ -130,9 +130,9 @@ export default class LivePaperViewer extends React.Component {
 
   addDerivedData(data) {
     data["page_title"] = this.makePageTitleString();
-    data["authors_string"] = this.makeAuthorsString();
+    [data["authors_string"], data["affiliations_string"]] =
+      this.makeAuthorsAndAffiliationsString();
     data["created_authors_string"] = this.makeCreatedAuthorsString();
-    data["affiliations_string"] = this.makeAffiliationsString();
 
     // check if resources use tabs; handle appropriately
     data.resources.forEach(function (res, index) {
@@ -179,23 +179,61 @@ export default class LivePaperViewer extends React.Component {
     return page_title;
   }
 
-  makeAuthorsString() {
+  makeAuthorsAndAffiliationsString() {
+    // first evaluate all unique affiliations
+    var unique_affs = [];
+    this.state.lp_data.authors.forEach(function (item) {
+      var affs = item.affiliation.split(";").map(function (x) {
+        return x.trim();
+      });
+      affs.forEach(function (aff) {
+        if (aff !== "" && !unique_affs.includes(aff)) {
+          unique_affs.push(aff);
+        }
+      });
+    });
+    // add superscript numbering to each affiliation
+    let unique_affs_strings = [];
+    unique_affs.forEach(function (aff, index) {
+      unique_affs_strings.push((index + 1).toString().sup() + " " + aff);
+    });
+    var affiliations_string = unique_affs_strings.join(", ");
+
+    // now use the list of affiliations to appropriately create authors string
     var authors_string = "";
     this.state.lp_data.authors.forEach(function (author, index) {
       if (author.firstname.trim() !== "" || author.lastname.trim() !== "") {
         if (authors_string !== "") {
           authors_string = authors_string + ", ";
         }
+        var affs = author.affiliation.split(";").map(function (x) {
+          return x.trim();
+        });
+        console.log(affs);
+        console.log(unique_affs);
+        let author_affs = "";
+        affs.forEach(function (aff) {
+          console.log(aff);
+          if (author_affs !== "") {
+            author_affs = author_affs + ",";
+          }
+          if (aff !== "" && unique_affs.includes(aff)) {
+            author_affs =
+              author_affs + (unique_affs.indexOf(aff) + 1).toString();
+          }
+        });
+        console.log(author_affs);
+
         authors_string =
           authors_string +
           author.firstname +
           " " +
           author.lastname +
           " " +
-          (index + 1).toString().sup();
+          author_affs.sup();
       }
     });
-    return authors_string;
+    return [authors_string, affiliations_string];
   }
 
   makeCreatedAuthorsString() {
@@ -220,26 +258,6 @@ export default class LivePaperViewer extends React.Component {
       }
     });
     return created_authors_string;
-  }
-
-  makeAffiliationsString() {
-    var unique_affs = [];
-    this.state.lp_data.authors.forEach(function (item) {
-      var affs = item.affiliation.split(";").map(function (x) {
-        return x.trim();
-      });
-      affs.forEach(function (aff) {
-        if (aff !== "" && !unique_affs.includes(aff)) {
-          unique_affs.push(aff);
-        }
-      });
-    });
-    // add superscript numbering to each affiliation
-    unique_affs.forEach(function (aff, index) {
-      this[index] = (index + 1).toString().sup() + " " + aff;
-    }, unique_affs);
-    var affiliations_string = unique_affs.join(", ");
-    return affiliations_string;
   }
 
   render() {

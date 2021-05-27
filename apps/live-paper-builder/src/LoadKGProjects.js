@@ -16,7 +16,7 @@ import { baseUrl } from "./globals";
 const TABLE_COLUMNS = [
   {
     title: "Live Paper Name",
-    field: "title",
+    field: "live_paper_title",
   },
   {
     title: "Collab",

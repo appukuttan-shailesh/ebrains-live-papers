@@ -11,12 +11,13 @@ import ErrorDialog from "./ErrorDialog";
 import LivePaperViewer from "./LivePaperViewer";
 import { baseUrl, updateHash } from "./globals";
 import { isUUID } from "./utils";
+import bcryptjs from "bcryptjs";
 
 // define the columns for the material data table
 const TABLE_COLUMNS = [
   {
-    title: "Live Paper Title",
-    field: "title",
+    title: "Paper Title",
+    field: "associated_paper_title",
   },
   {
     title: "Year",
@@ -50,6 +51,7 @@ export default class App extends React.Component {
       selectedLPs: [],
       dataLPs: {}, // keys are lp_ids; will cache data once loaded
       lp_open_id: false,
+      showPassword: false,
     };
 
     this.handleLoadListingLP = this.handleLoadListingLP.bind(this);
@@ -115,39 +117,90 @@ export default class App extends React.Component {
 
   handleSelectedLP(lp_id, open = false) {
     console.log("Get LP data from KG");
-    let url = baseUrl + "/livepapers-published/" + lp_id;
-    let config = {
-      cancelToken: this.signal.token,
-    };
-    axios
-      .get(url, config)
-      .then((res) => {
-        console.log(res);
-        this.setState((prevState) => ({
-          dataLPs: {
-            ...prevState.dataLPs,
-            [lp_id]: res.data,
+    if (lp_id === "a8d69ef1-1fc5-49f8-9aff-c185925f3a42") {
+      // TODO: add check to see if password-protected live paper
+      // Currently just for demo purposes with a single sample live paper
+      let context = this;
+      const password = prompt("Please enter the live paper password:");
+      bcryptjs.hash(password, 10, function (err, hash) {
+        let url = baseUrl + "/livepapers/" + lp_id;
+        // replace "$2a$10$32Y4Zzb7hMZU1TvRHQd8YejY7OhaPF7FHCYGxgkvcusf9xEU29uua" with `hash`
+        let config = {
+          cancelToken: context.signal.token,
+          headers: {
+            Authorization:
+              "Bearer " +
+              "$2a$10$32Y4Zzb7hMZU1TvRHQd8YejY7OhaPF7FHCYGxgkvcusf9xEU29uua",
+            "Content-type": "application/json",
           },
-        }));
-        if (open) {
-          this.setState({
-            lp_open_id: lp_id,
+        };
+        axios
+          .get(url, config)
+          .then((res) => {
+            console.log(res);
+            context.setState((prevState) => ({
+              dataLPs: {
+                ...prevState.dataLPs,
+                [lp_id]: res.data,
+              },
+            }));
+            if (open) {
+              context.setState({
+                lp_open_id: lp_id,
+              });
+            }
+          })
+          .catch((err) => {
+            if (axios.isCancel(err)) {
+              console.log("error: ", err.message);
+            } else {
+              // Something went wrong. Save the error in state and re-render.
+              context.setState((prevState) => ({
+                dataLPs: {
+                  ...prevState.dataLPs,
+                  lp_id: null,
+                },
+              }));
+            }
+            updateHash("");
           });
-        }
-      })
-      .catch((err) => {
-        if (axios.isCancel(err)) {
-          console.log("error: ", err.message);
-        } else {
-          // Something went wrong. Save the error in state and re-render.
+      });
+    } else {
+      let url = baseUrl + "/livepapers-published/" + lp_id;
+      let config = {
+        cancelToken: this.signal.token,
+      };
+      axios
+        .get(url, config)
+        .then((res) => {
+          console.log(res);
           this.setState((prevState) => ({
             dataLPs: {
               ...prevState.dataLPs,
-              lp_id: null,
+              [lp_id]: res.data,
             },
           }));
-        }
-      });
+          if (open) {
+            this.setState({
+              lp_open_id: lp_id,
+            });
+          }
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("error: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            this.setState((prevState) => ({
+              dataLPs: {
+                ...prevState.dataLPs,
+                lp_id: null,
+              },
+            }));
+          }
+          updateHash("");
+        });
+    }
   }
 
   handleCloseLP() {

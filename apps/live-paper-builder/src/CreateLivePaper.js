@@ -191,9 +191,9 @@ class CreateLivePaper extends React.Component {
     this.handleAuthorsChange = this.handleAuthorsChange.bind(this);
     this.handleCreatedAuthorChange = this.handleCreatedAuthorChange.bind(this);
     this.makePageTitleString = this.makePageTitleString.bind(this);
-    this.makeAuthorsString = this.makeAuthorsString.bind(this);
+    this.makeAuthorsAndAffiliationsString =
+      this.makeAuthorsAndAffiliationsString.bind(this);
     this.makeCreatedAuthorsString = this.makeCreatedAuthorsString.bind(this);
-    this.makeAffiliationsString = this.makeAffiliationsString.bind(this);
     this.handleAddSection = this.handleAddSection.bind(this);
     this.storeSectionInfo = this.storeSectionInfo.bind(this);
     this.removeExcessData = this.removeExcessData.bind(this);
@@ -328,7 +328,7 @@ class CreateLivePaper extends React.Component {
       "validKGFilterValues",
       "validBioModelsFilterValues",
       "validModelDBFilterValues",
-      "validNeuroMorphoFilterValues"
+      "validNeuroMorphoFilterValues",
     ];
     remove_keys.forEach((k) => delete req_data[k]);
 
@@ -350,9 +350,9 @@ class CreateLivePaper extends React.Component {
 
   addDerivedData(data) {
     data["page_title"] = this.makePageTitleString();
-    data["authors_string"] = this.makeAuthorsString();
+    [data["authors_string"], data["affiliations_string"]] =
+      this.makeAuthorsAndAffiliationsString();
     data["created_authors_string"] = this.makeCreatedAuthorsString();
-    data["affiliations_string"] = this.makeAffiliationsString();
 
     // check if resources use tabs; handle appropriately
     data.resources.forEach(function (res, index) {
@@ -740,23 +740,57 @@ class CreateLivePaper extends React.Component {
     return page_title;
   }
 
-  makeAuthorsString() {
+  makeAuthorsAndAffiliationsString() {
+    // first evaluate all unique affiliations
+    var unique_affs = [];
+    this.state.authors.forEach(function (item) {
+      var affs = item.affiliation.split(";").map(function (x) {
+        return x.trim();
+      });
+      affs.forEach(function (aff) {
+        if (aff !== "" && !unique_affs.includes(aff)) {
+          unique_affs.push(aff);
+        }
+      });
+    });
+    // add superscript numbering to each affiliation
+    let unique_affs_strings = [];
+    unique_affs.forEach(function (aff, index) {
+      unique_affs_strings.push((index + 1).toString().sup() + " " + aff);
+    });
+    var affiliations_string = unique_affs_strings.join(", ");
+
+    // now use the list of affiliations to appropriately create authors string
     var authors_string = "";
     this.state.authors.forEach(function (author, index) {
       if (author.firstname.trim() !== "" || author.lastname.trim() !== "") {
         if (authors_string !== "") {
           authors_string = authors_string + ", ";
         }
+        var affs = author.affiliation.split(";").map(function (x) {
+          return x.trim();
+        });
+        let author_affs = "";
+        affs.forEach(function (aff) {
+          if (author_affs !== "") {
+            author_affs = author_affs + ",";
+          }
+          if (aff !== "" && unique_affs.includes(aff)) {
+            author_affs =
+              author_affs + (unique_affs.indexOf(aff) + 1).toString();
+          }
+        });
+
         authors_string =
           authors_string +
           author.firstname +
           " " +
           author.lastname +
           " " +
-          (index + 1).toString().sup();
+          author_affs.sup();
       }
     });
-    return authors_string;
+    return [authors_string, affiliations_string];
   }
 
   makeCreatedAuthorsString() {
@@ -783,26 +817,6 @@ class CreateLivePaper extends React.Component {
     return created_authors_string;
   }
 
-  makeAffiliationsString() {
-    var unique_affs = [];
-    this.state.authors.forEach(function (item) {
-      var affs = item.affiliation.split(";").map(function (x) {
-        return x.trim();
-      });
-      affs.forEach(function (aff) {
-        if (aff !== "" && !unique_affs.includes(aff)) {
-          unique_affs.push(aff);
-        }
-      });
-    });
-    // add superscript numbering to each affiliation
-    unique_affs.forEach(function (aff, index) {
-      this[index] = (index + 1).toString().sup() + " " + aff;
-    }, unique_affs);
-    var affiliations_string = unique_affs.join(", ");
-    return affiliations_string;
-  }
-
   handleAddSection(section_type) {
     this.setState((prevState) => ({
       resources: [
@@ -821,6 +835,7 @@ class CreateLivePaper extends React.Component {
   }
 
   getCollabList() {
+    console.log("===================================================");
     const url = baseUrl + "/projects";
     const config = {
       cancelToken: this.signal.token,
@@ -964,6 +979,9 @@ class CreateLivePaper extends React.Component {
 
   render() {
     console.log(this.state);
+    console.log(
+      this.state.collab_list ? this.state.collab_list.length : "not loaded"
+    );
     // console.log(this.props.data);
     // console.log(this.context.auth[0].token);
 

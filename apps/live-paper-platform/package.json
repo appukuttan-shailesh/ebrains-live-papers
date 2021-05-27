@@ -10,6 +10,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
     "iframe-resizer-react": "^1.1.0",
     "notistack": "^1.0.8",
     "nunjucks": "^3.2.3",

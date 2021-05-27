@@ -23,6 +23,7 @@ function HelpContent() {
         {
           "type": "URL",
           "url": "https://www.datasource.com/listing/file_idB.dat",
+          "view_url": null,
           "label": "file_A",
           "identifier": null,
           "tab_name": "Group A"
@@ -30,6 +31,7 @@ function HelpContent() {
         {
           "type": "URL",
           "url": "https://www.datasource.com/listing/file_idC.dat",
+          "view_url": null,
           "label": "file_B",
           "identifier": null,
           "tab_name": "Group A"
@@ -37,6 +39,7 @@ function HelpContent() {
         {
           "type": "URL",
           "url": "https://www.datasource.com/listing/file_idF.dat",
+          "view_url": null,
           "label": "file_C",
           "identifier": null,
           "tab_name": "Group A"
@@ -44,6 +47,7 @@ function HelpContent() {
         {
           "type": "URL",
           "url": "https://www.datasource.com/listing/file_idG.dat",
+          "view_url": null,
           "label": "file_D",
           "identifier": null,
           "tab_name": "Group A"
@@ -51,6 +55,7 @@ function HelpContent() {
         {
           "type": "URL",
           "url": "https://www.datasource.com/listing/file_idH.dat",
+          "view_url": null,
           "label": "file_E",
           "identifier": null,
           "tab_name": "Group A"
@@ -65,10 +70,10 @@ function HelpContent() {
       <h6>
         <b>List of dicts/objects</b>
       </h6>
-      Each dict in the list should have keys named 'type', 'url', 'label',
-      'identifier' and 'tab_name'. The 'identifier' field corresponds to the
-      Knowledge Graph UUID. For manually entered items, 'type' and 'identifier'
-      can be set to 'URL' and 'null', respectively. <i>Example:</i>
+      Each dict in the list should have keys named 'type', 'url', 'view_url',
+      'label', 'identifier' and 'tab_name'. The 'identifier' field corresponds
+      to the Knowledge Graph UUID. For manually entered items, 'type' and
+      'identifier' can be set to 'URL' and 'null', respectively. <i>Example:</i>
       <br />
       <pre>
         <code>{list_of_dicts}</code>
@@ -128,9 +133,11 @@ export class SectionGenericEdit extends React.Component {
           item !== null &&
           "url" in item &&
           "label" in item &&
+          "view_url" in item &&
           "tab_name" in item &&
           typeof item["url"] === "string" &&
           typeof item["label"] === "string" &&
+          typeof item["view_url"] === "string" &&
           typeof item["tab_name"] === "string"
         );
       }
@@ -294,11 +301,12 @@ export default class SectionGeneric extends React.Component {
   }
 
   handleItemsChange(items_data) {
-    // remove all entries where label and url are all empty
+    // remove all entries where label, url and view_url are all empty
     // function isNotEmpty(item) {
     //   if (
     //     item.label.trim() !== "" ||
-    //     item.url.trim() !== ""
+    //     item.url.trim() !== "" ||
+    //     item.view_url.trim() !== ""
     //   ) {
     //     return true;
     //   } else {
@@ -313,6 +321,7 @@ export default class SectionGeneric extends React.Component {
           type: "URL",
           label: "",
           url: "",
+          view_url: "",
           identifier: null,
           tab_name: "",
         },
@@ -610,7 +619,7 @@ export default class SectionGeneric extends React.Component {
                   items={this.state.dataFormatted}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
-                  numCols={2}
+                  numCols={3}
                   useTabs={this.state.useTabs}
                   type={"section_generic"}
                 />

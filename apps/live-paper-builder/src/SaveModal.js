@@ -37,9 +37,8 @@ export default class SaveModal extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.checkRequirementsOnPage = this.checkRequirementsOnPage.bind(this);
-    this.checkRequirementsOnPayload = this.checkRequirementsOnPayload.bind(
-      this
-    );
+    this.checkRequirementsOnPayload =
+      this.checkRequirementsOnPayload.bind(this);
     this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
     this.handleCollabIDChange = this.handleCollabIDChange.bind(this);
     this.handleLivePaperNameChange = this.handleLivePaperNameChange.bind(this);
@@ -61,6 +60,7 @@ export default class SaveModal extends React.Component {
 
     // a live paper name be specified
     if (!this.state.live_paper_name) {
+      console.log(this.state.live_paper_name);
       flag = false;
       this.setState({ live_paper_name_unique: false });
     }
@@ -485,9 +485,10 @@ export default class SaveModal extends React.Component {
                 color="primary"
                 style={{
                   width: "20%",
-                  backgroundColor: this.checkRequirementsOnPage()
-                    ? "#8BC34A"
-                    : "#FFFFFF",
+                  backgroundColor:
+                    this.state.collab_id && this.state.live_paper_name
+                      ? "#8BC34A"
+                      : "#FFFFFF",
                   color: "#000000",
                   fontWeight: "bold",
                   border: "solid",

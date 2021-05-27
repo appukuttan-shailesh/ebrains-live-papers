@@ -135,10 +135,22 @@ class CreateLivePaperLoadPDFData extends React.Component {
                 result["TEI"]["teiHeader"][0]["fileDesc"][0]["titleStmt"][0][
                   "title"
                 ][0]["_"];
-              data["abstract"] =
-                result["TEI"]["teiHeader"][0]["profileDesc"][0]["abstract"][0][
+
+              data["abstract"] = "";
+              if (
+                Object.prototype.hasOwnProperty.call(
+                  result["TEI"]["teiHeader"][0]["profileDesc"][0][
+                    "abstract"
+                  ][0],
                   "p"
-                ][0];
+                )
+              ) {
+                data["abstract"] =
+                  result["TEI"]["teiHeader"][0]["profileDesc"][0][
+                    "abstract"
+                  ][0]["p"][0];
+              }
+
               data["doi"] =
                 "https://doi.org/" +
                 result["TEI"]["teiHeader"][0]["fileDesc"][0]["sourceDesc"][0][
@@ -154,12 +166,19 @@ class CreateLivePaperLoadPDFData extends React.Component {
               author_dict.forEach(function (item) {
                 console.log(item);
                 let aff = "";
-                if ("affiliation" in item) {
-                  aff = item["affiliation"]
-                    .map(function (elem) {
-                      return elem["note"][0]["_"].replace(/,\s*$/, "");
-                    })
-                    .join("; ");
+                try {
+                  if ("affiliation" in item) {
+                    aff = item["affiliation"]
+                      .map(function (elem) {
+                        // remove commas and semicolons from the end of the string
+                        return elem["note"][0]["_"]
+                          .replace(/,\s*$/, "")
+                          .replace(/;\s*$/, "");
+                      })
+                      .join("; ");
+                  }
+                } catch (error) {
+                  // do nothing
                 }
                 if ("$" in item && item["$"]["role"] === "corresp") {
                   let corresp_author = {
@@ -174,6 +193,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
                           ".",
                     lastname: item["persName"][0]["surname"][0],
                     // email: "email" in item ? item["email"][0] : "",
+                    affiliation: aff,
                   };
                   data["corresponding_author"] = corresp_author;
                 }
@@ -203,11 +223,21 @@ class CreateLivePaperLoadPDFData extends React.Component {
 
               data["authors"] = author_data;
 
-              data["journal"] = result["TEI"]["teiHeader"][0]["fileDesc"][0][
-                "sourceDesc"
-              ][0]["biblStruct"][0]["monogr"][0]["title"].find(
-                (element) => element["$"]["type"] === "main"
-              )["_"];
+              data["journal"] = "";
+              if (
+                Object.prototype.hasOwnProperty.call(
+                  result["TEI"]["teiHeader"][0]["fileDesc"][0]["sourceDesc"][0][
+                    "biblStruct"
+                  ][0]["monogr"][0],
+                  "title"
+                )
+              ) {
+                data["journal"] = result["TEI"]["teiHeader"][0]["fileDesc"][0][
+                  "sourceDesc"
+                ][0]["biblStruct"][0]["monogr"][0]["title"].find(
+                  (element) => element["$"]["type"] === "main"
+                )["_"];
+              }
 
               try {
                 //   date also available at:
@@ -217,7 +247,12 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   result["TEI"]["teiHeader"][0]["fileDesc"][0][
                     "publicationStmt"
                   ][0]["date"][0]["$"]["when"]
-                );
+                )
+                  .toISOString()
+                  .replace(
+                    /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
+                    "$<year>-$<month>-$<day>"
+                  );
               } catch (error) {
                 console.log("Could not identify year!");
               }
@@ -370,7 +405,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
             <div>
               <strong>Year: </strong>
               <br />
-              {this.state.dataFromPDF["year"].getFullYear()}
+              {this.state.dataFromPDF["year"].slice(0, 4)}
               <br />
               <br />
             </div>
@@ -379,7 +414,13 @@ class CreateLivePaperLoadPDFData extends React.Component {
             <div>
               <strong>Abstract: </strong>
               <br />
-              {this.state.dataFromPDF["abstract"]}
+              {this.state.dataFromPDF["abstract"] === "" ? (
+                <span style={{ color: "red" }}>
+                  <i>Missing!</i>
+                </span>
+              ) : (
+                this.state.dataFromPDF["abstract"]
+              )}
               <br />
               <br />
             </div>
@@ -571,7 +612,10 @@ class CreateLivePaperLoadPDFData extends React.Component {
 
             <div className="container" style={{ textAlign: "left" }}>
               <TopNavigation />
-              <div className="box rounded centered" style={{ marginTop: "5px" }}>
+              <div
+                className="box rounded centered"
+                style={{ marginTop: "5px" }}
+              >
                 <a
                   href="../../index.html"
                   className="waves-effect waves-light"

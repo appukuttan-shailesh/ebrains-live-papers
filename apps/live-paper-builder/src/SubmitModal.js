@@ -8,21 +8,29 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
 import SwitchMultiWay from "./SwitchMultiWay";
+import ContextMain from "./ContextMain";
+import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
+import ModalDialog from "./ModalDialog";
 import Link from "@material-ui/core/Link";
+import { baseUrl } from "./globals";
 import { showNotification } from "./utils";
+import bcryptjs from "bcryptjs";
 
 export default class SubmitModal extends React.Component {
   signal = axios.CancelToken.source();
+  static contextType = ContextMain;
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       data: props.data,
       mode: props.mode || "Public",
       password: "",
       error: null,
+      loading: false,
+      showProtectedSummary: false,
     };
 
     this.mailTo = React.createRef();
@@ -33,6 +41,9 @@ export default class SubmitModal extends React.Component {
     this.handleProtectedSubmit = this.handleProtectedSubmit.bind(this);
     this.handleModeChange = this.handleModeChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
+    this.handleProtectedSummaryClose =
+      this.handleProtectedSummaryClose.bind(this);
   }
 
   handleCancel() {
@@ -40,7 +51,58 @@ export default class SubmitModal extends React.Component {
   }
 
   handleProtectedSubmit() {
-    console.log("TODO: Handle Protected Submit!");
+    // check if live paper already saved on KG
+    var lp_id = this.props.data.id;
+    var context = this;
+    console.log(lp_id);
+    if (!lp_id) {
+      this.setState({
+        error: "Please 'Save' the live paper before proceeding!",
+      });
+    } else if (!this.state.password || this.state.password.length < 6) {
+      return;
+    } else {
+      let url = baseUrl + "/livepapers/" + lp_id + "/access_code";
+      let config = {
+        cancelToken: this.signal.token,
+        headers: {
+          Authorization: "Bearer " + this.context.auth[0].token,
+          "Content-type": "application/json",
+        },
+      };
+      this.setState({ loading: true }, async () => {
+        bcryptjs.hash(this.state.password, 10, function (err, hash) {
+          // save password
+          console.log("Saving hash on KG");
+            console.log(hash);
+          axios
+            .put(url, { value: hash }, config)
+            .then((res) => {
+              console.log("Password saved to KG!");
+              console.log(res);
+              context.setState({ loading: false, showProtectedSummary: true });
+              showNotification(
+                context.props.enqueueSnackbar,
+                context.props.closeSnackbar,
+                "Password has been set!",
+                "success"
+              );
+            })
+            .catch((err) => {
+              if (axios.isCancel(err)) {
+                console.log("Error: ", err.message);
+              } else {
+                console.log(err);
+                console.log(err.response);
+                context.setState({
+                  error: err.response,
+                });
+              }
+              context.setState({ loading: false });
+            });
+        });
+      });
+    }
   }
 
   handleModeChange(mode) {
@@ -49,6 +111,18 @@ export default class SubmitModal extends React.Component {
 
   handlePasswordChange(event) {
     this.setState({ password: event.target.value });
+  }
+
+  handleErrorDialogClose() {
+    this.setState({ error: false });
+    this.props.onClose(false);
+  }
+
+  handleProtectedSummaryClose() {
+    this.setState({
+      showProtectedSummary: false,
+    });
+    this.props.onClose(true);
   }
 
   render() {
@@ -75,6 +149,7 @@ export default class SubmitModal extends React.Component {
             </span>
           </DialogTitle>
           <DialogContent>
+            <LoadingIndicatorModal open={this.state.loading} />
             <Box my={2}>
               Verify that you have entered all the required info in the live
               paper before proceeding.
@@ -94,32 +169,42 @@ export default class SubmitModal extends React.Component {
               </Box>
             </Box>
             {this.state.mode === "Password-Protected" && (
-              <Box my={2}>
-                <div>
-                  <p>
+              <>
+                <Box my={2}>
+                  <div>
+                    <p>
+                      <strong>
+                        Please specify a password for restricting access to this
+                        live paper:
+                      </strong>
+                    </p>
+                  </div>
+
+                  <div>
+                    <TextField
+                      label="password"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="password"
+                      value={this.state.password}
+                      onChange={this.handlePasswordChange}
+                      InputProps={{
+                        style: {
+                          padding: "5px 15px",
+                          width: "75%",
+                        },
+                      }}
+                    />
+                  </div>
+                </Box>
+                {(!this.state.password || this.state.password.length < 6) && (
+                  <div style={{ color: "red" }}>
                     <strong>
-                      Please specify a password for accessing this live paper:
+                      Please specify a password with minimum 6 characters!
                     </strong>
-                  </p>
-                </div>
-                <div>
-                  <TextField
-                    label="password"
-                    variant="outlined"
-                    fullWidth={true}
-                    name="password"
-                    type="password"
-                    value={this.state.password}
-                    onChange={this.handlePasswordChange}
-                    InputProps={{
-                      style: {
-                        padding: "5px 15px",
-                        width: "75%",
-                      },
-                    }}
-                  />
-                </div>
-              </Box>
+                  </div>
+                )}
+              </>
             )}
             {this.state.mode === "Public" && (
               <Box my={2}>
@@ -200,9 +285,16 @@ export default class SubmitModal extends React.Component {
                       The details are as follows:
                       <br />
                       <br />
-                      ID: AAf2e856-27a8-4b8d-9ec3-4e2581c546AA
+                      ID:{" "}
+                      {this.props.data.id ? (
+                        this.props.data.id
+                      ) : (
+                        <span style={{ color: "red" }}>
+                          <i>Please 'Save' the live paper before proceeding!</i>
+                        </span>
+                      )}
                       <br />
-                      Title: Some title here
+                      Title: {this.props.data.live_paper_title}
                     </div>
                   </div>
                 </div>
@@ -243,14 +335,23 @@ export default class SubmitModal extends React.Component {
                   target="_blank"
                   rel="noreferrer"
                   underline="none"
-                  href="mailto:lucaleonardo.bologna@cnr.it, shailesh.appukuttan@cnrs.fr?subject=Request%20to%20publish%20Live%20Paper&body=We%20would%20like%20to%20request%20the%20publication%20of%20our%20live%20paper.%0AThe%20details%20are%20as%20follows%3A%0A%0AID%3A%20AAf2e856-27a8-4b8d-9ec3-4e2581c546AA%0ATitle%3A%20Some%20title%20here"
+                  href={
+                    this.props.data.id
+                      ? "mailto:lucaleonardo.bologna@cnr.it, shailesh.appukuttan@cnrs.fr?subject=Request%20to%20publish%20Live%20Paper&body=We%20would%20like%20to%20request%20the%20publication%20of%20our%20live%20paper.%0AThe%20details%20are%20as%20follows%3A%0A%0AID%3A%20" +
+                        escape(this.props.data.id) +
+                        "%0AName%3A%20" +
+                        escape(this.props.data.live_paper_title)
+                      : null
+                  }
                 >
                   <Button
                     variant="contained"
                     color="primary"
                     style={{
                       width: "100%",
-                      backgroundColor: "#8BC34A",
+                      backgroundColor: this.props.data.id
+                        ? "#8BC34A"
+                        : "#FFFFFF",
                       color: "#000000",
                       fontWeight: "bold",
                       border: "solid",
@@ -268,7 +369,10 @@ export default class SubmitModal extends React.Component {
                   color="primary"
                   style={{
                     width: "20%",
-                    backgroundColor: "#8BC34A",
+                    backgroundColor:
+                      this.state.password && this.state.password.length >= 6
+                        ? "#8BC34A"
+                        : "#FFFFFF",
                     color: "#000000",
                     fontWeight: "bold",
                     border: "solid",
@@ -281,6 +385,21 @@ export default class SubmitModal extends React.Component {
                 </Button>
               )}
             </div>
+            {this.state.showProtectedSummary ? (
+              <ModalDialog
+                open={this.state.showProtectedSummary}
+                title="Password-Protected Live Paper"
+                content={
+                  <ProtectedSummary
+                    id={this.props.data.id}
+                    password={this.state.password}
+                    enqueueSnackbar={this.props.enqueueSnackbar}
+                    closeSnackbar={this.props.closeSnackbar}
+                  />
+                }
+                handleClose={this.handleProtectedSummaryClose}
+              />
+            ) : null}
           </DialogContent>
         </Dialog>
       );
@@ -292,3 +411,64 @@ SubmitModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
+
+function ProtectedSummary(props) {
+  return (
+    <div
+      style={{
+        paddingLeft: "2.5%",
+        paddingRight: "2.5%",
+        textAlign: "justify",
+      }}
+    >
+      <br />
+      You can now share this live paper with others by sharing the following
+      info:
+      <br />
+      <br />
+      <div
+        onClick={() => {
+          navigator.clipboard.writeText(
+            "https://live-paper-platform.netlify.app/#" + props.id
+          );
+          showNotification(
+            props.enqueueSnackbar,
+            props.closeSnackbar,
+            "Copied to clipboard!",
+            "info"
+          );
+        }}
+        style={{ cursor: "pointer" }}
+      >
+        URL:
+        <h6>
+          <b>{"https://live-paper-platform.netlify.app/#" + props.id}</b>
+        </h6>
+      </div>
+      <br />
+      <div
+        onClick={() => {
+          navigator.clipboard.writeText(props.password);
+          showNotification(
+            props.enqueueSnackbar,
+            props.closeSnackbar,
+            "Copied to clipboard!",
+            "info"
+          );
+        }}
+        style={{ cursor: "pointer" }}
+      >
+        Password:
+        <h6>
+          <b>{props.password}</b>
+        </h6>
+      </div>
+      <br />
+      <br />
+      <strong>Note: </strong>You can change the password at any time by
+      repeating this process.
+      <br />
+      <br />
+    </div>
+  );
+}

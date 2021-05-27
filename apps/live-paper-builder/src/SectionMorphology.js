@@ -654,6 +654,21 @@ export default class SectionMorphology extends React.Component {
                     onChange={this.toggleUseTabs}
                   />
                 </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    paddingBottom: "20px",
+                  }}
+                >
+                  <span style={{ paddingRight: "10px" }}>
+                    <strong>Note:</strong> 'View URL' can be left empty for SWC,
+                    neurolucida-ASC, neurolucida-XML or neurolucida-DAT/NRX
+                    files to make use of intergrated 3D visualization tool.
+                  </span>
+                </Grid>
                 {this.state.useTabs && (
                   <Grid
                     item

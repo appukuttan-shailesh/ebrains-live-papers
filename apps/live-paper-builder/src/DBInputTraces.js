@@ -870,7 +870,7 @@ export class FilterPanelKG extends React.Component {
       nar_baseUrl +
       "/recordings/?" +
       encodeURI(query) +
-      "summary=false&size=" +
+      "&summary=false&size=" +
       querySizeLimit +
       "&from_index=0";
     this.setState({ loading: true });
