@@ -1,0 +1,33 @@
+# FROM nginx:alpine
+
+# this two-stage build makes the final image much smaller
+# as it contains only the final built app
+
+# build environment
+FROM node:alpine as build
+
+WORKDIR /live-paper-platform
+ENV PATH /live-paper-platform/node_modules/.bin:$PATH
+COPY live-paper-platform/package.json ./
+COPY live-paper-platform/package-lock.json ./
+RUN npm ci --silent
+COPY live-paper-platform ./
+RUN node --max-old-space-size=4096 `which npm` run build
+
+WORKDIR /live-paper-builder
+ENV PATH /live-paper-builder/node_modules/.bin:$PATH
+COPY live-paper-builder/package.json ./
+COPY live-paper-builder/package-lock.json ./
+RUN npm ci --silent
+COPY live-paper-builder ./
+RUN npm run build
+
+
+# production environment
+FROM nginx:stable-alpine
+COPY deployment/nginx-app-staging.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /live-paper-platform/build /usr/share/nginx/html/live-paper-platform
+COPY --from=build /live-paper-builder/build /usr/share/nginx/html/live-paper-builder
+EXPOSE 80
+EXPOSE 443
+CMD ["nginx", "-g", "daemon off;"]

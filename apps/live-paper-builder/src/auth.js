@@ -6,7 +6,7 @@ import Keycloak from 'keycloak-js';
 const keycloak = Keycloak({
     url: 'https://iam.ebrains.eu/auth',
     realm: 'hbp',
-    clientId: 'live-paper-builder-tool'
+    clientId: 'live-paper-apps'
 });
 const YOUR_APP_SCOPES = 'team email profile';   // full list at https://iam.ebrains.eu/auth/realms/hbp/.well-known/openid-configuration
 

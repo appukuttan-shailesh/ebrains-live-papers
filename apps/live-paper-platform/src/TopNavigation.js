@@ -4,6 +4,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import BuildIcon from '@material-ui/icons/Build';
+import { livePaperBuilderUrl, livePaperDocsUrl } from "./globals";
 
 export default class TopNavigation extends React.Component {
   render() {
@@ -12,7 +13,7 @@ export default class TopNavigation extends React.Component {
         <Grid item>
           <Tooltip title={"Open Live Paper Builder"}>
             <a
-              href="https://live-paper-builder.netlify.app/"
+              href={livePaperBuilderUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -23,7 +24,7 @@ export default class TopNavigation extends React.Component {
           </Tooltip>
           <Tooltip title={"Open Documentation"}>
             <a
-              href="https://live-paper-docs.netlify.app/docs/"
+              href={livePaperDocsUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
