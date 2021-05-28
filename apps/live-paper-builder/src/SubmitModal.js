@@ -15,7 +15,7 @@ import ModalDialog from "./ModalDialog";
 import Link from "@material-ui/core/Link";
 import { baseUrl } from "./globals";
 import { showNotification } from "./utils";
-import bcryptjs from "bcryptjs";
+import saltedMd5 from "salted-md5";
 
 export default class SubmitModal extends React.Component {
   signal = axios.CancelToken.source();
@@ -71,36 +71,35 @@ export default class SubmitModal extends React.Component {
         },
       };
       this.setState({ loading: true }, async () => {
-        bcryptjs.hash(this.state.password, 10, function (err, hash) {
-          // save password
-          console.log("Saving hash on KG");
-            console.log(hash);
-          axios
-            .put(url, { value: hash }, config)
-            .then((res) => {
-              console.log("Password saved to KG!");
-              console.log(res);
-              context.setState({ loading: false, showProtectedSummary: true });
-              showNotification(
-                context.props.enqueueSnackbar,
-                context.props.closeSnackbar,
-                "Password has been set!",
-                "success"
-              );
-            })
-            .catch((err) => {
-              if (axios.isCancel(err)) {
-                console.log("Error: ", err.message);
-              } else {
-                console.log(err);
-                console.log(err.response);
-                context.setState({
-                  error: err.response,
-                });
-              }
-              context.setState({ loading: false });
-            });
-        });
+        let hash = saltedMd5(this.state.password, lp_id).toString();
+        console.log(hash);
+        // save password
+        console.log("Saving hash on KG");
+        axios
+          .put(url, { value: hash }, config)
+          .then((res) => {
+            console.log("Password saved to KG!");
+            console.log(res);
+            context.setState({ loading: false, showProtectedSummary: true });
+            showNotification(
+              context.props.enqueueSnackbar,
+              context.props.closeSnackbar,
+              "Password has been set!",
+              "success"
+            );
+          })
+          .catch((err) => {
+            if (axios.isCancel(err)) {
+              console.log("Error: ", err.message);
+            } else {
+              console.log(err);
+              console.log(err.response);
+              context.setState({
+                error: err.response,
+              });
+            }
+            context.setState({ loading: false });
+          });
       });
     }
   }

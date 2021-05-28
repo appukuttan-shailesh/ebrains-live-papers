@@ -10321,6 +10321,11 @@
   "resolved" "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz"
   "version" "2.1.2"
 
+"salted-md5@^4.0.2":
+  "integrity" "sha512-Eru1zoUEvifBLMs7j0jIva1JIX34+MuGc6CTyhW3mr+bylIZf3DKKSceOgaYahBvF37vuRDqJmfeyIj4mXUGog=="
+  "resolved" "https://registry.npmjs.org/salted-md5/-/salted-md5-4.0.2.tgz"
+  "version" "4.0.2"
+
 "sane@^4.0.3":
   "integrity" "sha512-hhbzAgTIX8O7SHfp2c8/kREfEn4qO/9q8C9beyY6+tvZ87EpoZ3i1RIEvp27YBswnNbY9mWd6paKVmKbAgLfZA=="
   "resolved" "https://registry.npmjs.org/sane/-/sane-4.1.0.tgz"

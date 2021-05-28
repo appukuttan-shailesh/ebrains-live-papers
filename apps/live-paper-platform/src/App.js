@@ -11,7 +11,7 @@ import ErrorDialog from "./ErrorDialog";
 import LivePaperViewer from "./LivePaperViewer";
 import { baseUrl, updateHash } from "./globals";
 import { isUUID } from "./utils";
-import bcryptjs from "bcryptjs";
+import saltedMd5 from "salted-md5";
 
 // define the columns for the material data table
 const TABLE_COLUMNS = [
@@ -122,49 +122,46 @@ export default class App extends React.Component {
       // Currently just for demo purposes with a single sample live paper
       let context = this;
       const password = prompt("Please enter the live paper password:");
-      bcryptjs.hash(password, 10, function (err, hash) {
-        let url = baseUrl + "/livepapers/" + lp_id;
-        // replace "$2a$10$32Y4Zzb7hMZU1TvRHQd8YejY7OhaPF7FHCYGxgkvcusf9xEU29uua" with `hash`
-        let config = {
-          cancelToken: context.signal.token,
-          headers: {
-            Authorization:
-              "Bearer " +
-              "$2a$10$32Y4Zzb7hMZU1TvRHQd8YejY7OhaPF7FHCYGxgkvcusf9xEU29uua",
-            "Content-type": "application/json",
-          },
-        };
-        axios
-          .get(url, config)
-          .then((res) => {
-            console.log(res);
+      let hash = saltedMd5(password, lp_id).toString();
+      let url = baseUrl + "/livepapers/" + lp_id;
+      let config = {
+        cancelToken: context.signal.token,
+        headers: {
+          Authorization: "Bearer " + hash,
+          "Content-type": "application/json",
+        },
+      };
+      axios
+        .get(url, config)
+        .then((res) => {
+          console.log(res);
+          context.setState((prevState) => ({
+            dataLPs: {
+              ...prevState.dataLPs,
+              [lp_id]: res.data,
+            },
+          }));
+          if (open) {
+            context.setState({
+              lp_open_id: lp_id,
+            });
+          }
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("error: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
             context.setState((prevState) => ({
               dataLPs: {
                 ...prevState.dataLPs,
-                [lp_id]: res.data,
+                lp_id: null,
               },
             }));
-            if (open) {
-              context.setState({
-                lp_open_id: lp_id,
-              });
-            }
-          })
-          .catch((err) => {
-            if (axios.isCancel(err)) {
-              console.log("error: ", err.message);
-            } else {
-              // Something went wrong. Save the error in state and re-render.
-              context.setState((prevState) => ({
-                dataLPs: {
-                  ...prevState.dataLPs,
-                  lp_id: null,
-                },
-              }));
-            }
-            updateHash("");
-          });
-      });
+          }
+          updateHash("");
+          context.forceUpdate();
+        });
     } else {
       let url = baseUrl + "/livepapers-published/" + lp_id;
       let config = {
@@ -326,118 +323,45 @@ export default class App extends React.Component {
     }
     // console.log(this.state.dataLPs);
     // console.log(this.state.selectedLPs);
-
-    return (
-      <div className="container" style={{ textAlign: "left" }}>
-        <TopNavigation />
-        <div
-          className="box rounded centered"
-          style={{
-            marginTop: "5px",
-            paddingTop: "50px",
-            paddingBottom: "50px",
-          }}
-        >
+    if (window.location.hash) {
+      return (
+        <div className="container" style={{ textAlign: "left" }}>
+          {lp_page}
+        </div>
+      );
+    } else {
+      return (
+        <div className="container" style={{ textAlign: "left" }}>
+          <TopNavigation />
           <div
+            className="box rounded centered"
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItem: "center",
+              marginTop: "5px",
+              paddingTop: "50px",
+              paddingBottom: "50px",
             }}
           >
-            <img
-              className="ebrains-icon-small"
-              src="./imgs/ebrains_logo.png"
-              alt="EBRAINS logo"
-              style={{ width: "50px", height: "50px" }}
-            />
-            <span
-              className="title-style"
-              style={{ paddingLeft: "15px", marginTop: "4px" }}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItem: "center",
+              }}
             >
-              EBRAINS Live Papers
-            </span>
+              <img
+                className="ebrains-icon-small"
+                src="./imgs/ebrains_logo.png"
+                alt="EBRAINS logo"
+                style={{ width: "50px", height: "50px" }}
+              />
+              <span
+                className="title-style"
+                style={{ paddingLeft: "15px", marginTop: "4px" }}
+              >
+                EBRAINS Live Papers
+              </span>
+            </div>
           </div>
-        </div>
-        <div
-          style={{
-            paddingLeft: "5%",
-            paddingRight: "5%",
-            textAlign: "justify",
-          }}
-        >
-          <strong>Welcome to the EBRAINS live paper platform!</strong>
-          <br />
-          <br />
-          EBRAINS Live Papers are structured and interactive documents that
-          complement published scientific articles. Interactivity is a prominent
-          feature of the "Live Papers" with several integrated tools and
-          services that will allow users to download, visualise or simulate
-          data, models and results presented in the corresponding publications.
-          The live papers allow for diverse types of resources to be presented,
-          with practically no limitations.
-          <br />
-          <br />
-          For more information on how to create or explore a live paper, you may
-          refer to the documentation by clicking on the{" "}
-          <HelpOutlineIcon
-            fontSize="small"
-            style={{ verticalAlign: "text-bottom" }}
-          />{" "}
-          icon on the top-left of this page. If you wish to develop a new live
-          paper, please click on the{" "}
-          <BuildIcon
-            fontSize="small"
-            style={{ verticalAlign: "text-bottom" }}
-          />{" "}
-          icon on the top-left of this page to open the live paper builder tool.
-          The documentation also contains info on how to develop live papers
-          using this tool.
-        </div>
-        <div
-          className="note rounded intro"
-          style={{
-            marginLeft: "5%",
-            marginRight: "5%",
-            width: "90%",
-            textAlign: "justify",
-          }}
-        >
-          <strong>Note:</strong> Some of the integrated tools used in the Live
-          Papers require an EBRAINS account. If you do not have an account yet
-          and are interested in getting one, you can do so by visiting:&nbsp;
-          <a
-            href="https://iam.ebrains.eu/register"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            https://iam.ebrains.eu/register
-          </a>
-          . It is free and simple to create a new account, and mainly requires
-          an institutional email account.
-        </div>
-        <div
-          style={{
-            paddingLeft: "5%",
-            paddingRight: "5%",
-            textAlign: "justify",
-          }}
-        >
-          For any issues regarding usability or accessibility of resources,
-          users are requested to contact{" "}
-          <a
-            href="mailto:support@ebrains.eu"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            support@ebrains.eu
-          </a>{" "}
-          for further assistance.
-        </div>
-        <br />
-        <br />
-        {this.state.loadingListing && <LoadingIndicator />}
-        {!this.state.loadingListing && (
           <div
             style={{
               paddingLeft: "5%",
@@ -445,97 +369,178 @@ export default class App extends React.Component {
               textAlign: "justify",
             }}
           >
-            <ThemeProvider theme={theme}>
-              <MaterialTable
-                title="Published Live Papers"
-                data={this.state.lp_listing}
-                columns={TABLE_COLUMNS}
-                options={{
-                  search: true,
-                  paging: false,
-                  filtering: false,
-                  exportButton: false,
-                  headerStyle: {
-                    position: "sticky",
-                    top: 0,
-                    backgroundColor: "#FFFFFF",
-                    color: "#000",
-                    fontWeight: "bold",
-                    fontSize: 16,
-                  },
-                  rowStyle: (rowData) => ({
-                    fontSize: 16,
-                    backgroundColor: this.state.selectedLPs.includes(
-                      rowData.tableData.id
-                    )
-                      ? "#FFECB3"
-                      : "#EEEEEE",
-                  }),
-                  // tableLayout: "fixed",
-                }}
-                detailPanel={[
-                  {
-                    icon: "insert_drive_file",
-                    openIcon: "find_in_page",
-                    render: (rowData) => {
-                      if (
-                        !Object.keys(this.state.dataLPs).includes(rowData.id) ||
-                        this.state.dataLPs[rowData.id] === null
-                      ) {
-                        this.handleSelectedLP(rowData.id);
-                        return <LoadingIndicator />;
-                      } else {
-                        return this.renderDetailPanel(
-                          this.state.dataLPs[rowData.id]
-                        );
-                      }
-                    },
-                  },
-                ]}
-                onRowClick={(event, selectedRow, togglePanel) => {
-                  // console.log(selectedRow.id);
-                  togglePanel();
-                  let selectedLPs = this.state.selectedLPs;
-                  let index = selectedLPs.indexOf(selectedRow.tableData.id);
-                  if (index !== -1) {
-                    selectedLPs.splice(index, 1);
-                  } else {
-                    selectedLPs.push(selectedRow.tableData.id);
-                  }
-                  this.setState({ selectedLPs: selectedLPs });
-                }}
-                components={{
-                  Toolbar: (props) => (
-                    <div
-                      style={{
-                        backgroundColor: "#FFD180",
-                      }}
-                    >
-                      <MTableToolbar {...props} />
-                    </div>
-                  ),
-                }}
-              />
-            </ThemeProvider>
+            <strong>Welcome to the EBRAINS live paper platform!</strong>
+            <br />
+            <br />
+            EBRAINS Live Papers are structured and interactive documents that
+            complement published scientific articles. Interactivity is a
+            prominent feature of the "Live Papers" with several integrated tools
+            and services that will allow users to download, visualise or
+            simulate data, models and results presented in the corresponding
+            publications. The live papers allow for diverse types of resources
+            to be presented, with practically no limitations.
+            <br />
+            <br />
+            For more information on how to create or explore a live paper, you
+            may refer to the documentation by clicking on the{" "}
+            <HelpOutlineIcon
+              fontSize="small"
+              style={{ verticalAlign: "text-bottom" }}
+            />{" "}
+            icon on the top-left of this page. If you wish to develop a new live
+            paper, please click on the{" "}
+            <BuildIcon
+              fontSize="small"
+              style={{ verticalAlign: "text-bottom" }}
+            />{" "}
+            icon on the top-left of this page to open the live paper builder
+            tool. The documentation also contains info on how to develop live
+            papers using this tool.
           </div>
-        )}
-        <br />
-        <br />
-        <div className="rainbow-row">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div
+            className="note rounded intro"
+            style={{
+              marginLeft: "5%",
+              marginRight: "5%",
+              width: "90%",
+              textAlign: "justify",
+            }}
+          >
+            <strong>Note:</strong> Some of the integrated tools used in the Live
+            Papers require an EBRAINS account. If you do not have an account yet
+            and are interested in getting one, you can do so by visiting:&nbsp;
+            <a
+              href="https://iam.ebrains.eu/register"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              https://iam.ebrains.eu/register
+            </a>
+            . It is free and simple to create a new account, and mainly requires
+            an institutional email account.
+          </div>
+          <div
+            style={{
+              paddingLeft: "5%",
+              paddingRight: "5%",
+              textAlign: "justify",
+            }}
+          >
+            For any issues regarding usability or accessibility of resources,
+            users are requested to contact{" "}
+            <a
+              href="mailto:support@ebrains.eu"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              support@ebrains.eu
+            </a>{" "}
+            for further assistance.
+          </div>
+          <br />
+          <br />
+          {this.state.loadingListing && <LoadingIndicator />}
+          {!this.state.loadingListing && (
+            <div
+              style={{
+                paddingLeft: "5%",
+                paddingRight: "5%",
+                textAlign: "justify",
+              }}
+            >
+              <ThemeProvider theme={theme}>
+                <MaterialTable
+                  title="Published Live Papers"
+                  data={this.state.lp_listing}
+                  columns={TABLE_COLUMNS}
+                  options={{
+                    search: true,
+                    paging: false,
+                    filtering: false,
+                    exportButton: false,
+                    headerStyle: {
+                      position: "sticky",
+                      top: 0,
+                      backgroundColor: "#FFFFFF",
+                      color: "#000",
+                      fontWeight: "bold",
+                      fontSize: 16,
+                    },
+                    rowStyle: (rowData) => ({
+                      fontSize: 16,
+                      backgroundColor: this.state.selectedLPs.includes(
+                        rowData.tableData.id
+                      )
+                        ? "#FFECB3"
+                        : "#EEEEEE",
+                    }),
+                    // tableLayout: "fixed",
+                  }}
+                  detailPanel={[
+                    {
+                      icon: "insert_drive_file",
+                      openIcon: "find_in_page",
+                      render: (rowData) => {
+                        if (
+                          !Object.keys(this.state.dataLPs).includes(
+                            rowData.id
+                          ) ||
+                          this.state.dataLPs[rowData.id] === null
+                        ) {
+                          this.handleSelectedLP(rowData.id);
+                          return <LoadingIndicator />;
+                        } else {
+                          return this.renderDetailPanel(
+                            this.state.dataLPs[rowData.id]
+                          );
+                        }
+                      },
+                    },
+                  ]}
+                  onRowClick={(event, selectedRow, togglePanel) => {
+                    // console.log(selectedRow.id);
+                    togglePanel();
+                    let selectedLPs = this.state.selectedLPs;
+                    let index = selectedLPs.indexOf(selectedRow.tableData.id);
+                    if (index !== -1) {
+                      selectedLPs.splice(index, 1);
+                    } else {
+                      selectedLPs.push(selectedRow.tableData.id);
+                    }
+                    this.setState({ selectedLPs: selectedLPs });
+                  }}
+                  components={{
+                    Toolbar: (props) => (
+                      <div
+                        style={{
+                          backgroundColor: "#FFD180",
+                        }}
+                      >
+                        <MTableToolbar {...props} />
+                      </div>
+                    ),
+                  }}
+                />
+              </ThemeProvider>
+            </div>
+          )}
+          <br />
+          <br />
+          <div className="rainbow-row">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <br />
+          <br />
+          {errorModal}
         </div>
-        <br />
-        <br />
-        {errorModal}
-        {lp_page}
-      </div>
-    );
+      );
+    }
   }
 }
