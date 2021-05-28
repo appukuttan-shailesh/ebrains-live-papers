@@ -1,4 +1,7 @@
 // NOTE: dummy data (in 'dev_data' directory) for DevMode is from v1 APIs; needs to be updated for v2 usage
+export const livePaperPlatformUrl = "https://live-papers.brainsimulation.eu/";
+export const livePaperBuilderUrl = "https://live-papers.brainsimulation.eu/builder/";
+export const livePaperDocsUrl = "https://live-paper-docs.netlify.app/docs/";
 export const baseUrl = "https://validation-v2.brainsimulation.eu";
 export const mc_baseUrl = "https://model-catalog.brainsimulation.eu";
 export const nar_baseUrl =
