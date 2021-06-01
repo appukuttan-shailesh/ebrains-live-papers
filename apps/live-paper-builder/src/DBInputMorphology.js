@@ -639,7 +639,11 @@ class AllenBrainContentMorphologyPanel extends React.Component {
               <b>Morphology Details:</b>
             </Typography>
             <Link
-              href={allenbrain_viewMorphologyUrl + "/" + this.props.data.specimen__id}
+              href={
+                allenbrain_viewMorphologyUrl +
+                "/" +
+                this.props.data.specimen__id
+              }
               target="_blank"
               rel="noreferrer"
               underline="none"
@@ -755,7 +759,9 @@ class AllenBrainContentMorphologyPanel extends React.Component {
                     allenbrain_downloadUrl + "/" + this.props.data.download__id
                   }
                   view_url={
-                    allenbrain_viewMorphologyUrl + "/" + this.props.data.specimen__id
+                    allenbrain_viewMorphologyUrl +
+                    "/" +
+                    this.props.data.specimen__id
                   }
                   addInstanceCollection={this.props.addInstanceCollection}
                   removeInstanceCollection={this.props.removeInstanceCollection}
@@ -895,9 +901,8 @@ export class FilterPanelNeuroMorpho extends React.Component {
       morphology_ids: "",
     };
 
-    this.getListMorphologyNeuroMorpho = this.getListMorphologyNeuroMorpho.bind(
-      this
-    );
+    this.getListMorphologyNeuroMorpho =
+      this.getListMorphologyNeuroMorpho.bind(this);
     this.handleFiltersChange = this.handleFiltersChange.bind(this);
     this.toggleSearchByID = this.toggleSearchByID.bind(this);
     this.handleIDsChange = this.handleIDsChange.bind(this);
@@ -1259,9 +1264,8 @@ export class FilterPanelAllenBrain extends React.Component {
       morphology_ids: "",
     };
 
-    this.getListMorphologyAllenBrain = this.getListMorphologyAllenBrain.bind(
-      this
-    );
+    this.getListMorphologyAllenBrain =
+      this.getListMorphologyAllenBrain.bind(this);
     this.toggleSearchByID = this.toggleSearchByID.bind(this);
     this.handleIDsChange = this.handleIDsChange.bind(this);
   }
@@ -1769,7 +1773,6 @@ export default class DBInputMorphology extends React.Component {
               <div
                 style={{
                   minWidth: 700,
-                  maxWidth: 900,
                 }}
               >
                 <LoadingIndicator />

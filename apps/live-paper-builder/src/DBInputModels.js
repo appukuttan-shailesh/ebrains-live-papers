@@ -2539,7 +2539,6 @@ export default class DBInputModels extends React.Component {
               <div
                 style={{
                   minWidth: 700,
-                  maxWidth: 900,
                 }}
               >
                 <LoadingIndicator />
