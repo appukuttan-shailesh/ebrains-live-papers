@@ -6,13 +6,14 @@ import Dialog from "@material-ui/core/Dialog";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import nunjucks from "nunjucks";
-import LivePaper from "./LivePaper.njk";
 import { separator } from "./globals";
 import {
   compareArrayoOfObjectsByOrder,
   replaceNullWithEmptyStrings,
 } from "./utils";
+
+import nunjucks from "nunjucks";
+import LivePaper_v02 from "./templates/LivePaper_v0.2.njk";
 
 const styles = (theme) => ({
   root: {
@@ -110,6 +111,19 @@ export default class LivePaperViewer extends React.Component {
 
     // add additional derived data
     lp_data = this.addDerivedData(lp_data);
+
+    // determine appropriate live paper template
+    let LivePaper = null;
+    const lp_version = parseFloat(lp_data.lp_tool_version)
+    if (lp_version > 0.2) {
+        // add handling for newer templates here as required
+        console.log("ERROR: no appropriate template found");
+        console.log("Fall back to template v0.2")
+        LivePaper = LivePaper_v02
+    } else {
+        LivePaper = LivePaper_v02
+    }
+
 
     fetch(LivePaper)
       .then((r) => r.text())
