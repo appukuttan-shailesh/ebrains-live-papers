@@ -403,26 +403,27 @@ class CreateLivePaper extends React.Component {
   handleDownload() {
     let lp_data = this.addDerivedData(this.removeExcessData(this.state));
 
-    function render(data) {
+    const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+    const timestamp = new Date(Date.now() - tzoffset)
+      .toISOString()
+      .replace(/T/, "_") // replace T with an underscore
+      .replaceAll(":", "-") // replace : with -
+      .replace(/\..+/, ""); // delete the dot and everything after
+
+    function render(data, timestamp) {
       fetch(LivePaper)
         .then((r) => r.text())
         .then((source) => {
           var output = nunjucks.renderString(source, data);
-
           const element = document.createElement("a");
           const file = new Blob([output], { type: "text/html" });
           element.href = URL.createObjectURL(file);
-          const timestamp = new Date()
-            .toISOString()
-            .replace(/T/, "_") // replace T with a space
-            .replaceAll(":", "-") // replace : with -
-            .replace(/\..+/, ""); // delete the dot and everything after
           element.download = "livepaper_" + timestamp + ".html";
           document.body.appendChild(element); // Required for this to work in FireFox
           element.click();
         });
     }
-    render(lp_data);
+    render(lp_data, timestamp);
 
     showNotification(
       this.props.enqueueSnackbar,
@@ -443,11 +444,7 @@ class CreateLivePaper extends React.Component {
     const blob = new Blob([lp_data_formatted], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    const timestamp = new Date()
-      .toISOString()
-      .replace(/T/, "_") // replace T with a space
-      .replaceAll(":", "-") // replace : with -
-      .replace(/\..+/, ""); // delete the dot and everything after
+
     link.download = "livepaper_" + timestamp + ".lpp";
     link.href = url;
     link.click();

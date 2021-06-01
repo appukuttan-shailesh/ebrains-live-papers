@@ -140,7 +140,7 @@
                 <p style="padding-bottom: 10px">{{ data["description"] }}</p>
             {% endif %}
             <div ng-app="neo-visualizer">
-                <ul class="collapsible" data-collapsible="expandable">
+                <ul class="collapsible expandable">
                     {% for item in data["dataFormatted"] %}
                         <li>
                             <div class="collapsible-header" style="align-items: baseline">
@@ -185,7 +185,7 @@
                     </div>
                     {% for tab in data["tabs"] %}
                         <div id='res_{{ index }}_tab_{{ tab|replace(" ", "_") }}' class="col s12">
-                            <ul class="collapsible" data-collapsible="expandable">
+                            <ul class="collapsible expandable">
                                 {% for item in data["dataFormatted"] %}
                                     {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
                                         <li>
@@ -454,8 +454,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" href="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/live_paper/css/live_paper.css">
         <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.css">
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular-resource.min.js"></script>
@@ -463,6 +463,12 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/NeuralEnsemble/neo-viewer@master/js/src/visualizer.js"></script>
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/NeuralEnsemble/neo-viewer@master/js/src/services.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(".collapsible").collapsible({accordion: false});
+                $(".tabs").tabs();
+            });
+        </script>
     </head>
     <body class="container">
         <div class="box rounded centered">
@@ -615,7 +621,7 @@
                 {{ resources_description }}
             {% endif %}
         </p>
-        <ul class="collapsible" data-collapsible="expandable">
+        <ul class="collapsible expandable">
             {% for data in resources %}
                 {% if data["type"] == "section_morphology" %}
                     {% if data["tabs"] | length == 1 %}

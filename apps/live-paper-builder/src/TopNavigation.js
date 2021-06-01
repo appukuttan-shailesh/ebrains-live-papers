@@ -4,7 +4,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
-import { livePaperPlatformUrl } from "./globals";
+import { livePaperPlatformUrl, livePaperDocsUrl } from "./globals";
 
 export default class TopNavigation extends React.Component {
   render() {
@@ -24,7 +24,7 @@ export default class TopNavigation extends React.Component {
           </Tooltip>
           <Tooltip title={"Open Documentation"}>
             <a
-              href={`${livePaperPlatformUrl}/docs/`}
+              href={livePaperDocsUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
