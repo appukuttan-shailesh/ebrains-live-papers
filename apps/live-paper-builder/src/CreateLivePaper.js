@@ -1863,6 +1863,7 @@ class CreateLivePaper extends React.Component {
                   display: "flex",
                   justifyContent: "space-around",
                   alignItems: "center",
+                  height: "57.5px",
                 }}
               >
                 <Button
