@@ -31,9 +31,6 @@ import SectionGeneric from "./SectionGeneric";
 import SectionCustom from "./SectionCustom";
 import SwitchMultiWay from "./SwitchMultiWay";
 import TopNavigation from "./TopNavigation";
-
-import nunjucks from "nunjucks";
-import LivePaper from "./LivePaper.njk";
 import SaveModal from "./SaveModal";
 import SubmitModal from "./SubmitModal";
 import {
@@ -48,6 +45,9 @@ import {
   filterBioModelsKeys,
 } from "./globals";
 import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
+
+import nunjucks from "nunjucks";
+import LivePaper_v02 from "./templates/LivePaper_v0.2.njk";
 
 axiosRetry(axios, {
   retries: 3,
@@ -379,6 +379,18 @@ class CreateLivePaper extends React.Component {
   handlePreview() {
     let lp_data = this.addDerivedData(this.removeExcessData(this.state));
 
+    // determine appropriate live paper template
+    let LivePaper = null;
+    const lp_version = parseFloat(lp_data.lp_tool_version);
+    if (lp_version > 0.2) {
+      // add handling for newer templates here as required
+      console.log("ERROR: no appropriate template found");
+      console.log("Fall back to template v0.2");
+      LivePaper = LivePaper_v02;
+    } else {
+      LivePaper = LivePaper_v02;
+    }
+
     function render(data) {
       fetch(LivePaper)
         .then((r) => r.text())
@@ -403,6 +415,18 @@ class CreateLivePaper extends React.Component {
   handleDownload() {
     let lp_data = this.addDerivedData(this.removeExcessData(this.state));
 
+    // determine appropriate live paper template
+    let LivePaper = null;
+    const lp_version = parseFloat(lp_data.lp_tool_version);
+    if (lp_version > 0.2) {
+      // add handling for newer templates here as required
+      console.log("ERROR: no appropriate template found");
+      console.log("Fall back to template v0.2");
+      LivePaper = LivePaper_v02;
+    } else {
+      LivePaper = LivePaper_v02;
+    }
+
     const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
     const timestamp = new Date(Date.now() - tzoffset)
       .toISOString()
@@ -411,7 +435,7 @@ class CreateLivePaper extends React.Component {
       .replace(/\..+/, ""); // delete the dot and everything after
 
     function render(data, timestamp) {
-      fetch(LivePaper)
+      fetch(LivePaper_v02)
         .then((r) => r.text())
         .then((source) => {
           var output = nunjucks.renderString(source, data);
