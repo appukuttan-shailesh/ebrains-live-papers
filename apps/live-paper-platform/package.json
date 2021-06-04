@@ -18,6 +18,8 @@
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "salted-md5": "^4.0.2",
+    "showdown": "^1.9.1",
+    "showdown-katex": "^0.8.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

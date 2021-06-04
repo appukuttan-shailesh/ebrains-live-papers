@@ -24,7 +24,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div style="margin-left:25px">
                 <table class="striped">
@@ -71,7 +72,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div class="collapsible">
                 <div class="row">
@@ -137,7 +139,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div ng-app="neo-visualizer">
                 <ul class="collapsible expandable">
@@ -168,7 +171,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div ng-app="neo-visualizer">
                 <div class="collapsible">
@@ -218,7 +222,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div style="margin-left:25px">
                 <table class="striped">
@@ -261,7 +266,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div class="collapsible">
                 <div class="row">
@@ -323,7 +329,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div style="margin-left:25px">
                 <table class="striped">
@@ -367,7 +374,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div class="collapsible">
                 <div class="row">
@@ -430,7 +438,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p>{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div style="margin-left:25px">
                 {{ data["dataFormatted"] | safe }}
@@ -452,7 +461,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <link rel="stylesheet" href="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/live_paper/css/live_paper.css">
+        <link rel="stylesheet" href="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/live_paper/css/live_paper_v0.2.css">
         <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -469,6 +478,7 @@
                 $(".tabs").tabs();
             });
         </script>
+        <link rel="stylesheet" href="https://unpkg.com/katex@0.10.0/dist/katex.min.css"/>
     </head>
     <body class="container">
         <div class="box rounded centered">
@@ -618,31 +628,31 @@
         <h5>Resources</h5>
         <p>
             {% if resources_description %}
-                {{ resources_description }}
+                {{ resources_description | safe }}
             {% endif %}
         </p>
         <ul class="collapsible expandable">
             {% for data in resources %}
                 {% if data["type"] == "section_morphology" %}
-                    {% if data["tabs"] | length == 1 %}
+                    {% if data["tabs"] | length <= 1 %}
                         {{ sectionMorphology(data=data) }}
                     {% else %}
                         {{ sectionMorphologyWithTabs(data=data, index=loop.index) }}
                     {% endif %}
                 {% elseif data["type"] == "section_traces" %}
-                    {% if data["tabs"] | length == 1 %}
+                    {% if data["tabs"] | length <= 1 %}
                         {{ sectionTraces(data=data) }}
                     {% else %}
                         {{ sectionTracesWithTabs(data=data, index=loop.index) }}
                     {% endif %}
                 {% elseif data["type"] == "section_models" %}
-                    {% if data["tabs"] | length == 1 %}
+                    {% if data["tabs"] | length <= 1 %}
                         {{ sectionModels(data=data) }}
                     {% else %}
                         {{ sectionModelsWithTabs(data=data, index=loop.index) }}
                     {% endif %}
                 {% elseif data["type"] == "section_generic" %}
-                    {% if data["tabs"] | length == 1 %}
+                    {% if data["tabs"] | length <= 1 %}
                         {{ sectionGeneric(data=data) }}
                     {% else %}
                         {{ sectionGenericWithTabs(data=data, index=loop.index) }}

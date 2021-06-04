@@ -116,7 +116,7 @@ export default class App extends React.Component {
   }
 
   handleSelectedLP(lp_id, open = false) {
-    console.log("Get LP data from KG");
+    // console.log("Get LP data from KG");
     if (lp_id === "a8d69ef1-1fc5-49f8-9aff-c185925f3a42") {
       // TODO: add check to see if password-protected live paper
       // Currently just for demo purposes with a single sample live paper
@@ -170,7 +170,7 @@ export default class App extends React.Component {
       axios
         .get(url, config)
         .then((res) => {
-          console.log(res);
+          //   console.log(res);
           this.setState((prevState) => ({
             dataLPs: {
               ...prevState.dataLPs,

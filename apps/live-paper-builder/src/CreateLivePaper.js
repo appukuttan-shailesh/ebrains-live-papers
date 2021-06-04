@@ -7,6 +7,8 @@ import { withSnackbar } from "notistack";
 import { withStyles } from "@material-ui/core/styles";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
+import HelpIcon from "@material-ui/icons/Help";
 import IconButton from "@material-ui/core/IconButton";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
 import TimelineIcon from "@material-ui/icons/Timeline";
@@ -20,6 +22,8 @@ import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import axios from "axios";
 import axiosRetry from "axios-retry";
+import showdown from "showdown";
+import showdownKatex from "showdown-katex";
 
 import ContextMain from "./ContextMain";
 import DynamicTablePerson from "./DynamicTablePerson";
@@ -33,6 +37,9 @@ import SwitchMultiWay from "./SwitchMultiWay";
 import TopNavigation from "./TopNavigation";
 import SaveModal from "./SaveModal";
 import SubmitModal from "./SubmitModal";
+import ModalDialog from "./ModalDialog";
+import MarkdownLatexExample from "./MarkdownLatexExample";
+
 import {
   baseUrl,
   lp_tool_version,
@@ -173,6 +180,7 @@ class CreateLivePaper extends React.Component {
       validModelDBFilterValues: null,
       validNeuroMorphoFilterValues: null,
       validBioModelsFilterValues: null,
+      showDescHelp: false,
     };
     this.state = { ...this.state, ...props.data };
 
@@ -216,6 +224,8 @@ class CreateLivePaper extends React.Component {
       this.retrieveNeuroMorphoFilterValidValues.bind(this);
     this.retrieveBioModelsFilterValidValues =
       this.retrieveBioModelsFilterValidValues.bind(this);
+    this.clickDescHelp = this.clickDescHelp.bind(this);
+    this.handleDescHelpClose = this.handleDescHelpClose.bind(this);
   }
 
   componentDidMount() {
@@ -224,6 +234,18 @@ class CreateLivePaper extends React.Component {
     this.retrieveModelDBFilterValidValues();
     this.retrieveNeuroMorphoFilterValidValues();
     this.retrieveBioModelsFilterValidValues();
+  }
+
+  clickDescHelp() {
+    this.setState({
+      showDescHelp: true,
+    });
+  }
+
+  handleDescHelpClose() {
+    this.setState({
+      showDescHelp: false,
+    });
   }
 
   deleteResourceSection(order) {
@@ -354,7 +376,21 @@ class CreateLivePaper extends React.Component {
       this.makeAuthorsAndAffiliationsString();
     data["created_authors_string"] = this.makeCreatedAuthorsString();
 
+    let converter = new showdown.Converter({
+      extensions: [
+        showdownKatex({
+          throwOnError: false,
+          displayMode: true,
+        }),
+      ],
+    });
+    // handle potential markdown in top-level resource description
+    data["resources_description"] = converter.makeHtml(
+      data["resources_description"]
+    );
+
     // check if resources use tabs; handle appropriately
+    // also handle potential markdown in all descriptions
     data.resources.forEach(function (res, index) {
       if (res.type !== "section_custom") {
         let tabs = [];
@@ -367,6 +403,9 @@ class CreateLivePaper extends React.Component {
         tabs = tabs.map((item) => (item === "" ? "no tab name" : item));
         // add tab names to resource data
         res["tabs"] = tabs;
+
+        // convert any potential markdown content to html
+        res["description"] = converter.makeHtml(res["description"]);
       }
     });
     return data;
@@ -435,7 +474,7 @@ class CreateLivePaper extends React.Component {
       .replace(/\..+/, ""); // delete the dot and everything after
 
     function render(data, timestamp) {
-      fetch(LivePaper_v02)
+      fetch(LivePaper)
         .then((r) => r.text())
         .then((source) => {
           var output = nunjucks.renderString(source, data);
@@ -1536,7 +1575,6 @@ class CreateLivePaper extends React.Component {
                     label="Abstract"
                     variant="outlined"
                     fullWidth={true}
-                    helperText="The description may be formatted with Markdown"
                     name="abstract"
                     value={this.state.abstract}
                     onChange={this.handleFieldChange}
@@ -1571,7 +1609,28 @@ class CreateLivePaper extends React.Component {
               <br />
               <br />
 
-              <h5>Resources</h5>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <div>
+                  <h5>Resources</h5>
+                </div>
+                <div
+                  style={{
+                    width: "50px",
+                    paddingLeft: "20px",
+                    paddingTop: "15px",
+                    justifyContent: "center",
+                    alignItems: "baseline",
+                  }}
+                >
+                  <Tooltip title="Click for help with description input format">
+                    <HelpIcon
+                      style={{ width: 30, height: 30 }}
+                      onClick={this.clickDescHelp}
+                    />
+                  </Tooltip>
+                </div>
+              </div>
+
               <br />
               <div>
                 <Grid item xs={12}>
@@ -1581,7 +1640,7 @@ class CreateLivePaper extends React.Component {
                     label="Description of resources (optional)"
                     variant="outlined"
                     fullWidth={true}
-                    helperText="The description may be formatted with Markdown"
+                    helperText="The description may be formatted with Markdown, LaTeX math and/or AsciiMath. Click on ? icon for help."
                     name="resources_description"
                     value={this.state.resources_description}
                     onChange={this.handleFieldChange}
@@ -1939,6 +1998,14 @@ class CreateLivePaper extends React.Component {
           </Footer>
           {saveModal}
           {submitModal}
+          {this.state.showDescHelp ? (
+            <ModalDialog
+              open={this.state.showDescHelp}
+              title="Markdown / Latex Description Input Format"
+              content={<MarkdownLatexExample />}
+              handleClose={this.handleDescHelpClose}
+            />
+          ) : null}
         </DialogContent>
       </Dialog>
     );

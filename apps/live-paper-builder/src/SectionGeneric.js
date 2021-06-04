@@ -1,12 +1,14 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import MaterialIconSelector from "./MaterialIconSelector";
+import HelpIcon from "@material-ui/icons/Help";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import DynamicTableItems from "./DynamicTableItems";
 import ToggleSwitch from "./ToggleSwitch";
+import MarkdownLatexExample from "./MarkdownLatexExample";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -281,6 +283,7 @@ export default class SectionGeneric extends React.Component {
       deleteOpen: false,
       expanded: true,
       useTabs: false,
+      showDescHelp: false,
       ...props.data,
     };
 
@@ -294,10 +297,24 @@ export default class SectionGeneric extends React.Component {
     this.toggleExpanded = this.toggleExpanded.bind(this);
     this.handleItemsChange = this.handleItemsChange.bind(this);
     this.toggleUseTabs = this.toggleUseTabs.bind(this);
+    this.clickDescHelp = this.clickDescHelp.bind(this);
+    this.handleDescHelpClose = this.handleDescHelpClose.bind(this);
   }
 
   componentDidMount() {
     this.props.storeSectionInfo(this.state);
+  }
+
+  clickDescHelp() {
+    this.setState({
+      showDescHelp: true,
+    });
+  }
+
+  handleDescHelpClose() {
+    this.setState({
+      showDescHelp: false,
+    });
   }
 
   handleItemsChange(items_data) {
@@ -567,16 +584,33 @@ export default class SectionGeneric extends React.Component {
                       }}
                     />
                   </div>
+                  <div
+                    style={{
+                      width: "50px",
+                      paddingLeft: "20px",
+                      paddingTop: "10px",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Tooltip title="Click for help with description input format">
+                      <HelpIcon
+                        style={{ width: 30, height: 30 }}
+                        onClick={this.clickDescHelp}
+                      />
+                    </Tooltip>
+                  </div>
                 </div>
                 <br />
+
                 <Grid item xs={12}>
                   <TextField
                     multiline
-                    rows="2"
+                    rows="4"
                     label="Description (optional)"
                     variant="outlined"
                     fullWidth={true}
-                    helperText="The description may be formatted with Markdown"
+                    helperText="The description may be formatted with Markdown, LaTeX math and/or AsciiMath. Click on ? icon for help."
                     name="description"
                     value={this.state.description}
                     onChange={this.handleFieldChange}
@@ -632,6 +666,15 @@ export default class SectionGeneric extends React.Component {
                     data={this.state.dataFormatted}
                     onChangeValue={this.handleItemsChange}
                     handleClose={this.handleEditClose}
+                  />
+                ) : null}
+                {this.state.showDescHelp ? (
+                  <ModalDialog
+                    open={this.state.showDescHelp}
+                    title="Markdown / Latex Description Input Format"
+                    headerBgColor="#AA91D7"
+                    content={<MarkdownLatexExample />}
+                    handleClose={this.handleDescHelpClose}
                   />
                 ) : null}
               </div>

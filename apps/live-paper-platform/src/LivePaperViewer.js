@@ -6,6 +6,8 @@ import Dialog from "@material-ui/core/Dialog";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import showdown from "showdown";
+import showdownKatex from "showdown-katex";
 import { separator } from "./globals";
 import {
   compareArrayoOfObjectsByOrder,
@@ -87,10 +89,24 @@ export default class LivePaperViewer extends React.Component {
       }
     });
 
+    let converter = new showdown.Converter({
+      extensions: [
+        showdownKatex({
+          throwOnError: false,
+          displayMode: true,
+        }),
+      ],
+    });
+    // handle potential markdown in top-level resource description
+    lp_data["resources_description"] = converter.makeHtml(
+      lp_data["resources_description"]
+    );
+
     // handle useTabs for resources
     // KG doesn't have a separate field for saving tabs_name;
     // this is handled by appending it to the label with a separator (#-#)
     // we do the reverse when loading LP project from KG
+    // also handle potential markdown in all descriptions
     lp_data.resources.forEach(function (res, index) {
       if (res.type !== "section_custom") {
         let tabs = [];
@@ -106,6 +122,9 @@ export default class LivePaperViewer extends React.Component {
         tabs = tabs.filter((x, i, a) => a.indexOf(x) === i);
         // add tab names to resource data
         res["useTabs"] = tabs.length > 1 || tabs[0] !== "" ? true : false;
+
+        // convert any potential markdown content to html
+        res["description"] = converter.makeHtml(res["description"]);
       }
     });
 
@@ -114,16 +133,15 @@ export default class LivePaperViewer extends React.Component {
 
     // determine appropriate live paper template
     let LivePaper = null;
-    const lp_version = parseFloat(lp_data.lp_tool_version)
+    const lp_version = parseFloat(lp_data.lp_tool_version);
     if (lp_version > 0.2) {
-        // add handling for newer templates here as required
-        console.log("ERROR: no appropriate template found");
-        console.log("Fall back to template v0.2")
-        LivePaper = LivePaper_v02
+      // add handling for newer templates here as required
+      console.log("ERROR: no appropriate template found");
+      console.log("Fall back to template v0.2");
+      LivePaper = LivePaper_v02;
     } else {
-        LivePaper = LivePaper_v02
+      LivePaper = LivePaper_v02;
     }
-
 
     fetch(LivePaper)
       .then((r) => r.text())
@@ -223,11 +241,11 @@ export default class LivePaperViewer extends React.Component {
         var affs = author.affiliation.split(";").map(function (x) {
           return x.trim();
         });
-        console.log(affs);
-        console.log(unique_affs);
+        // console.log(affs);
+        // console.log(unique_affs);
         let author_affs = "";
         affs.forEach(function (aff) {
-          console.log(aff);
+          //   console.log(aff);
           if (author_affs !== "") {
             author_affs = author_affs + ",";
           }
@@ -236,7 +254,7 @@ export default class LivePaperViewer extends React.Component {
               author_affs + (unique_affs.indexOf(aff) + 1).toString();
           }
         });
-        console.log(author_affs);
+        // console.log(author_affs);
 
         authors_string =
           authors_string +
