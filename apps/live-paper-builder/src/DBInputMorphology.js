@@ -1514,6 +1514,8 @@ export class FilterPanelAllenBrain extends React.Component {
 }
 
 export default class DBInputMorphology extends React.Component {
+  static contextType = ContextMain;
+
   constructor(props) {
     super(props);
 
@@ -1678,7 +1680,7 @@ export default class DBInputMorphology extends React.Component {
           <FilterPanelNeuroMorpho
             showFilters={showFilters}
             validNeuroMorphoFilterValues={
-              this.props.validNeuroMorphoFilterValues
+              this.context.validNeuroMorphoFilterValues[0]
             }
             shareGetListMorphology={this.acceptsProceedMethod}
             setListMorphology={this.setListMorphology}
@@ -1767,7 +1769,7 @@ export default class DBInputMorphology extends React.Component {
             </span>
           </DialogTitle>
           <DialogContent dividers>
-            {(!this.props.validNeuroMorphoFilterValues &&
+            {(!this.context.validNeuroMorphoFilterValues[0] &&
               this.state.showFilters) ||
             this.state.loading ? (
               <div

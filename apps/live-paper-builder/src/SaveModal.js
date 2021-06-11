@@ -319,6 +319,7 @@ export default class SaveModal extends React.Component {
   render() {
     // console.log(this.props);
     // console.log(this.state);
+    const [collabList] = this.context.collabList;
     if (this.state.error) {
       return (
         <ErrorDialog
@@ -363,25 +364,23 @@ export default class SaveModal extends React.Component {
               <SingleSelect
                 name="project_id"
                 itemNames={
-                  this.props.collab_list
-                    ? this.props.collab_list.length > 0
-                      ? this.props.collab_list
+                  collabList
+                    ? collabList.length > 0
+                      ? collabList
                       : ["Please create a new Collab!"]
                     : ["Loading... please wait!"]
                 }
                 label="Collab"
                 value={
-                  this.props.collab_list
-                    ? this.props.collab_list.length > 0
+                  collabList
+                    ? collabList.length > 0
                       ? this.state.collab_id
                       : "Please create a new Collab!"
                     : "Loading... please wait!"
                 }
                 helperText="Select a host Collab for this live paper"
                 handleChange={this.handleCollabIDChange}
-                disabled={
-                  !(this.props.collab_list && this.props.collab_list.length > 0)
-                }
+                disabled={!(collabList && collabList.length > 0)}
               />
             </Box>
             {!this.state.collab_id && (

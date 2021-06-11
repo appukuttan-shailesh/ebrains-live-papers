@@ -757,7 +757,6 @@ export default class SectionTraces extends React.Component {
                   <DBInputTraces
                     open={this.state.showDBInput}
                     handleClose={this.handleDBClose}
-                    validKGFilterValues={this.props.validKGFilterValues}
                     enqueueSnackbar={this.props.enqueueSnackbar}
                     closeSnackbar={this.props.closeSnackbar}
                   />

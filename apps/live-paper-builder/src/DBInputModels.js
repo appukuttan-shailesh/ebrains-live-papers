@@ -2240,6 +2240,8 @@ export class FilterPanelBioModels extends React.Component {
 }
 
 export default class DBInputModels extends React.Component {
+  static contextType = ContextMain;
+
   constructor(props) {
     super(props);
 
@@ -2409,7 +2411,7 @@ export default class DBInputModels extends React.Component {
         {this.state.sourceDB === "Knowledge Graph" && (
           <FilterPanelKG
             showFilters={showFilters}
-            validKGFilterValues={this.props.validKGFilterValues}
+            validKGFilterValues={this.context.validKGFilterValues[0]}
             shareGetListModels={this.acceptsProceedMethod}
             setListModels={this.setListModels}
           />
@@ -2417,7 +2419,7 @@ export default class DBInputModels extends React.Component {
         {this.state.sourceDB === "ModelDB" && (
           <FilterPanelModelDB
             showFilters={showFilters}
-            validModelDBFilterValues={this.props.validModelDBFilterValues}
+            validModelDBFilterValues={this.context.validModelDBFilterValues[0]}
             shareGetListModels={this.acceptsProceedMethod}
             setListModels={this.setListModels}
             enqueueSnackbar={this.props.enqueueSnackbar}
@@ -2435,7 +2437,9 @@ export default class DBInputModels extends React.Component {
         {this.state.sourceDB === "BioModels" && (
           <FilterPanelBioModels
             showFilters={showFilters}
-            validBioModelsFilterValues={this.props.validBioModelsFilterValues}
+            validBioModelsFilterValues={
+              this.context.validBioModelsFilterValues[0]
+            }
             shareGetListModels={this.acceptsProceedMethod}
             setListModels={this.setListModels}
             enqueueSnackbar={this.props.enqueueSnackbar}
@@ -2501,7 +2505,7 @@ export default class DBInputModels extends React.Component {
   }
 
   render() {
-    // console.log(this.props);
+    console.log(this.context.validKGFilterValues);
     console.log(this.state);
 
     if (this.state.error) {
@@ -2534,7 +2538,7 @@ export default class DBInputModels extends React.Component {
             </span>
           </DialogTitle>
           <DialogContent dividers>
-            {(!this.props.validKGFilterValues && this.state.showFilters) ||
+            {(!this.context.validKGFilterValues[0] && this.state.showFilters) ||
             this.state.loading ? (
               <div
                 style={{

@@ -7,7 +7,18 @@ import LoadKGProjects from "./LoadKGProjects";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
 import TopNavigation from "./TopNavigation";
-import { baseUrl, separator } from "./globals";
+
+import {
+  baseUrl,
+  separator,
+  modelDB_baseUrl,
+  neuromorpho_baseUrl,
+  biomodels_baseUrl,
+  corsProxy,
+  filterModelDBKeys,
+  filterNeuroMorphoKeys,
+  filterBioModelsKeys,
+} from "./globals";
 import {
   compareArrayoOfObjectsByOrder,
   replaceNullWithEmptyStrings,
@@ -41,12 +52,26 @@ class App extends React.Component {
     this.handleLoadProjectKGClose = this.handleLoadProjectKGClose.bind(this);
     this.onFileSelect = this.onFileSelect.bind(this);
     this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
+    this.getCollabList = this.getCollabList.bind(this);
+    this.retrieveKGFilterValidValues =
+      this.retrieveKGFilterValidValues.bind(this);
+    this.retrieveModelDBFilterValidValues =
+      this.retrieveModelDBFilterValidValues.bind(this);
+    this.retrieveNeuroMorphoFilterValidValues =
+      this.retrieveNeuroMorphoFilterValidValues.bind(this);
+    this.retrieveBioModelsFilterValidValues =
+      this.retrieveBioModelsFilterValidValues.bind(this);
   }
 
   componentDidMount() {
     const [, setAuthContext] = this.context.auth;
     setAuthContext(this.props.auth);
     // console.log("Here: ", this.props.auth.token);
+    this.getCollabList();
+    this.retrieveKGFilterValidValues();
+    this.retrieveModelDBFilterValidValues();
+    this.retrieveNeuroMorphoFilterValidValues();
+    this.retrieveBioModelsFilterValidValues();
   }
 
   handleCreateLivePaperOpen() {
@@ -70,46 +95,59 @@ class App extends React.Component {
     this.inputFileRef.current.click();
   }
 
-  handleLoadProjectKG() {
-    this.setState({ loading: true }, () => {
-      let url = baseUrl + "/livepapers/?editable=true";
-      let config = {
-        cancelToken: this.signal.token,
-        headers: {
-          Authorization: "Bearer " + this.context.auth[0].token,
-        },
-      };
-      axios
-        .get(url, config)
-        .then((res) => {
-          //   console.log(res);
-          this.setState({
-            kg_project_list: res.data,
-            error: null,
-            loading: false,
-            loadProjectKGOpen: true,
-          });
-        })
-        .catch((err) => {
-          if (axios.isCancel(err)) {
-            console.log("error: ", err.message);
-          } else {
-            // Something went wrong. Save the error in state and re-render.
-            let error_message = "";
-            try {
-              error_message = err.response.data.detail;
-            } catch {
-              error_message = err;
+  handleLoadProjectKG(attempt = 0) {
+    if (!this.state.kg_project_list) {
+      this.setState({ loading: true }, () => {
+        let url = baseUrl + "/livepapers/?editable=true";
+        let config = {
+          cancelToken: this.signal.token,
+          headers: {
+            Authorization: "Bearer " + this.context.auth[0].token,
+          },
+        };
+        axios
+          .get(url, config)
+          .then((res) => {
+            //   console.log(res);
+            if (res.data.length === 0 && attempt < 3) {
+              // API Workaround: due to erratic API behavior
+              this.handleLoadProjectKG(attempt + 1);
+            } else {
+              this.setState({
+                kg_project_list: res.data,
+                error: null,
+                loading: false,
+                loadProjectKGOpen: true,
+              });
+            }
+          })
+          .catch((err) => {
+            if (axios.isCancel(err)) {
+              console.log("error: ", err.message);
+            } else {
+              // Something went wrong. Save the error in state and re-render.
+              let error_message = "";
+              try {
+                error_message = err.response.data.detail;
+              } catch {
+                error_message = err;
+              }
+              this.setState({
+                error: error_message,
+              });
             }
             this.setState({
-              error: error_message,
+              loading: false,
             });
-          }
-          this.setState({
-            loading: false,
           });
-        });
-    });
+      });
+    } else {
+      this.setState({
+        error: null,
+        loading: false,
+        loadProjectKGOpen: true,
+      });
+    }
   }
 
   handleLoadProjectKGClose(data) {
@@ -212,6 +250,123 @@ class App extends React.Component {
 
   handleErrorDialogClose() {
     this.setState({ error: false });
+  }
+
+  getCollabList(attempt = 0) {
+    console.log("===================================================");
+    const url = baseUrl + "/projects";
+    const config = {
+      cancelToken: this.signal.token,
+      headers: { Authorization: "Bearer " + this.context.auth[0].token },
+    };
+    axios
+      .get(url, config)
+      .then((res) => {
+        if (res.data.length === 0 && attempt < 3) {
+          // API Workaround: due to erratic API behavior
+          this.getCollabList(attempt + 1);
+        } else {
+          let editableProjects = [];
+          res.data.forEach((proj) => {
+            if (proj.permissions.UPDATE) {
+              editableProjects.push(proj.project_id);
+            }
+          });
+          editableProjects.sort();
+          const [, setCollabList] = this.context.collabList;
+          setCollabList(editableProjects);
+          console.log(editableProjects);
+          console.log(editableProjects.length);
+        }
+      })
+      .catch((err) => {
+        console.log("Error: ", err.message);
+      });
+  }
+
+  retrieveKGFilterValidValues() {
+    let url = baseUrl + "/vocab/";
+    let config = {
+      cancelToken: this.signal.token,
+      headers: { Authorization: "Bearer " + this.context.auth[0].token },
+    };
+    axios
+      .get(url, config)
+      .then((res) => {
+        const [, setValidKGFilterValues] = this.context.validKGFilterValues;
+        setValidKGFilterValues(res.data);
+      })
+      .catch((err) => {
+        console.log("Error: ", err.message);
+      });
+  }
+
+  retrieveModelDBFilterValidValues() {
+    let modelDBReqs = [];
+    for (let item of filterModelDBKeys) {
+      let url = corsProxy + modelDB_baseUrl + "/" + item + "/name";
+      modelDBReqs.push(axios.get(url));
+    }
+    const context = this.context;
+
+    Promise.all(modelDBReqs).then(function (res) {
+      console.log(res);
+      let data_dict = {};
+
+      filterModelDBKeys.forEach(function (item, i) {
+        data_dict[item] = res[i].data;
+      });
+      const [, setValidModelDBFilterValues] = context.validModelDBFilterValues;
+      setValidModelDBFilterValues(data_dict);
+    });
+  }
+
+  retrieveNeuroMorphoFilterValidValues() {
+    let neuroMorphoReqs = [];
+    for (let item of filterNeuroMorphoKeys) {
+      let url = corsProxy + neuromorpho_baseUrl + "/neuron/fields/" + item;
+      neuroMorphoReqs.push(axios.get(url));
+    }
+    const context = this.context;
+
+    Promise.all(neuroMorphoReqs).then(function (res) {
+      console.log(res);
+      let data_dict = {};
+
+      filterNeuroMorphoKeys.forEach(function (item, i) {
+        data_dict[item] = res[i].data.fields;
+      });
+      console.log(data_dict);
+      const [, setValidNeuroMorphoFilterValues] =
+        context.validNeuroMorphoFilterValues;
+      setValidNeuroMorphoFilterValues(data_dict);
+    });
+  }
+
+  retrieveBioModelsFilterValidValues() {
+    let url = corsProxy + biomodels_baseUrl + "/search?query=*%3A*&format=json";
+    axios
+      .get(url)
+      .then((res) => {
+        // create list of shortlisted filters
+        let filters = {};
+        console.log(res);
+        for (let item of res.data.facets) {
+          if (filterBioModelsKeys.includes(item.id)) {
+            filters[item.id] = [];
+            for (let option of item.facetValues) {
+              filters[item.id].push(option.value);
+            }
+          }
+        }
+        console.log(filters);
+        const [, setValidBioModelsFilterValues] =
+          this.context.validBioModelsFilterValues;
+        setValidBioModelsFilterValues(filters);
+      })
+      .catch((err) => {
+        console.log("Error: ", err.message);
+      });
   }
 
   render() {

@@ -40,17 +40,7 @@ import SubmitModal from "./SubmitModal";
 import ModalDialog from "./ModalDialog";
 import MarkdownLatexExample from "./MarkdownLatexExample";
 
-import {
-  baseUrl,
-  lp_tool_version,
-  modelDB_baseUrl,
-  neuromorpho_baseUrl,
-  biomodels_baseUrl,
-  corsProxy,
-  filterModelDBKeys,
-  filterNeuroMorphoKeys,
-  filterBioModelsKeys,
-} from "./globals";
+import { lp_tool_version } from "./globals";
 import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
 
 import nunjucks from "nunjucks";
@@ -170,16 +160,11 @@ class CreateLivePaper extends React.Component {
       doi: "",
       abstract: "",
       license: "None",
-      collab_list: null,
       collab_id: "",
       resources_description: "",
       resources: [],
       saveOpen: false,
       submitOpen: false,
-      validKGFilterValues: null,
-      validModelDBFilterValues: null,
-      validNeuroMorphoFilterValues: null,
-      validBioModelsFilterValues: null,
       showDescHelp: false,
     };
     this.state = { ...this.state, ...props.data };
@@ -206,7 +191,6 @@ class CreateLivePaper extends React.Component {
     this.storeSectionInfo = this.storeSectionInfo.bind(this);
     this.removeExcessData = this.removeExcessData.bind(this);
     this.addDerivedData = this.addDerivedData.bind(this);
-    this.getCollabList = this.getCollabList.bind(this);
     this.setID = this.setID.bind(this);
     this.setCollabID = this.setCollabID.bind(this);
     this.setLivePaperTitle = this.setLivePaperTitle.bind(this);
@@ -216,24 +200,8 @@ class CreateLivePaper extends React.Component {
     this.deleteResourceSection = this.deleteResourceSection.bind(this);
     this.moveDownResourceSection = this.moveDownResourceSection.bind(this);
     this.moveUpResourceSection = this.moveUpResourceSection.bind(this);
-    this.retrieveKGFilterValidValues =
-      this.retrieveKGFilterValidValues.bind(this);
-    this.retrieveModelDBFilterValidValues =
-      this.retrieveModelDBFilterValidValues.bind(this);
-    this.retrieveNeuroMorphoFilterValidValues =
-      this.retrieveNeuroMorphoFilterValidValues.bind(this);
-    this.retrieveBioModelsFilterValidValues =
-      this.retrieveBioModelsFilterValidValues.bind(this);
     this.clickDescHelp = this.clickDescHelp.bind(this);
     this.handleDescHelpClose = this.handleDescHelpClose.bind(this);
-  }
-
-  componentDidMount() {
-    this.getCollabList();
-    this.retrieveKGFilterValidValues();
-    this.retrieveModelDBFilterValidValues();
-    this.retrieveNeuroMorphoFilterValidValues();
-    this.retrieveBioModelsFilterValidValues();
   }
 
   clickDescHelp() {
@@ -342,16 +310,7 @@ class CreateLivePaper extends React.Component {
 
   removeExcessData() {
     let req_data = JSON.parse(JSON.stringify(this.state)); // copy by value
-    let remove_keys = [
-      "saveOpen",
-      "submitOpen",
-      "collab_list",
-      "paper_published",
-      "validKGFilterValues",
-      "validBioModelsFilterValues",
-      "validModelDBFilterValues",
-      "validNeuroMorphoFilterValues",
-    ];
+    let remove_keys = ["saveOpen", "submitOpen"];
     remove_keys.forEach((k) => delete req_data[k]);
 
     // remove from within resources objects
@@ -894,32 +853,6 @@ class CreateLivePaper extends React.Component {
     });
   }
 
-  getCollabList() {
-    console.log("===================================================");
-    const url = baseUrl + "/projects";
-    const config = {
-      cancelToken: this.signal.token,
-      headers: { Authorization: "Bearer " + this.context.auth[0].token },
-    };
-    axios
-      .get(url, config)
-      .then((res) => {
-        let editableProjects = [];
-        res.data.forEach((proj) => {
-          if (proj.permissions.UPDATE) {
-            editableProjects.push(proj.project_id);
-          }
-        });
-        editableProjects.sort();
-        this.setState({
-          collab_list: editableProjects,
-        });
-      })
-      .catch((err) => {
-        console.log("Error: ", err.message);
-      });
-  }
-
   setID(value) {
     console.log(value);
     this.setState({
@@ -950,98 +883,8 @@ class CreateLivePaper extends React.Component {
 
   verifyDataBeforeSubmit() {}
 
-  retrieveKGFilterValidValues() {
-    let url = baseUrl + "/vocab/";
-    let config = {
-      cancelToken: this.signal.token,
-      headers: { Authorization: "Bearer " + this.context.auth[0].token },
-    };
-    axios
-      .get(url, config)
-      .then((res) => {
-        this.setState({
-          validKGFilterValues: res.data,
-        });
-      })
-      .catch((err) => {
-        console.log("Error: ", err.message);
-      });
-  }
-
-  retrieveModelDBFilterValidValues() {
-    let modelDBReqs = [];
-    for (let item of filterModelDBKeys) {
-      let url = corsProxy + modelDB_baseUrl + "/" + item + "/name";
-      modelDBReqs.push(axios.get(url));
-    }
-    const context = this;
-
-    Promise.all(modelDBReqs).then(function (res) {
-      console.log(res);
-      let data_dict = {};
-
-      filterModelDBKeys.forEach(function (item, i) {
-        data_dict[item] = res[i].data;
-      });
-      context.setState({
-        validModelDBFilterValues: data_dict,
-      });
-    });
-  }
-
-  retrieveNeuroMorphoFilterValidValues() {
-    let neuroMorphoReqs = [];
-    for (let item of filterNeuroMorphoKeys) {
-      let url = corsProxy + neuromorpho_baseUrl + "/neuron/fields/" + item;
-      neuroMorphoReqs.push(axios.get(url));
-    }
-    const context = this;
-
-    Promise.all(neuroMorphoReqs).then(function (res) {
-      console.log(res);
-      let data_dict = {};
-
-      filterNeuroMorphoKeys.forEach(function (item, i) {
-        data_dict[item] = res[i].data.fields;
-      });
-      console.log(data_dict);
-      context.setState({
-        validNeuroMorphoFilterValues: data_dict,
-      });
-    });
-  }
-
-  retrieveBioModelsFilterValidValues() {
-    let url = corsProxy + biomodels_baseUrl + "/search?query=*%3A*&format=json";
-    axios
-      .get(url)
-      .then((res) => {
-        // create list of shortlisted filters
-        let filters = {};
-        console.log(res);
-        for (let item of res.data.facets) {
-          if (filterBioModelsKeys.includes(item.id)) {
-            filters[item.id] = [];
-            for (let option of item.facetValues) {
-              filters[item.id].push(option.value);
-            }
-          }
-        }
-        console.log(filters);
-        this.setState({
-          validBioModelsFilterValues: filters,
-        });
-      })
-      .catch((err) => {
-        console.log("Error: ", err.message);
-      });
-  }
-
   render() {
     console.log(this.state);
-    console.log(
-      this.state.collab_list ? this.state.collab_list.length : "not loaded"
-    );
     // console.log(this.props.data);
     // console.log(this.context.auth[0].token);
 
@@ -1059,7 +902,6 @@ class CreateLivePaper extends React.Component {
           setCollabID={this.setCollabID}
           setLivePaperTitle={this.setLivePaperTitle}
           setLivePaperModifiedDate={this.setLivePaperModifiedDate}
-          collab_list={this.state.collab_list}
           enqueueSnackbar={this.props.enqueueSnackbar}
           closeSnackbar={this.props.closeSnackbar}
         />
@@ -1668,9 +1510,6 @@ class CreateLivePaper extends React.Component {
                           handleDelete={this.deleteResourceSection}
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
-                          validNeuroMorphoFilterValues={
-                            this.state.validNeuroMorphoFilterValues
-                          }
                           enqueueSnackbar={this.props.enqueueSnackbar}
                           closeSnackbar={this.props.closeSnackbar}
                         />
@@ -1687,7 +1526,6 @@ class CreateLivePaper extends React.Component {
                           handleDelete={this.deleteResourceSection}
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
-                          validKGFilterValues={this.state.validKGFilterValues}
                           enqueueSnackbar={this.props.enqueueSnackbar}
                           closeSnackbar={this.props.closeSnackbar}
                         />
@@ -1704,13 +1542,6 @@ class CreateLivePaper extends React.Component {
                           handleDelete={this.deleteResourceSection}
                           handleMoveDown={this.moveDownResourceSection}
                           handleMoveUp={this.moveUpResourceSection}
-                          validKGFilterValues={this.state.validKGFilterValues}
-                          validModelDBFilterValues={
-                            this.state.validModelDBFilterValues
-                          }
-                          validBioModelsFilterValues={
-                            this.state.validBioModelsFilterValues
-                          }
                           enqueueSnackbar={this.props.enqueueSnackbar}
                           closeSnackbar={this.props.closeSnackbar}
                         />

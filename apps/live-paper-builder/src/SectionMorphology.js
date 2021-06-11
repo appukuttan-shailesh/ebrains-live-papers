@@ -748,9 +748,6 @@ export default class SectionMorphology extends React.Component {
                   <DBInputMorphology
                     open={this.state.showDBInput}
                     handleClose={this.handleDBClose}
-                    validNeuroMorphoFilterValues={
-                      this.props.validNeuroMorphoFilterValues
-                    }
                     enqueueSnackbar={this.props.enqueueSnackbar}
                     closeSnackbar={this.props.closeSnackbar}
                   />

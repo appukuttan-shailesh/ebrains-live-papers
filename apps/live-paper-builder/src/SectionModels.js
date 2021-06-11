@@ -747,13 +747,6 @@ export default class SectionModels extends React.Component {
                   <DBInputModels
                     open={this.state.showDBInput}
                     handleClose={this.handleDBClose}
-                    validKGFilterValues={this.props.validKGFilterValues}
-                    validModelDBFilterValues={
-                      this.props.validModelDBFilterValues
-                    }
-                    validBioModelsFilterValues={
-                      this.props.validBioModelsFilterValues
-                    }
                     enqueueSnackbar={this.props.enqueueSnackbar}
                     closeSnackbar={this.props.closeSnackbar}
                   />

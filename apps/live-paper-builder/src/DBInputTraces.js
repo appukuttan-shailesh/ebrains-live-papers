@@ -594,7 +594,9 @@ class AllenBrainContentTracePanel extends React.Component {
               <b>Morphology Details:</b>
             </Typography>
             <Link
-              href={allenbrain_viewTraceUrl + "/" + this.props.data.specimen__id}
+              href={
+                allenbrain_viewTraceUrl + "/" + this.props.data.specimen__id
+              }
               target="_blank"
               rel="noreferrer"
               underline="none"
@@ -1192,6 +1194,8 @@ export class FilterPanelAllenBrain extends React.Component {
 }
 
 export default class DBInputTraces extends React.Component {
+  static contextType = ContextMain;
+
   constructor(props) {
     super(props);
 
@@ -1349,7 +1353,7 @@ export default class DBInputTraces extends React.Component {
         {this.state.sourceDB === "Knowledge Graph" && (
           <FilterPanelKG
             showFilters={showFilters}
-            validKGFilterValues={this.props.validKGFilterValues}
+            validKGFilterValues={this.context.validKGFilterValues[0]}
             shareGetListTraces={this.acceptsProceedMethod}
             setListTraces={this.setListTraces}
           />
@@ -1434,7 +1438,7 @@ export default class DBInputTraces extends React.Component {
             </span>
           </DialogTitle>
           <DialogContent dividers>
-            {(!this.props.validKGFilterValues && this.state.showFilters) ||
+            {(!this.context.validKGFilterValues[0] && this.state.showFilters) ||
             this.state.loading ? (
               <div
                 style={{
