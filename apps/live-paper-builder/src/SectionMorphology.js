@@ -438,15 +438,15 @@ export default class SectionMorphology extends React.Component {
     if (flag) {
       console.log(items);
       let new_items = [];
-      for (const trace_id in items) {
-        for (const instance_id in items[trace_id]) {
+      for (const morph_id in items) {
+        for (const instance_id in items[morph_id]) {
           new_items.push({
             type: sourceDB === "NeuroMorpho" ? "NeuroMorpho" : "AllenBrain",
-            label: items[trace_id][instance_id]["label"] || "",
-            url: items[trace_id][instance_id]["source_url"] || "",
-            view_url: items[trace_id][instance_id]["view_url"] || "",
+            label: items[morph_id][instance_id]["label"] || "",
+            url: items[morph_id][instance_id]["source_url"] || "",
+            view_url: items[morph_id][instance_id]["view_url"] || "",
             tab_name: "",
-            identifier: trace_id,
+            identifier: null,
           });
         }
       }

@@ -446,7 +446,7 @@ export default class SectionTraces extends React.Component {
             url: items[trace_id][instance_id]["source_url"] || "",
             view_url: items[trace_id][instance_id]["view_url"] || "",
             tab_name: "",
-            identifier: trace_id,
+            identifier: null,
           });
         }
       }

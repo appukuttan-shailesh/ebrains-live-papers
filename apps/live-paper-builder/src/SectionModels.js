@@ -460,7 +460,7 @@ export default class SectionModels extends React.Component {
             url: items[model_id][instance_id]["source_url"] || "",
             view_url: items[model_id][instance_id]["view_url"] || "",
             tab_name: "",
-            identifier: instance_id,
+            identifier: null,
           });
         }
       }

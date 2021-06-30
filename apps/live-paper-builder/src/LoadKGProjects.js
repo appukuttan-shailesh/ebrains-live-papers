@@ -124,11 +124,14 @@ export default class LoadKGProjects extends React.Component {
   render() {
     // console.log(this.state);
     if (this.state.error) {
+      console.log(this.state.error)
+      console.log(typeof this.state.error)
+      console.log(JSON.stringify(this.state.error, null, 4));
       return (
         <ErrorDialog
           open={Boolean(this.state.error)}
           handleErrorDialogClose={this.handleErrorDialogClose}
-          error={this.state.error[0].msg || this.state.error}
+          error={Array.isArray(this.state.error) ? this.state.error[0].msg : this.state.error.message || this.state.error}
         />
       );
     } else {
@@ -229,7 +232,7 @@ export default class LoadKGProjects extends React.Component {
                   width: "20%",
                   backgroundColor:
                     (this.state.selectedRow || this.state.selectedRow === 0) &&
-                    this.state.selectedRow >= 0
+                      this.state.selectedRow >= 0
                       ? "#8BC34A"
                       : "#FFFFFF",
                   color: "#000000",
