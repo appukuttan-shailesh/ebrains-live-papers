@@ -267,22 +267,25 @@ export default class SaveModal extends React.Component {
   adjustForKGSchema(data) {
     let payload = JSON.parse(JSON.stringify(data)); // copy by value
 
-    // KG requires 'dataFormatted' value for SectionCustom in 'description' field
+    // KG requires 'data' value for SectionCustom in 'description' field
     payload.resources.forEach(function (res, index) {
       // creating extra copy here to handle problem with shallow copy of nested object
       let temp_res = JSON.parse(JSON.stringify(res));
       if (res.type === "section_custom") {
-        res.description = temp_res.dataFormatted;
-        res.dataFormatted = [];
+        res.description = temp_res.data;
+        res.data = [];
       }
     });
 
     // KG requires all 'url' field in resource sections to have a valid URL
     payload.resources.forEach(function (res, index) {
       if (res.type !== "section_custom") {
-        res.dataFormatted.forEach(function (res_item, index) {
-          if (res_item.url === "") {
-            res_item.url = "http://www.ToBeFilled.com";
+        res.data.forEach(function (res_item, index) {
+          if (res_item.url === "" && res_item.view_url !== "") {
+            res_item.url = res_item.view_url;
+          } else if (res_item.url === "" && res_item.view_url === "") {
+            // both url and view_url should never be both empty!
+            res_item.url = "http://www.MissingInfo.com";
           }
         });
       }
@@ -300,7 +303,7 @@ export default class SaveModal extends React.Component {
     // this is handled by appending it to the label with a separator (#-#)
     payload.resources.forEach(function (res, index) {
       if (res.type !== "section_custom") {
-        res.dataFormatted.forEach(function (res_item, index) {
+        res.data.forEach(function (res_item, index) {
           if (res_item.tab_name) {
             res_item.label = res_item.label + separator + res_item.tab_name;
           }

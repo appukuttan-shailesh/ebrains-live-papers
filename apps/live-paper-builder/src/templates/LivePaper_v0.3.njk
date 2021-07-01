@@ -24,12 +24,13 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div style="margin-left:25px">
                 <table class="striped">
                     <tbody>
-                        {% for item in data["dataFormatted"] %}
+                        {% for item in data["data"] %}
                             <tr>
                                 <td style="width: 50px; padding-right: 15px;">
                                     {{ cellSourceLogo(type=item["type"]) }}
@@ -37,10 +38,16 @@
                                 <td>
                                     {{ item["label"] }}
                                 </td>
-                                <td style="width: 175px">
-                                    <a href='{{ item["url"] }}' class="waves-effect waves-light">
-                                        <i class="material-icons left">archive</i>Download
-                                    </a>
+                                <td
+                                    style="width: 175px">
+                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                    {% if item["url"] != item["view_url"] %}
+                                        <a href='{{ item["url"] }}' class="waves-effect waves-light">
+                                            <i class="material-icons left">archive</i>Download
+                                        </a>
+                                    {% else %}
+                                        <span></span>
+                                    {% endif %}
                                 </td>
                                 <td style="width: 175px">
                                     {% if item["view_url"] %}
@@ -71,7 +78,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div class="collapsible">
                 <div class="row">
@@ -90,7 +98,7 @@
                         <div style="margin-left:25px">
                             <table class="striped">
                                 <tbody>
-                                    {% for item in data["dataFormatted"] %}
+                                    {% for item in data["data"] %}
                                         {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
                                             <tr>
                                                 <td style="width: 50px; padding-right: 15px;">
@@ -99,10 +107,16 @@
                                                 <td>
                                                     {{ item["label"] }}
                                                 </td>
-                                                <td style="width: 175px">
-                                                    <a href='{{ item["url"] }}' class="waves-effect waves-light">
-                                                        <i class="material-icons left">archive</i>Download
-                                                    </a>
+                                                <td
+                                                    style="width: 175px">
+                                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                                    {% if item["url"] != item["view_url"] %}
+                                                        <a href='{{ item["url"] }}' class="waves-effect waves-light">
+                                                            <i class="material-icons left">archive</i>Download
+                                                        </a>
+                                                    {% else %}
+                                                        <span></span>
+                                                    {% endif %}
                                                 </td>
                                                 <td style="width: 175px">
                                                     {% if item["view_url"] %}
@@ -137,11 +151,12 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div ng-app="neo-visualizer">
                 <ul class="collapsible expandable">
-                    {% for item in data["dataFormatted"] %}
+                    {% for item in data["data"] %}
                         <li>
                             <div class="collapsible-header" style="align-items: baseline">
                                 <span style="width: 50px; padding-right: 15px;">
@@ -168,7 +183,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div ng-app="neo-visualizer">
                 <div class="collapsible">
@@ -186,7 +202,7 @@
                     {% for tab in data["tabs"] %}
                         <div id='res_{{ index }}_tab_{{ tab|replace(" ", "_") }}' class="col s12">
                             <ul class="collapsible expandable">
-                                {% for item in data["dataFormatted"] %}
+                                {% for item in data["data"] %}
                                     {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
                                         <li>
                                             <div class="collapsible-header" style="align-items: baseline">
@@ -218,12 +234,13 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div style="margin-left:25px">
                 <table class="striped">
                     <tbody>
-                        {% for item in data["dataFormatted"] %}
+                        {% for item in data["data"] %}
                             <tr>
                                 <td style="width: 50px; padding-right: 15px;">
                                     {{ cellSourceLogo(type=item["type"]) }}
@@ -231,11 +248,15 @@
                                 <td>
                                     {{ item["label"] }}
                                 </td>
-                                <td style="width: 175px">
-                                    {% if item["url"] %}
+                                <td
+                                    style="width: 175px">
+                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                    {% if item["url"] != item["view_url"] %}
                                         <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                             <i class="material-icons left">archive</i>Download
                                         </a>
+                                    {% else %}
+                                        <span></span>
                                     {% endif %}
                                 </td>
                                 <td style="width: 175px">
@@ -261,7 +282,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div class="collapsible">
                 <div class="row">
@@ -280,7 +302,7 @@
                         <div style="margin-left:25px">
                             <table class="striped">
                                 <tbody>
-                                    {% for item in data["dataFormatted"] %}
+                                    {% for item in data["data"] %}
                                         {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
                                             <tr>
                                                 <td style="width: 50px; padding-right: 15px;">
@@ -289,11 +311,15 @@
                                                 <td>
                                                     {{ item["label"] }}
                                                 </td>
-                                                <td style="width: 175px">
-                                                    {% if item["url"] %}
+                                                <td
+                                                    style="width: 175px">
+                                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                                    {% if item["url"] != item["view_url"] %}
                                                         <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                                             <i class="material-icons left">archive</i>Download
                                                         </a>
+                                                    {% else %}
+                                                        <span></span>
                                                     {% endif %}
                                                 </td>
                                                 <td style="width: 175px">
@@ -323,18 +349,21 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div style="margin-left:25px">
                 <table class="striped">
                     <tbody>
-                        {% for item in data["dataFormatted"] %}
+                        {% for item in data["data"] %}
                             <tr>
                                 <td>
                                     {{ item["label"] }}
                                 </td>
-                                <td style="width: 175px">
-                                    {% if item["url"] %}
+                                <td
+                                    style="width: 175px">
+                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                    {% if item["url"] != item["view_url"] %}
                                         <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                             <i class="material-icons left">archive</i>Download
                                         </a>
@@ -367,7 +396,8 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p style="padding-bottom: 10px">{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div class="collapsible">
                 <div class="row">
@@ -386,14 +416,16 @@
                         <div style="margin-left:25px">
                             <table class="striped">
                                 <tbody>
-                                    {% for item in data["dataFormatted"] %}
+                                    {% for item in data["data"] %}
                                         {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
                                             <tr>
                                                 <td>
                                                     {{ item["label"] }}
                                                 </td>
-                                                <td style="width: 175px">
-                                                    {% if item["url"] %}
+                                                <td
+                                                    style="width: 175px">
+                                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                                    {% if item["url"] != item["view_url"] %}
                                                         <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                                             <i class="material-icons left">archive</i>Download
                                                         </a>
@@ -430,10 +462,11 @@
         </div>
         <div class="collapsible-body ">
             {% if data["description"] %}
-                <p>{{ data["description"] }}</p>
+                {{ data["description"] | safe }}
+                <br/>
             {% endif %}
             <div style="margin-left:25px">
-                {{ data["dataFormatted"] | safe }}
+                {{ data["data"] | safe }}
             </div>
         </div>
     </li>
@@ -452,7 +485,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <link rel="stylesheet" href="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/live_paper/css/live_paper.css">
+        <link rel="stylesheet" href="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/VF_paper_demo/live_paper/css/live_paper_v0.2.css">
         <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -469,6 +502,7 @@
                 $(".tabs").tabs();
             });
         </script>
+        <link rel="stylesheet" href="https://unpkg.com/katex@0.10.0/dist/katex.min.css"/>
     </head>
     <body class="container">
         <div class="box rounded centered">
@@ -618,31 +652,31 @@
         <h5>Resources</h5>
         <p>
             {% if resources_description %}
-                {{ resources_description }}
+                {{ resources_description | safe }}
             {% endif %}
         </p>
         <ul class="collapsible expandable">
             {% for data in resources %}
                 {% if data["type"] == "section_morphology" %}
-                    {% if data["tabs"] | length == 1 %}
+                    {% if data["tabs"] | length <= 1 %}
                         {{ sectionMorphology(data=data) }}
                     {% else %}
                         {{ sectionMorphologyWithTabs(data=data, index=loop.index) }}
                     {% endif %}
                 {% elseif data["type"] == "section_traces" %}
-                    {% if data["tabs"] | length == 1 %}
+                    {% if data["tabs"] | length <= 1 %}
                         {{ sectionTraces(data=data) }}
                     {% else %}
                         {{ sectionTracesWithTabs(data=data, index=loop.index) }}
                     {% endif %}
                 {% elseif data["type"] == "section_models" %}
-                    {% if data["tabs"] | length == 1 %}
+                    {% if data["tabs"] | length <= 1 %}
                         {{ sectionModels(data=data) }}
                     {% else %}
                         {{ sectionModelsWithTabs(data=data, index=loop.index) }}
                     {% endif %}
                 {% elseif data["type"] == "section_generic" %}
-                    {% if data["tabs"] | length == 1 %}
+                    {% if data["tabs"] | length <= 1 %}
                         {{ sectionGeneric(data=data) }}
                     {% else %}
                         {{ sectionGenericWithTabs(data=data, index=loop.index) }}

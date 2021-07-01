@@ -162,13 +162,13 @@ class App extends React.Component {
       // sort resource sections by order #
       data.resources.sort(compareArrayoOfObjectsByOrder);
 
-      // KG requires 'dataFormatted' value for SectionCustom in 'description' field
+      // KG requires 'data' value for SectionCustom in 'description' field
       // doing reverse mapping here
       data.resources.forEach(function (res, index) {
         // creating extra copy here to handle problem with shallow copy of nested object
         let temp_res = JSON.parse(JSON.stringify(res));
         if (res.type === "section_custom") {
-          res.dataFormatted = temp_res.description;
+          res.data = temp_res.description;
           delete res.description;
         }
       });
@@ -180,7 +180,7 @@ class App extends React.Component {
       data.resources.forEach(function (res, index) {
         if (res.type !== "section_custom") {
           let tabs = [];
-          res.dataFormatted.forEach(function (res_item, index) {
+          res.data.forEach(function (res_item, index) {
             let parts = res_item.label.split(separator);
             if (parts.length > 1) {
               tabs.push(parts[1] || "");
@@ -225,7 +225,7 @@ class App extends React.Component {
         data.resources.forEach(function (res, index) {
           if (res.type !== "section_custom") {
             let tabs = [];
-            res.dataFormatted.forEach(function (res_item, index) {
+            res.data.forEach(function (res_item, index) {
               tabs.push(res_item.tab_name || "");
             });
             // get only unique elements

@@ -16,6 +16,7 @@ import {
 
 import nunjucks from "nunjucks";
 import LivePaper_v02 from "./templates/LivePaper_v0.2.njk";
+import LivePaper_v03 from "./templates/LivePaper_v0.3.njk";
 
 const styles = (theme) => ({
   root: {
@@ -78,13 +79,13 @@ export default class LivePaperViewer extends React.Component {
     // sort resource sections by order #
     lp_data.resources.sort(compareArrayoOfObjectsByOrder);
 
-    // KG requires 'dataFormatted' value for SectionCustom in 'description' field
+    // KG requires 'data' value for SectionCustom in 'description' field
     // doing reverse mapping here
     lp_data.resources.forEach(function (res, index) {
       // creating extra copy here to handle problem with shallow copy of nested object
       let temp_res = JSON.parse(JSON.stringify(res));
       if (res.type === "section_custom") {
-        res.dataFormatted = temp_res.description;
+        res.data = temp_res.description;
         delete res.description;
       }
     });
@@ -110,7 +111,7 @@ export default class LivePaperViewer extends React.Component {
     lp_data.resources.forEach(function (res, index) {
       if (res.type !== "section_custom") {
         let tabs = [];
-        res.dataFormatted.forEach(function (res_item, index) {
+        res.data.forEach(function (res_item, index) {
           let parts = res_item.label.split(separator);
           if (parts.length > 1) {
             tabs.push(parts[1] || "");
@@ -138,7 +139,7 @@ export default class LivePaperViewer extends React.Component {
       // add handling for newer templates here as required
       console.log("ERROR: no appropriate template found");
       console.log("Fall back to template v0.2");
-      LivePaper = LivePaper_v02;
+      LivePaper = LivePaper_v03;
     } else {
       LivePaper = LivePaper_v02;
     }
@@ -170,7 +171,7 @@ export default class LivePaperViewer extends React.Component {
     data.resources.forEach(function (res, index) {
       if (res.type !== "section_custom") {
         let tabs = [];
-        res.dataFormatted.forEach(function (res_item, index) {
+        res.data.forEach(function (res_item, index) {
           tabs.push(res_item.tab_name || "");
         });
         // get only unique elements

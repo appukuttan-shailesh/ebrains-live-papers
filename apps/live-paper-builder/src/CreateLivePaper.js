@@ -28,6 +28,7 @@ import showdownKatex from "showdown-katex";
 import ContextMain from "./ContextMain";
 import DynamicTablePerson from "./DynamicTablePerson";
 import SingleSelect from "./SingleSelect";
+import MultipleSelect from "./MultipleSelect";
 import SectionMorphology from "./SectionMorphology";
 import SectionTraces from "./SectionTraces";
 import SectionModels from "./SectionModels";
@@ -45,6 +46,7 @@ import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
 
 import nunjucks from "nunjucks";
 import LivePaper_v02 from "./templates/LivePaper_v0.2.njk";
+import LivePaper_v03 from "./templates/LivePaper_v0.3.njk";
 
 axiosRetry(axios, {
   retries: 3,
@@ -140,9 +142,10 @@ class CreateLivePaper extends React.Component {
     this.state = {
       id: "",
       lp_tool_version: lp_tool_version,
+      standalone: false,
       modified_date: new Date(),
       authors: [{ firstname: "", lastname: "", affiliation: "" }],
-      corresponding_author: { firstname: "", lastname: "", affiliation: "" }, // "email" removed
+      corresponding_author: [{ firstname: "", lastname: "", affiliation: "" }], // "email" removed
       created_author: [{ firstname: "", lastname: "", affiliation: "" }], // "email" removed
       approved_author: { firstname: "", lastname: "", affiliation: "" }, // "email" removed
       year: new Date()
@@ -179,6 +182,7 @@ class CreateLivePaper extends React.Component {
     this.handleSubmitOpen = this.handleSubmitOpen.bind(this);
     this.handleSubmitClose = this.handleSubmitClose.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
+    this.handleStandaloneChange = this.handleStandaloneChange.bind(this);
     this.handlePublishedChange = this.handlePublishedChange.bind(this);
     this.handleYearChange = this.handleYearChange.bind(this);
     this.handleAuthorsChange = this.handleAuthorsChange.bind(this);
@@ -193,7 +197,6 @@ class CreateLivePaper extends React.Component {
     this.addDerivedData = this.addDerivedData.bind(this);
     this.setID = this.setID.bind(this);
     this.setCollabID = this.setCollabID.bind(this);
-    this.setLivePaperTitle = this.setLivePaperTitle.bind(this);
     this.setLivePaperModifiedDate = this.setLivePaperModifiedDate.bind(this);
     this.verifyDataBeforeSubmit = this.verifyDataBeforeSubmit.bind(this);
     this.checkPersonInStateAuthors = this.checkPersonInStateAuthors.bind(this);
@@ -298,6 +301,14 @@ class CreateLivePaper extends React.Component {
       return this.state.authors.find(
         (author) => author.firstname + " " + author.lastname === person
       );
+    } else if (Array.isArray(person)) {
+      // used for corresponding_author
+      let context = this;
+      return person.map(function (entry) {
+        return context.state.authors.find(
+          (author) => author.firstname + " " + author.lastname === entry
+        );
+      });
     } else {
       // if object with keys firstname and lastname
       return this.state.authors.find(
@@ -353,7 +364,7 @@ class CreateLivePaper extends React.Component {
     data.resources.forEach(function (res, index) {
       if (res.type !== "section_custom") {
         let tabs = [];
-        res.dataFormatted.forEach(function (res_item, index) {
+        res.data.forEach(function (res_item, index) {
           tabs.push(res_item.tab_name || "");
         });
         // get only unique elements
@@ -384,7 +395,7 @@ class CreateLivePaper extends React.Component {
       // add handling for newer templates here as required
       console.log("ERROR: no appropriate template found");
       console.log("Fall back to template v0.2");
-      LivePaper = LivePaper_v02;
+      LivePaper = LivePaper_v03;
     } else {
       LivePaper = LivePaper_v02;
     }
@@ -513,15 +524,18 @@ class CreateLivePaper extends React.Component {
     const name = target.name;
     // console.log(name + " => " + value);
     if (name === "corresponding_author") {
-      const c_author = this.checkPersonInStateAuthors(value);
-      this.setState((prevState) => ({
-        corresponding_author: {
-          ...prevState.corresponding_author,
-          firstname: c_author.firstname,
-          lastname: c_author.lastname,
-          affiliation: c_author.affiliation,
-        },
-      }));
+      const c_authors = this.checkPersonInStateAuthors(value);
+      console.log(value);
+      console.log(c_authors);
+      this.setState({
+        corresponding_author: c_authors.map(function (c_author) {
+          return {
+            firstname: c_author.firstname,
+            lastname: c_author.lastname,
+            affiliation: c_author.affiliation,
+          };
+        }),
+      });
     }
     // else if (name === "corresponding_author_email") {
     //   this.setState((prevState) => ({
@@ -531,7 +545,12 @@ class CreateLivePaper extends React.Component {
     //     },
     //   }));
     // }
-    else if (name === "created_author") {
+    else if (name === "associated_paper_title") {
+      this.setState({
+        associated_paper_title: value,
+        live_paper_title: value,
+      });
+    } else if (name === "created_author") {
       if (value === "-- Other Person --") {
         this.setState({
           created_author: [
@@ -661,6 +680,24 @@ class CreateLivePaper extends React.Component {
     else {
       this.setState({
         [name]: value,
+      });
+    }
+  }
+
+  handleStandaloneChange(value) {
+    console.log(value);
+    this.setState({
+      standalone: value === "Standalone Live Paper" ? true : false,
+    });
+    if (value === "Standalone Live Paper") {
+      this.setState({
+        associated_paper_title: "",
+        year: new Date()
+          .toISOString()
+          .replace(
+            /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
+            "$<year>-$<month>-$<day>"
+          ),
       });
     }
   }
@@ -867,13 +904,6 @@ class CreateLivePaper extends React.Component {
     });
   }
 
-  setLivePaperTitle(value) {
-    console.log(value);
-    this.setState({
-      live_paper_title: value,
-    });
-  }
-
   setLivePaperModifiedDate(value) {
     console.log(value);
     this.setState({
@@ -900,7 +930,6 @@ class CreateLivePaper extends React.Component {
           onClose={this.handleSaveClose}
           setID={this.setID}
           setCollabID={this.setCollabID}
-          setLivePaperTitle={this.setLivePaperTitle}
           setLivePaperModifiedDate={this.setLivePaperModifiedDate}
           enqueueSnackbar={this.props.enqueueSnackbar}
           closeSnackbar={this.props.closeSnackbar}
@@ -973,6 +1002,13 @@ class CreateLivePaper extends React.Component {
               }}
             >
               <div>
+                Live papers can be developed as interactive documents
+                accompanying traditional journal publications (or manuscripts
+                available on publicly accessible preprint repositories), or as
+                standalone interactive documents for the purposes of publishing
+                and sharing resources.
+                <br />
+                <br />
                 Follow the steps listed below to create the live paper. You can
                 preview the live paper and/or download it at any time by
                 clicking on the buttons on the bottom of the page. It also
@@ -991,13 +1027,127 @@ class CreateLivePaper extends React.Component {
               <div>
                 <p>
                   <strong>
-                    Enter the complete title of your manuscript / paper:
+                    Does this live paper have an associated accessible
+                    manuscript or journal publication?
                   </strong>
+                  <br />
+                  <i>
+                    Articles submitted to publicly accessible preprint
+                    repositories, such as bioRxiv, are considered as accessible
+                    manuscripts.
+                  </i>
+                </p>
+              </div>
+              <form>
+                <SwitchMultiWay
+                  values={["Associated Publication", "Standalone Live Paper"]}
+                  selected={
+                    this.state.standalone
+                      ? "Standalone Live Paper"
+                      : "Associated Publication"
+                  }
+                  onChange={this.handleStandaloneChange}
+                />
+              </form>
+              <br />
+              {!this.state.standalone && (
+                <div>
+                  <div>
+                    <p>
+                      <strong>
+                        Enter the complete title of your manuscript / paper:
+                      </strong>
+                    </p>
+                  </div>
+                  <div>
+                    <TextField
+                      label="Associated Paper Title"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="associated_paper_title"
+                      value={this.state.associated_paper_title}
+                      onChange={this.handleFieldChange}
+                      InputProps={{
+                        style: {
+                          padding: "5px 15px",
+                        },
+                      }}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <p>
+                      <strong>Specify the status of the article:</strong>
+                      <br />
+                      <i>
+                        Articles submitted to preprint repositories, such as
+                        bioRxiv, are considered as unpublished.
+                      </i>
+                    </p>
+                  </div>
+                  <form>
+                    <SwitchMultiWay
+                      values={["Published", "Unpublished"]}
+                      selected={
+                        this.state.paper_published ? "Published" : "Unpublished"
+                      }
+                      onChange={this.handlePublishedChange}
+                    />
+                  </form>
+                  <br />
+                  {this.state.paper_published && (
+                    <div>
+                      <div>
+                        <p>
+                          <strong>Enter the year of publication:</strong>
+                        </p>
+                      </div>
+                      <div>
+                        <div>
+                          <MuiPickersUtilsProvider utils={MomentUtils}>
+                            <DatePicker
+                              label="Year"
+                              inputVariant="outlined"
+                              views={["year"]}
+                              name="year"
+                              value={new Date(this.state.year)}
+                              minDate={new Date("2010-01-01")}
+                              maxDate={new Date()}
+                              onChange={this.handleYearChange}
+                              animateYearScrolling
+                              InputProps={{
+                                style: {
+                                  borderBottom: "0px",
+                                  padding: "5px 15px 5px 15px",
+                                  width: "100px",
+                                },
+                              }}
+                            />
+                          </MuiPickersUtilsProvider>
+                        </div>
+                      </div>
+                      <br />
+                    </div>
+                  )}
+                </div>
+              )}
+              <div>
+                <p>
+                  <strong>Enter a title for your live paper:</strong>
+                  {!this.state.standalone && (
+                    <>
+                      <i>
+                        Live papers with associated publications generally use
+                        the same title as the article for ease of
+                        identification.
+                      </i>
+                    </>
+                  )}
                 </p>
               </div>
               <div>
                 <TextField
-                  label="Title"
+                  label="Live Paper Title"
                   variant="outlined"
                   fullWidth={true}
                   name="associated_paper_title"
@@ -1011,60 +1161,6 @@ class CreateLivePaper extends React.Component {
                 />
               </div>
               <br />
-              <div>
-                <p>
-                  <strong>Specify the status of the article:</strong>
-                  <br />
-                  <i>
-                    Articles submitted to preprint repositories, such as
-                    bioRxiv, are considered as unpublished.
-                  </i>
-                </p>
-              </div>
-              <form>
-                <SwitchMultiWay
-                  values={["Published", "Unpublished"]}
-                  selected={
-                    this.state.paper_published ? "Published" : "Unpublished"
-                  }
-                  onChange={this.handlePublishedChange}
-                />
-              </form>
-              <br />
-              {this.state.paper_published && (
-                <div>
-                  <div>
-                    <p>
-                      <strong>Enter the year of publication:</strong>
-                    </p>
-                  </div>
-                  <div>
-                    <div>
-                      <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DatePicker
-                          label="Year"
-                          inputVariant="outlined"
-                          views={["year"]}
-                          name="year"
-                          value={new Date(this.state.year)}
-                          minDate={new Date("2010-01-01")}
-                          maxDate={new Date()}
-                          onChange={this.handleYearChange}
-                          animateYearScrolling
-                          InputProps={{
-                            style: {
-                              borderBottom: "0px",
-                              padding: "5px 15px 5px 15px",
-                              width: "100px",
-                            },
-                          }}
-                        />
-                      </MuiPickersUtilsProvider>
-                    </div>
-                  </div>
-                  <br />
-                </div>
-              )}
               <div>
                 <p>
                   <strong>
@@ -1092,29 +1188,31 @@ class CreateLivePaper extends React.Component {
               <div>
                 <p>
                   <strong>
-                    Specify the corresponding author:
+                    Specify the corresponding author(s):
                     {/* , along with their email address: */}
                   </strong>
                 </p>
               </div>
               <div>
-                <SingleSelect
-                  itemNames={
-                    this.state.authors
-                      ? this.state.authors.map(function (author) {
-                          return author.firstname + " " + author.lastname;
-                        })
-                      : []
-                  }
-                  label="Corresponding Author"
+                <MultipleSelect
+                  itemNames={this.state.authors
+                    .filter(
+                      (author) =>
+                        author.firstname !== "" || author.lastname !== ""
+                    )
+                    .map(function (author) {
+                      return author.firstname + " " + author.lastname;
+                    })}
+                  label="Corresponding Author(s)"
                   name="corresponding_author"
-                  value={
-                    this.state.corresponding_author.firstname
-                      ? this.state.corresponding_author.firstname +
-                        " " +
-                        this.state.corresponding_author.lastname
-                      : ""
-                  }
+                  value={this.state.corresponding_author
+                    .filter(
+                      (author) =>
+                        author.firstname !== "" || author.lastname !== ""
+                    )
+                    .map(function (author) {
+                      return author.firstname + " " + author.lastname;
+                    })}
                   handleChange={this.handleFieldChange}
                 />
               </div>

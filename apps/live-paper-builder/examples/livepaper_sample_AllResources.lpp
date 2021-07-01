@@ -1,6 +1,6 @@
 {
-    "id": "a8d69ef1-1fc5-49f8-9aff-c185925f3a42",
-    "lp_tool_version": "0.1",
+    "id": "",
+    "lp_tool_version": "0.3",
     "modified_date": "2021-05-27T15:41:16.869Z",
     "authors": [
         {
@@ -9,11 +9,11 @@
             "affiliation": "Paris-Saclay Institute of Neuroscience, Centre National de la Recherche Scientifique, Université Paris-Saclay, Gif-sur-Yvette, France"
         }
     ],
-    "corresponding_author": {
+    "corresponding_author": [{
         "firstname": "Shailesh",
         "lastname": "Appukuttan",
         "affiliation": "Paris-Saclay Institute of Neuroscience, Centre National de la Recherche Scientifique, Université Paris-Saclay, Gif-sur-Yvette, France"
-    },
+    }],
     "created_author": [
         {
             "firstname": "Shailesh",
@@ -28,7 +28,7 @@
     },
     "year": "2021-01-01",
     "associated_paper_title": "Just a sample live paper for demonstration purposes",
-    "live_paper_title": "Example All Sections",
+    "live_paper_title": "Just a sample live paper for demonstration purposes",
     "journal": "Sample Journal",
     "url": "https://doi.org/XX.YYYY/journal.ABCD.000000",
     "citation": "Appukuttan S (2021) Just a sample live paper for demonstration purposes. Sample Journal XX(Y): e000000.",
@@ -44,7 +44,7 @@
             "title": "Morphologies",
             "icon": "settings_input_antenna",
             "description": "Morphology files (in .asc format) used in the paper for each etype (see Table S5 of the Supplementary Material):",
-            "dataFormatted": [
+            "data": [
                 {
                     "type": "URL",
                     "label": "010710HP2",
@@ -93,7 +93,7 @@
             "title": "Electrophysiological Traces",
             "icon": "timeline",
             "description": "",
-            "dataFormatted": [
+            "data": [
                 {
                     "type": "URL",
                     "label": "abf-int-bAC/Ivy_960711AHP3/96711008.abf",
@@ -142,7 +142,7 @@
             "title": "Optimizations",
             "icon": "local_play",
             "description": "The optimization results for each morphology are individually available in the Model Catalog at the following links:",
-            "dataFormatted": [
+            "data": [
                 {
                     "type": "URL",
                     "label": "CA1_int_bAC_011017HP2_20180110153901",
@@ -191,7 +191,7 @@
             "title": "Generic Listing",
             "icon": "format_list_bulleted",
             "description": "List of some files:",
-            "dataFormatted": [
+            "data": [
                 {
                     "type": "URL",
                     "label": "010710HP2",
@@ -240,7 +240,6 @@
             "title": "ModelDB link and test simulations",
             "icon": "note_add",
             "data": "<p>A reduced self-consistent set of files needed to reproduce&nbsp;Fig.4A of the paper is available on\n    <a href=\"https://senselab.med.yale.edu/modeldb/enterCode.cshtml?model=244688#tabs-1\" target=\"_blank\">ModelDB</a>.\n    <br>\n    <br>Use the BSP Neuron As A Service (NaaS) tool to do in silico experiments with the single cell models shown in Fig.4A:\n    <br>\n    <span style=\"margin-left:25px\">> Start by clicking on any button below to run a simulation.</span>\n    <br>\n    <span style=\"margin-left:25px\">> After entering the NaaS page, click on the \"Simulation\" tab, adjust the current strength with the appropriate value, and run the simulation by clicking the \"Start simulation\" button.</span>\n</p>\n<div style=\"margin-left:25px\">\n    <table>\n        <tbody>\n        <tr>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_011023HP2_20180116154023?amp=0.6')\">int bAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980120A_20180115155814?amp=0.4')\">int cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_980513B_20180119155127?amp=0.4')\">int cNAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141208_B_idA_20170915151855_lp?amp=0.4')\">pyr cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n        </tr>\n        <tr>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_971114B_20180117154233_lp?amp=1.0')\">int bAC 1.0 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980513B_20180119155952?amp=0.6')\">int cAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_060314AM2_20180120154747?amp=0.8')\">int cNAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141209_A_idA_20170912152008?amp=0.8')\">pyr cAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n</div>",
-            "dataFormatted": "<p>A reduced self-consistent set of files needed to reproduce&nbsp;Fig.4A of the paper is available on\n    <a href=\"https://senselab.med.yale.edu/modeldb/enterCode.cshtml?model=244688#tabs-1\" target=\"_blank\">ModelDB</a>.\n    <br>\n    <br>Use the BSP Neuron As A Service (NaaS) tool to do in silico experiments with the single cell models shown in Fig.4A:\n    <br>\n    <span style=\"margin-left:25px\">> Start by clicking on any button below to run a simulation.</span>\n    <br>\n    <span style=\"margin-left:25px\">> After entering the NaaS page, click on the \"Simulation\" tab, adjust the current strength with the appropriate value, and run the simulation by clicking the \"Start simulation\" button.</span>\n</p>\n<div style=\"margin-left:25px\">\n    <table>\n        <tbody>\n        <tr>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_011023HP2_20180116154023?amp=0.6')\">int bAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980120A_20180115155814?amp=0.4')\">int cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_980513B_20180119155127?amp=0.4')\">int cNAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141208_B_idA_20170915151855_lp?amp=0.4')\">pyr cAC 0.4 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n        </tr>\n        <tr>\n            <td>\n                <span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Available soon\">\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_bAC_971114B_20180117154233_lp?amp=1.0')\">int bAC 1.0 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n                </span>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cAC_980513B_20180119155952?amp=0.6')\">int cAC 0.6 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_int_cNAC_060314AM2_20180120154747?amp=0.8')\">int cNAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n            <td>\n                <button class=\"btn waves-effect waves-light\" onclick=\"window.open('https://blue-naas.humanbrainproject.eu/#/model/CA1_pyr_cACpyr_mpg141209_A_idA_20170912152008?amp=0.8')\">pyr cAC 0.8 nA\n                <i class=\"material-icons right\">play_arrow</i>\n                </button>\n            </td>\n        </tr>\n        </tbody>\n    </table>\n</div>",
             "showHelp": false
         }
     ]

@@ -278,7 +278,7 @@ export default class SectionGeneric extends React.Component {
       icon: "format_list_bulleted",
       description: "",
       dataOk: true,
-      dataFormatted: [],
+      data: [],
       showEdit: false,
       deleteOpen: false,
       expanded: true,
@@ -347,7 +347,7 @@ export default class SectionGeneric extends React.Component {
 
     this.setState(
       {
-        dataFormatted: items_data,
+        data: items_data,
       },
       () => {
         this.props.storeSectionInfo(this.state);
@@ -427,13 +427,13 @@ export default class SectionGeneric extends React.Component {
   toggleUseTabs() {
     if (this.state.useTabs) {
       // if turning off, then erase all tabs data
-      let dataFormatted = this.state.dataFormatted;
-      dataFormatted.forEach(function (item, index) {
+      let data = this.state.data;
+      data.forEach(function (item, index) {
         item.tab_name = "";
       });
       this.setState(
         {
-          dataFormatted: dataFormatted,
+          data: data,
           useTabs: false,
         },
         () => {
@@ -453,7 +453,7 @@ export default class SectionGeneric extends React.Component {
   }
 
   render() {
-    // console.log(this.state.dataFormatted);
+    // console.log(this.state.data);
     return (
       <div style={{ width: "100%", paddingTop: "25px", paddingBottom: "25px" }}>
         <Accordion
@@ -650,7 +650,7 @@ export default class SectionGeneric extends React.Component {
                   </Grid>
                 )}
                 <DynamicTableItems
-                  items={this.state.dataFormatted}
+                  items={this.state.data}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
                   numCols={3}
@@ -663,7 +663,7 @@ export default class SectionGeneric extends React.Component {
                   <SectionGenericEdit
                     open={this.state.showEdit}
                     title={this.state.title}
-                    data={this.state.dataFormatted}
+                    data={this.state.data}
                     onChangeValue={this.handleItemsChange}
                     handleClose={this.handleEditClose}
                   />
