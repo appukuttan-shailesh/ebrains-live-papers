@@ -137,8 +137,6 @@ export default class LivePaperViewer extends React.Component {
     const lp_version = parseFloat(lp_data.lp_tool_version);
     if (lp_version > 0.2) {
       // add handling for newer templates here as required
-      console.log("ERROR: no appropriate template found");
-      console.log("Fall back to template v0.2");
       LivePaper = LivePaper_v03;
     } else {
       LivePaper = LivePaper_v02;
