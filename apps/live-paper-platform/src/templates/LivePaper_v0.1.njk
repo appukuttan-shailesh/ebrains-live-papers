@@ -552,16 +552,8 @@
             <p>
                 <strong style="font-weight:bolder">Corresponding author:
                 </strong>
-                {% if corresponding_author.firstname %}
-                    {{ corresponding_author.firstname }}
-                    {{ corresponding_author.lastname }}
-                    {% if corresponding_author.affiliation %}
-                        (
-                        <em>
-                            {{ corresponding_author.affiliation }}
-                        </em>
-                        )
-                    {% endif %}
+                {% if corresponding_authors_string %}
+                    {{ corresponding_authors_string | safe }}
                 {% else %}
                     To be filled...
                 {% endif %}

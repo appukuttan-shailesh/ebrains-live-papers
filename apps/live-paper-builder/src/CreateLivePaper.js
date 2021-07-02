@@ -45,8 +45,8 @@ import { lp_tool_version } from "./globals";
 import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
 
 import nunjucks from "nunjucks";
-import LivePaper_v02 from "./templates/LivePaper_v0.2.njk";
-import LivePaper_v03 from "./templates/LivePaper_v0.3.njk";
+import LivePaper_v01 from "./templates/LivePaper_v0.1.njk";
+
 
 axiosRetry(axios, {
   retries: 3,
@@ -191,12 +191,15 @@ class CreateLivePaper extends React.Component {
     this.makeAuthorsAndAffiliationsString =
       this.makeAuthorsAndAffiliationsString.bind(this);
     this.makeCreatedAuthorsString = this.makeCreatedAuthorsString.bind(this);
+    this.makeCorrespondingAuthorsString =
+      this.makeCorrespondingAuthorsString.bind(this);
     this.handleAddSection = this.handleAddSection.bind(this);
     this.storeSectionInfo = this.storeSectionInfo.bind(this);
     this.removeExcessData = this.removeExcessData.bind(this);
     this.addDerivedData = this.addDerivedData.bind(this);
     this.setID = this.setID.bind(this);
     this.setCollabID = this.setCollabID.bind(this);
+    this.setLivePaperTitle = this.setLivePaperTitle.bind(this);
     this.setLivePaperModifiedDate = this.setLivePaperModifiedDate.bind(this);
     this.verifyDataBeforeSubmit = this.verifyDataBeforeSubmit.bind(this);
     this.checkPersonInStateAuthors = this.checkPersonInStateAuthors.bind(this);
@@ -345,6 +348,8 @@ class CreateLivePaper extends React.Component {
     [data["authors_string"], data["affiliations_string"]] =
       this.makeAuthorsAndAffiliationsString();
     data["created_authors_string"] = this.makeCreatedAuthorsString();
+    data["corresponding_authors_string"] =
+      this.makeCorrespondingAuthorsString();
 
     let converter = new showdown.Converter({
       extensions: [
@@ -391,11 +396,11 @@ class CreateLivePaper extends React.Component {
     // determine appropriate live paper template
     let LivePaper = null;
     const lp_version = parseFloat(lp_data.lp_tool_version);
-    if (lp_version > 0.2) {
+    if (lp_version > 0.1) {
       // add handling for newer templates here as required
-      LivePaper = LivePaper_v03;
+      LivePaper = LivePaper_v01;
     } else {
-      LivePaper = LivePaper_v02;
+      LivePaper = LivePaper_v01;
     }
 
     function render(data) {
@@ -425,13 +430,11 @@ class CreateLivePaper extends React.Component {
     // determine appropriate live paper template
     let LivePaper = null;
     const lp_version = parseFloat(lp_data.lp_tool_version);
-    if (lp_version > 0.2) {
+    if (lp_version > 0.1) {
       // add handling for newer templates here as required
-      console.log("ERROR: no appropriate template found");
-      console.log("Fall back to template v0.2");
-      LivePaper = LivePaper_v02;
+      LivePaper = LivePaper_v01;
     } else {
-      LivePaper = LivePaper_v02;
+      LivePaper = LivePaper_v01;
     }
 
     const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
@@ -871,6 +874,30 @@ class CreateLivePaper extends React.Component {
     return created_authors_string;
   }
 
+  makeCorrespondingAuthorsString() {
+    var corresponding_authors_string = "";
+    this.state.corresponding_author.forEach(function (corresp_author, index) {
+      if (
+        corresp_author.firstname.trim() !== "" ||
+        corresp_author.lastname.trim() !== ""
+      ) {
+        if (corresponding_authors_string !== "") {
+          corresponding_authors_string = corresponding_authors_string + ", ";
+        }
+        corresponding_authors_string =
+          corresponding_authors_string +
+          corresp_author.firstname +
+          " " +
+          corresp_author.lastname;
+        if (corresp_author.affiliation) {
+          corresponding_authors_string +=
+            " (" + corresp_author.affiliation.italics() + ")";
+        }
+      }
+    });
+    return corresponding_authors_string;
+  }
+
   handleAddSection(section_type) {
     this.setState((prevState) => ({
       resources: [
@@ -902,6 +929,13 @@ class CreateLivePaper extends React.Component {
     });
   }
 
+  setLivePaperTitle(value) {
+    console.log(value);
+    this.setState({
+      live_paper_title: value,
+    });
+  }
+
   setLivePaperModifiedDate(value) {
     console.log(value);
     this.setState({
@@ -928,6 +962,7 @@ class CreateLivePaper extends React.Component {
           onClose={this.handleSaveClose}
           setID={this.setID}
           setCollabID={this.setCollabID}
+          setLivePaperTitle={this.setLivePaperTitle}
           setLivePaperModifiedDate={this.setLivePaperModifiedDate}
           enqueueSnackbar={this.props.enqueueSnackbar}
           closeSnackbar={this.props.closeSnackbar}
@@ -1148,8 +1183,8 @@ class CreateLivePaper extends React.Component {
                   label="Live Paper Title"
                   variant="outlined"
                   fullWidth={true}
-                  name="associated_paper_title"
-                  value={this.state.associated_paper_title}
+                  name="live_paper_title"
+                  value={this.state.live_paper_title}
                   onChange={this.handleFieldChange}
                   InputProps={{
                     style: {

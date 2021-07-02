@@ -27,8 +27,8 @@ export default class SaveModal extends React.Component {
       error: null,
       loading: false,
       collab_id: props.data.collab_id,
-      live_paper_name: props.data.live_paper_title,
-      live_paper_name_unique: true,
+      live_paper_title: props.data.live_paper_title,
+      live_paper_title_unique: true,
       mode: props.data.id ? "Save to Existing" : null,
     };
 
@@ -59,10 +59,10 @@ export default class SaveModal extends React.Component {
     }
 
     // a live paper name be specified
-    if (!this.state.live_paper_name) {
-      console.log(this.state.live_paper_name);
+    if (!this.state.live_paper_title) {
+      console.log(this.state.live_paper_title);
       flag = false;
-      this.setState({ live_paper_name_unique: false });
+      this.setState({ live_paper_title_unique: false });
     }
     return flag;
   }
@@ -112,8 +112,8 @@ export default class SaveModal extends React.Component {
     // console.log(value);
     // console.log(event);
     this.setState({
-      live_paper_name: value,
-      live_paper_name_unique: null,
+      live_paper_title: value,
+      live_paper_title_unique: null,
     });
   }
 
@@ -127,27 +127,27 @@ export default class SaveModal extends React.Component {
     await axios
       .get(url, config)
       .then((res) => {
-        // item.title to be changed in future to live_paper_title'
+        console.log(res.data);
         let found = null;
         if (this.state.mode === "Save to Existing") {
           found = res.data.find(
             // allow if it is the existing LP entry with same name and id
-            (item) => item.title === name && item.id !== this.props.data.id
+            (item) => item.live_paper_title === name && item.id !== this.props.data.id
           );
         } else {
-          found = res.data.find((item) => item.title === name);
+          found = res.data.find((item) => item.live_paper_title === name);
         }
         console.log(found);
         if (found) {
           // duplicate
           this.setState({
-            live_paper_name_unique: false,
+            live_paper_title_unique: false,
           });
           flag = false;
         } else {
           // unique
           this.setState({
-            live_paper_name_unique: true,
+            live_paper_title_unique: true,
           });
           flag = true;
         }
@@ -160,11 +160,11 @@ export default class SaveModal extends React.Component {
   }
 
   handleSave() {
-    this.setState({ loading: true, live_paper_name_unique: null }, async () => {
+    this.setState({ loading: true, live_paper_title_unique: null }, async () => {
       const payload = {
         ...this.adjustForKGSchema(this.props.data),
         collab_id: this.state.collab_id,
-        live_paper_title: this.state.live_paper_name,
+        live_paper_title: this.state.live_paper_title,
       };
       console.log(payload);
       if (
@@ -172,7 +172,7 @@ export default class SaveModal extends React.Component {
         this.checkRequirementsOnPayload(payload)
       ) {
         let isUnique = await this.checkLivePaperNameUnique(
-          this.state.live_paper_name
+          this.state.live_paper_title
         );
         // console.log("isUnique: ", isUnique);
         if (isUnique) {
@@ -196,7 +196,7 @@ export default class SaveModal extends React.Component {
                 // console.log("UUID = ", res.data.id);
                 // this.props.setID(res.data.id);
                 this.props.setCollabID(this.state.collab_id);
-                this.props.setLivePaperTitle(this.state.live_paper_name);
+                this.props.setLivePaperTitle(this.state.live_paper_title);
                 this.props.setLivePaperModifiedDate(payload.modified_date);
                 this.setState({ loading: false });
                 showNotification(
@@ -231,7 +231,7 @@ export default class SaveModal extends React.Component {
                 console.log("UUID = ", res.data.id);
                 this.props.setID(res.data.id);
                 this.props.setCollabID(this.state.collab_id);
-                this.props.setLivePaperTitle(this.state.live_paper_name);
+                this.props.setLivePaperTitle(this.state.live_paper_title);
                 this.props.setLivePaperModifiedDate(payload.modified_date);
                 this.setState({ loading: false });
                 showNotification(
@@ -291,18 +291,13 @@ export default class SaveModal extends React.Component {
       }
     });
 
-    // KG requires 'data' value for all Sections; LP tool no longer uses 'data' field
-    payload.resources.forEach(function (res, index) {
-      if (res.type !== "section_custom") {
-        res.data = "None";
-      }
-    });
-
     // handle useTabs for resources
     // KG doesn't have a separate field for saving tabs_name;
     // this is handled by appending it to the label with a separator (#-#)
+    console.log(payload);
     payload.resources.forEach(function (res, index) {
       if (res.type !== "section_custom") {
+        console.log(res);
         res.data.forEach(function (res_item, index) {
           if (res_item.tab_name) {
             res_item.label = res_item.label + separator + res_item.tab_name;
@@ -394,18 +389,21 @@ export default class SaveModal extends React.Component {
             <Box my={2}>
               <div>
                 <p>
-                  <strong>
-                    Please specify a unique name to identify this live paper:
-                  </strong>
+                  <strong>Live paper title:</strong>
+                  <br />
+                  The live paper title would be used for identifying this live
+                  paper when loading existing projects. If, during development,
+                  you wish to create multiple versions of the same live paper,
+                  please use different live paper titles for each.
                 </p>
               </div>
               <div>
                 <TextField
-                  label="Live Paper Name"
+                  label="Live Paper Title"
                   variant="outlined"
                   fullWidth={true}
                   name="password"
-                  value={this.state.live_paper_name}
+                  value={this.state.live_paper_title}
                   onChange={this.handleLivePaperNameChange}
                   InputProps={{
                     style: {
@@ -415,18 +413,18 @@ export default class SaveModal extends React.Component {
                   }}
                 />
               </div>
-              {!this.state.live_paper_name && (
+              {!this.state.live_paper_title && (
                 <div style={{ color: "red", paddingTop: "10px" }}>
-                  <strong>A Live Paper name must be specified!</strong>
+                  <strong>A Live Paper title must be specified!</strong>
                 </div>
               )}
-              {this.state.live_paper_name &&
-                this.state.live_paper_name_unique === false && (
+              {this.state.live_paper_title &&
+                this.state.live_paper_title_unique === false && (
                   <div style={{ color: "red", paddingTop: "10px" }}>
                     <strong>
-                      The live paper name '
+                      The live paper title '
                       <pre style={{ display: "inline" }}>
-                        {this.state.live_paper_name}
+                        {this.state.live_paper_title}
                       </pre>
                       ' is already us use by another live paper. Please enter a
                       different name.
@@ -488,7 +486,7 @@ export default class SaveModal extends React.Component {
                 style={{
                   width: "20%",
                   backgroundColor:
-                    this.state.collab_id && this.state.live_paper_name
+                    this.state.collab_id && this.state.live_paper_title
                       ? "#8BC34A"
                       : "#FFFFFF",
                   color: "#000000",

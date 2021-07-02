@@ -15,8 +15,7 @@ import {
 } from "./utils";
 
 import nunjucks from "nunjucks";
-import LivePaper_v02 from "./templates/LivePaper_v0.2.njk";
-import LivePaper_v03 from "./templates/LivePaper_v0.3.njk";
+import LivePaper_v01 from "./templates/LivePaper_v0.1.njk";
 
 const styles = (theme) => ({
   root: {
@@ -64,6 +63,8 @@ export default class LivePaperViewer extends React.Component {
     this.makeAuthorsAndAffiliationsString =
       this.makeAuthorsAndAffiliationsString.bind(this);
     this.makeCreatedAuthorsString = this.makeCreatedAuthorsString.bind(this);
+    this.makeCorrespondingAuthorsString =
+      this.makeCorrespondingAuthorsString.bind(this);
   }
 
   componentDidMount() {
@@ -135,11 +136,11 @@ export default class LivePaperViewer extends React.Component {
     // determine appropriate live paper template
     let LivePaper = null;
     const lp_version = parseFloat(lp_data.lp_tool_version);
-    if (lp_version > 0.2) {
+    if (lp_version > 0.1) {
       // add handling for newer templates here as required
-      LivePaper = LivePaper_v03;
+      LivePaper = LivePaper_v01;
     } else {
-      LivePaper = LivePaper_v02;
+      LivePaper = LivePaper_v01;
     }
 
     fetch(LivePaper)
@@ -164,6 +165,8 @@ export default class LivePaperViewer extends React.Component {
     [data["authors_string"], data["affiliations_string"]] =
       this.makeAuthorsAndAffiliationsString();
     data["created_authors_string"] = this.makeCreatedAuthorsString();
+    data["corresponding_authors_string"] =
+      this.makeCorrespondingAuthorsString();
 
     // check if resources use tabs; handle appropriately
     data.resources.forEach(function (res, index) {
@@ -289,6 +292,33 @@ export default class LivePaperViewer extends React.Component {
       }
     });
     return created_authors_string;
+  }
+
+  makeCorrespondingAuthorsString() {
+    var corresponding_authors_string = "";
+    this.state.lp_data.corresponding_author.forEach(function (
+      corresp_author,
+      index
+    ) {
+      if (
+        corresp_author.firstname.trim() !== "" ||
+        corresp_author.lastname.trim() !== ""
+      ) {
+        if (corresponding_authors_string !== "") {
+          corresponding_authors_string = corresponding_authors_string + ", ";
+        }
+        corresponding_authors_string =
+          corresponding_authors_string +
+          corresp_author.firstname +
+          " " +
+          corresp_author.lastname;
+        if (corresp_author.affiliation) {
+          corresponding_authors_string +=
+            " (" + corresp_author.affiliation.italics() + ")";
+        }
+      }
+    });
+    return corresponding_authors_string;
   }
 
   render() {

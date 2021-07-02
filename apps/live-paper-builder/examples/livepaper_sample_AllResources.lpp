@@ -1,19 +1,30 @@
 {
-    "id": "",
-    "lp_tool_version": "0.3",
+    "lp_tool_version": "0.1",
     "modified_date": "2021-05-27T15:41:16.869Z",
     "authors": [
         {
             "firstname": "Shailesh",
             "lastname": "Appukuttan",
             "affiliation": "Paris-Saclay Institute of Neuroscience, Centre National de la Recherche Scientifique, Université Paris-Saclay, Gif-sur-Yvette, France"
+        },
+        {
+            "firstname": "Andrew",
+            "lastname": "Davison",
+            "affiliation": "Paris-Saclay Institute of Neuroscience, Centre National de la Recherche Scientifique, Université Paris-Saclay, Gif-sur-Yvette, France"
         }
     ],
-    "corresponding_author": [{
-        "firstname": "Shailesh",
-        "lastname": "Appukuttan",
-        "affiliation": "Paris-Saclay Institute of Neuroscience, Centre National de la Recherche Scientifique, Université Paris-Saclay, Gif-sur-Yvette, France"
-    }],
+    "corresponding_author": [
+        {
+            "firstname": "Shailesh",
+            "lastname": "Appukuttan",
+            "affiliation": "Paris-Saclay Institute of Neuroscience, Centre National de la Recherche Scientifique, Université Paris-Saclay, Gif-sur-Yvette, France"
+        },
+        {
+            "firstname": "Andrew",
+            "lastname": "Davison",
+            "affiliation": "Paris-Saclay Institute of Neuroscience, Centre National de la Recherche Scientifique, Université Paris-Saclay, Gif-sur-Yvette, France"
+        }
+    ],
     "created_author": [
         {
             "firstname": "Shailesh",
@@ -145,41 +156,41 @@
             "data": [
                 {
                     "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/models/CA1_int_bAC_011017HP2_20180110153901/CA1_int_bAC_011017HP2_20180110153901.zip",
+                    "view_url": "https://wiki.ebrains.eu/bin/view/Collabs/live-paper-2018-migliore-et-al/Model%20Catalog#model_id.fde75d28-ac90-479d-9946-5130e5262941",
                     "label": "CA1_int_bAC_011017HP2_20180110153901",
-                    "url": "",
-                    "view_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.01284a1d-6fd3-4cc0-8fa7-41eada65d9d9",
                     "identifier": null,
                     "tab_name": "Group A"
                 },
                 {
                     "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/models/CA1_int_bAC_011023HP2_20180116154023/CA1_int_bAC_011023HP2_20180116154023.zip",
+                    "view_url": "https://wiki.ebrains.eu/bin/view/Collabs/live-paper-2018-migliore-et-al/Model%20Catalog#model_id.ab570001-df66-466c-bc6f-1b44cd324222",
                     "label": "CA1_int_bAC_011023HP2_20180116154023",
-                    "url": "",
-                    "view_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.26265178-e07f-402c-8194-b593a9fcdc62",
                     "identifier": null,
                     "tab_name": "Group A"
                 },
                 {
                     "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/models/CA1_int_bAC_011127HP1_20180120115056/CA1_int_bAC_011127HP1_20180120115056.zip",
+                    "view_url": "https://wiki.ebrains.eu/bin/view/Collabs/live-paper-2018-migliore-et-al/Model%20Catalog#model_id.f854ebcd-7ebc-48a6-b4ff-a4d63cebf0fe",
                     "label": "CA1_int_bAC_011127HP1_20180120115056",
-                    "url": "",
-                    "view_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6584dc03-0469-4b9b-bdd6-cca71011ec31",
                     "identifier": null,
                     "tab_name": "Group A"
                 },
                 {
                     "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/models/CA1_int_cAC_031031AM1_20180201104443/CA1_int_cAC_031031AM1_20180201104443.zip",
+                    "view_url": "https://wiki.ebrains.eu/bin/view/Collabs/live-paper-2018-migliore-et-al/Model%20Catalog#model_id.b5ef2c2e-f0bf-4624-a579-7e1be74f8800",
                     "label": "CA1_int_cAC_031031AM1_20180201104443",
-                    "url": "",
-                    "view_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.4dec544a-5275-40fa-90a0-5a7f3b601b39",
                     "identifier": null,
                     "tab_name": "Group B"
                 },
                 {
                     "type": "URL",
+                    "url": "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/Migliore_2018_CA1/models/CA1_int_bAC_060314AM2_20180120154128/CA1_int_bAC_060314AM2_20180120154128.zip",
+                    "view_url": "https://wiki.ebrains.eu/bin/view/Collabs/live-paper-2018-migliore-et-al/Model%20Catalog#model_id.d249dc18-24a0-434f-8a3f-de5b5719904e",
                     "label": "CA1_int_bAC_060314AM2_20180120154128",
-                    "url": "",
-                    "view_url": "https://collab.humanbrainproject.eu/#/collab/1655/nav/75901?state=model.6c698fa5-6ba4-4ac0-a38e-62cd7d4439ca",
                     "identifier": null,
                     "tab_name": "Group B"
                 }

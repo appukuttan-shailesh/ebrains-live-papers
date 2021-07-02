@@ -30,7 +30,7 @@
             <div style="margin-left:25px">
                 <table class="striped">
                     <tbody>
-                        {% for item in data["dataFormatted"] %}
+                        {% for item in data["data"] %}
                             <tr>
                                 <td style="width: 50px; padding-right: 15px;">
                                     {{ cellSourceLogo(type=item["type"]) }}
@@ -38,10 +38,16 @@
                                 <td>
                                     {{ item["label"] }}
                                 </td>
-                                <td style="width: 175px">
-                                    <a href='{{ item["url"] }}' class="waves-effect waves-light">
-                                        <i class="material-icons left">archive</i>Download
-                                    </a>
+                                <td
+                                    style="width: 175px">
+                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                    {% if item["url"] != item["view_url"] %}
+                                        <a href='{{ item["url"] }}' class="waves-effect waves-light">
+                                            <i class="material-icons left">archive</i>Download
+                                        </a>
+                                    {% else %}
+                                        <span></span>
+                                    {% endif %}
                                 </td>
                                 <td style="width: 175px">
                                     {% if item["view_url"] %}
@@ -92,7 +98,7 @@
                         <div style="margin-left:25px">
                             <table class="striped">
                                 <tbody>
-                                    {% for item in data["dataFormatted"] %}
+                                    {% for item in data["data"] %}
                                         {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
                                             <tr>
                                                 <td style="width: 50px; padding-right: 15px;">
@@ -101,10 +107,16 @@
                                                 <td>
                                                     {{ item["label"] }}
                                                 </td>
-                                                <td style="width: 175px">
-                                                    <a href='{{ item["url"] }}' class="waves-effect waves-light">
-                                                        <i class="material-icons left">archive</i>Download
-                                                    </a>
+                                                <td
+                                                    style="width: 175px">
+                                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                                    {% if item["url"] != item["view_url"] %}
+                                                        <a href='{{ item["url"] }}' class="waves-effect waves-light">
+                                                            <i class="material-icons left">archive</i>Download
+                                                        </a>
+                                                    {% else %}
+                                                        <span></span>
+                                                    {% endif %}
                                                 </td>
                                                 <td style="width: 175px">
                                                     {% if item["view_url"] %}
@@ -144,7 +156,7 @@
             {% endif %}
             <div ng-app="neo-visualizer">
                 <ul class="collapsible expandable">
-                    {% for item in data["dataFormatted"] %}
+                    {% for item in data["data"] %}
                         <li>
                             <div class="collapsible-header" style="align-items: baseline">
                                 <span style="width: 50px; padding-right: 15px;">
@@ -190,7 +202,7 @@
                     {% for tab in data["tabs"] %}
                         <div id='res_{{ index }}_tab_{{ tab|replace(" ", "_") }}' class="col s12">
                             <ul class="collapsible expandable">
-                                {% for item in data["dataFormatted"] %}
+                                {% for item in data["data"] %}
                                     {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
                                         <li>
                                             <div class="collapsible-header" style="align-items: baseline">
@@ -228,7 +240,7 @@
             <div style="margin-left:25px">
                 <table class="striped">
                     <tbody>
-                        {% for item in data["dataFormatted"] %}
+                        {% for item in data["data"] %}
                             <tr>
                                 <td style="width: 50px; padding-right: 15px;">
                                     {{ cellSourceLogo(type=item["type"]) }}
@@ -236,11 +248,15 @@
                                 <td>
                                     {{ item["label"] }}
                                 </td>
-                                <td style="width: 175px">
-                                    {% if item["url"] %}
+                                <td
+                                    style="width: 175px">
+                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                    {% if item["url"] != item["view_url"] %}
                                         <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                             <i class="material-icons left">archive</i>Download
                                         </a>
+                                    {% else %}
+                                        <span></span>
                                     {% endif %}
                                 </td>
                                 <td style="width: 175px">
@@ -286,7 +302,7 @@
                         <div style="margin-left:25px">
                             <table class="striped">
                                 <tbody>
-                                    {% for item in data["dataFormatted"] %}
+                                    {% for item in data["data"] %}
                                         {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
                                             <tr>
                                                 <td style="width: 50px; padding-right: 15px;">
@@ -295,11 +311,15 @@
                                                 <td>
                                                     {{ item["label"] }}
                                                 </td>
-                                                <td style="width: 175px">
-                                                    {% if item["url"] %}
+                                                <td
+                                                    style="width: 175px">
+                                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                                    {% if item["url"] != item["view_url"] %}
                                                         <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                                             <i class="material-icons left">archive</i>Download
                                                         </a>
+                                                    {% else %}
+                                                        <span></span>
                                                     {% endif %}
                                                 </td>
                                                 <td style="width: 175px">
@@ -335,13 +355,15 @@
             <div style="margin-left:25px">
                 <table class="striped">
                     <tbody>
-                        {% for item in data["dataFormatted"] %}
+                        {% for item in data["data"] %}
                             <tr>
                                 <td>
                                     {{ item["label"] }}
                                 </td>
-                                <td style="width: 175px">
-                                    {% if item["url"] %}
+                                <td
+                                    style="width: 175px">
+                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                    {% if item["url"] != item["view_url"] %}
                                         <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                             <i class="material-icons left">archive</i>Download
                                         </a>
@@ -394,14 +416,16 @@
                         <div style="margin-left:25px">
                             <table class="striped">
                                 <tbody>
-                                    {% for item in data["dataFormatted"] %}
+                                    {% for item in data["data"] %}
                                         {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
                                             <tr>
                                                 <td>
                                                     {{ item["label"] }}
                                                 </td>
-                                                <td style="width: 175px">
-                                                    {% if item["url"] %}
+                                                <td
+                                                    style="width: 175px">
+                                                    {# if 'url' isn't specified, then 'view_url' is copied into it. KG schema requirements. #}
+                                                    {% if item["url"] != item["view_url"] %}
                                                         <a href='{{ item["url"] }}' class="waves-effect waves-light">
                                                             <i class="material-icons left">archive</i>Download
                                                         </a>
@@ -442,7 +466,7 @@
                 <br/>
             {% endif %}
             <div style="margin-left:25px">
-                {{ data["dataFormatted"] | safe }}
+                {{ data["data"] | safe }}
             </div>
         </div>
     </li>
@@ -528,16 +552,8 @@
             <p>
                 <strong style="font-weight:bolder">Corresponding author:
                 </strong>
-                {% if corresponding_author.firstname %}
-                    {{ corresponding_author.firstname }}
-                    {{ corresponding_author.lastname }}
-                    {% if corresponding_author.affiliation %}
-                        (
-                        <em>
-                            {{ corresponding_author.affiliation }}
-                        </em>
-                        )
-                    {% endif %}
+                {% if corresponding_authors_string %}
+                    {{ corresponding_authors_string | safe }}
                 {% else %}
                     To be filled...
                 {% endif %}

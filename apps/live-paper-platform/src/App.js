@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import TopNavigation from "./TopNavigation";
 import LoadingIndicator from "./LoadingIndicator";
+import Icon from "@material-ui/core/Icon";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import BuildIcon from "@material-ui/icons/Build";
 import axios from "axios";
@@ -17,7 +18,15 @@ import saltedMd5 from "salted-md5";
 const TABLE_COLUMNS = [
   {
     title: "Paper Title",
-    field: "associated_paper_title",
+    field: "live_paper_title",
+    render: (item) => (
+      <div>
+        <p>{item.live_paper_title}</p>
+        <p>
+          <i>{item.citation}</i>
+        </p>
+      </div>
+    ),
   },
   {
     title: "Year",
@@ -325,13 +334,13 @@ export default class App extends React.Component {
     // console.log(this.state.selectedLPs);
     if (window.location.hash) {
       return (
-        <div className="container" style={{ textAlign: "left" }}>
+        <div className="mycontainer" style={{ textAlign: "left" }}>
           {lp_page}
         </div>
       );
     } else {
       return (
-        <div className="container" style={{ textAlign: "left" }}>
+        <div className="mycontainer" style={{ textAlign: "left" }}>
           <TopNavigation />
           <div
             className="box rounded centered"
@@ -473,13 +482,29 @@ export default class App extends React.Component {
                       )
                         ? "#FFECB3"
                         : "#EEEEEE",
+                      paddingLeft: "10%",
+                      marginLeft: "10%",
                     }),
                     // tableLayout: "fixed",
                   }}
                   detailPanel={[
                     {
-                      icon: "insert_drive_file",
-                      openIcon: "find_in_page",
+                      icon: () => (
+                        <Icon
+                          color="primary"
+                          style={{ marginLeft: 10 }}
+                        >
+                          insert_drive_file
+                        </Icon>
+                      ),
+                      openIcon: () => (
+                        <Icon
+                          color="secondary"
+                          style={{ marginLeft: 10 }}
+                        >
+                          find_in_page
+                        </Icon>
+                      ),
                       render: (rowData) => {
                         if (
                           !Object.keys(this.state.dataLPs).includes(
