@@ -16,7 +16,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit:
     `;
   const example_latex = `
 \`\`\`latex
-\sum_{i=1}^n i^3 = \left( \frac{n(g(n)+1)} 2 \right) ^2
+sum_{i=1}^n i^3 = left( \frac{n(g(n)+1)} 2 \right) ^2
 \`\`\`    
     `;
 
