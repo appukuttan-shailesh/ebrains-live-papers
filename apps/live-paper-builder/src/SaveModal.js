@@ -132,7 +132,8 @@ export default class SaveModal extends React.Component {
         if (this.state.mode === "Save to Existing") {
           found = res.data.find(
             // allow if it is the existing LP entry with same name and id
-            (item) => item.live_paper_title === name && item.id !== this.props.data.id
+            (item) =>
+              item.live_paper_title === name && item.id !== this.props.data.id
           );
         } else {
           found = res.data.find((item) => item.live_paper_title === name);
@@ -160,108 +161,114 @@ export default class SaveModal extends React.Component {
   }
 
   handleSave() {
-    this.setState({ loading: true, live_paper_title_unique: null }, async () => {
-      const payload = {
-        ...this.adjustForKGSchema(this.props.data),
-        collab_id: this.state.collab_id,
-        live_paper_title: this.state.live_paper_title,
-      };
-      console.log(payload);
-      if (
-        this.checkRequirementsOnPage() &&
-        this.checkRequirementsOnPayload(payload)
-      ) {
-        let isUnique = await this.checkLivePaperNameUnique(
-          this.state.live_paper_title
-        );
-        // console.log("isUnique: ", isUnique);
-        if (isUnique) {
-          let url = baseUrl + "/livepapers/";
-          let config = {
-            cancelToken: this.signal.token,
-            headers: {
-              Authorization: "Bearer " + this.context.auth[0].token,
-              "Content-type": "application/json",
-            },
-          };
+    this.setState(
+      { loading: true, live_paper_title_unique: null },
+      async () => {
+        const payload = {
+          ...this.adjustForKGSchema(this.props.data),
+          collab_id: this.state.collab_id,
+          live_paper_title: this.state.live_paper_title,
+        };
+        // as currently API does not allow `null` for `associated_paper_title`
+        payload["associated_paper_title"] =
+          this.props.data.associated_paper_title;
+        console.log(payload);
+        if (
+          this.checkRequirementsOnPage() &&
+          this.checkRequirementsOnPayload(payload)
+        ) {
+          let isUnique = await this.checkLivePaperNameUnique(
+            this.state.live_paper_title
+          );
+          // console.log("isUnique: ", isUnique);
+          if (isUnique) {
+            let url = baseUrl + "/livepapers/";
+            let config = {
+              cancelToken: this.signal.token,
+              headers: {
+                Authorization: "Bearer " + this.context.auth[0].token,
+                "Content-type": "application/json",
+              },
+            };
 
-          if (this.state.mode === "Save to Existing") {
-            console.log("PUT");
-            url = url + this.props.data.id;
-            axios
-              .put(url, payload, config)
-              .then((res) => {
-                // PUT returns null on success
-                // console.log(res);
-                // console.log("UUID = ", res.data.id);
-                // this.props.setID(res.data.id);
-                this.props.setCollabID(this.state.collab_id);
-                this.props.setLivePaperTitle(this.state.live_paper_title);
-                this.props.setLivePaperModifiedDate(payload.modified_date);
-                this.setState({ loading: false });
-                showNotification(
-                  this.props.enqueueSnackbar,
-                  this.props.closeSnackbar,
-                  "Saved to KG!",
-                  "success"
-                );
-                this.props.onClose(true);
-              })
-              .catch((err) => {
-                if (axios.isCancel(err)) {
-                  console.log("Error: ", err.message);
-                } else {
-                  console.log(err);
-                  console.log(err.response);
-                  this.setState({
-                    error: err.response,
-                  });
-                }
-                this.setState({ loading: false });
-              });
+            if (this.state.mode === "Save to Existing") {
+              console.log("PUT");
+              url = url + this.props.data.id;
+              axios
+                .put(url, payload, config)
+                .then((res) => {
+                  // PUT returns null on success
+                  // console.log(res);
+                  // console.log("UUID = ", res.data.id);
+                  // this.props.setID(res.data.id);
+                  this.props.setCollabID(this.state.collab_id);
+                  this.props.setLivePaperTitle(this.state.live_paper_title);
+                  this.props.setLivePaperModifiedDate(payload.modified_date);
+                  this.setState({ loading: false });
+                  showNotification(
+                    this.props.enqueueSnackbar,
+                    this.props.closeSnackbar,
+                    "Saved to KG!",
+                    "success"
+                  );
+                  this.props.onClose(true);
+                })
+                .catch((err) => {
+                  if (axios.isCancel(err)) {
+                    console.log("Error: ", err.message);
+                  } else {
+                    console.log(err);
+                    console.log(err.response);
+                    this.setState({
+                      error: err.response,
+                    });
+                  }
+                  this.setState({ loading: false });
+                });
+            } else {
+              console.log("POST");
+              // Set id to null for creating new entry via POST
+              payload.id = null;
+              console.log(payload);
+              axios
+                .post(url, payload, config)
+                .then((res) => {
+                  console.log(res);
+                  console.log("UUID = ", res.data.id);
+                  this.props.setID(res.data.id);
+                  this.props.setCollabID(this.state.collab_id);
+                  this.props.setLivePaperTitle(this.state.live_paper_title);
+                  this.props.setLivePaperModifiedDate(payload.modified_date);
+                  this.setState({ loading: false });
+                  showNotification(
+                    this.props.enqueueSnackbar,
+                    this.props.closeSnackbar,
+                    "Saved to KG!",
+                    "success"
+                  );
+                  this.props.onClose(true);
+                })
+                .catch((err) => {
+                  if (axios.isCancel(err)) {
+                    console.log("Error: ", err.message);
+                  } else {
+                    console.log(err);
+                    console.log(err.response);
+                    this.setState({
+                      error: err.response,
+                    });
+                  }
+                  this.setState({ loading: false });
+                });
+            }
           } else {
-            console.log("POST");
-            // Set id to null for creating new entry via POST
-            payload.id = null;
-            console.log(payload);
-            axios
-              .post(url, payload, config)
-              .then((res) => {
-                console.log(res);
-                console.log("UUID = ", res.data.id);
-                this.props.setID(res.data.id);
-                this.props.setCollabID(this.state.collab_id);
-                this.props.setLivePaperTitle(this.state.live_paper_title);
-                this.props.setLivePaperModifiedDate(payload.modified_date);
-                this.setState({ loading: false });
-                showNotification(
-                  this.props.enqueueSnackbar,
-                  this.props.closeSnackbar,
-                  "Saved to KG!",
-                  "success"
-                );
-                this.props.onClose(true);
-              })
-              .catch((err) => {
-                if (axios.isCancel(err)) {
-                  console.log("Error: ", err.message);
-                } else {
-                  console.log(err);
-                  console.log(err.response);
-                  this.setState({
-                    error: err.response,
-                  });
-                }
-                this.setState({ loading: false });
-              });
+            this.setState({ loading: false });
           }
         } else {
           this.setState({ loading: false });
         }
-      } else {
-        this.setState({ loading: false });
       }
-    });
+    );
   }
 
   adjustForKGSchema(data) {
@@ -297,7 +304,7 @@ export default class SaveModal extends React.Component {
     console.log(payload);
     payload.resources.forEach(function (res, index) {
       if (res.type !== "section_custom") {
-        console.log(res);
+        // console.log(res);
         res.data.forEach(function (res_item, index) {
           if (res_item.tab_name) {
             res_item.label = res_item.label + separator + res_item.tab_name;

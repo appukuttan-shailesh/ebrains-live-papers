@@ -15,18 +15,20 @@ import { baseUrl } from "./globals";
 // define the columns for the material data table
 const TABLE_COLUMNS = [
   {
-    title: "Live Paper Name",
+    title: "Live Paper Title",
     field: "live_paper_title",
   },
   {
     title: "Collab",
     field: "collab_id",
+    width: "250",
   },
   {
     title: "Modified",
     field: "modified_date",
     type: "date",
     defaultSort: "desc",
+    width: "100px",
   },
 ];
 
@@ -124,14 +126,18 @@ export default class LoadKGProjects extends React.Component {
   render() {
     // console.log(this.state);
     if (this.state.error) {
-      console.log(this.state.error)
-      console.log(typeof this.state.error)
+      console.log(this.state.error);
+      console.log(typeof this.state.error);
       console.log(JSON.stringify(this.state.error, null, 4));
       return (
         <ErrorDialog
           open={Boolean(this.state.error)}
           handleErrorDialogClose={this.handleErrorDialogClose}
-          error={Array.isArray(this.state.error) ? this.state.error[0].msg : this.state.error.message || this.state.error}
+          error={
+            Array.isArray(this.state.error)
+              ? this.state.error[0].msg
+              : this.state.error.message || this.state.error
+          }
         />
       );
     } else {
@@ -151,8 +157,9 @@ export default class LoadKGProjects extends React.Component {
           <DialogContent>
             <LoadingIndicatorModal open={this.state.loading} />
             <Box my={2}>
-              You have permissions to edit the following Live Paper projects on
-              the Knowledge Graph:
+              To have edit permissions on a live paper, you must be a member of
+              the live paper's host Collab. You currrently have permissions to
+              edit the below listed live paper projects on the Knowledge Graph.
             </Box>
             <Box my={2}>
               <MaterialTable
@@ -232,7 +239,7 @@ export default class LoadKGProjects extends React.Component {
                   width: "20%",
                   backgroundColor:
                     (this.state.selectedRow || this.state.selectedRow === 0) &&
-                      this.state.selectedRow >= 0
+                    this.state.selectedRow >= 0
                       ? "#8BC34A"
                       : "#FFFFFF",
                   color: "#000000",

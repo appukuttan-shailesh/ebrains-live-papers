@@ -20,8 +20,10 @@ const TABLE_COLUMNS = [
     title: "Paper Title",
     field: "live_paper_title",
     render: (item) => (
-      <div>
-        <p>{item.live_paper_title}</p>
+      <div style={{ marginLeft: 15 }}>
+        <p>
+          <b>{item.live_paper_title}</b>
+        </p>
         <p>
           <i>{item.citation}</i>
         </p>
@@ -274,19 +276,21 @@ export default class App extends React.Component {
                   minWidth: "70%",
                   maxWidth: "70",
                   float: "left",
+                  cursor: "pointer",
                 }}
+                onClick={() => window.open(data["doi"], "_blank")}
               >
                 {data["doi"]}
               </span>
               <span
-                style={{ width: "175px", textAlign: "right", float: "right" }}
+                style={{ width: "275px", textAlign: "right", float: "right" }}
               >
                 <Button
                   variant="contained"
                   color="primary"
                   style={{
-                    width: "150px",
-                    maxWidth: "150px",
+                    width: "250px",
+                    maxWidth: "250px",
                     backgroundColor: "#FF9800",
                     color: "#000000",
                     fontWeight: "bold",
@@ -296,7 +300,7 @@ export default class App extends React.Component {
                   }}
                   onClick={() => this.setState({ lp_open_id: data["id"] })}
                 >
-                  Open
+                  Open Live Paper
                 </Button>
               </span>
             </div>
@@ -470,7 +474,7 @@ export default class App extends React.Component {
                     headerStyle: {
                       position: "sticky",
                       top: 0,
-                      backgroundColor: "#FFFFFF",
+                      backgroundColor: "#EEEEEE",
                       color: "#000",
                       fontWeight: "bold",
                       fontSize: 16,
@@ -481,27 +485,24 @@ export default class App extends React.Component {
                         rowData.tableData.id
                       )
                         ? "#FFECB3"
-                        : "#EEEEEE",
+                        : "#FFFFFF",
                       paddingLeft: "10%",
                       marginLeft: "10%",
+                      border: "solid",
+                      borderWidth: 2,
+                      borderColor: "#999999",
                     }),
                     // tableLayout: "fixed",
                   }}
                   detailPanel={[
                     {
                       icon: () => (
-                        <Icon
-                          color="primary"
-                          style={{ marginLeft: 10 }}
-                        >
+                        <Icon color="primary" style={{ marginLeft: 10 }}>
                           insert_drive_file
                         </Icon>
                       ),
                       openIcon: () => (
-                        <Icon
-                          color="secondary"
-                          style={{ marginLeft: 10 }}
-                        >
+                        <Icon color="secondary" style={{ marginLeft: 10 }}>
                           find_in_page
                         </Icon>
                       ),

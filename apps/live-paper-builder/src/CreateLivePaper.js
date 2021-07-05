@@ -47,7 +47,6 @@ import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
 import nunjucks from "nunjucks";
 import LivePaper_v01 from "./templates/LivePaper_v0.1.njk";
 
-
 axiosRetry(axios, {
   retries: 3,
   retryDelay: (retryCount) => {
@@ -169,9 +168,15 @@ class CreateLivePaper extends React.Component {
       saveOpen: false,
       submitOpen: false,
       showDescHelp: false,
+      lastSaved: null,
     };
-    this.state = { ...this.state, ...props.data };
-
+    this.state = {
+      ...this.state,
+      ...props.data,
+      standalone:
+        props.data.live_paper_title !== "" &&
+        props.data.associated_paper_title === "",
+    };
     // const [authContext,] = this.context.auth;
 
     this.handleClose = this.handleClose.bind(this);
@@ -324,7 +329,7 @@ class CreateLivePaper extends React.Component {
 
   removeExcessData() {
     let req_data = JSON.parse(JSON.stringify(this.state)); // copy by value
-    let remove_keys = ["saveOpen", "submitOpen"];
+    let remove_keys = ["saveOpen", "submitOpen", "lastSaved"];
     remove_keys.forEach((k) => delete req_data[k]);
 
     // remove from within resources objects
@@ -500,10 +505,11 @@ class CreateLivePaper extends React.Component {
     });
   }
 
-  handleSaveClose() {
-    this.setState({
+  handleSaveClose(flag) {
+    this.setState((prevState) => ({
       saveOpen: false,
-    });
+      lastSaved: flag ? new Date() : prevState.lastSaved,
+    }));
   }
 
   handleSubmitOpen() {
@@ -547,10 +553,19 @@ class CreateLivePaper extends React.Component {
     //   }));
     // }
     else if (name === "associated_paper_title") {
-      this.setState({
-        associated_paper_title: value,
-        live_paper_title: value,
-      });
+      if (
+        this.state.live_paper_title === "" ||
+        this.state.associated_paper_title === this.state.live_paper_title
+      ) {
+        this.setState({
+          associated_paper_title: value,
+          live_paper_title: value,
+        });
+      } else {
+        this.setState({
+          associated_paper_title: value,
+        });
+      }
     } else if (name === "created_author") {
       if (value === "-- Other Person --") {
         this.setState({
@@ -699,6 +714,11 @@ class CreateLivePaper extends React.Component {
             /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
             "$<year>-$<month>-$<day>"
           ),
+        journal: "",
+        url: "",
+        citation: "",
+        doi: "",
+        abstract: "",
       });
     }
   }
@@ -983,6 +1003,27 @@ class CreateLivePaper extends React.Component {
       );
     }
 
+    let lastSaveInfo = null;
+    if (this.state.lastSaved) {
+      lastSaveInfo = (
+        <b>
+          <i>
+            Changes last saved to KG at{" "}
+            {new Date(this.state.lastSaved).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </i>
+        </b>
+      );
+    } else {
+      lastSaveInfo = (
+        <b>
+          <i>No changes saved to KG during current session.</i>
+        </b>
+      );
+    }
+
     return (
       <Dialog
         fullScreen
@@ -1169,6 +1210,7 @@ class CreateLivePaper extends React.Component {
                   <strong>Enter a title for your live paper:</strong>
                   {!this.state.standalone && (
                     <>
+                      <br />
                       <i>
                         Live papers with associated publications generally use
                         the same title as the article for ease of
@@ -1431,136 +1473,138 @@ class CreateLivePaper extends React.Component {
                       style={{ width: "92.5%" }}
                     />
                   </div> */}
-                  <br />
-                  <br />
                 </div>
               )}
-              <div>
-                <p>
-                  <strong>
-                    Specify the journal in which paper is published (leave empty
-                    if awaiting publication):
-                  </strong>
-                </p>
-              </div>
-              <div>
-                <TextField
-                  label="Journal"
-                  variant="outlined"
-                  fullWidth={true}
-                  name="journal"
-                  value={this.state.journal}
-                  onChange={this.handleFieldChange}
-                  InputProps={{
-                    style: {
-                      padding: "5px 15px",
-                    },
-                  }}
-                />
-              </div>
-              <br />
-              <div>
-                <p>
-                  <strong>
-                    Provide the URL to access article (leave empty if awaiting
-                    publication or link to bioRxiv, if available):
-                  </strong>
-                </p>
-              </div>
-              <div>
-                <TextField
-                  label="Article URL"
-                  variant="outlined"
-                  fullWidth={true}
-                  name="url"
-                  value={this.state.url}
-                  onChange={this.handleFieldChange}
-                  InputProps={{
-                    style: {
-                      padding: "5px 15px",
-                    },
-                  }}
-                />
-              </div>
-              <br />
-              <div>
-                <p>
-                  <strong>
-                    Specify the citation text to be used for article (leave
-                    empty if awaiting publication):
-                  </strong>
-                </p>
-              </div>
-              <div>
-                <TextField
-                  multiline
-                  rows="3"
-                  label="Citation"
-                  variant="outlined"
-                  fullWidth={true}
-                  name="citation"
-                  value={this.state.citation}
-                  onChange={this.handleFieldChange}
-                  InputProps={{
-                    style: {
-                      padding: "15px 15px",
-                    },
-                  }}
-                />
-              </div>
-              <br />
-              <div>
-                <p>
-                  <strong>
-                    Indicate the DOI entry for article (leave empty if awaiting
-                    publication):
-                  </strong>
-                </p>
-              </div>
-              <div>
-                <TextField
-                  label="DOI"
-                  variant="outlined"
-                  fullWidth={true}
-                  name="doi"
-                  value={this.state.doi}
-                  onChange={this.handleFieldChange}
-                  InputProps={{
-                    style: {
-                      padding: "5px 15px",
-                    },
-                  }}
-                />
-              </div>
-              <br />
-              <div>
-                <p>
-                  <strong>
-                    Provide the abstract of your manuscript / paper:
-                  </strong>
-                </p>
-              </div>
-              <div>
-                <Grid item xs={12}>
-                  <TextField
-                    multiline
-                    rows="8"
-                    label="Abstract"
-                    variant="outlined"
-                    fullWidth={true}
-                    name="abstract"
-                    value={this.state.abstract}
-                    onChange={this.handleFieldChange}
-                    InputProps={{
-                      style: {
-                        padding: "15px 15px",
-                      },
-                    }}
-                  />
-                </Grid>
-              </div>
-              <br />
-              <br />
+              {!this.state.standalone && (
+                <>
+                  <div>
+                    <p>
+                      <strong>
+                        Specify the journal in which paper is published (leave
+                        empty if awaiting publication):
+                      </strong>
+                    </p>
+                  </div>
+                  <div>
+                    <TextField
+                      label="Journal"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="journal"
+                      value={this.state.journal}
+                      onChange={this.handleFieldChange}
+                      InputProps={{
+                        style: {
+                          padding: "5px 15px",
+                        },
+                      }}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <p>
+                      <strong>
+                        Provide the URL to access article (leave empty if
+                        awaiting publication or link to bioRxiv, if available):
+                      </strong>
+                    </p>
+                  </div>
+                  <div>
+                    <TextField
+                      label="Article URL"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="url"
+                      value={this.state.url}
+                      onChange={this.handleFieldChange}
+                      InputProps={{
+                        style: {
+                          padding: "5px 15px",
+                        },
+                      }}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <p>
+                      <strong>
+                        Specify the citation text to be used for article (leave
+                        empty if awaiting publication):
+                      </strong>
+                    </p>
+                  </div>
+                  <div>
+                    <TextField
+                      multiline
+                      rows="3"
+                      label="Citation"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="citation"
+                      value={this.state.citation}
+                      onChange={this.handleFieldChange}
+                      InputProps={{
+                        style: {
+                          padding: "15px 15px",
+                        },
+                      }}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <p>
+                      <strong>
+                        Indicate the DOI entry for article (leave empty if
+                        awaiting publication):
+                      </strong>
+                    </p>
+                  </div>
+                  <div>
+                    <TextField
+                      label="DOI"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="doi"
+                      value={this.state.doi}
+                      onChange={this.handleFieldChange}
+                      InputProps={{
+                        style: {
+                          padding: "5px 15px",
+                        },
+                      }}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <p>
+                      <strong>
+                        Provide the abstract of your manuscript / paper:
+                      </strong>
+                    </p>
+                  </div>
+                  <div>
+                    <Grid item xs={12}>
+                      <TextField
+                        multiline
+                        rows="8"
+                        label="Abstract"
+                        variant="outlined"
+                        fullWidth={true}
+                        name="abstract"
+                        value={this.state.abstract}
+                        onChange={this.handleFieldChange}
+                        InputProps={{
+                          style: {
+                            padding: "15px 15px",
+                          },
+                        }}
+                      />
+                    </Grid>
+                  </div>
+                  <br />
+                  <br />
+                </>
+              )}
               <div>
                 <p>
                   <strong>
@@ -1712,7 +1756,7 @@ class CreateLivePaper extends React.Component {
                 : null}
               <br />
             </div>
-
+            <br />
             <div
               style={{
                 paddingLeft: "10%",
@@ -1858,6 +1902,17 @@ class CreateLivePaper extends React.Component {
                   Custom
                 </Button>
               </div>
+            </div>
+            <br />
+            <br />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              {lastSaveInfo}
             </div>
             <br />
             <br />

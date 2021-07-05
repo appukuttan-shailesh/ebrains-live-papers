@@ -135,6 +135,10 @@ class CreateLivePaperLoadPDFData extends React.Component {
                 result["TEI"]["teiHeader"][0]["fileDesc"][0]["titleStmt"][0][
                   "title"
                 ][0]["_"];
+              data["live_paper_title"] =
+                result["TEI"]["teiHeader"][0]["fileDesc"][0]["titleStmt"][0][
+                  "title"
+                ][0]["_"];
 
               data["abstract"] = "";
               if (
@@ -163,8 +167,9 @@ class CreateLivePaperLoadPDFData extends React.Component {
                 ][0]["analytic"][0]["author"];
 
               let author_data = [];
+              let corresp_author = [];
               author_dict.forEach(function (item) {
-                console.log(item);
+                // console.log(item);
                 let aff = "";
                 try {
                   if ("affiliation" in item) {
@@ -181,7 +186,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   // do nothing
                 }
                 if ("$" in item && item["$"]["role"] === "corresp") {
-                  let corresp_author = {
+                  corresp_author.push({
                     firstname:
                       item["persName"][0]["forename"].length === 1
                         ? item["persName"][0]["forename"][0]["_"]
@@ -194,8 +199,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
                     lastname: item["persName"][0]["surname"][0],
                     // email: "email" in item ? item["email"][0] : "",
                     affiliation: aff,
-                  };
-                  data["corresponding_author"] = corresp_author;
+                  });
                 }
                 author_data.push({
                   firstname:
@@ -222,6 +226,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
               });
 
               data["authors"] = author_data;
+              data["corresponding_author"] = corresp_author;
 
               data["journal"] = "";
               if (
@@ -667,8 +672,10 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   fields.
                   <br />
                   <br />
-                  Alternatively, you can click on 'Skip' to start the live paper
-                  creation process with a blank slate.
+                  Alternatively, if the info extracted is not helpful or you
+                  wish to enter all the info manually, you can click on 'Skip'
+                  to start the live paper creation process with an empty
+                  template.
                 </div>
                 <br />
                 <div

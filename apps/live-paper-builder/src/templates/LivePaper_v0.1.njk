@@ -523,8 +523,8 @@
                 </table>
             </a>
             <h5 class="title-style">
-                {% if associated_paper_title %}
-                    {{ associated_paper_title }}
+                {% if live_paper_title %}
+                    {{ live_paper_title }}
                 {% else %}
                     To be filled...
                 {% endif %}
@@ -579,7 +579,17 @@
                     {% endif %}
                 </p>
             {% endif %}
+            <p>
+                <strong style="font-weight:bolder">Licence:
+                </strong>
+                {{ license }}</p>
+            <p>
+                <strong style="font-weight:bolder">Last modified:
+                </strong>
+                {{ modified_date.split("T")[0].split("-").reverse().join("-") }}
+                ({{modified_date.split("T")[1].split(":").slice(0,2).join(":")}})</p>
         </div>
+        <br/>
         <div class="rainbow-row">
             <div></div>
             <div></div>
@@ -591,56 +601,63 @@
             <div></div>
         </div>
         <br/>
-        <div>
-            <p>
-                <strong style="font-weight:bolder">Journal:
-                </strong>
-                {% if journal %}
-                    {{ journal }}
+        {% if live_paper_title != "" and associated_paper_title != "" %}
+            <div>
+                <p>
+                    <strong style="font-weight:bolder">Article title:
+                    </strong>
+                    {% if associated_paper_title %}
+                        {{ associated_paper_title }}
+                    {% else %}
+                        <i>Not Available</i>
+                    {% endif %}
+                </p>
+                <p>
+                    <strong style="font-weight:bolder">Journal:
+                    </strong>
+                    {% if journal %}
+                        {{ journal }}
+                    {% else %}
+                        <i>Not Available</i>
+                    {% endif %}
+                </p>
+                <p>
+                    <strong style="font-weight:bolder">Download URL:
+                    </strong>
+                    {% if url %}
+                        <a href="{{ url }}">{{ url }}</a>
+                    {% else %}
+                        <i>Not Available</i>
+                    {% endif %}
+                </p>
+                <p>
+                    <strong style="font-weight:bolder">Citation:
+                    </strong>
+                    {% if citation %}
+                        {{ citation }}
+                    {% else %}
+                        <i>Not Available</i>
+                    {% endif %}
+                </p>
+                <p>
+                    <strong style="font-weight:bolder">DOI:
+                    </strong>
+                    {% if doi %}
+                        <a href="{{ doi }}">{{ doi }}</a>
+                    {% else %}
+                        <i>Not Available</i>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="note rounded">
+                <h5>Abstract:</h5>
+                {% if abstract %}
+                    {{ abstract }}
                 {% else %}
-                    <i>Not Available</i>
+                    To be filled...
                 {% endif %}
-            </p>
-            <p>
-                <strong style="font-weight:bolder">Download Url:
-                </strong>
-                {% if url %}
-                    <a href="{{ url }}">{{ url }}</a>
-                {% else %}
-                    <i>Not Available</i>
-                {% endif %}
-            </p>
-            <p>
-                <strong style="font-weight:bolder">Citation:
-                </strong>
-                {% if citation %}
-                    {{ citation }}
-                {% else %}
-                    <i>Not Available</i>
-                {% endif %}
-            </p>
-            <p>
-                <strong style="font-weight:bolder">DOI:
-                </strong>
-                {% if doi %}
-                    <a href="{{ doi }}">{{ doi }}</a>
-                {% else %}
-                    <i>Not Available</i>
-                {% endif %}
-            </p>
-            <p>
-                <strong style="font-weight:bolder">Licence:
-                </strong>
-                {{ license }}</p>
-        </div>
-        <div class="note rounded">
-            <h5>Abstract:</h5>
-            {% if abstract %}
-                {{ abstract }}
-            {% else %}
-                To be filled...
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
         <h5>Resources</h5>
         <p>
             {% if resources_description %}
