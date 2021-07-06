@@ -29,6 +29,15 @@ const TABLE_COLUMNS = [
         </p>
       </div>
     ),
+    customFilterAndSearch: (value, item) => {
+      if (item.live_paper_title.concat(item.citation).includes(value)) {
+          console.log("found");
+        return true;
+      } else {
+          console.log("not found");
+          return false;
+      }
+    },
   },
   {
     title: "Year",
