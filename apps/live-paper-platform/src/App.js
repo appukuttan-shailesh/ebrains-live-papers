@@ -13,6 +13,17 @@ import LivePaperViewer from "./LivePaperViewer";
 import { baseUrl, updateHash } from "./globals";
 import { isUUID } from "./utils";
 import saltedMd5 from "salted-md5";
+import { TwitterTimelineEmbed } from 'react-twitter-embed';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 
 // define the columns for the material data table
 const TABLE_COLUMNS = [
@@ -31,11 +42,11 @@ const TABLE_COLUMNS = [
     ),
     customFilterAndSearch: (value, item) => {
       if (item.live_paper_title.concat(item.citation).includes(value)) {
-          console.log("found");
+        console.log("found");
         return true;
       } else {
-          console.log("not found");
-          return false;
+        console.log("not found");
+        return false;
       }
     },
   },
@@ -58,6 +69,48 @@ const theme = createMuiTheme({
     },
   },
 });
+
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 325,
+  },
+  media: {
+    height: 140,
+  },
+});
+
+function MediaCard(props) {
+  const classes = useStyles();
+
+  return (
+    <Card className={classes.root} style={{ backgroundColor: "#FFECB3" }}>
+      <CardActionArea>
+        <CardMedia
+          className={classes.media}
+          image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
+          title="Contemplative Reptile"
+        />
+        <CardContent style={{ marginLeft: 10, marginRight: 10 }} >
+          <div style={{ height: 100, width: 325, overflow: "hidden", lineClamp: 3, textOverflow: "ellipsis" }}>
+            <Typography gutterBottom variant="h6" component="h6">
+              {props.title}
+            </Typography>
+          </div>
+          <div style={{ height: 100, width: 325, overflow: "hidden", lineClamp: 5, textOverflow: "ellipsis" }}>
+            <Typography variant="body2" color="black" component="p">
+              {props.citation}
+            </Typography>
+          </div>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="small" color="primary" style={{ fontWeight: "bolder" }}>
+          Access Live Paper
+        </Button>
+      </CardActions>
+    </Card>
+  );
+}
 
 export default class App extends React.Component {
   signal = axios.CancelToken.source();
@@ -401,9 +454,87 @@ export default class App extends React.Component {
             simulate data, models and results presented in the corresponding
             publications. The live papers allow for diverse types of resources
             to be presented, with practically no limitations.
+            </div>
+          <br />
+          <div
+            style={{
+              paddingLeft: "5%",
+              paddingRight: "5%",
+              display: "flex",
+              justifyContent: "center",
+              alignItem: "center",
+            }}
+          >
+            <span style={{ fontWeight: "bolder", fontSize: 16, textAlign: "center" }}>
+              Featured Live Papers
+            </span>
             <br />
             <br />
-            For more information on how to create or explore a live paper, you
+          </div>
+          <div
+            style={{
+              paddingLeft: "5%",
+              paddingRight: "5%",
+            }}
+          >
+            <Slider {...{
+              autoplay: true,
+              autoplaySpeed: 4000,
+              slidesToShow: 3,
+              slidesToScroll: 1,
+              centerMode: true,
+              centerPadding: 0
+            }}>
+              <MediaCard title={"HippoUnit: A software tool for the automated testing and systematic comparison of detailed models of hippocampal neurons based on electrophysiological data"} citation={"Sáray, S., Rössert, C. A., Appukuttan, S., Migliore, R., Vitale, P., Lupascu, C. A., ... & Káli, S. (2021). HippoUnit: A software tool for the automated testing and systematic comparison of detailed models of hippocampal neurons based on electrophysiological data. PLoS computational biology, 17(1), e1008114."} />
+              <MediaCard title={"Computational modeling of inhibitory transsynaptic signaling in hippocampal and cortical neurons expressing intrabodies against gephyrin"} citation={"Lupascu CA, Morabito A, Ruggeri F, Parisi C, Pimpinella D, Pizzarelli R, Meli G, Marinelli S, Cherubini E, Cattaneo A & Migliore M (2020). Computational modeling of inhibitory transsynaptic signaling in hippocampal and cortical neurons expressing intrabodies against gephyrin. Frontiers in Celllular Neuroscience, In press."} />
+              <MediaCard title={"The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow"} citation={"Migliore R, Lupascu CA, Bologna LL, Romani A, Courcol J-D, Antonel S, et al. (2018) The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow. PLoS Comput Biol 14(9): e1006423."} />
+              <MediaCard title={"Regulation of adenylyl cyclase 5 in striatal neurons confers the ability to detect coincident neuromodulatory signals"} citation={"Bruce NJ, Narzi D, Trpevski D, van Keulen SC, Nair AG, Röthlisberger U, et al. (2019) Regulation of adenylyl cyclase 5 in striatal neurons confers the ability to detect coincident neuromodulatory signals. PLoS Comput Biol 15(10): e1007382."} />
+              <MediaCard title={"Machine Learning Analysis of τRAMD Trajectories to Decipher Molecular Determinants of Drug-Target Residence Times"} citation={"Kokh DB, Kaufmann T, Kister B, Wade RC(2019) Machine Learning Analysis of τRAMD Trajectories to Decipher Molecular Determinants of Drug-Target Residence Times Front. Mol. Biosci. (2019) ."} />
+              <MediaCard title={"The microcircuits of striatum in silico"} citation={"Hjorth J, Kozlov A, Carannante I, Frost Nylén J, Lindroos R, Johansson Y, Tokarska A, Dorst MC, Suryanarayana SM, Silberberg G, Hellgren Kotaleski J, Grillner S (2020) The microcircuits of striatum in silico. Proc Natl Acad Sci USA 2020."} />
+            </Slider>
+          </div>
+          <br />
+          <br />
+          <div style={{
+            paddingLeft: "5%",
+            paddingRight: "5%",
+            textAlign: "justify",
+          }}>
+            <TwitterTimelineEmbed
+              sourceType="profile"
+              screenName="HumanBrainProj"
+              borderColor="#F44336"
+              noHeader
+              noFooter
+              options={{ height: 400, width: 300 }}
+            />
+          </div>
+          <br />
+
+          <div className="rainbow-row" style={{
+            paddingLeft: "5%",
+            paddingRight: "5%",
+            textAlign: "justify",
+          }}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <br />
+          <br />
+          <div
+            style={{
+              paddingLeft: "5%",
+              paddingRight: "5%",
+              textAlign: "justify",
+            }}
+          >
+            For information on how to create or explore a live paper, you
             may refer to the documentation by clicking on the{" "}
             <HelpOutlineIcon
               fontSize="small"
