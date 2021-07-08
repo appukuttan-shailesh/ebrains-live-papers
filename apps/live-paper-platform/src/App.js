@@ -24,8 +24,11 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import LinesEllipsis from "react-lines-ellipsis";
+import responsiveHOC from 'react-lines-ellipsis/lib/responsiveHOC'
 import Grid from "@material-ui/core/Grid";
 import "./App.css";
+
+const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis)
 
 // define the columns for the material data table
 const TABLE_COLUMNS = [
@@ -106,7 +109,7 @@ function MediaCard(props) {
           />
           <CardContent style={{ marginLeft: 5, marginRight: 5 }}>
             <div style={{ height: 85 }}>
-              <LinesEllipsis
+              <ResponsiveEllipsis
                 text={props.title}
                 maxLine="3"
                 ellipsis="..."
@@ -120,7 +123,7 @@ function MediaCard(props) {
               />
             </div>
             <div style={{ height: 50 }}>
-              <LinesEllipsis
+              <ResponsiveEllipsis
                 text={props.citation}
                 maxLine="3"
                 ellipsis="..."
@@ -481,6 +484,7 @@ export default class App extends React.Component {
               paddingRight: "5%",
               textAlign: "justify",
               fontSize: 16,
+              lineHeight: 1.75,
             }}
           >
             <strong style={{ fontSize: 18 }}>
@@ -496,7 +500,6 @@ export default class App extends React.Component {
             publications. The live papers allow for diverse types of resources
             to be presented, with practically no limitations.
           </div>
-          <br />
           {/* <div
             style={{
               paddingLeft: "5%",
