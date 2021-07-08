@@ -23,7 +23,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import LinesEllipsis from 'react-lines-ellipsis'
+import "./App.css"
 
 // define the columns for the material data table
 const TABLE_COLUMNS = [
@@ -72,7 +73,10 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 325,
+    width: "100%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    // maxWidth: 325,
   },
   media: {
     height: 140,
@@ -83,32 +87,44 @@ function MediaCard(props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root} style={{ backgroundColor: "#FFECB3" }}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
-        />
-        <CardContent style={{ marginLeft: 10, marginRight: 10 }} >
-          <div style={{ height: 100, width: 325, overflow: "hidden", lineClamp: 3, textOverflow: "ellipsis" }}>
-            <Typography gutterBottom variant="h6" component="h6">
-              {props.title}
-            </Typography>
-          </div>
-          <div style={{ height: 100, width: 325, overflow: "hidden", lineClamp: 5, textOverflow: "ellipsis" }}>
-            <Typography variant="body2" color="black" component="p">
-              {props.citation}
-            </Typography>
-          </div>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary" style={{ fontWeight: "bolder" }}>
-          Access Live Paper
+    <div className={classes.root}>
+      <Card style={{ width: "90%", backgroundColor: "#FFECB3" }}>
+        <CardActionArea onClick={() => props.handleSelectedLP(props.id, true)}>
+          <CardMedia
+            className={classes.media}
+            image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
+            title="Contemplative Reptile"
+          />
+          <CardContent style={{ marginLeft: 5, marginRight: 5 }} >
+            <div style={{ height: 85 }}>
+              <LinesEllipsis
+                text={props.title}
+                maxLine='3'
+                ellipsis='...'
+                trimRight
+                basedOn='letters'
+                style={{ fontSize: 16, fontWeight: "bolder", lineHeight: "1.5" }}
+              />
+            </div>
+            <div style={{ height: 50 }}>
+              <LinesEllipsis
+                text={props.citation}
+                maxLine='3'
+                ellipsis='...'
+                trimRight
+                basedOn='letters'
+                style={{ fontSize: 14, fontStyle: "oblique", lineHeight: "1.5" }}
+              />
+            </div>
+          </CardContent>
+        </CardActionArea>
+        <CardActions style={{ marginLeft: 5, marginRight: 5 }} >
+          <Button size="small" color="primary" style={{ fontWeight: "bolder" }} onClick={() => props.handleSelectedLP(props.id, true)}>
+            Access Live Paper
         </Button>
-      </CardActions>
-    </Card>
+        </CardActions>
+      </Card>
+    </div>
   );
 }
 
@@ -479,18 +495,42 @@ export default class App extends React.Component {
           >
             <Slider {...{
               autoplay: true,
-              autoplaySpeed: 4000,
+              autoplaySpeed: 5000,
               slidesToShow: 3,
               slidesToScroll: 1,
-              centerMode: true,
-              centerPadding: 0
+              responsive: [
+                {
+                  breakpoint: 1200,
+                  settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true
+                  }
+                },
+                {
+                  breakpoint: 900,
+                  settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    initialSlide: 2
+                  }
+                },
+                {
+                  breakpoint: 600,
+                  settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                  }
+                }
+              ]
             }}>
-              <MediaCard title={"HippoUnit: A software tool for the automated testing and systematic comparison of detailed models of hippocampal neurons based on electrophysiological data"} citation={"Sáray, S., Rössert, C. A., Appukuttan, S., Migliore, R., Vitale, P., Lupascu, C. A., ... & Káli, S. (2021). HippoUnit: A software tool for the automated testing and systematic comparison of detailed models of hippocampal neurons based on electrophysiological data. PLoS computational biology, 17(1), e1008114."} />
-              <MediaCard title={"Computational modeling of inhibitory transsynaptic signaling in hippocampal and cortical neurons expressing intrabodies against gephyrin"} citation={"Lupascu CA, Morabito A, Ruggeri F, Parisi C, Pimpinella D, Pizzarelli R, Meli G, Marinelli S, Cherubini E, Cattaneo A & Migliore M (2020). Computational modeling of inhibitory transsynaptic signaling in hippocampal and cortical neurons expressing intrabodies against gephyrin. Frontiers in Celllular Neuroscience, In press."} />
-              <MediaCard title={"The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow"} citation={"Migliore R, Lupascu CA, Bologna LL, Romani A, Courcol J-D, Antonel S, et al. (2018) The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow. PLoS Comput Biol 14(9): e1006423."} />
-              <MediaCard title={"Regulation of adenylyl cyclase 5 in striatal neurons confers the ability to detect coincident neuromodulatory signals"} citation={"Bruce NJ, Narzi D, Trpevski D, van Keulen SC, Nair AG, Röthlisberger U, et al. (2019) Regulation of adenylyl cyclase 5 in striatal neurons confers the ability to detect coincident neuromodulatory signals. PLoS Comput Biol 15(10): e1007382."} />
-              <MediaCard title={"Machine Learning Analysis of τRAMD Trajectories to Decipher Molecular Determinants of Drug-Target Residence Times"} citation={"Kokh DB, Kaufmann T, Kister B, Wade RC(2019) Machine Learning Analysis of τRAMD Trajectories to Decipher Molecular Determinants of Drug-Target Residence Times Front. Mol. Biosci. (2019) ."} />
-              <MediaCard title={"The microcircuits of striatum in silico"} citation={"Hjorth J, Kozlov A, Carannante I, Frost Nylén J, Lindroos R, Johansson Y, Tokarska A, Dorst MC, Suryanarayana SM, Silberberg G, Hellgren Kotaleski J, Grillner S (2020) The microcircuits of striatum in silico. Proc Natl Acad Sci USA 2020."} />
+              <MediaCard handleSelectedLP={this.handleSelectedLP} id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7" title={"HippoUnit: A software tool for the automated testing and systematic comparison of detailed models of hippocampal neurons based on electrophysiological data"} citation={"Sáray, S., Rössert, C. A., Appukuttan, S., Migliore, R., Vitale, P., Lupascu, C. A., ... & Káli, S. (2021). PLoS computational biology, 17(1), e1008114."} />
+              <MediaCard handleSelectedLP={this.handleSelectedLP} id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7" title={"Computational modeling of inhibitory transsynaptic signaling in hippocampal and cortical neurons expressing intrabodies against gephyrin"} citation={"Lupascu CA, Morabito A, Ruggeri F, Parisi C, Pimpinella D, Pizzarelli R, Meli G, Marinelli S, Cherubini E, Cattaneo A & Migliore M (2020). Frontiers in Celllular Neuroscience, In press."} />
+              <MediaCard handleSelectedLP={this.handleSelectedLP} id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7" title={"The physiological variability of channel density in hippocampal CA1 pyramidal cells and interneurons explored using a unified data-driven modeling workflow"} citation={"Migliore R, Lupascu CA, Bologna LL, Romani A, Courcol J-D, Antonel S, et al. (2018). PLoS Comput Biol 14(9): e1006423."} />
+              <MediaCard handleSelectedLP={this.handleSelectedLP} id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7" title={"Regulation of adenylyl cyclase 5 in striatal neurons confers the ability to detect coincident neuromodulatory signals"} citation={"Bruce NJ, Narzi D, Trpevski D, van Keulen SC, Nair AG, Röthlisberger U, et al. (2019). PLoS Comput Biol 15(10): e1007382."} />
+              <MediaCard handleSelectedLP={this.handleSelectedLP} id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7" title={"Machine Learning Analysis of τRAMD Trajectories to Decipher Molecular Determinants of Drug-Target Residence Times"} citation={"Kokh DB, Kaufmann T, Kister B, Wade RC(2019). Front. Mol. Biosci."} />
+              <MediaCard handleSelectedLP={this.handleSelectedLP} id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7" title={"The microcircuits of striatum in silico"} citation={"Hjorth J, Kozlov A, Carannante I, Frost Nylén J, Lindroos R, Johansson Y, Tokarska A, Dorst MC, Suryanarayana SM, Silberberg G, Hellgren Kotaleski J, Grillner S (2020). Proc Natl Acad Sci USA."} />
             </Slider>
           </div>
           <br />

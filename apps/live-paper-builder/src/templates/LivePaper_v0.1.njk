@@ -51,11 +51,11 @@
                                 </td>
                                 <td style="width: 175px">
                                     {% if item["view_url"] %}
-                                        <a href='{{ item["view_url"] }}' target=" _blank" class="waves-effect waves-light">
+                                        <a href='{{ item["view_url"] }}' target="_blank" class="waves-effect waves-light">
                                             <i class="material-icons left">3d_rotation</i>View
                                         </a>
                                     {% elseif (".swc" in item["url"].toLowerCase()) or (".asc" in item["url"].toLowerCase()) %}
-                                        <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{ item["url"] }}' target=" _blank" class="waves-effect waves-light">
+                                        <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{ item["url"] }}' target="_blank" class="waves-effect waves-light">
                                             <i class="material-icons left">3d_rotation</i>View
                                         </a>
                                     {% else %}
@@ -120,11 +120,11 @@
                                                 </td>
                                                 <td style="width: 175px">
                                                     {% if item["view_url"] %}
-                                                        <a href='{{ item["view_url"] }}' target=" _blank" class="waves-effect waves-light">
+                                                        <a href='{{ item["view_url"] }}' target="_blank" class="waves-effect waves-light">
                                                             <i class="material-icons left">3d_rotation</i>View
                                                         </a>
                                                     {% elseif (".swc" in item["url"].toLowerCase()) or (".asc" in item["url"].toLowerCase()) %}
-                                                        <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{ item["url"] }}' target=" _blank" class="waves-effect waves-light">
+                                                        <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{ item["url"] }}' target="_blank" class="waves-effect waves-light">
                                                             <i class="material-icons left">3d_rotation</i>View
                                                         </a>
                                                     {% else %}
@@ -523,8 +523,8 @@
                 </table>
             </a>
             <h5 class="title-style">
-                {% if live_paper_title %}
-                    {{ live_paper_title }}
+                {% if associated_paper_title %}
+                    {{ associated_paper_title }}
                 {% else %}
                     To be filled...
                 {% endif %}
@@ -579,17 +579,7 @@
                     {% endif %}
                 </p>
             {% endif %}
-            <p>
-                <strong style="font-weight:bolder">Licence:
-                </strong>
-                {{ license }}</p>
-            <p>
-                <strong style="font-weight:bolder">Last modified:
-                </strong>
-                {{ modified_date.split("T")[0].split("-").reverse().join("-") }}
-                ({{modified_date.split("T")[1].split(":").slice(0,2).join(":")}})</p>
         </div>
-        <br/>
         <div class="rainbow-row">
             <div></div>
             <div></div>
@@ -601,63 +591,56 @@
             <div></div>
         </div>
         <br/>
-        {% if live_paper_title != "" and associated_paper_title != "" %}
-            <div>
-                <p>
-                    <strong style="font-weight:bolder">Article title:
-                    </strong>
-                    {% if associated_paper_title %}
-                        {{ associated_paper_title }}
-                    {% else %}
-                        <i>Not Available</i>
-                    {% endif %}
-                </p>
-                <p>
-                    <strong style="font-weight:bolder">Journal:
-                    </strong>
-                    {% if journal %}
-                        {{ journal }}
-                    {% else %}
-                        <i>Not Available</i>
-                    {% endif %}
-                </p>
-                <p>
-                    <strong style="font-weight:bolder">Download URL:
-                    </strong>
-                    {% if url %}
-                        <a href="{{ url }}">{{ url }}</a>
-                    {% else %}
-                        <i>Not Available</i>
-                    {% endif %}
-                </p>
-                <p>
-                    <strong style="font-weight:bolder">Citation:
-                    </strong>
-                    {% if citation %}
-                        {{ citation }}
-                    {% else %}
-                        <i>Not Available</i>
-                    {% endif %}
-                </p>
-                <p>
-                    <strong style="font-weight:bolder">DOI:
-                    </strong>
-                    {% if doi %}
-                        <a href="{{ doi }}">{{ doi }}</a>
-                    {% else %}
-                        <i>Not Available</i>
-                    {% endif %}
-                </p>
-            </div>
-            <div class="note rounded">
-                <h5>Abstract:</h5>
-                {% if abstract %}
-                    {{ abstract }}
+        <div>
+            <p>
+                <strong style="font-weight:bolder">Journal:
+                </strong>
+                {% if journal %}
+                    {{ journal }}
                 {% else %}
-                    To be filled...
+                    <i>Not Available</i>
                 {% endif %}
-            </div>
-        {% endif %}
+            </p>
+            <p>
+                <strong style="font-weight:bolder">Download Url:
+                </strong>
+                {% if url %}
+                    <a target="_blank" rel="noopener noreferrer" href="{{ url }}">{{ url }}</a>
+                {% else %}
+                    <i>Not Available</i>
+                {% endif %}
+            </p>
+            <p>
+                <strong style="font-weight:bolder">Citation:
+                </strong>
+                {% if citation %}
+                    {{ citation }}
+                {% else %}
+                    <i>Not Available</i>
+                {% endif %}
+            </p>
+            <p>
+                <strong style="font-weight:bolder">DOI:
+                </strong>
+                {% if doi %}
+                    <a target="_blank" rel="noopener noreferrer" href="{{ doi }}">{{ doi }}</a>
+                {% else %}
+                    <i>Not Available</i>
+                {% endif %}
+            </p>
+            <p>
+                <strong style="font-weight:bolder">Licence:
+                </strong>
+                {{ license }}</p>
+        </div>
+        <div class="note rounded">
+            <h5>Abstract:</h5>
+            {% if abstract %}
+                {{ abstract }}
+            {% else %}
+                To be filled...
+            {% endif %}
+        </div>
         <h5>Resources</h5>
         <p>
             {% if resources_description %}

@@ -322,7 +322,7 @@ export default class LivePaperViewer extends React.Component {
   }
 
   render() {
-    // console.log(this.props);
+    console.log(this.props);
     // console.log(this.state.html_content);
     return (
       <Dialog

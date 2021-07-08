@@ -51,11 +51,11 @@
                                 </td>
                                 <td style="width: 175px">
                                     {% if item["view_url"] %}
-                                        <a href='{{ item["view_url"] }}' target=" _blank" class="waves-effect waves-light">
+                                        <a href='{{ item["view_url"] }}' target="_blank" class="waves-effect waves-light">
                                             <i class="material-icons left">3d_rotation</i>View
                                         </a>
                                     {% elseif (".swc" in item["url"].toLowerCase()) or (".asc" in item["url"].toLowerCase()) %}
-                                        <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{ item["url"] }}' target=" _blank" class="waves-effect waves-light">
+                                        <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{ item["url"] }}' target="_blank" class="waves-effect waves-light">
                                             <i class="material-icons left">3d_rotation</i>View
                                         </a>
                                     {% else %}
@@ -120,11 +120,11 @@
                                                 </td>
                                                 <td style="width: 175px">
                                                     {% if item["view_url"] %}
-                                                        <a href='{{ item["view_url"] }}' target=" _blank" class="waves-effect waves-light">
+                                                        <a href='{{ item["view_url"] }}' target="_blank" class="waves-effect waves-light">
                                                             <i class="material-icons left">3d_rotation</i>View
                                                         </a>
                                                     {% elseif (".swc" in item["url"].toLowerCase()) or (".asc" in item["url"].toLowerCase()) %}
-                                                        <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{ item["url"] }}' target=" _blank" class="waves-effect waves-light">
+                                                        <a href='https://neuroinformatics.nl/HBP/morphology-viewer-dev/?url={{ item["url"] }}' target="_blank" class="waves-effect waves-light">
                                                             <i class="material-icons left">3d_rotation</i>View
                                                         </a>
                                                     {% else %}
@@ -605,7 +605,7 @@
                 <strong style="font-weight:bolder">Download Url:
                 </strong>
                 {% if url %}
-                    <a href="{{ url }}">{{ url }}</a>
+                    <a target="_blank" rel="noopener noreferrer" href="{{ url }}">{{ url }}</a>
                 {% else %}
                     <i>Not Available</i>
                 {% endif %}
@@ -623,7 +623,7 @@
                 <strong style="font-weight:bolder">DOI:
                 </strong>
                 {% if doi %}
-                    <a href="{{ doi }}">{{ doi }}</a>
+                    <a target="_blank" rel="noopener noreferrer" href="{{ doi }}">{{ doi }}</a>
                 {% else %}
                     <i>Not Available</i>
                 {% endif %}
