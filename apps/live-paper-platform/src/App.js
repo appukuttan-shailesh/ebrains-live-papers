@@ -24,11 +24,12 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import LinesEllipsis from "react-lines-ellipsis";
-import responsiveHOC from 'react-lines-ellipsis/lib/responsiveHOC'
+import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
 import Grid from "@material-ui/core/Grid";
+import Collapse from "@material-ui/core/Collapse";
 import "./App.css";
 
-const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis)
+const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
 
 // define the columns for the material data table
 const TABLE_COLUMNS = [
@@ -323,7 +324,7 @@ export default class App extends React.Component {
     this.setState({ error: false });
   }
 
-  renderDetailPanel(data) {
+  renderDetailPanel(data, flag) {
     // console.log(this.props.lp_open_id);
 
     if (data === null) {
@@ -334,81 +335,83 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <div
-          style={{
-            backgroundColor: "#FCF6E6",
-            padding: 20,
-            border: "1px solid #9E9E9E",
-          }}
-        >
-          <div>
-            <p style={{ fontSize: 14, marginTop: 0 }}>
-              <b>Citation: </b>
-            </p>
-            <div
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #9E9E9E",
-                borderRadius: 10,
-                padding: 10,
-                fontSize: 14,
-                marginBottom: 15,
-              }}
-            >
-              {data["citation"]}
-            </div>
-          </div>
-          <div>
-            <p style={{ fontSize: 14 }}>
-              <b>DOI: </b>
-            </p>
-            <div
-              style={{
-                padding: 10,
-                marginBottom: 45,
-                clear: "both",
-              }}
-            >
-              <span
+        <Collapse in={flag} timeout="auto" unmountOnExit>
+          <div
+            style={{
+              backgroundColor: "#FCF6E6",
+              padding: 20,
+              border: "1px solid #9E9E9E",
+            }}
+          >
+            <div>
+              <p style={{ fontSize: 14, marginTop: 0 }}>
+                <b>Citation: </b>
+              </p>
+              <div
                 style={{
                   backgroundColor: "white",
                   border: "1px solid #9E9E9E",
                   borderRadius: 10,
                   padding: 10,
                   fontSize: 14,
-                  minWidth: "70%",
-                  maxWidth: "70",
-                  float: "left",
-                  cursor: "pointer",
+                  marginBottom: 15,
                 }}
-                onClick={() => window.open(data["doi"], "_blank")}
               >
-                {data["doi"]}
-              </span>
-              <span
-                style={{ width: "275px", textAlign: "right", float: "right" }}
+                {data["citation"]}
+              </div>
+            </div>
+            <div>
+              <p style={{ fontSize: 14 }}>
+                <b>DOI: </b>
+              </p>
+              <div
+                style={{
+                  padding: 10,
+                  marginBottom: 45,
+                  clear: "both",
+                }}
               >
-                <Button
-                  variant="contained"
-                  color="primary"
+                <span
                   style={{
-                    width: "250px",
-                    maxWidth: "250px",
-                    backgroundColor: "#FF9800",
-                    color: "#000000",
-                    fontWeight: "bold",
-                    border: "solid",
-                    borderColor: "#000000",
-                    borderWidth: "1px",
+                    backgroundColor: "white",
+                    border: "1px solid #9E9E9E",
+                    borderRadius: 10,
+                    padding: 10,
+                    fontSize: 14,
+                    minWidth: "70%",
+                    maxWidth: "70",
+                    float: "left",
+                    cursor: "pointer",
                   }}
-                  onClick={() => this.setState({ lp_open_id: data["id"] })}
+                  onClick={() => window.open(data["doi"], "_blank")}
                 >
-                  Open Live Paper
-                </Button>
-              </span>
+                  {data["doi"]}
+                </span>
+                <span
+                  style={{ width: "275px", textAlign: "right", float: "right" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{
+                      width: "250px",
+                      maxWidth: "250px",
+                      backgroundColor: "#FF9800",
+                      color: "#000000",
+                      fontWeight: "bold",
+                      border: "solid",
+                      borderColor: "#000000",
+                      borderWidth: "1px",
+                    }}
+                    onClick={() => this.setState({ lp_open_id: data["id"] })}
+                  >
+                    Open Live Paper
+                  </Button>
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        </Collapse>
       );
     }
   }
@@ -832,7 +835,11 @@ export default class App extends React.Component {
                           return <LoadingIndicator />;
                         } else {
                           return this.renderDetailPanel(
-                            this.state.dataLPs[rowData.id]
+                            this.state.dataLPs[rowData.id],
+                            Object.keys(this.state.dataLPs).includes(
+                                rowData.id
+                              ) &&
+                              this.state.dataLPs[rowData.id] !== null
                           );
                         }
                       },
