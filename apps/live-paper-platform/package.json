@@ -18,6 +18,7 @@
     "react-scripts": "4.0.3",
     "react-slick": "^0.28.1",
     "react-twitter-embed": "^3.0.3",
+    "react-twitter-widgets": "^1.10.0",
     "salted-md5": "^4.0.2",
     "showdown": "^1.9.1",
     "showdown-katex": "^0.8.0",
