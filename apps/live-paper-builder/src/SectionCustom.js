@@ -115,10 +115,10 @@ export default class SectionCustom extends React.Component {
       type: "section_custom",
       title: "Custom Section",
       icon: "check_box_outline_blank",
-      // description: "", // no description field for SectionCustom
+      description: "",
       // NOTE: in KG schema, data is stored under "description" field (for schema purposes),
-      // Handled by SaveModal.adjustForKGSchema()
-      data: "",
+      // and "data" field is set to []
+      data: [],
       showHelp: false,
       deleteOpen: false,
       expanded: true,
@@ -211,11 +211,11 @@ export default class SectionCustom extends React.Component {
 
   handleDataInputOnBlur(event) {
     const converter = new Converter({ tables: true });
-    let value = converter.makeHtml(this.state.data);
+    let value = converter.makeHtml(this.state.description);
     console.log(value);
     this.setState(
       {
-        data: value,
+        description: value,
       },
       () => {
         this.props.storeSectionInfo(this.state);
@@ -382,7 +382,7 @@ export default class SectionCustom extends React.Component {
                     fullWidth={true}
                     helperText="Click on ? icon for info on input format."
                     name="data"
-                    value={this.state.data}
+                    value={this.state.description}
                     onChange={this.handleFieldChange}
                     onBlur={this.handleDataInputOnBlur}
                     InputProps={{

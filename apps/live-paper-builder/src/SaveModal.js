@@ -274,16 +274,6 @@ export default class SaveModal extends React.Component {
   adjustForKGSchema(data) {
     let payload = JSON.parse(JSON.stringify(data)); // copy by value
 
-    // KG requires 'data' value for SectionCustom in 'description' field
-    payload.resources.forEach(function (res, index) {
-      // creating extra copy here to handle problem with shallow copy of nested object
-      let temp_res = JSON.parse(JSON.stringify(res));
-      if (res.type === "section_custom") {
-        res.description = temp_res.data;
-        res.data = [];
-      }
-    });
-
     // KG requires all 'url' field in resource sections to have a valid URL
     payload.resources.forEach(function (res, index) {
       if (res.type !== "section_custom") {

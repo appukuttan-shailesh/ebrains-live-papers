@@ -2,7 +2,9 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import TopNavigation from "./TopNavigation";
 import LoadingIndicator from "./LoadingIndicator";
-import Icon from "@material-ui/core/Icon";
+import LoadingIndicatorModal from "./LoadingIndicatorModal";
+import InsertDriveFileTwoToneIcon from "@material-ui/icons/InsertDriveFileTwoTone";
+import NoteAddTwoToneIcon from "@material-ui/icons/NoteAddTwoTone";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import BuildIcon from "@material-ui/icons/Build";
 import axios from "axios";
@@ -17,7 +19,7 @@ import { TwitterTimelineEmbed } from "react-twitter-embed";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -26,7 +28,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import LinesEllipsis from "react-lines-ellipsis";
 import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
 import Grid from "@material-ui/core/Grid";
-import Collapse from "@material-ui/core/Collapse";
+import Tooltip from "@material-ui/core/Tooltip";
 import "./App.css";
 
 const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
@@ -34,10 +36,34 @@ const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
 // define the columns for the material data table
 const TABLE_COLUMNS = [
   {
+    title: "",
+    field: "associated_paper_title",
+    width: "30px",
+    render: (item) => (
+      <Tooltip
+        title={
+          item.associated_paper_title
+            ? "Publication Associated Live Paper"
+            : "Standalone Live Paper"
+        }
+      >
+        {item.associated_paper_title ? (
+          <InsertDriveFileTwoToneIcon
+            style={{ color: "#FF6900", fontSize: 30, marginLeft: 10 }}
+          />
+        ) : (
+          <NoteAddTwoToneIcon
+            style={{ color: "#FF6900", fontSize: 30, marginLeft: 10 }}
+          />
+        )}
+      </Tooltip>
+    ),
+  },
+  {
     title: "Paper Title",
     field: "live_paper_title",
     render: (item) => (
-      <div style={{ marginLeft: 15 }}>
+      <div style={{ marginLeft: 0 }}>
         <p>
           <b>{item.live_paper_title}</b>
         </p>
@@ -71,6 +97,16 @@ const theme = createMuiTheme({
       h6: {
         fontWeight: "bolder !important",
         color: "#000000",
+        "&:hover": {
+          background: "#f00",
+        },
+      },
+    },
+    MuiTableRow: {
+      hover: {
+        "&:hover": {
+          backgroundColor: "#FFECB3 !important",
+        },
       },
     },
   },
@@ -162,8 +198,8 @@ export default class App extends React.Component {
     this.state = {
       lp_listing: [],
       loadingListing: false,
+      loadingSelectedLP: false,
       error: null,
-      selectedLPs: [],
       dataLPs: {}, // keys are lp_ids; will cache data once loaded
       lp_open_id: false,
       showPassword: false,
@@ -231,88 +267,109 @@ export default class App extends React.Component {
   }
 
   handleSelectedLP(lp_id, open = false) {
-    // console.log("Get LP data from KG");
-    if (lp_id === "a8d69ef1-1fc5-49f8-9aff-c185925f3a42") {
-      // TODO: add check to see if password-protected live paper
-      // Currently just for demo purposes with a single sample live paper
-      let context = this;
-      const password = prompt("Please enter the live paper password:");
-      let hash = saltedMd5(password, lp_id).toString();
-      let url = baseUrl + "/livepapers/" + lp_id;
-      let config = {
-        cancelToken: context.signal.token,
-        headers: {
-          Authorization: "Bearer " + hash,
-          "Content-type": "application/json",
-        },
-      };
-      axios
-        .get(url, config)
-        .then((res) => {
-          console.log(res);
-          context.setState((prevState) => ({
-            dataLPs: {
-              ...prevState.dataLPs,
-              [lp_id]: res.data,
-            },
-          }));
-          if (open) {
-            context.setState({
-              lp_open_id: lp_id,
-            });
-          }
-        })
-        .catch((err) => {
-          if (axios.isCancel(err)) {
-            console.log("error: ", err.message);
-          } else {
-            // Something went wrong. Save the error in state and re-render.
+    this.setState({ loadingSelectedLP: true }, () => {
+      if (lp_id === "a8d69ef1-1fc5-49f8-9aff-c185925f3a42") {
+        // TODO: add check to see if password-protected live paper
+        // Currently just for demo purposes with a single sample live paper
+        let context = this;
+        const password = prompt("Please enter the live paper password:");
+        let hash = saltedMd5(password, lp_id).toString();
+        let url = baseUrl + "/livepapers/" + lp_id;
+        let config = {
+          cancelToken: context.signal.token,
+          headers: {
+            Authorization: "Bearer " + hash,
+            "Content-type": "application/json",
+          },
+        };
+
+        console.log("Get LP data from KG");
+        axios
+          .get(url, config)
+          .then((res) => {
+            console.log(res);
             context.setState((prevState) => ({
               dataLPs: {
                 ...prevState.dataLPs,
-                lp_id: null,
+                [lp_id]: res.data,
               },
             }));
-          }
-          updateHash("");
-          context.forceUpdate();
+            if (open) {
+              context.setState({
+                lp_open_id: lp_id,
+              });
+            }
+          })
+          .catch((err) => {
+            if (axios.isCancel(err)) {
+              console.log("error: ", err.message);
+            } else {
+              // Something went wrong. Save the error in state and re-render.
+              context.setState((prevState) => ({
+                dataLPs: {
+                  ...prevState.dataLPs,
+                  lp_id: null,
+                },
+              }));
+            }
+            updateHash("");
+            context.forceUpdate();
+          });
+        this.setState({
+          loadingSelectedLP: false,
         });
-    } else {
-      let url = baseUrl + "/livepapers-published/" + lp_id;
-      let config = {
-        cancelToken: this.signal.token,
-      };
-      axios
-        .get(url, config)
-        .then((res) => {
-          //   console.log(res);
-          this.setState((prevState) => ({
-            dataLPs: {
-              ...prevState.dataLPs,
-              [lp_id]: res.data,
-            },
-          }));
-          if (open) {
-            this.setState({
-              lp_open_id: lp_id,
+      } else {
+        if (
+          !Object.keys(this.state.dataLPs).includes(lp_id) ||
+          this.state.dataLPs[lp_id] === null
+        ) {
+          // LP data not fetched previously
+          console.log("Get LP data from KG");
+          let url = baseUrl + "/livepapers-published/" + lp_id;
+          let config = {
+            cancelToken: this.signal.token,
+          };
+          axios
+            .get(url, config)
+            .then((res) => {
+              //   console.log(res);
+              this.setState((prevState) => ({
+                dataLPs: {
+                  ...prevState.dataLPs,
+                  [lp_id]: res.data,
+                },
+              }));
+              if (open) {
+                this.setState({
+                  lp_open_id: lp_id,
+                });
+              }
+            })
+            .catch((err) => {
+              if (axios.isCancel(err)) {
+                console.log("error: ", err.message);
+              } else {
+                // Something went wrong. Save the error in state and re-render.
+                this.setState((prevState) => ({
+                  dataLPs: {
+                    ...prevState.dataLPs,
+                    lp_id: null,
+                  },
+                }));
+              }
+              updateHash("");
             });
-          }
-        })
-        .catch((err) => {
-          if (axios.isCancel(err)) {
-            console.log("error: ", err.message);
-          } else {
-            // Something went wrong. Save the error in state and re-render.
-            this.setState((prevState) => ({
-              dataLPs: {
-                ...prevState.dataLPs,
-                lp_id: null,
-              },
-            }));
-          }
-          updateHash("");
+        } else {
+          // LP data already fetched previously
+          this.setState({
+            lp_open_id: lp_id,
+          });
+        }
+        this.setState({
+          loadingSelectedLP: false,
         });
-    }
+      }
+    });
   }
 
   handleCloseLP() {
@@ -322,98 +379,6 @@ export default class App extends React.Component {
 
   handleErrorDialogClose() {
     this.setState({ error: false });
-  }
-
-  renderDetailPanel(data, flag) {
-    // console.log(this.props.lp_open_id);
-
-    if (data === null) {
-      return (
-        <div style={{ backgroundColor: "#FCF6E6", padding: 20 }}>
-          Error in loading content!
-        </div>
-      );
-    } else {
-      return (
-        <Collapse in={flag} timeout="auto" unmountOnExit>
-          <div
-            style={{
-              backgroundColor: "#FCF6E6",
-              padding: 20,
-              border: "1px solid #9E9E9E",
-            }}
-          >
-            <div>
-              <p style={{ fontSize: 14, marginTop: 0 }}>
-                <b>Citation: </b>
-              </p>
-              <div
-                style={{
-                  backgroundColor: "white",
-                  border: "1px solid #9E9E9E",
-                  borderRadius: 10,
-                  padding: 10,
-                  fontSize: 14,
-                  marginBottom: 15,
-                }}
-              >
-                {data["citation"]}
-              </div>
-            </div>
-            <div>
-              <p style={{ fontSize: 14 }}>
-                <b>DOI: </b>
-              </p>
-              <div
-                style={{
-                  padding: 10,
-                  marginBottom: 45,
-                  clear: "both",
-                }}
-              >
-                <span
-                  style={{
-                    backgroundColor: "white",
-                    border: "1px solid #9E9E9E",
-                    borderRadius: 10,
-                    padding: 10,
-                    fontSize: 14,
-                    minWidth: "70%",
-                    maxWidth: "70",
-                    float: "left",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => window.open(data["doi"], "_blank")}
-                >
-                  {data["doi"]}
-                </span>
-                <span
-                  style={{ width: "275px", textAlign: "right", float: "right" }}
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    style={{
-                      width: "250px",
-                      maxWidth: "250px",
-                      backgroundColor: "#FF9800",
-                      color: "#000000",
-                      fontWeight: "bold",
-                      border: "solid",
-                      borderColor: "#000000",
-                      borderWidth: "1px",
-                    }}
-                    onClick={() => this.setState({ lp_open_id: data["id"] })}
-                  >
-                    Open Live Paper
-                  </Button>
-                </span>
-              </div>
-            </div>
-          </div>
-        </Collapse>
-      );
-    }
   }
 
   render() {
@@ -440,8 +405,8 @@ export default class App extends React.Component {
         />
       );
     }
-    // console.log(this.state.dataLPs);
-    // console.log(this.state.selectedLPs);
+    console.log(this.state.dataLPs);
+    // console.log(this.state.loadingSelectedLP);
     if (window.location.hash) {
       return (
         <div className="mycontainer" style={{ textAlign: "left" }}>
@@ -450,8 +415,14 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <div className="mycontainer" style={{ textAlign: "left" }}>
+        <div
+          className="mycontainer"
+          style={{
+            textAlign: "left",
+          }}
+        >
           <TopNavigation />
+          <LoadingIndicatorModal open={this.state.loadingSelectedLP} />
           <div
             className="box rounded centered"
             style={{
@@ -565,7 +536,7 @@ export default class App extends React.Component {
             >
               <MediaCard
                 handleSelectedLP={this.handleSelectedLP}
-                id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7"
+                id="bee280cc-8184-4380-a2cb-a74b131de611"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2021_saray_et_al.jpg"
                 }
@@ -577,9 +548,10 @@ export default class App extends React.Component {
                   "Sáray, S., Rössert, C. A., Appukuttan, S., Migliore, R., Vitale, P., Lupascu, C. A., ... & Káli, S. (2021). PLoS computational biology, 17(1), e1008114."
                 }
               />
-              <MediaCard
+              {/* <MediaCard
                 handleSelectedLP={this.handleSelectedLP}
-                id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7"
+                // change UUID
+                id="bee280cc-8184-4380-a2cb-a74b131de611"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2020_lupascu_et_al.jpg"
                 }
@@ -590,10 +562,10 @@ export default class App extends React.Component {
                 citation={
                   "Lupascu CA, Morabito A, Ruggeri F, Parisi C, Pimpinella D, Pizzarelli R, Meli G, Marinelli S, Cherubini E, Cattaneo A & Migliore M (2020). Frontiers in Celllular Neuroscience, In press."
                 }
-              />
+              /> */}
               <MediaCard
                 handleSelectedLP={this.handleSelectedLP}
-                id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7"
+                id="c1573aeb-d139-42a2-a7fc-fd68319e428e"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2018_migliore_et_al.jpg"
                 }
@@ -607,7 +579,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 handleSelectedLP={this.handleSelectedLP}
-                id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7"
+                id="b6917332-e092-4bf3-bf31-3f0d212ff861"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2019_bruce_et_al.jpg"
                 }
@@ -621,7 +593,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 handleSelectedLP={this.handleSelectedLP}
-                id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7"
+                id="cf895d83-49b8-4c72-b1ac-8b974bbe4eb5"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2019_kokh_et_al.jpg"
                 }
@@ -633,9 +605,10 @@ export default class App extends React.Component {
                   "Kokh DB, Kaufmann T, Kister B, Wade RC(2019). Front. Mol. Biosci."
                 }
               />
-              <MediaCard
+              {/* <MediaCard
                 handleSelectedLP={this.handleSelectedLP}
-                id="c6adb928-ee34-4cc4-b6c1-d7ee779c2fe7"
+                // change UUID
+                id="bee280cc-8184-4380-a2cb-a74b131de611"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2020_hjorth_et_al.jpg"
                 }
@@ -644,7 +617,7 @@ export default class App extends React.Component {
                 citation={
                   "Hjorth J, Kozlov A, Carannante I, Frost Nylén J, Lindroos R, Johansson Y, Tokarska A, Dorst MC, Suryanarayana SM, Silberberg G, Hellgren Kotaleski J, Grillner S (2020). Proc Natl Acad Sci USA."
                 }
-              />
+              /> */}
             </Slider>
           </div>
           <br />
@@ -797,65 +770,19 @@ export default class App extends React.Component {
                       fontWeight: "bold",
                       fontSize: 16,
                     },
-                    rowStyle: (rowData) => ({
+                    rowStyle: {
                       fontSize: 16,
-                      backgroundColor: this.state.selectedLPs.includes(
-                        rowData.tableData.id
-                      )
-                        ? "#FFECB3"
-                        : "#FFFFFF",
                       paddingLeft: "10%",
                       marginLeft: "10%",
                       border: "solid",
                       borderWidth: 2,
                       borderColor: "#999999",
-                    }),
+                    },
                     // tableLayout: "fixed",
                   }}
-                  detailPanel={[
-                    {
-                      icon: () => (
-                        <Icon color="primary" style={{ marginLeft: 10 }}>
-                          insert_drive_file
-                        </Icon>
-                      ),
-                      openIcon: () => (
-                        <Icon color="secondary" style={{ marginLeft: 10 }}>
-                          find_in_page
-                        </Icon>
-                      ),
-                      render: (rowData) => {
-                        if (
-                          !Object.keys(this.state.dataLPs).includes(
-                            rowData.id
-                          ) ||
-                          this.state.dataLPs[rowData.id] === null
-                        ) {
-                          this.handleSelectedLP(rowData.id);
-                          return <LoadingIndicator />;
-                        } else {
-                          return this.renderDetailPanel(
-                            this.state.dataLPs[rowData.id],
-                            Object.keys(this.state.dataLPs).includes(
-                                rowData.id
-                              ) &&
-                              this.state.dataLPs[rowData.id] !== null
-                          );
-                        }
-                      },
-                    },
-                  ]}
-                  onRowClick={(event, selectedRow, togglePanel) => {
-                    // console.log(selectedRow.id);
-                    togglePanel();
-                    let selectedLPs = this.state.selectedLPs;
-                    let index = selectedLPs.indexOf(selectedRow.tableData.id);
-                    if (index !== -1) {
-                      selectedLPs.splice(index, 1);
-                    } else {
-                      selectedLPs.push(selectedRow.tableData.id);
-                    }
-                    this.setState({ selectedLPs: selectedLPs });
+                  onRowClick={(event, selectedRow) => {
+                    console.log(selectedRow.id);
+                    this.handleSelectedLP(selectedRow.id, true);
                   }}
                   components={{
                     Toolbar: (props) => (

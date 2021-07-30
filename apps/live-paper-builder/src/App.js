@@ -162,17 +162,6 @@ class App extends React.Component {
       // sort resource sections by order #
       data.resources.sort(compareArrayoOfObjectsByOrder);
 
-      // KG requires 'data' value for SectionCustom in 'description' field
-      // doing reverse mapping here
-      data.resources.forEach(function (res, index) {
-        // creating extra copy here to handle problem with shallow copy of nested object
-        let temp_res = JSON.parse(JSON.stringify(res));
-        if (res.type === "section_custom") {
-          res.data = temp_res.description;
-          delete res.description;
-        }
-      });
-
       // handle useTabs for resources
       // KG doesn't have a separate field for saving tabs_name;
       // this is handled by appending it to the label with a separator (#-#)
@@ -223,6 +212,7 @@ class App extends React.Component {
 
         // handle useTabs for resources
         data.resources.forEach(function (res, index) {
+          console.log(res);
           if (res.type !== "section_custom") {
             let tabs = [];
             res.data.forEach(function (res_item, index) {
