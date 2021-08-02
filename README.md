@@ -1,7 +1,7 @@
 # ebrains-live-papers
 EBRAINS Live Paper Platform + EBRAINS Live Paper Builder Tool
 
-#### Staging Server:
+#### Production Server:
 | <!-- --> | <!-- -->                                        |
 |----------|-------------------------------------------------|
 | Platform | https://live-papers.brainsimulation.eu/         |
