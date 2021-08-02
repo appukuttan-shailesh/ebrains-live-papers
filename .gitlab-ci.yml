@@ -1,0 +1,13 @@
+
+stages:
+  - build
+
+build_image:
+  stage: build
+  script:
+    - docker build -f apps/deployment/Dockerfile.prod -t docker-registry.ebrains.eu/live-papers/live-papers-apps .
+    - echo $DOCKER_REGISTRY_USER
+    - docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_SECRET docker-registry.ebrains.eu
+    - docker push docker-registry.ebrains.eu/live-papers/live-papers-apps
+  tags:
+    - shell-runner
