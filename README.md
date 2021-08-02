@@ -12,7 +12,7 @@ EBRAINS Live Paper Platform + EBRAINS Live Paper Builder Tool
 |----------|-------------------------------------------|
 | Platform | https://live-paper-platform.netlify.app/  |
 | Builder  | https://live-paper-builder.netlify.app/   |
-| Docs     | https://live-paper-docs.netlify.app/docs/ |
+| Docs     | https://live-paper-docs.netlify.app/      |
 
 <div><img src="https://raw.githubusercontent.com/appukuttan-shailesh/ebrains-live-papers/master/eu_logo.jpg" alt="EU Logo" width="15%" align="right"></div>
 
