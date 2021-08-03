@@ -381,7 +381,7 @@ export default class SectionCustom extends React.Component {
                     variant="outlined"
                     fullWidth={true}
                     helperText="Click on ? icon for info on input format."
-                    name="data"
+                    name="description"
                     value={this.state.description}
                     onChange={this.handleFieldChange}
                     onBlur={this.handleDataInputOnBlur}
