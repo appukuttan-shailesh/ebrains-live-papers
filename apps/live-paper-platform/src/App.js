@@ -74,7 +74,7 @@ const TABLE_COLUMNS = [
       </div>
     ),
     customFilterAndSearch: (value, item) => {
-      if (item.live_paper_title.concat(item.citation).includes(value)) {
+      if (item.live_paper_title.concat(item.citation).toLowerCase().includes(value.toLowerCase())) {
         console.log("found");
         return true;
       } else {
