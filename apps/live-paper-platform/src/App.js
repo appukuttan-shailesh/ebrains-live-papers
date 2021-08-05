@@ -549,10 +549,10 @@ export default class App extends React.Component {
                   "Sáray, S., Rössert, C. A., Appukuttan, S., Migliore, R., Vitale, P., Lupascu, C. A., ... & Káli, S. (2021). PLoS computational biology, 17(1), e1008114."
                 }
               />
-              {/* <MediaCard
+              <MediaCard
                 handleSelectedLP={this.handleSelectedLP}
                 // change UUID
-                id="bee280cc-8184-4380-a2cb-a74b131de611"
+                id="93a5c03a-6995-47bc-af9f-4f0d85950d1d"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2020_lupascu_et_al.jpg"
                 }
@@ -563,7 +563,7 @@ export default class App extends React.Component {
                 citation={
                   "Lupascu CA, Morabito A, Ruggeri F, Parisi C, Pimpinella D, Pizzarelli R, Meli G, Marinelli S, Cherubini E, Cattaneo A & Migliore M (2020). Frontiers in Celllular Neuroscience, In press."
                 }
-              /> */}
+              />
               <MediaCard
                 handleSelectedLP={this.handleSelectedLP}
                 id="c1573aeb-d139-42a2-a7fc-fd68319e428e"
@@ -606,10 +606,9 @@ export default class App extends React.Component {
                   "Kokh DB, Kaufmann T, Kister B, Wade RC(2019). Front. Mol. Biosci."
                 }
               />
-              {/* <MediaCard
+              <MediaCard
                 handleSelectedLP={this.handleSelectedLP}
-                // change UUID
-                id="bee280cc-8184-4380-a2cb-a74b131de611"
+                id="67806cc2-84e0-4bb3-ae52-8cc3e5abf738"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2020_hjorth_et_al.jpg"
                 }
@@ -618,7 +617,7 @@ export default class App extends React.Component {
                 citation={
                   "Hjorth J, Kozlov A, Carannante I, Frost Nylén J, Lindroos R, Johansson Y, Tokarska A, Dorst MC, Suryanarayana SM, Silberberg G, Hellgren Kotaleski J, Grillner S (2020). Proc Natl Acad Sci USA."
                 }
-              /> */}
+              />
             </Slider>
           </div>
           <br />
