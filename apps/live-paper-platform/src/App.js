@@ -551,7 +551,6 @@ export default class App extends React.Component {
               />
               <MediaCard
                 handleSelectedLP={this.handleSelectedLP}
-                // change UUID
                 id="93a5c03a-6995-47bc-af9f-4f0d85950d1d"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2020_lupascu_et_al.jpg"
