@@ -398,6 +398,20 @@ class CreateLivePaper extends React.Component {
   handlePreview() {
     let lp_data = this.addDerivedData(this.removeExcessData(this.state));
 
+    // same as in SaveModal.adjustForKGSchema()
+    lp_data.resources.forEach(function (res, index) {
+      if (res.type !== "section_custom") {
+        res.data.forEach(function (res_item, index) {
+          if (res_item.url === "" && res_item.view_url !== "") {
+            res_item.url = res_item.view_url;
+          } else if (res_item.url === "" && res_item.view_url === "") {
+            // both url and view_url should never be both empty!
+            res_item.url = "http://www.MissingInfo.com";
+          }
+        });
+      }
+    });
+
     // determine appropriate live paper template
     let LivePaper = null;
     const lp_version = parseFloat(lp_data.lp_tool_version);

@@ -212,7 +212,7 @@ export default class SectionCustom extends React.Component {
   handleDataInputOnBlur(event) {
     const converter = new Converter({ tables: true });
     let value = converter.makeHtml(this.state.description);
-    console.log(value);
+    // console.log(value);
     this.setState(
       {
         description: value,
