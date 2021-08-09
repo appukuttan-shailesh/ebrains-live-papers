@@ -98,10 +98,6 @@ const theme = createMuiTheme({
       h6: {
         fontWeight: "bolder !important",
         color: "#000000",
-        "&:hover": {
-          background: "#f00",
-        },
-      },
     },
     MuiTableRow: {
       hover: {

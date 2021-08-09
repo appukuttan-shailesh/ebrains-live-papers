@@ -278,7 +278,7 @@ export class RowURLExpanded extends React.Component {
                       <TextField
                         label={
                           this.props.type === "section_models"
-                            ? "Model Catalog URL1"
+                            ? "Model Catalog URL"
                             : "View URL"
                         }
                         variant="outlined"
