@@ -107,7 +107,7 @@ const theme = createMuiTheme({
       },
     },
   },
-});
+}});
 
 const useStyles = makeStyles({
   root: {
