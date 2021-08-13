@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+input {
+  border-bottom: 0 !important;
+}
+
+button:focus {
+  outline: none;
+  background-color: transparent;
+}

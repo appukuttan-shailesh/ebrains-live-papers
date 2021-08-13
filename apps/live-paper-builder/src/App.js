@@ -7,6 +7,7 @@ import LoadKGProjects from "./LoadKGProjects";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
 import TopNavigation from "./TopNavigation";
+import "./App.css";
 
 import {
   baseUrl,

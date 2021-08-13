@@ -74,7 +74,12 @@ const TABLE_COLUMNS = [
       </div>
     ),
     customFilterAndSearch: (value, item) => {
-      if (item.live_paper_title.concat(item.citation).toLowerCase().includes(value.toLowerCase())) {
+      if (
+        item.live_paper_title
+          .concat(item.citation)
+          .toLowerCase()
+          .includes(value.toLowerCase())
+      ) {
         console.log("found");
         return true;
       } else {
@@ -98,16 +103,17 @@ const theme = createMuiTheme({
       h6: {
         fontWeight: "bolder !important",
         color: "#000000",
-    },
-    MuiTableRow: {
-      hover: {
-        "&:hover": {
-          backgroundColor: "#FFECB3 !important",
+      },
+      MuiTableRow: {
+        hover: {
+          "&:hover": {
+            backgroundColor: "#FFECB3 !important",
+          },
         },
       },
     },
   },
-}});
+});
 
 const useStyles = makeStyles({
   root: {
@@ -171,17 +177,17 @@ function MediaCard(props) {
               />
             </div>
           </CardContent>
+          <CardActions style={{ marginLeft: 5, marginRight: 5 }}>
+            <Button
+              size="small"
+              color="primary"
+              style={{ fontWeight: "bolder" }}
+              onClick={() => props.handleSelectedLP(props.id, true)}
+            >
+              Access Live Paper
+            </Button>
+          </CardActions>
         </CardActionArea>
-        <CardActions style={{ marginLeft: 5, marginRight: 5 }}>
-          <Button
-            size="small"
-            color="primary"
-            style={{ fontWeight: "bolder" }}
-            onClick={() => props.handleSelectedLP(props.id, true)}
-          >
-            Access Live Paper
-          </Button>
-        </CardActions>
       </Card>
     </div>
   );
@@ -741,7 +747,7 @@ export default class App extends React.Component {
                       height: "400",
                       chrome: "noheader, nofooter",
                       borderColor: "#F44336",
-                      
+
                       id: "profile:HumanBrainProj",
                     }}
                   />
