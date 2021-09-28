@@ -637,45 +637,90 @@
         <br/>
         <div>
             <p>
-                <strong style="font-weight:bolder">Journal:
-                </strong>
-                {% if journal %}
-                    {{ journal }}
-                {% else %}
-                    <i>Not Available</i>
-                {% endif %}
+                <table>
+                    <tr style="border:none">
+                        <td style="width: 125px; vertical-align:top">
+                            <strong style="font-weight:bolder">Journal:
+                            </strong>
+                        </td>
+                        <td>
+                            {% if journal %}
+                                {{ journal | safe }}
+                            {% else %}
+                                <i>Not Available</i>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
             </p>
             <p>
-                <strong style="font-weight:bolder">Download Url:
-                </strong>
-                {% if url %}
-                    <a target="_blank" rel="noopener noreferrer" href="{{ url }}">{{ url }}</a>
-                {% else %}
-                    <i>Not Available</i>
-                {% endif %}
+                <table>
+                    <tr style="border:none">
+                        <td style="width: 125px; vertical-align:top">
+                            <strong style="font-weight:bolder">Download Url:
+                            </strong>
+                        </td>
+                        <td>
+                            {% if url %}
+                                <a target="_blank" rel="noopener noreferrer" href="{{ url }}">{{ url }}</a>
+                            {% else %}
+                                <i>Not Available</i>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
             </p>
             <p>
-                <strong style="font-weight:bolder">Citation:
-                </strong>
-                {% if citation %}
-                    {{ citation }}
-                {% else %}
-                    <i>Not Available</i>
-                {% endif %}
+                <table>
+                    <tr style="border:none">
+                        <td style="width: 125px; vertical-align:top">
+                            <strong style="font-weight:bolder">Citation:
+                            </strong>
+                        </td>
+                        <td>
+                            {% if citation %}
+                                {{ citation }}
+                            {% else %}
+                                <i>Not Available</i>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
             </p>
             <p>
-                <strong style="font-weight:bolder">DOI:
-                </strong>
-                {% if doi %}
-                    <a target="_blank" rel="noopener noreferrer" href="{{ doi }}">{{ doi }}</a>
-                {% else %}
-                    <i>Not Available</i>
-                {% endif %}
+                <table>
+                    <tr style="border:none">
+                        <td style="width: 125px; vertical-align:top">
+                            <strong style="font-weight:bolder">DOI:
+                            </strong>
+                        </td>
+                        <td>
+                            {% if doi %}
+                                <a target="_blank" rel="noopener noreferrer" href="{{ doi }}">{{ doi }}</a>
+                            {% else %}
+                                <i>Not Available</i>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
             </p>
             <p>
-                <strong style="font-weight:bolder">Licence:
-                </strong>
-                {{ license }}</p>
+                <table>
+                    <tr style="border:none">
+                        <td style="width: 125px; vertical-align:top">
+                            <strong style="font-weight:bolder">Licence:
+                            </strong>
+                        </td>
+                        <td>
+                            {% if license %}
+                                {{ license }}
+                            {% else %}
+                                <i>Not Available</i>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </p>
         </div>
         <div class="note rounded">
             <h5>Abstract:</h5>
