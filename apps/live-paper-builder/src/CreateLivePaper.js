@@ -849,7 +849,7 @@ class CreateLivePaper extends React.Component {
     unique_affs.forEach(function (aff, index) {
       unique_affs_strings.push((index + 1).toString().sup() + " " + aff);
     });
-    var affiliations_string = unique_affs_strings.join(", ");
+    var affiliations_string = unique_affs_strings.join(";; ");
 
     // now use the list of affiliations to appropriately create authors string
     var authors_string = "";
