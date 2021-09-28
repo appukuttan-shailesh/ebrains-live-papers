@@ -341,6 +341,7 @@ class CreateLivePaper extends React.Component {
         "expanded",
         "useTabs",
         "deleteOpen",
+        "showDescHelp"
       ];
       remove_keys.forEach((k) => delete res[k]);
     }

@@ -555,54 +555,84 @@
         </div>
         <div>
             <p>
-                <strong style="font-weight:bolder">Authors:
-                </strong>
-                {% if authors_string %}
-                    {{ authors_string | safe }}
-                {% else %}
-                    To be filled...
-                {% endif %}
-            </p>
-            <p>
-                {% if affiliations_string %}
                 <table>
                     <tr style="border:none">
-                        <td style="width: 90px; vertical-align:top">
+                        <td style="width: 125px; vertical-align:top">
+                            <strong style="font-weight:bolder">Authors:
+                            </strong>
+                        </td>
+                        <td>
+                            {% if authors_string %}
+                                {{ authors_string | safe }}
+                            {% else %}
+                                To be filled...
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>    
+            </p>
+            <p>
+                <table>
+                    <tr style="border:none">
+                        <td style="width: 125px; vertical-align:top">
                             <strong style="font-weight:bolder">Affiliations:
                             </strong>
                         </td>
                         <td>
-                            {# {{ affiliations_string | safe }} #}
-                            {% set affiliations_list = affiliations_string.split(';;') %}
-                            {% for aff in affiliations_list %}
-                                <p>{{ aff | safe }}<p/>
-                            {% endfor %} 
+                            {% if affiliations_string %}
+                                {# {{ affiliations_string | safe }} #}
+                                {% set affiliations_list = affiliations_string.split(';;') %}
+                                {% for aff in affiliations_list %}
+                                    <p>{{ aff | safe }}<p/>
+                                {% endfor %} 
+                            {% else %}
+                                To be filled...
+                            {% endif %}
                         </td>
                     </tr>
-                </table>
-                {% else %}
-                    <strong style="font-weight:bolder">Affiliations:
-                    </strong>
-                    To be filled...
-                {% endif %}
+                </table>                
             </p>
             <p>
-                <strong style="font-weight:bolder">Corresponding author(s):
-                </strong>
-                {% if corresponding_authors_string %}
-                    {{ corresponding_authors_string | safe }}
-                {% else %}
-                    To be filled...
-                {% endif %}
+                <table>
+                    <tr style="border:none">
+                        <td style="width: 125px; vertical-align:top">
+                            <strong style="font-weight:bolder">Corresponding author{{ ":" if corresponding_authors_string.split(';;')|length <2 else "(s):" }}
+                            </strong>
+                        </td>
+                        <td>
+                            {% if corresponding_authors_string %}
+                                {# {{ corresponding_authors_string | safe }} #}
+                                {% set corresponding_authors_list = corresponding_authors_string.split(';;') %}
+                                {% for corr_auth in corresponding_authors_list %}
+                                    <p>{{ corr_auth | safe }}<p/>
+                                {% endfor %} 
+                            {% else %}
+                                To be filled...
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>                                    
             </p>
             <p>
-                <strong style="font-weight:bolder">Live paper created by:
-                </strong>
-                {% if created_authors_string %}
-                    {{ created_authors_string | safe }}
-                {% else %}
-                    To be filled...
-                {% endif %}
+                <table>
+                    <tr style="border:none">
+                        <td style="width: 125px; vertical-align:top">
+                            <strong style="font-weight:bolder">Live paper author:
+                            </strong>
+                        </td>
+                        <td>
+                            {% if created_authors_string %}
+                                {# {{ created_authors_string | safe }} #}
+                                {% set created_authors_list = created_authors_string.split(';;') %}
+                                {% for create_auth in created_authors_list %}
+                                    <p>{{ create_auth | safe }}<p/>
+                                {% endfor %} 
+                            {% else %}
+                                To be filled...
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>                    
             </p>
             {% if (approved_author.firstname != created_author[0].firstname) and (approved_author.lastname != created_author[0].lastname) %}
                 <p>

@@ -305,7 +305,7 @@ export default class LivePaperViewer extends React.Component {
         corresp_author.lastname.trim() !== ""
       ) {
         if (corresponding_authors_string !== "") {
-          corresponding_authors_string = corresponding_authors_string + ", ";
+          corresponding_authors_string = corresponding_authors_string + ";; ";
         }
         corresponding_authors_string =
           corresponding_authors_string +
