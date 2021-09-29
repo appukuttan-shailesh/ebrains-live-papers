@@ -6692,10 +6692,6 @@
   "resolved" "https://registry.npmjs.org/eve/-/eve-0.5.4.tgz"
   "version" "0.5.4"
 
-"eve@git://github.com/adobe-webplatform/eve.git#eef80ed":
-  "resolved" "git+ssh://git@github.com/adobe-webplatform/eve.git#eef80ed8d188423c2272746fb8ae5cc8dad84cb1"
-  "version" "0.4.1"
-
 "event-emitter@^0.3.5":
   "integrity" "sha1-34xp7vFkeSPHFXuc6DhAYQsCzDk="
   "resolved" "https://registry.npmjs.org/event-emitter/-/event-emitter-0.3.5.tgz"
@@ -12245,13 +12241,6 @@
   "version" "2.3.0"
   dependencies:
     "eve-raphael" "0.5.0"
-
-"raphael@~2.1.x":
-  "integrity" "sha1-sJymZK0Ei4FLsv9dTR51g4yrnJc="
-  "resolved" "https://registry.npmjs.org/raphael/-/raphael-2.1.4.tgz"
-  "version" "2.1.4"
-  dependencies:
-    "eve" "git://github.com/adobe-webplatform/eve.git#eef80ed"
 
 "raw-body@2.4.0":
   "integrity" "sha512-4Oz8DUIwdvoa5qMJelxipzi/iJIi40O5cGV1wNYp5hvZP8ZN0T+jiNkL0QepXs+EsQ9XJ8ipEDoiH70ySUJP3Q=="
