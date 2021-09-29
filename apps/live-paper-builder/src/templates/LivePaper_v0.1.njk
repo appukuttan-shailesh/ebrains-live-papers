@@ -560,7 +560,7 @@
                                 {# {{ affiliations_string | safe }} #}
                                 {% set affiliations_list = affiliations_string.split(';;') %}
                                 {% for aff in affiliations_list %}
-                                    <p>{{ aff | safe }}<p/>
+                                    <p style="padding-left: 2em; text-indent:-2em">{{ aff | safe }}<p/>
                                 {% endfor %} 
                             {% else %}
                                 To be filled...
@@ -581,7 +581,7 @@
                                 {# {{ corresponding_authors_string | safe }} #}
                                 {% set corresponding_authors_list = corresponding_authors_string.split(';;') %}
                                 {% for corr_auth in corresponding_authors_list %}
-                                    <p>{{ corr_auth | safe }}<p/>
+                                    <p style="padding-left: 2em; text-indent:-2em">{{ corr_auth | safe }}<p/>
                                 {% endfor %} 
                             {% else %}
                                 To be filled...
@@ -602,7 +602,7 @@
                                 {# {{ created_authors_string | safe }} #}
                                 {% set created_authors_list = created_authors_string.split(';;') %}
                                 {% for create_auth in created_authors_list %}
-                                    <p>{{ create_auth | safe }}<p/>
+                                    <p style="padding-left: 2em; text-indent:-2em">{{ create_auth | safe }}<p/>
                                 {% endfor %} 
                             {% else %}
                                 To be filled...
