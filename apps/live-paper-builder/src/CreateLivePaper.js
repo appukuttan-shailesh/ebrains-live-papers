@@ -307,22 +307,43 @@ class CreateLivePaper extends React.Component {
   checkPersonInStateAuthors(person) {
     if (typeof person === "string") {
       return this.state.authors.find(
-        (author) => author.firstname + " " + author.lastname === person
+        (author) =>
+          author.firstname + " " + author.lastname === person &&
+          person.trim().length > 0
       );
     } else if (Array.isArray(person)) {
-      // used for corresponding_author
-      let context = this;
-      return person.map(function (entry) {
-        return context.state.authors.find(
-          (author) => author.firstname + " " + author.lastname === entry
-        );
-      });
+      if (typeof person[0] === "string") {
+        // handle array of strings
+        // used for corresponding_author
+        let context = this;
+        return person.map(function (entry) {
+          return context.state.authors.find(
+            (author) =>
+              author.firstname + " " + author.lastname === entry &&
+              entry.trim().length > 0
+          );
+        });
+      } else {
+        // handle array of dicts
+        let context = this;
+        return person.map(function (entry) {
+          return context.state.authors.find(
+            (author) =>
+              author.firstname === entry.firstname &&
+              author.firstname !== "" &&
+              author.lastname === entry.lastname &&
+              author.lastname !== ""
+          );
+        });
+      }
     } else {
       // if object with keys firstname and lastname
       return this.state.authors.find(
         (author) =>
           author.firstname === person.firstname &&
-          author.lastname === person.lastname
+          author.firstname !== "" &&
+          author.lastname === person.lastname &&
+          author.lastname !== ""
       );
     }
   }
@@ -341,7 +362,7 @@ class CreateLivePaper extends React.Component {
         "expanded",
         "useTabs",
         "deleteOpen",
-        "showDescHelp"
+        "showDescHelp",
       ];
       remove_keys.forEach((k) => delete res[k]);
     }
@@ -547,8 +568,8 @@ class CreateLivePaper extends React.Component {
     // console.log(name + " => " + value);
     if (name === "corresponding_author") {
       const c_authors = this.checkPersonInStateAuthors(value);
-      console.log(value);
-      console.log(c_authors);
+      // console.log(value);
+      // console.log(c_authors);
       this.setState({
         corresponding_author: c_authors.map(function (c_author) {
           return {
@@ -582,14 +603,14 @@ class CreateLivePaper extends React.Component {
         });
       }
     } else if (name === "created_author") {
-      if (value === "-- Other Person --") {
+      if (value === "-- Other --") {
         this.setState({
           created_author: [
             {
               firstname: "",
               lastname: "",
               affiliation: "",
-              //   email: "",
+              // email: "",
             },
           ],
           approved_author: {
@@ -783,9 +804,77 @@ class CreateLivePaper extends React.Component {
     if (author_data.length === 0) {
       author_data = [{ firstname: "", lastname: "", affiliation: "" }];
     }
-    this.setState({
-      authors: author_data,
-    });
+    this.setState(
+      {
+        authors: author_data,
+      },
+      () => {
+        // if existing author affiliation changed, update same for ...
+        // if existing author name changed, remove old matching author from ...
+
+        // ... corresponding author
+        const c_authors = this.checkPersonInStateAuthors(
+          this.state.corresponding_author
+        );
+        if (c_authors[0]) {
+          this.setState({
+            corresponding_author: c_authors.map(function (c_author) {
+              return {
+                firstname: c_author.firstname,
+                lastname: c_author.lastname,
+                affiliation: c_author.affiliation,
+              };
+            }),
+          });
+        } else {
+          this.setState({
+            corresponding_author: [
+              { firstname: "", lastname: "", affiliation: "" },
+            ],
+          });
+        }
+
+        // ... created author
+        const context = this;
+        const cr_authors = this.state.created_author.map(function (cr_auth) {
+          return (
+            context.state.authors.find(
+              (author) =>
+                author.firstname + " " + author.lastname ===
+                cr_auth.firstname + " " + cr_auth.lastname
+            ) || cr_auth
+          );
+        });
+
+        if (cr_authors[0]) {
+          this.setState({
+            created_author: cr_authors,
+          });
+        } else {
+          this.setState({
+            created_author: [{ firstname: "", lastname: "", affiliation: "" }],
+          });
+        }
+
+        // ... approved author
+        const appr_author = this.checkPersonInStateAuthors(
+          this.state.approved_author
+        );
+        if (appr_author) {
+          this.setState({
+            approved_author: {
+              firstname: appr_author.firstname,
+              lastname: appr_author.lastname,
+              affiliation: appr_author.affiliation,
+            },
+          });
+        } else {
+          this.setState({
+            approved_author: { firstname: "", lastname: "", affiliation: "" },
+          });
+        }
+      }
+    );
   }
 
   handleCreatedAuthorChange(created_author_data) {
@@ -1341,24 +1430,30 @@ class CreateLivePaper extends React.Component {
                           .map(function (author) {
                             return author.firstname + " " + author.lastname;
                           })
-                          .concat("-- Other Person --") // for an external creating author
+                          .concat("-- Other --") // for an external creating author
                       : []
                   }
                   label="Created By"
                   name="created_author"
                   value={
-                    this.checkPersonInStateAuthors(this.state.created_author[0])
-                      ? this.state.created_author[0].firstname +
+                    !(
+                      this.state.created_author.length === 1 &&
+                      this.checkPersonInStateAuthors(
+                        this.state.created_author[0]
+                      )
+                    )
+                      ? "-- Other --"
+                      : this.state.created_author[0].firstname +
                         " " +
                         this.state.created_author[0].lastname
-                      : "-- Other Person --"
                   }
                   handleChange={this.handleFieldChange}
                 />
                 <br />
               </div>
-              {!this.checkPersonInStateAuthors(
-                this.state.created_author[0]
+              {!(
+                this.state.created_author.length === 1 &&
+                this.checkPersonInStateAuthors(this.state.created_author[0])
               ) && (
                 <div>
                   <DynamicTablePerson
@@ -1435,15 +1530,16 @@ class CreateLivePaper extends React.Component {
               </div> */}
               <br />
               <br />
-              {!this.checkPersonInStateAuthors(
-                this.state.created_author[0]
+              {!(
+                this.state.created_author.length === 1 &&
+                this.checkPersonInStateAuthors(this.state.created_author[0])
               ) && (
                 <div>
                   <div>
                     <p>
                       <strong>
-                        Since the live paper is being created by a person who
-                        isn't an author on the article (as indicated above), the
+                        Since the live paper is being created by persons who are
+                        not authors on the article (as indicated above), the
                         live paper needs to be approved by one of the original
                         authors. Specify the authorising author:{" "}
                         {/* , along with their email address: */}

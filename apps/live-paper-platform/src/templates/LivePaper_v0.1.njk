@@ -634,16 +634,26 @@
                     </tr>
                 </table>                    
             </p>
-            {% if (approved_author.firstname != created_author[0].firstname) and (approved_author.lastname != created_author[0].lastname) %}
+            {% if not ((created_author | length == 1) and (approved_author.firstname == created_author[0].firstname) and (approved_author.lastname == created_author[0].lastname)) %}
                 <p>
-                    <strong style="font-weight:bolder">Approved by:
-                    </strong>
-                    {{ approved_author.firstname + " " + approved_author.lastname }}
-                    {% if approved_author.affiliation %}
-                        (
-                        <em>{{ approved_author.affiliation }}</em>
-                        )
-                    {% endif %}
+                    <table>
+                        <tr style="border:none">
+                            <td style="width: 125px; vertical-align:top">
+                                <strong style="font-weight:bolder">Approved by:
+                                </strong>
+                            </td>
+                            <td>
+                                {% if (approved_author.firstname != "") and (approved_author.lastname != "") %}
+                                    {{ approved_author.firstname + " " + approved_author.lastname }}
+                                    {% if approved_author.affiliation %}
+                                        (<em>{{ approved_author.affiliation }}</em>)
+                                    {% endif %}
+                                {% else %}
+                                    To be filled...
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>                    
                 </p>
             {% endif %}
         </div>
