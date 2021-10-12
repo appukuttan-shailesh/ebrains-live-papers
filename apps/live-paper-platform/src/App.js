@@ -12,7 +12,7 @@ import MaterialTable, { MTableToolbar } from "@material-table/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import ErrorDialog from "./ErrorDialog";
 import LivePaperViewer from "./LivePaperViewer";
-import { baseUrl, updateHash } from "./globals";
+import { baseUrl, updateHash, livePaperPlatformUrl } from "./globals";
 import { isUUID } from "./utils";
 import saltedMd5 from "salted-md5";
 // import { TwitterTimelineEmbed } from "react-twitter-embed";
@@ -140,7 +140,7 @@ function MediaCard(props) {
           borderWidth: 2,
         }}
       >
-        <CardActionArea onClick={() => props.handleSelectedLP(props.id, true)}>
+        <CardActionArea onClick={() => window.open(livePaperPlatformUrl + "#" + props.id)}>
           <CardMedia
             className={classes.media}
             image={props.image_url}
@@ -182,7 +182,7 @@ function MediaCard(props) {
               size="small"
               color="primary"
               style={{ fontWeight: "bolder" }}
-              onClick={() => props.handleSelectedLP(props.id, true)}
+              onClick={() => window.open(livePaperPlatformUrl + "#" + props.id)}
             >
               Access Live Paper
             </Button>
@@ -538,7 +538,6 @@ export default class App extends React.Component {
               }}
             >
               <MediaCard
-                handleSelectedLP={this.handleSelectedLP}
                 id="bee280cc-8184-4380-a2cb-a74b131de611"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2021_saray_et_al.jpg"
@@ -552,7 +551,6 @@ export default class App extends React.Component {
                 }
               />
               <MediaCard
-                handleSelectedLP={this.handleSelectedLP}
                 id="93a5c03a-6995-47bc-af9f-4f0d85950d1d"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2020_lupascu_et_al.jpg"
@@ -566,7 +564,6 @@ export default class App extends React.Component {
                 }
               />
               <MediaCard
-                handleSelectedLP={this.handleSelectedLP}
                 id="c1573aeb-d139-42a2-a7fc-fd68319e428e"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2018_migliore_et_al.jpg"
@@ -580,7 +577,6 @@ export default class App extends React.Component {
                 }
               />
               <MediaCard
-                handleSelectedLP={this.handleSelectedLP}
                 id="b6917332-e092-4bf3-bf31-3f0d212ff861"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2019_bruce_et_al.jpg"
@@ -594,7 +590,6 @@ export default class App extends React.Component {
                 }
               />
               <MediaCard
-                handleSelectedLP={this.handleSelectedLP}
                 id="cf895d83-49b8-4c72-b1ac-8b974bbe4eb5"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2019_kokh_et_al.jpg"
@@ -608,7 +603,6 @@ export default class App extends React.Component {
                 }
               />
               <MediaCard
-                handleSelectedLP={this.handleSelectedLP}
                 id="67806cc2-84e0-4bb3-ae52-8cc3e5abf738"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2020_hjorth_et_al.jpg"
@@ -796,7 +790,7 @@ export default class App extends React.Component {
                   }}
                   onRowClick={(event, selectedRow) => {
                     console.log(selectedRow.id);
-                    this.handleSelectedLP(selectedRow.id, true);
+                    window.open(livePaperPlatformUrl + "#" + selectedRow.id)
                   }}
                   components={{
                     Toolbar: (props) => (
