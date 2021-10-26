@@ -159,7 +159,7 @@ class CreateLivePaper extends React.Component {
       journal: "",
       url: "",
       citation: "",
-      doi: "",
+      associated_paper_doi: "",
       abstract: "",
       license: "None",
       collab_id: "",
@@ -753,7 +753,7 @@ class CreateLivePaper extends React.Component {
         journal: "",
         url: "",
         citation: "",
-        doi: "",
+        associated_paper_doi: "",
         abstract: "",
       });
     }
@@ -982,7 +982,7 @@ class CreateLivePaper extends React.Component {
         created_author.lastname.trim() !== ""
       ) {
         if (created_authors_string !== "") {
-          created_authors_string = created_authors_string + ", ";
+          created_authors_string = created_authors_string + ";; ";
         }
         created_authors_string =
           created_authors_string +
@@ -1672,11 +1672,11 @@ class CreateLivePaper extends React.Component {
                   </div>
                   <div>
                     <TextField
-                      label="DOI"
+                      label="Article DOI"
                       variant="outlined"
                       fullWidth={true}
-                      name="doi"
-                      value={this.state.doi}
+                      name="associated_paper_doi"
+                      value={this.state.associated_paper_doi}
                       onChange={this.handleFieldChange}
                       InputProps={{
                         style: {

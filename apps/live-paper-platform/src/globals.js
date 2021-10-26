@@ -2,7 +2,7 @@
 export const livePaperPlatformUrl = "https://live-papers.brainsimulation.eu/";
 export const livePaperBuilderUrl = "https://live-papers.brainsimulation.eu/builder/";
 export const livePaperDocsUrl = "https://live-paper-docs.netlify.app/";
-export const baseUrl = "https://validation-v2.brainsimulation.eu";
+export const baseUrl = "https://validation-dev.brainsimulation.eu";
 // export const querySizeLimit = 10;
 export const querySizeLimit = 1000000;
 export const separator = "#-#";

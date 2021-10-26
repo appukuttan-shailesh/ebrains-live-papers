@@ -724,12 +724,12 @@
                 <table>
                     <tr style="border:none">
                         <td style="width: 125px; vertical-align:top">
-                            <strong style="font-weight:bolder">DOI:
+                            <strong style="font-weight:bolder">Article DOI:
                             </strong>
                         </td>
                         <td>
-                            {% if doi %}
-                                <a target="_blank" rel="noopener noreferrer" href="{{ doi }}">{{ doi }}</a>
+                            {% if associated_paper_doi %}
+                                <a target="_blank" rel="noopener noreferrer" href="{{ associated_paper_doi }}">{{ associated_paper_doi }}</a>
                             {% else %}
                                 <i>Not Available</i>
                             {% endif %}
