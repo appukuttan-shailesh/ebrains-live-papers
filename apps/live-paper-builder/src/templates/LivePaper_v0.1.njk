@@ -534,7 +534,7 @@
             <p>
                 <table>
                     <tr style="border:none">
-                        <td style="width: 125px; vertical-align:top">
+                        <td style="width: 150px; vertical-align:top">
                             <strong style="font-weight:bolder">Authors:
                             </strong>
                         </td>
@@ -551,7 +551,7 @@
             <p>
                 <table>
                     <tr style="border:none">
-                        <td style="width: 125px; vertical-align:top">
+                        <td style="width: 150px; vertical-align:top">
                             <strong style="font-weight:bolder">Affiliations:
                             </strong>
                         </td>
@@ -572,7 +572,7 @@
             <p>
                 <table>
                     <tr style="border:none">
-                        <td style="width: 125px; vertical-align:top">
+                        <td style="width: 150px; vertical-align:top">
                             <strong style="font-weight:bolder">Corresponding author{{ ":" if corresponding_authors_string.split(';;')|length <2 else "(s):" }}
                             </strong>
                         </td>
@@ -593,7 +593,7 @@
             <p>
                 <table>
                     <tr style="border:none">
-                        <td style="width: 125px; vertical-align:top">
+                        <td style="width: 150px; vertical-align:top">
                             <strong style="font-weight:bolder">Live paper author:
                             </strong>
                         </td>
@@ -615,7 +615,7 @@
                 <p>
                     <table>
                         <tr style="border:none">
-                            <td style="width: 125px; vertical-align:top">
+                            <td style="width: 150px; vertical-align:top">
                                 <strong style="font-weight:bolder">Approved by:
                                 </strong>
                             </td>
@@ -633,6 +633,23 @@
                     </table>                    
                 </p>
             {% endif %}
+            <p>
+                <table>
+                    <tr style="border:none">
+                        <td style="width: 150px; vertical-align:top">
+                            <strong style="font-weight:bolder">Live paper DOI:
+                            </strong>
+                        </td>
+                        <td>
+                            {% if doi %}
+                                <a target="_blank" rel="noopener noreferrer" href="{{ doi }}">{{ doi }}</a>
+                            {% else %}
+                                To be assigned...
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>                    
+            </p>
         </div>
         <div class="rainbow-row">
             <div></div>
@@ -649,7 +666,7 @@
             <p>
                 <table>
                     <tr style="border:none">
-                        <td style="width: 125px; vertical-align:top">
+                        <td style="width: 150px; vertical-align:top">
                             <strong style="font-weight:bolder">Journal:
                             </strong>
                         </td>
@@ -666,7 +683,7 @@
             <p>
                 <table>
                     <tr style="border:none">
-                        <td style="width: 125px; vertical-align:top">
+                        <td style="width: 150px; vertical-align:top">
                             <strong style="font-weight:bolder">Download Url:
                             </strong>
                         </td>
@@ -683,7 +700,7 @@
             <p>
                 <table>
                     <tr style="border:none">
-                        <td style="width: 125px; vertical-align:top">
+                        <td style="width: 150px; vertical-align:top">
                             <strong style="font-weight:bolder">Citation:
                             </strong>
                         </td>
@@ -700,13 +717,13 @@
             <p>
                 <table>
                     <tr style="border:none">
-                        <td style="width: 125px; vertical-align:top">
-                            <strong style="font-weight:bolder">DOI:
+                        <td style="width: 150px; vertical-align:top">
+                            <strong style="font-weight:bolder">Article DOI:
                             </strong>
                         </td>
                         <td>
-                            {% if doi %}
-                                <a target="_blank" rel="noopener noreferrer" href="{{ doi }}">{{ doi }}</a>
+                            {% if associated_paper_doi %}
+                                <a target="_blank" rel="noopener noreferrer" href="{{ associated_paper_doi }}">{{ associated_paper_doi }}</a>
                             {% else %}
                                 <i>Not Available</i>
                             {% endif %}
@@ -717,7 +734,7 @@
             <p>
                 <table>
                     <tr style="border:none">
-                        <td style="width: 125px; vertical-align:top">
+                        <td style="width: 150px; vertical-align:top">
                             <strong style="font-weight:bolder">Licence:
                             </strong>
                         </td>

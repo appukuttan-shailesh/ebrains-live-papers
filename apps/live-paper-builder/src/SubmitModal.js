@@ -13,7 +13,7 @@ import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
 import ModalDialog from "./ModalDialog";
 import Link from "@material-ui/core/Link";
-import { baseUrl } from "./globals";
+import { baseUrl, livePaperPlatformUrl } from "./globals";
 import { showNotification } from "./utils";
 import saltedMd5 from "salted-md5";
 
@@ -428,7 +428,7 @@ function ProtectedSummary(props) {
       <div
         onClick={() => {
           navigator.clipboard.writeText(
-            "https://live-paper-platform.netlify.app/#" + props.id
+            livePaperPlatformUrl + "#" + props.id
           );
           showNotification(
             props.enqueueSnackbar,
@@ -441,7 +441,7 @@ function ProtectedSummary(props) {
       >
         URL:
         <h6>
-          <b>{"https://live-paper-platform.netlify.app/#" + props.id}</b>
+          <b>{livePaperPlatformUrl + "#" + props.id}</b>
         </h6>
       </div>
       <br />

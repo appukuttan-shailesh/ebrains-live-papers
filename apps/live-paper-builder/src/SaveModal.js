@@ -217,10 +217,9 @@ export default class SaveModal extends React.Component {
                   if (axios.isCancel(err)) {
                     console.log("Error: ", err.message);
                   } else {
-                    console.log(err);
-                    console.log(err.response);
+                    console.log(err.response || err);
                     this.setState({
-                      error: err.response,
+                      error: err.response || err,
                     });
                   }
                   this.setState({ loading: false });
@@ -252,10 +251,9 @@ export default class SaveModal extends React.Component {
                   if (axios.isCancel(err)) {
                     console.log("Error: ", err.message);
                   } else {
-                    console.log(err);
-                    console.log(err.response);
+                    console.log(err.response || err);
                     this.setState({
-                      error: err.response,
+                      error: err.response || err,
                     });
                   }
                   this.setState({ loading: false });

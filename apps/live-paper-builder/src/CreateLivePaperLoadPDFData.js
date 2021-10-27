@@ -155,7 +155,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   ][0]["p"][0];
               }
 
-              data["doi"] =
+              data["associated_paper_doi"] =
                 "https://doi.org/" +
                 result["TEI"]["teiHeader"][0]["fileDesc"][0]["sourceDesc"][0][
                   "biblStruct"
@@ -430,11 +430,11 @@ class CreateLivePaperLoadPDFData extends React.Component {
               <br />
             </div>
           )}
-          {"doi" in this.state.dataFromPDF && (
+          {"associated_paper_doi" in this.state.dataFromPDF && (
             <div>
-              <strong>DOI: </strong>
+              <strong>Article DOI: </strong>
               <br />
-              {this.state.dataFromPDF["doi"]}
+              {this.state.dataFromPDF["associated_paper_doi"]}
               <br />
               <br />
             </div>

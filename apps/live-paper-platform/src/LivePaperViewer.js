@@ -278,7 +278,7 @@ export default class LivePaperViewer extends React.Component {
         created_author.lastname.trim() !== ""
       ) {
         if (created_authors_string !== "") {
-          created_authors_string = created_authors_string + ", ";
+          created_authors_string = created_authors_string + ";; ";
         }
         created_authors_string =
           created_authors_string +

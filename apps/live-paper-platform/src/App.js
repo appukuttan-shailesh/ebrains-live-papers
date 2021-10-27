@@ -140,7 +140,9 @@ function MediaCard(props) {
           borderWidth: 2,
         }}
       >
-        <CardActionArea onClick={() => window.open(livePaperPlatformUrl + "#" + props.id)}>
+        <CardActionArea
+          onClick={() => window.open(livePaperPlatformUrl + "#" + props.alias)}
+        >
           <CardMedia
             className={classes.media}
             image={props.image_url}
@@ -177,17 +179,17 @@ function MediaCard(props) {
               />
             </div>
           </CardContent>
-          <CardActions style={{ marginLeft: 5, marginRight: 5 }}>
-            <Button
-              size="small"
-              color="primary"
-              style={{ fontWeight: "bolder" }}
-              onClick={() => window.open(livePaperPlatformUrl + "#" + props.id)}
-            >
-              Access Live Paper
-            </Button>
-          </CardActions>
         </CardActionArea>
+        <CardActions style={{ marginLeft: 5, marginRight: 5 }}>
+          <Button
+            size="small"
+            color="primary"
+            style={{ fontWeight: "bolder" }}
+            onClick={() => window.open(livePaperPlatformUrl + "#" + props.alias)}
+          >
+            Access Live Paper
+          </Button>
+        </CardActions>
       </Card>
     </div>
   );
@@ -203,8 +205,8 @@ export default class App extends React.Component {
       loadingListing: false,
       loadingSelectedLP: false,
       error: null,
-      dataLPs: {}, // keys are lp_ids; will cache data once loaded
-      lp_open_id: false,
+      dataLPs: {}, // keys are LP UUIDs or aliases; will cache data once loaded; alias key will have value of UUID
+      lp_open_id: false, // UUID or alias
       showPassword: false,
     };
 
@@ -217,17 +219,9 @@ export default class App extends React.Component {
   componentDidMount() {
     this.handleLoadListingLP();
     if (window.location.hash) {
-      let error_message = "";
       const lp_id = window.location.hash.slice(1);
       console.log(lp_id);
-      if (!isUUID(lp_id)) {
-        error_message =
-          "Specified live paper ID '" + lp_id + "' is not a valid UUID.";
-        this.setState({ error: error_message });
-        updateHash("");
-      } else {
-        this.handleSelectedLP(lp_id, true);
-      }
+      this.handleSelectedLP(lp_id, true);
     }
   }
 
@@ -270,107 +264,128 @@ export default class App extends React.Component {
   }
 
   handleSelectedLP(lp_id, open = false) {
-    this.setState({ loadingSelectedLP: true }, () => {
-      if (lp_id === "a8d69ef1-1fc5-49f8-9aff-c185925f3a42") {
-        // TODO: add check to see if password-protected live paper
-        // Currently just for demo purposes with a single sample live paper
-        let context = this;
-        const password = prompt("Please enter the live paper password:");
-        let hash = saltedMd5(password, lp_id).toString();
-        let url = baseUrl + "/livepapers/" + lp_id;
-        let config = {
-          cancelToken: context.signal.token,
-          headers: {
-            Authorization: "Bearer " + hash,
-            "Content-type": "application/json",
-          },
-        };
+    // Note: lp_id can be UUID or alias
+    // Workflow:
+    // 1) cached: check if LP data in cache; if yes, load LP
+    // 2) published: check if LP published; if yes, fetch LP, add to cache
+    // 3) password-protected: check if LP in GET all LPs  (-> password-protected)
+    // Note: does not handle
 
+    this.setState({ loadingSelectedLP: true }, () => {
+      if (
+        Object.keys(this.state.dataLPs).includes(lp_id) &&
+        this.state.dataLPs[lp_id] !== null
+      ) {
+        // 1) cached: check if LP data in cache; if yes, load LP
+        console.log("Get LP data from cached data");
+        this.setState({
+          lp_open_id: lp_id,
+          loadingSelectedLP: false,
+        });
+        return;
+      } else {
+        // 2) published: check if LP published; if yes, fetch LP, add to cache
+        let context = this;
         console.log("Get LP data from KG");
+        let url = baseUrl + "/livepapers-published/" + lp_id;
+        let config = {
+          cancelToken: this.signal.token,
+        };
         axios
           .get(url, config)
           .then((res) => {
             console.log(res);
-            context.setState((prevState) => ({
+            // 2.1) found
+            // cache response with UUID key; alias key points to UUID
+            this.setState((prevState) => ({
               dataLPs: {
                 ...prevState.dataLPs,
-                [lp_id]: res.data,
+                [res.data.id]: res.data,
+                [res.data.alias]: res.data.alias,
               },
+              loadingSelectedLP: false,
+              lp_open_id: open ? lp_id : false,
             }));
-            if (open) {
-              context.setState({
-                lp_open_id: lp_id,
-              });
-            }
+            return;
           })
           .catch((err) => {
+            // 2.2) not found
             if (axios.isCancel(err)) {
               console.log("error: ", err.message);
             } else {
-              // Something went wrong. Save the error in state and re-render.
-              context.setState((prevState) => ({
-                dataLPs: {
-                  ...prevState.dataLPs,
-                  lp_id: null,
-                },
-              }));
-            }
-            updateHash("");
-            context.forceUpdate();
-          });
-        this.setState({
-          loadingSelectedLP: false,
-        });
-      } else {
-        if (
-          !Object.keys(this.state.dataLPs).includes(lp_id) ||
-          this.state.dataLPs[lp_id] === null
-        ) {
-          // LP data not fetched previously
-          console.log("Get LP data from KG");
-          let url = baseUrl + "/livepapers-published/" + lp_id;
-          let config = {
-            cancelToken: this.signal.token,
-          };
-          axios
-            .get(url, config)
-            .then((res) => {
-              //   console.log(res);
-              this.setState((prevState) => ({
-                dataLPs: {
-                  ...prevState.dataLPs,
-                  [lp_id]: res.data,
-                },
-              }));
-              if (open) {
-                this.setState({
-                  lp_open_id: lp_id,
+              // 3) password-protected: check if LP in GET all LPs  (-> password-protected)
+              url = baseUrl + "/livepapers/" + lp_id;
+              axios
+                .get(url, config)
+                .then((res2) => {
+                  console.log("Code not expected to reach here!");
+                  return;
+                })
+                .catch((err) => {
+                  if (axios.isCancel(err)) {
+                    console.log("error: ", err.message);
+                  } else {
+                    if (err.response.status === 403) {
+                      console.log("Password-protected Live Paper");
+                      // 3.1) found
+                      // only UUID here, as alias assigned only after publication (not for password-protected)
+                      let context = this;
+                      const password = prompt(
+                        "Please enter the live paper password:"
+                      );
+                      let hash = saltedMd5(password, lp_id).toString();
+                      config = {
+                        cancelToken: context.signal.token,
+                        headers: {
+                          Authorization: "Bearer " + hash,
+                          "Content-type": "application/json",
+                        },
+                      };
+                      axios
+                        .get(url, config)
+                        .then((res3) => {
+                          console.log(res3);
+                          context.setState((prevState) => ({
+                            dataLPs: {
+                              ...prevState.dataLPs,
+                              [res3.data.alias]: res3.data,
+                            },
+                            loadingSelectedLP: false,
+                            lp_open_id: open ? lp_id : false,
+                          }));
+                          console.log(lp_id);
+                          console.log(open);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                          let error_message = err.message;
+                          if (err.response.status === 401) {
+                            error_message = "Live Paper password is incorrect!";
+                          }
+                          if (err.response.status === 404) {
+                            error_message = "You have requested a non-existent Live Paper!";
+                          }
+                          context.setState({
+                            error: error_message,
+                            loadingSelectedLP: false,
+                          });
+                          updateHash("");
+                          context.forceUpdate();
+                        });
+                    } else {
+                      // 3.2) not found
+                      // Something went wrong. Save the error in state and re-render.
+                      context.setState({
+                        error: err.message,
+                        loadingSelectedLP: false,
+                      });
+                      updateHash("");
+                      context.forceUpdate();
+                    }
+                  }
                 });
-              }
-            })
-            .catch((err) => {
-              if (axios.isCancel(err)) {
-                console.log("error: ", err.message);
-              } else {
-                // Something went wrong. Save the error in state and re-render.
-                this.setState((prevState) => ({
-                  dataLPs: {
-                    ...prevState.dataLPs,
-                    lp_id: null,
-                  },
-                }));
-              }
-              updateHash("");
-            });
-        } else {
-          // LP data already fetched previously
-          this.setState({
-            lp_open_id: lp_id,
+            }
           });
-        }
-        this.setState({
-          loadingSelectedLP: false,
-        });
       }
     });
   }
@@ -387,12 +402,18 @@ export default class App extends React.Component {
   render() {
     let lp_page = null;
     let errorModal = "";
-
+    console.log(this.state.lp_open_id);
     if (this.state.lp_open_id) {
       lp_page = (
         <LivePaperViewer
           open={this.state.lp_open_id !== false}
-          data={this.state.dataLPs[this.state.lp_open_id]}
+          data={
+            this.state.dataLPs[
+            isUUID(this.state.lp_open_id)
+              ? this.state.lp_open_id
+              : this.state.dataLPs[this.state.lp_open_id]
+            ]
+          }
           onClose={this.handleCloseLP}
         />
       );
@@ -409,6 +430,8 @@ export default class App extends React.Component {
       );
     }
     console.log(this.state.dataLPs);
+    console.log(window.location.hash);
+    console.log(lp_page);
     // console.log(this.state.loadingSelectedLP);
     if (window.location.hash) {
       return (
@@ -539,6 +562,7 @@ export default class App extends React.Component {
             >
               <MediaCard
                 id="bee280cc-8184-4380-a2cb-a74b131de611"
+                alias="2021-saray-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2021_saray_et_al.jpg"
                 }
@@ -552,6 +576,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 id="93a5c03a-6995-47bc-af9f-4f0d85950d1d"
+                alias="2020-lupascu-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2020_lupascu_et_al.jpg"
                 }
@@ -565,6 +590,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 id="c1573aeb-d139-42a2-a7fc-fd68319e428e"
+                alias="2018-migliore-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2018_migliore_et_al.jpg"
                 }
@@ -578,6 +604,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 id="b6917332-e092-4bf3-bf31-3f0d212ff861"
+                alias="2019-bruce-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2019_bruce_et_al.jpg"
                 }
@@ -591,6 +618,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 id="cf895d83-49b8-4c72-b1ac-8b974bbe4eb5"
+                alias="2019-kokh-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2019_kokh_et_al.jpg"
                 }
@@ -604,6 +632,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 id="67806cc2-84e0-4bb3-ae52-8cc3e5abf738"
+                alias="2020-hjorth-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2020_hjorth_et_al.jpg"
                 }
@@ -789,8 +818,8 @@ export default class App extends React.Component {
                     // tableLayout: "fixed",
                   }}
                   onRowClick={(event, selectedRow) => {
-                    console.log(selectedRow.id);
-                    window.open(livePaperPlatformUrl + "#" + selectedRow.id)
+                    console.log(selectedRow.alias);
+                    window.open(livePaperPlatformUrl + "#" + selectedRow.alias);
                   }}
                   components={{
                     Toolbar: (props) => (
