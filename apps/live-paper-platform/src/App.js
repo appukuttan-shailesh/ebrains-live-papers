@@ -294,7 +294,7 @@ export default class App extends React.Component {
         axios
           .get(url, config)
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             // 2.1) found
             // cache response with UUID key; alias key points to UUID
             this.setState((prevState) => ({
@@ -344,7 +344,7 @@ export default class App extends React.Component {
                       axios
                         .get(url, config)
                         .then((res3) => {
-                          console.log(res3);
+                          // console.log(res3);
                           context.setState((prevState) => ({
                             dataLPs: {
                               ...prevState.dataLPs,
@@ -353,8 +353,8 @@ export default class App extends React.Component {
                             loadingSelectedLP: false,
                             lp_open_id: open ? lp_id : false,
                           }));
-                          console.log(lp_id);
-                          console.log(open);
+                          // console.log(lp_id);
+                          // console.log(open);
                         })
                         .catch((err) => {
                           console.log(err);
@@ -402,7 +402,7 @@ export default class App extends React.Component {
   render() {
     let lp_page = null;
     let errorModal = "";
-    console.log(this.state.lp_open_id);
+    // console.log(this.state.lp_open_id);
     if (this.state.lp_open_id) {
       lp_page = (
         <LivePaperViewer
@@ -429,9 +429,9 @@ export default class App extends React.Component {
         />
       );
     }
-    console.log(this.state.dataLPs);
-    console.log(window.location.hash);
-    console.log(lp_page);
+    // console.log(this.state.dataLPs);
+    // console.log(window.location.hash);
+    // console.log(lp_page);
     // console.log(this.state.loadingSelectedLP);
     if (window.location.hash) {
       return (
@@ -818,7 +818,7 @@ export default class App extends React.Component {
                     // tableLayout: "fixed",
                   }}
                   onRowClick={(event, selectedRow) => {
-                    console.log(selectedRow.alias);
+                    // console.log(selectedRow.alias);
                     window.open(livePaperPlatformUrl + "#" + selectedRow.alias);
                   }}
                   components={{
