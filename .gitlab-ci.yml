@@ -2,14 +2,31 @@
 stages:
   - build
 
-build_image:
+build_production:
   stage: build
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "main"
   script:
     - export  # debugging environment variables
     - cd apps
-    - docker build -f deployment/Dockerfile.prod -t docker-registry.ebrains.eu/live-papers/live-papers-apps .
+    - docker build -f deployment/Dockerfile.prod -t docker-registry.ebrains.eu/live-papers/live-papers-apps:prod .
     - echo $DOCKER_REGISTRY_USER
     - docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_SECRET docker-registry.ebrains.eu
-    - docker push docker-registry.ebrains.eu/live-papers/live-papers-apps
+    - docker push docker-registry.ebrains.eu/live-papers/live-papers-apps:prod
+  tags:
+    - shell-runner
+
+build_staging:
+  stage: build
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "staging"
+  script:
+    - cd apps
+    - docker build -f deployment/Dockerfile.staging -t docker-registry.ebrains.eu/live-papers/live-papers-apps:staging .
+    - echo $DOCKER_REGISTRY_USER
+    - docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_SECRET docker-registry.ebrains.eu
+    - docker push docker-registry.ebrains.eu/live-papers/live-papers-apps:staging
   tags:
     - shell-runner
