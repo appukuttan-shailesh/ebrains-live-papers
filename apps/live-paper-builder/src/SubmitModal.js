@@ -463,9 +463,13 @@ function ProtectedSummary(props) {
         </h6>
       </div>
       <br />
-      <br />
-      <strong>Note: </strong>You can change the password at any time by
-      repeating this process.
+      <strong>Note: </strong>
+      <br/>
+      - The password cannot be recovered, so please note it down carefully!      
+      <br/>
+      - If you forget the password, simply set a new password.
+      <br/> 
+      - You can change the password at any time by repeating this process.
       <br />
       <br />
     </div>
