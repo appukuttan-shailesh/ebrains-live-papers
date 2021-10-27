@@ -531,127 +531,115 @@
             </h5>
         </div>
         <div>
-            <p>
-                <table>
-                    <tr style="border:none">
-                        <td style="width: 150px; vertical-align:top">
-                            <strong style="font-weight:bolder">Authors:
-                            </strong>
-                        </td>
-                        <td>
-                            {% if authors_string %}
-                                {{ authors_string | safe }}
-                            {% else %}
-                                To be filled...
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>    
-            </p>
-            <p>
-                <table>
-                    <tr style="border:none">
-                        <td style="width: 150px; vertical-align:top">
-                            <strong style="font-weight:bolder">Affiliations:
-                            </strong>
-                        </td>
-                        <td>
-                            {% if affiliations_string %}
-                                {# {{ affiliations_string | safe }} #}
-                                {% set affiliations_list = affiliations_string.split(';;') %}
-                                {% for aff in affiliations_list %}
-                                    <p style="padding-left: 2em; text-indent:-2em">{{ aff | safe }}<p/>
-                                {% endfor %} 
-                            {% else %}
-                                To be filled...
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>                
-            </p>
-            <p>
-                <table>
-                    <tr style="border:none">
-                        <td style="width: 150px; vertical-align:top">
-                            <strong style="font-weight:bolder">Corresponding author{{ ":" if corresponding_authors_string.split(';;')|length <2 else "(s):" }}
-                            </strong>
-                        </td>
-                        <td>
-                            {% if corresponding_authors_string %}
-                                {# {{ corresponding_authors_string | safe }} #}
-                                {% set corresponding_authors_list = corresponding_authors_string.split(';;') %}
-                                {% for corr_auth in corresponding_authors_list %}
-                                    <p style="padding-left: 2em; text-indent:-2em">{{ corr_auth | safe }}<p/>
-                                {% endfor %} 
-                            {% else %}
-                                To be filled...
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>                                    
-            </p>
-            <p>
-                <table>
-                    <tr style="border:none">
-                        <td style="width: 150px; vertical-align:top">
-                            <strong style="font-weight:bolder">Live paper author:
-                            </strong>
-                        </td>
-                        <td>
-                            {% if created_authors_string %}
-                                {# {{ created_authors_string | safe }} #}
-                                {% set created_authors_list = created_authors_string.split(';;') %}
-                                {% for create_auth in created_authors_list %}
-                                    <p style="padding-left: 2em; text-indent:-2em">{{ create_auth | safe }}<p/>
-                                {% endfor %} 
-                            {% else %}
-                                To be filled...
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>                    
-            </p>
+            <table>
+                <tr style="border:none">
+                    <td style="width: 150px; vertical-align:top">
+                        <strong style="font-weight:bolder">Authors:
+                        </strong>
+                    </td>
+                    <td>
+                        {% if authors_string %}
+                            {{ authors_string | safe }}
+                        {% else %}
+                            To be filled...
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>    
+            <table>
+                <tr style="border:none">
+                    <td style="width: 150px; vertical-align:top">
+                        <strong style="font-weight:bolder">Affiliations:
+                        </strong>
+                    </td>
+                    <td>
+                        {% if affiliations_string %}
+                            {# {{ affiliations_string | safe }} #}
+                            {% set affiliations_list = affiliations_string.split(';;') %}
+                            {% for aff in affiliations_list %}
+                                <p style="padding-left: 2em; text-indent:-2em">{{ aff | safe }}<p/>
+                            {% endfor %} 
+                        {% else %}
+                            To be filled...
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>                
+            <table>
+                <tr style="border:none">
+                    <td style="width: 150px; vertical-align:top">
+                        <strong style="font-weight:bolder">Corresponding author{{ ":" if corresponding_authors_string.split(';;')|length <2 else "(s):" }}
+                        </strong>
+                    </td>
+                    <td>
+                        {% if corresponding_authors_string %}
+                            {# {{ corresponding_authors_string | safe }} #}
+                            {% set corresponding_authors_list = corresponding_authors_string.split(';;') %}
+                            {% for corr_auth in corresponding_authors_list %}
+                                <p style="padding-left: 2em; text-indent:-2em">{{ corr_auth | safe }}<p/>
+                            {% endfor %} 
+                        {% else %}
+                            To be filled...
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>                                    
+            <table>
+                <tr style="border:none">
+                    <td style="width: 150px; vertical-align:top">
+                        <strong style="font-weight:bolder">Live paper author:
+                        </strong>
+                    </td>
+                    <td>
+                        {% if created_authors_string %}
+                            {# {{ created_authors_string | safe }} #}
+                            {% set created_authors_list = created_authors_string.split(';;') %}
+                            {% for create_auth in created_authors_list %}
+                                <p style="padding-left: 2em; text-indent:-2em">{{ create_auth | safe }}<p/>
+                            {% endfor %} 
+                        {% else %}
+                            To be filled...
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>                    
             {% if not ((created_author | length == 1) and (approved_author.firstname == created_author[0].firstname) and (approved_author.lastname == created_author[0].lastname)) %}
-                <p>
-                    <table>
-                        <tr style="border:none">
-                            <td style="width: 150px; vertical-align:top">
-                                <strong style="font-weight:bolder">Approved by:
-                                </strong>
-                            </td>
-                            <td>
-                                {% if (approved_author.firstname != "") and (approved_author.lastname != "") %}
-                                    {{ approved_author.firstname + " " + approved_author.lastname }}
-                                    {% if approved_author.affiliation %}
-                                        (<em>{{ approved_author.affiliation }}</em>)
-                                    {% endif %}
-                                {% else %}
-                                    To be filled...
-                                {% endif %}
-                            </td>
-                        </tr>
-                    </table>                    
-                </p>
-            {% endif %}
-            <p>
                 <table>
                     <tr style="border:none">
                         <td style="width: 150px; vertical-align:top">
-                            <strong style="font-weight:bolder">Live paper DOI:
+                            <strong style="font-weight:bolder">Approved by:
                             </strong>
                         </td>
                         <td>
-                            {% if doi %}
-                                <a target="_blank" rel="noopener noreferrer" href="{{ doi }}">{{ doi }}</a>
+                            {% if (approved_author.firstname != "") and (approved_author.lastname != "") %}
+                                {{ approved_author.firstname + " " + approved_author.lastname }}
+                                {% if approved_author.affiliation %}
+                                    (<em>{{ approved_author.affiliation }}</em>)
+                                {% endif %}
                             {% else %}
-                                To be assigned...
+                                To be filled...
                             {% endif %}
                         </td>
                     </tr>
                 </table>                    
-            </p>
+            {% endif %}
+            <table>
+                <tr style="border:none">
+                    <td style="width: 150px; vertical-align:top">
+                        <strong style="font-weight:bolder">Live paper DOI:
+                        </strong>
+                    </td>
+                    <td>
+                        {% if doi %}
+                            <a target="_blank" rel="noopener noreferrer" href="{{ doi }}">{{ doi }}</a>
+                        {% else %}
+                            To be assigned...
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>                    
         </div>
-        <div class="rainbow-row">
+        <div class="rainbow-row" style="margin-top: 10px; margin-bottom: 10px">
             <div></div>
             <div></div>
             <div></div>
@@ -663,91 +651,81 @@
         </div>
         <br/>
         <div>
-            <p>
-                <table>
-                    <tr style="border:none">
-                        <td style="width: 150px; vertical-align:top">
-                            <strong style="font-weight:bolder">Journal:
-                            </strong>
-                        </td>
-                        <td>
-                            {% if journal %}
-                                {{ journal | safe }}
-                            {% else %}
-                                <i>Not Available</i>
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>
-            </p>
-            <p>
-                <table>
-                    <tr style="border:none">
-                        <td style="width: 150px; vertical-align:top">
-                            <strong style="font-weight:bolder">Download Url:
-                            </strong>
-                        </td>
-                        <td>
-                            {% if url %}
-                                <a target="_blank" rel="noopener noreferrer" href="{{ url }}">{{ url }}</a>
-                            {% else %}
-                                <i>Not Available</i>
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>
-            </p>
-            <p>
-                <table>
-                    <tr style="border:none">
-                        <td style="width: 150px; vertical-align:top">
-                            <strong style="font-weight:bolder">Citation:
-                            </strong>
-                        </td>
-                        <td>
-                            {% if citation %}
-                                {{ citation }}
-                            {% else %}
-                                <i>Not Available</i>
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>
-            </p>
-            <p>
-                <table>
-                    <tr style="border:none">
-                        <td style="width: 150px; vertical-align:top">
-                            <strong style="font-weight:bolder">Article DOI:
-                            </strong>
-                        </td>
-                        <td>
-                            {% if associated_paper_doi %}
-                                <a target="_blank" rel="noopener noreferrer" href="{{ associated_paper_doi }}">{{ associated_paper_doi }}</a>
-                            {% else %}
-                                <i>Not Available</i>
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>
-            </p>
-            <p>
-                <table>
-                    <tr style="border:none">
-                        <td style="width: 150px; vertical-align:top">
-                            <strong style="font-weight:bolder">Licence:
-                            </strong>
-                        </td>
-                        <td>
-                            {% if license %}
-                                {{ license }}
-                            {% else %}
-                                <i>Not Available</i>
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>
-            </p>
+            <table>
+                <tr style="border:none">
+                    <td style="width: 150px; vertical-align:top">
+                        <strong style="font-weight:bolder">Journal:
+                        </strong>
+                    </td>
+                    <td>
+                        {% if journal %}
+                            {{ journal | safe }}
+                        {% else %}
+                            <i>Not Available</i>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr style="border:none">
+                    <td style="width: 150px; vertical-align:top">
+                        <strong style="font-weight:bolder">Download Url:
+                        </strong>
+                    </td>
+                    <td>
+                        {% if url %}
+                            <a target="_blank" rel="noopener noreferrer" href="{{ url }}">{{ url }}</a>
+                        {% else %}
+                            <i>Not Available</i>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr style="border:none">
+                    <td style="width: 150px; vertical-align:top">
+                        <strong style="font-weight:bolder">Citation:
+                        </strong>
+                    </td>
+                    <td>
+                        {% if citation %}
+                            {{ citation }}
+                        {% else %}
+                            <i>Not Available</i>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr style="border:none">
+                    <td style="width: 150px; vertical-align:top">
+                        <strong style="font-weight:bolder">Article DOI:
+                        </strong>
+                    </td>
+                    <td>
+                        {% if associated_paper_doi %}
+                            <a target="_blank" rel="noopener noreferrer" href="{{ associated_paper_doi }}">{{ associated_paper_doi }}</a>
+                        {% else %}
+                            <i>Not Available</i>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr style="border:none">
+                    <td style="width: 150px; vertical-align:top">
+                        <strong style="font-weight:bolder">Licence:
+                        </strong>
+                    </td>
+                    <td>
+                        {% if license %}
+                            {{ license }}
+                        {% else %}
+                            <i>Not Available</i>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
         </div>
         <div class="note rounded">
             <h5>Abstract:</h5>
