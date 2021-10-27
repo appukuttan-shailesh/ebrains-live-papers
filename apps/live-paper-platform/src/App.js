@@ -348,7 +348,7 @@ export default class App extends React.Component {
                           context.setState((prevState) => ({
                             dataLPs: {
                               ...prevState.dataLPs,
-                              [res3.data.alias]: res3.data,
+                              [res3.data.id]: res3.data,
                             },
                             loadingSelectedLP: false,
                             lp_open_id: open ? lp_id : false,
