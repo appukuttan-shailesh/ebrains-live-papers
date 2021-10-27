@@ -155,13 +155,14 @@ class CreateLivePaper extends React.Component {
         ),
       associated_paper_title: "",
       live_paper_title: "",
+      doi: null,
       paper_published: true,
       journal: "",
       url: "",
       citation: "",
       associated_paper_doi: "",
       abstract: "",
-      license: "None",
+      license: null,
       collab_id: "",
       resources_description: "",
       resources: [],
@@ -729,6 +730,11 @@ class CreateLivePaper extends React.Component {
     //     },
     //   }));
     // }
+    else if (name === "license") {
+      this.setState({
+        license: value === "None" ? null : value,
+      });
+    }
     else {
       this.setState({
         [name]: value,
@@ -766,17 +772,17 @@ class CreateLivePaper extends React.Component {
       year:
         value === "Published"
           ? new Date()
-              .toISOString()
-              .replace(
-                /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
-                "$<year>-$<month>-$<day>"
-              )
+            .toISOString()
+            .replace(
+              /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
+              "$<year>-$<month>-$<day>"
+            )
           : new Date("9999-01-01")
-              .toISOString()
-              .replace(
-                /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
-                "$<year>-$<month>-$<day>"
-              ),
+            .toISOString()
+            .replace(
+              /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
+              "$<year>-$<month>-$<day>"
+            ),
     });
   }
 
@@ -1067,7 +1073,7 @@ class CreateLivePaper extends React.Component {
     });
   }
 
-  verifyDataBeforeSubmit() {}
+  verifyDataBeforeSubmit() { }
 
   render() {
     console.log(this.state);
@@ -1427,10 +1433,10 @@ class CreateLivePaper extends React.Component {
                   itemNames={
                     this.state.authors
                       ? this.state.authors
-                          .map(function (author) {
-                            return author.firstname + " " + author.lastname;
-                          })
-                          .concat("-- Other --") // for an external creating author
+                        .map(function (author) {
+                          return author.firstname + " " + author.lastname;
+                        })
+                        .concat("-- Other --") // for an external creating author
                       : []
                   }
                   label="Created By"
@@ -1444,8 +1450,8 @@ class CreateLivePaper extends React.Component {
                     )
                       ? "-- Other --"
                       : this.state.created_author[0].firstname +
-                        " " +
-                        this.state.created_author[0].lastname
+                      " " +
+                      this.state.created_author[0].lastname
                   }
                   handleChange={this.handleFieldChange}
                 />
@@ -1455,62 +1461,62 @@ class CreateLivePaper extends React.Component {
                 this.state.created_author.length === 1 &&
                 this.checkPersonInStateAuthors(this.state.created_author[0])
               ) && (
-                <div>
-                  <DynamicTablePerson
-                    items={this.state.created_author}
-                    onChangeValue={this.handleCreatedAuthorChange}
-                  />
-                </div>
+                  <div>
+                    <DynamicTablePerson
+                      items={this.state.created_author}
+                      onChangeValue={this.handleCreatedAuthorChange}
+                    />
+                  </div>
 
-                // // ------------------------------------
-                // <div>
-                //   <TextField
-                //     label="Creating Author First Name"
-                //     variant="outlined"
-                //     fullWidth={true}
-                //     name="created_author_other_firstname"
-                //     value={this.state.created_author[0].firstname}
-                //     onChange={this.handleFieldChange}
-                //     InputProps={{
-                //       style: {
-                //         padding: "5px 15px",
-                //       },
-                //     }}
-                //     style={{ width: "45%", marginRight: "2.5%" }}
-                //   />
-                //   <TextField
-                //     label="Creating Author Last Name"
-                //     variant="outlined"
-                //     fullWidth={true}
-                //     name="created_author_other_lastname"
-                //     value={this.state.created_author[0].lastname}
-                //     onChange={this.handleFieldChange}
-                //     InputProps={{
-                //       style: {
-                //         padding: "5px 15px",
-                //       },
-                //     }}
-                //     style={{ width: "45%" }}
-                //   />
-                //   <br />
-                //   <br />
-                //   <TextField
-                //     label="Creating Author Affiliation"
-                //     variant="outlined"
-                //     fullWidth={true}
-                //     name="created_author_other_affiliation"
-                //     value={this.state.created_author[0].affiliation}
-                //     onChange={this.handleFieldChange}
-                //     InputProps={{
-                //       style: {
-                //         padding: "5px 15px",
-                //       },
-                //     }}
-                //     style={{ width: "92.5%" }}
-                //   />
-                // </div>
-                // // -------------------------------------
-              )}
+                  // // ------------------------------------
+                  // <div>
+                  //   <TextField
+                  //     label="Creating Author First Name"
+                  //     variant="outlined"
+                  //     fullWidth={true}
+                  //     name="created_author_other_firstname"
+                  //     value={this.state.created_author[0].firstname}
+                  //     onChange={this.handleFieldChange}
+                  //     InputProps={{
+                  //       style: {
+                  //         padding: "5px 15px",
+                  //       },
+                  //     }}
+                  //     style={{ width: "45%", marginRight: "2.5%" }}
+                  //   />
+                  //   <TextField
+                  //     label="Creating Author Last Name"
+                  //     variant="outlined"
+                  //     fullWidth={true}
+                  //     name="created_author_other_lastname"
+                  //     value={this.state.created_author[0].lastname}
+                  //     onChange={this.handleFieldChange}
+                  //     InputProps={{
+                  //       style: {
+                  //         padding: "5px 15px",
+                  //       },
+                  //     }}
+                  //     style={{ width: "45%" }}
+                  //   />
+                  //   <br />
+                  //   <br />
+                  //   <TextField
+                  //     label="Creating Author Affiliation"
+                  //     variant="outlined"
+                  //     fullWidth={true}
+                  //     name="created_author_other_affiliation"
+                  //     value={this.state.created_author[0].affiliation}
+                  //     onChange={this.handleFieldChange}
+                  //     InputProps={{
+                  //       style: {
+                  //         padding: "5px 15px",
+                  //       },
+                  //     }}
+                  //     style={{ width: "92.5%" }}
+                  //   />
+                  // </div>
+                  // // -------------------------------------
+                )}
               {/* <br />
               <div>
                 <TextField
@@ -1534,40 +1540,40 @@ class CreateLivePaper extends React.Component {
                 this.state.created_author.length === 1 &&
                 this.checkPersonInStateAuthors(this.state.created_author[0])
               ) && (
-                <div>
                   <div>
-                    <p>
-                      <strong>
-                        Since the live paper is being created by persons who are
-                        not authors on the article (as indicated above), the
-                        live paper needs to be approved by one of the original
-                        authors. Specify the authorising author:{" "}
-                        {/* , along with their email address: */}
-                      </strong>
-                    </p>
-                  </div>
-                  <div>
-                    <SingleSelect
-                      itemNames={
-                        this.state.authors
-                          ? this.state.authors.map(function (author) {
+                    <div>
+                      <p>
+                        <strong>
+                          Since the live paper is being created by persons who are
+                          not authors on the article (as indicated above), the
+                          live paper needs to be approved by one of the original
+                          authors. Specify the authorising author:{" "}
+                          {/* , along with their email address: */}
+                        </strong>
+                      </p>
+                    </div>
+                    <div>
+                      <SingleSelect
+                        itemNames={
+                          this.state.authors
+                            ? this.state.authors.map(function (author) {
                               return author.firstname + " " + author.lastname;
                             })
-                          : []
-                      }
-                      label="Approved By"
-                      name="approved_author"
-                      value={
-                        this.state.approved_author.firstname
-                          ? this.state.approved_author.firstname +
+                            : []
+                        }
+                        label="Approved By"
+                        name="approved_author"
+                        value={
+                          this.state.approved_author.firstname
+                            ? this.state.approved_author.firstname +
                             " " +
                             this.state.approved_author.lastname
-                          : ""
-                      }
-                      handleChange={this.handleFieldChange}
-                    />
-                  </div>
-                  {/* <br />
+                            : ""
+                        }
+                        handleChange={this.handleFieldChange}
+                      />
+                    </div>
+                    {/* <br />
                   <div>
                     <TextField
                       label="Approving Author Email"
@@ -1584,8 +1590,8 @@ class CreateLivePaper extends React.Component {
                       style={{ width: "92.5%" }}
                     />
                   </div> */}
-                </div>
-              )}
+                  </div>
+                )}
               {!this.state.standalone && (
                 <>
                   <div>
@@ -1783,87 +1789,87 @@ class CreateLivePaper extends React.Component {
 
               {Object.keys(this.state.resources).length > 0
                 ? Object.values(this.state.resources).map((item, index) => {
-                    // console.log(item);
-                    if (item["type"] === "section_morphology") {
-                      return (
-                        <SectionMorphology
-                          key={index}
-                          storeSectionInfo={this.storeSectionInfo}
-                          data={item}
-                          numResources={
-                            Object.keys(this.state.resources).length
-                          }
-                          handleDelete={this.deleteResourceSection}
-                          handleMoveDown={this.moveDownResourceSection}
-                          handleMoveUp={this.moveUpResourceSection}
-                          enqueueSnackbar={this.props.enqueueSnackbar}
-                          closeSnackbar={this.props.closeSnackbar}
-                        />
-                      );
-                    } else if (item["type"] === "section_traces") {
-                      return (
-                        <SectionTraces
-                          key={index}
-                          storeSectionInfo={this.storeSectionInfo}
-                          data={item}
-                          numResources={
-                            Object.keys(this.state.resources).length
-                          }
-                          handleDelete={this.deleteResourceSection}
-                          handleMoveDown={this.moveDownResourceSection}
-                          handleMoveUp={this.moveUpResourceSection}
-                          enqueueSnackbar={this.props.enqueueSnackbar}
-                          closeSnackbar={this.props.closeSnackbar}
-                        />
-                      );
-                    } else if (item["type"] === "section_models") {
-                      return (
-                        <SectionModels
-                          key={index}
-                          storeSectionInfo={this.storeSectionInfo}
-                          data={item}
-                          numResources={
-                            Object.keys(this.state.resources).length
-                          }
-                          handleDelete={this.deleteResourceSection}
-                          handleMoveDown={this.moveDownResourceSection}
-                          handleMoveUp={this.moveUpResourceSection}
-                          enqueueSnackbar={this.props.enqueueSnackbar}
-                          closeSnackbar={this.props.closeSnackbar}
-                        />
-                      );
-                    } else if (item["type"] === "section_generic") {
-                      return (
-                        <SectionGeneric
-                          key={index}
-                          storeSectionInfo={this.storeSectionInfo}
-                          data={item}
-                          numResources={
-                            Object.keys(this.state.resources).length
-                          }
-                          handleDelete={this.deleteResourceSection}
-                          handleMoveDown={this.moveDownResourceSection}
-                          handleMoveUp={this.moveUpResourceSection}
-                        />
-                      );
-                    } else if (item["type"] === "section_custom") {
-                      return (
-                        <SectionCustom
-                          key={index}
-                          storeSectionInfo={this.storeSectionInfo}
-                          data={item}
-                          numResources={
-                            Object.keys(this.state.resources).length
-                          }
-                          handleDelete={this.deleteResourceSection}
-                          handleMoveDown={this.moveDownResourceSection}
-                          handleMoveUp={this.moveUpResourceSection}
-                        />
-                      );
-                    } else {
-                      return null;
-                    }
-                  })
+                  // console.log(item);
+                  if (item["type"] === "section_morphology") {
+                    return (
+                      <SectionMorphology
+                        key={index}
+                        storeSectionInfo={this.storeSectionInfo}
+                        data={item}
+                        numResources={
+                          Object.keys(this.state.resources).length
+                        }
+                        handleDelete={this.deleteResourceSection}
+                        handleMoveDown={this.moveDownResourceSection}
+                        handleMoveUp={this.moveUpResourceSection}
+                        enqueueSnackbar={this.props.enqueueSnackbar}
+                        closeSnackbar={this.props.closeSnackbar}
+                      />
+                    );
+                  } else if (item["type"] === "section_traces") {
+                    return (
+                      <SectionTraces
+                        key={index}
+                        storeSectionInfo={this.storeSectionInfo}
+                        data={item}
+                        numResources={
+                          Object.keys(this.state.resources).length
+                        }
+                        handleDelete={this.deleteResourceSection}
+                        handleMoveDown={this.moveDownResourceSection}
+                        handleMoveUp={this.moveUpResourceSection}
+                        enqueueSnackbar={this.props.enqueueSnackbar}
+                        closeSnackbar={this.props.closeSnackbar}
+                      />
+                    );
+                  } else if (item["type"] === "section_models") {
+                    return (
+                      <SectionModels
+                        key={index}
+                        storeSectionInfo={this.storeSectionInfo}
+                        data={item}
+                        numResources={
+                          Object.keys(this.state.resources).length
+                        }
+                        handleDelete={this.deleteResourceSection}
+                        handleMoveDown={this.moveDownResourceSection}
+                        handleMoveUp={this.moveUpResourceSection}
+                        enqueueSnackbar={this.props.enqueueSnackbar}
+                        closeSnackbar={this.props.closeSnackbar}
+                      />
+                    );
+                  } else if (item["type"] === "section_generic") {
+                    return (
+                      <SectionGeneric
+                        key={index}
+                        storeSectionInfo={this.storeSectionInfo}
+                        data={item}
+                        numResources={
+                          Object.keys(this.state.resources).length
+                        }
+                        handleDelete={this.deleteResourceSection}
+                        handleMoveDown={this.moveDownResourceSection}
+                        handleMoveUp={this.moveUpResourceSection}
+                      />
+                    );
+                  } else if (item["type"] === "section_custom") {
+                    return (
+                      <SectionCustom
+                        key={index}
+                        storeSectionInfo={this.storeSectionInfo}
+                        data={item}
+                        numResources={
+                          Object.keys(this.state.resources).length
+                        }
+                        handleDelete={this.deleteResourceSection}
+                        handleMoveDown={this.moveDownResourceSection}
+                        handleMoveUp={this.moveUpResourceSection}
+                      />
+                    );
+                  } else {
+                    return null;
+                  }
+                })
                 : null}
               <br />
             </div>

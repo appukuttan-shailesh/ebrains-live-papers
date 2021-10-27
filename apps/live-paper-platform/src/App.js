@@ -141,7 +141,7 @@ function MediaCard(props) {
         }}
       >
         <CardActionArea
-          onClick={() => window.open(livePaperPlatformUrl + "#" + props.id)}
+          onClick={() => window.open(livePaperPlatformUrl + "#" + props.alias)}
         >
           <CardMedia
             className={classes.media}
@@ -185,7 +185,7 @@ function MediaCard(props) {
             size="small"
             color="primary"
             style={{ fontWeight: "bolder" }}
-            onClick={() => window.open(livePaperPlatformUrl + "#" + props.id)}
+            onClick={() => window.open(livePaperPlatformUrl + "#" + props.alias)}
           >
             Access Live Paper
           </Button>
@@ -301,8 +301,7 @@ export default class App extends React.Component {
               dataLPs: {
                 ...prevState.dataLPs,
                 [res.data.id]: res.data,
-
-                [res.data.alias]: res.data.id,
+                [res.data.alias]: res.data.alias,
               },
               loadingSelectedLP: false,
               lp_open_id: open ? lp_id : false,
@@ -349,10 +348,10 @@ export default class App extends React.Component {
                           context.setState((prevState) => ({
                             dataLPs: {
                               ...prevState.dataLPs,
-                              [res3.data.id]: res3.data,
-                              loadingSelectedLP: false,
-                              lp_open_id: open ? lp_id : false,
+                              [res3.data.alias]: res3.data,
                             },
+                            loadingSelectedLP: false,
+                            lp_open_id: open ? lp_id : false,
                           }));
                           console.log(lp_id);
                           console.log(open);
@@ -361,7 +360,10 @@ export default class App extends React.Component {
                           console.log(err);
                           let error_message = err.message;
                           if (err.response.status === 401) {
-                            error_message = "Incorrect password!";
+                            error_message = "Live Paper password is incorrect!";
+                          }
+                          if (err.response.status === 404) {
+                            error_message = "You have requested a non-existent Live Paper!";
                           }
                           context.setState({
                             error: error_message,
@@ -407,9 +409,9 @@ export default class App extends React.Component {
           open={this.state.lp_open_id !== false}
           data={
             this.state.dataLPs[
-              isUUID(this.state.lp_open_id)
-                ? this.state.lp_open_id
-                : this.state.dataLPs[this.state.lp_open_id]
+            isUUID(this.state.lp_open_id)
+              ? this.state.lp_open_id
+              : this.state.dataLPs[this.state.lp_open_id]
             ]
           }
           onClose={this.handleCloseLP}
@@ -560,6 +562,7 @@ export default class App extends React.Component {
             >
               <MediaCard
                 id="bee280cc-8184-4380-a2cb-a74b131de611"
+                alias="2021-saray-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2021_saray_et_al.jpg"
                 }
@@ -573,6 +576,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 id="93a5c03a-6995-47bc-af9f-4f0d85950d1d"
+                alias="2020-lupascu-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2020_lupascu_et_al.jpg"
                 }
@@ -586,6 +590,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 id="c1573aeb-d139-42a2-a7fc-fd68319e428e"
+                alias="2018-migliore-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2018_migliore_et_al.jpg"
                 }
@@ -599,6 +604,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 id="b6917332-e092-4bf3-bf31-3f0d212ff861"
+                alias="2019-bruce-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2019_bruce_et_al.jpg"
                 }
@@ -612,6 +618,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 id="cf895d83-49b8-4c72-b1ac-8b974bbe4eb5"
+                alias="2019-kokh-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2019_kokh_et_al.jpg"
                 }
@@ -625,6 +632,7 @@ export default class App extends React.Component {
               />
               <MediaCard
                 id="67806cc2-84e0-4bb3-ae52-8cc3e5abf738"
+                alias="2020-hjorth-et-al"
                 image_url={
                   "https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/featured_thumbs/2020_hjorth_et_al.jpg"
                 }
@@ -810,8 +818,8 @@ export default class App extends React.Component {
                     // tableLayout: "fixed",
                   }}
                   onRowClick={(event, selectedRow) => {
-                    console.log(selectedRow.id);
-                    window.open(livePaperPlatformUrl + "#" + selectedRow.id);
+                    console.log(selectedRow.alias);
+                    window.open(livePaperPlatformUrl + "#" + selectedRow.alias);
                   }}
                   components={{
                     Toolbar: (props) => (
