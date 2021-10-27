@@ -301,7 +301,7 @@ export default class App extends React.Component {
               dataLPs: {
                 ...prevState.dataLPs,
                 [res.data.id]: res.data,
-                [res.data.alias]: res.data.alias,
+                [res.data.alias]: res.data.id,
               },
               loadingSelectedLP: false,
               lp_open_id: open ? lp_id : false,
