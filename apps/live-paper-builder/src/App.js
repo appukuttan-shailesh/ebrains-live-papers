@@ -244,7 +244,6 @@ class App extends React.Component {
   }
 
   getCollabList(attempt = 0) {
-    console.log("===================================================");
     const url = baseUrl + "/projects";
     const config = {
       cancelToken: this.signal.token,
@@ -266,7 +265,7 @@ class App extends React.Component {
           editableProjects.sort();
           const [, setCollabList] = this.context.collabList;
           setCollabList(editableProjects);
-          console.log(editableProjects);
+          // console.log(editableProjects);
           console.log(editableProjects.length);
         }
       })

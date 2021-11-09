@@ -8,13 +8,13 @@ const keycloak = Keycloak({
     realm: 'hbp',
     clientId: 'live-paper-apps'
 });
-const YOUR_APP_SCOPES = 'team email profile';   // full list at https://iam.ebrains.eu/auth/realms/hbp/.well-known/openid-configuration
+const YOUR_APP_SCOPES = 'openid team email profile clb.wiki.read clb.drive:read clb.drive:write';   // full list at https://iam.ebrains.eu/auth/realms/hbp/.well-known/openid-configuration
 
 
 export default function initAuth(main) {
     console.log('DOM content is loaded, initialising Keycloak client...');
     keycloak
-        .init({ flow: 'implicit' })
+        .init({ flow: 'hybrid' })
         .success(() => checkAuth(main))
         .error(console.log);
 }
