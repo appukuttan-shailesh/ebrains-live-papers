@@ -6,7 +6,9 @@ import Keycloak from 'keycloak-js';
 const keycloak = Keycloak({
     url: 'https://iam.ebrains.eu/auth',
     realm: 'hbp',
-    clientId: 'live-paper-apps'
+    clientId: 'live-paper-apps',
+    'public-client': true,
+    'confidential-port': 0,
 });
 const YOUR_APP_SCOPES = 'openid team email profile clb.wiki.read clb.drive:read clb.drive:write';   // full list at https://iam.ebrains.eu/auth/realms/hbp/.well-known/openid-configuration
 
@@ -14,9 +16,9 @@ const YOUR_APP_SCOPES = 'openid team email profile clb.wiki.read clb.drive:read 
 export default function initAuth(main) {
     console.log('DOM content is loaded, initialising Keycloak client...');
     keycloak
-        .init({ flow: 'hybrid' })
-        .success(() => checkAuth(main))
-        .error(console.log);
+        .init({ flow: 'standard', pkceMethod: 'S256' })
+        .then(() => checkAuth(main))
+        .catch(console.log);
 }
 
 
