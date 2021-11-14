@@ -8,6 +8,7 @@ import reportWebVitals from "./reportWebVitals";
 import { SnackbarProvider } from "notistack";
 
 function renderApp(auth) {
+  console.log(auth);
   ReactDOM.render(
     <React.StrictMode>
       <SnackbarProvider maxSnack={3}>
