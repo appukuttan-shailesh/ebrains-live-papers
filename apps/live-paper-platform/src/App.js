@@ -12,7 +12,7 @@ import MaterialTable, { MTableToolbar } from "@material-table/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import ErrorDialog from "./ErrorDialog";
 import LivePaperViewer from "./LivePaperViewer";
-import { baseUrl, updateHash, livePaperPlatformUrl } from "./globals";
+import { baseUrl, updateHash } from "./globals";
 import { isUUID } from "./utils";
 import saltedMd5 from "salted-md5";
 // import { TwitterTimelineEmbed } from "react-twitter-embed";
@@ -141,7 +141,7 @@ function MediaCard(props) {
         }}
       >
         <CardActionArea
-          onClick={() => window.open(livePaperPlatformUrl + "#" + props.alias)}
+          onClick={() => window.open("/#" + props.alias)}
         >
           <CardMedia
             className={classes.media}
@@ -185,7 +185,7 @@ function MediaCard(props) {
             size="small"
             color="primary"
             style={{ fontWeight: "bolder" }}
-            onClick={() => window.open(livePaperPlatformUrl + "#" + props.alias)}
+            onClick={() => window.open("/#" + props.alias)}
           >
             Access Live Paper
           </Button>
@@ -227,166 +227,209 @@ export default class App extends React.Component {
 
   handleLoadListingLP() {
     this.setState({ loadingListing: true }, () => {
-      let url = baseUrl + "/livepapers-published/";
-      let config = {
-        cancelToken: this.signal.token,
-      };
       axios
-        .get(url, config)
+        .get("/cache/summary.json")
         .then((res) => {
-          // console.log(res);
+          console.log("Found listing in server cache!");
+          console.log(res);
           this.setState({
             lp_listing: res.data,
             loadingListing: false,
             error: null,
           });
+          return
         })
         .catch((err) => {
-          if (axios.isCancel(err)) {
-            console.log("error: ", err.message);
-          } else {
-            // Something went wrong. Save the error in state and re-render.
-            let error_message = "";
-            try {
-              error_message = err.message;
-            } catch {
-              error_message = err;
-            }
-            this.setState({
-              error: error_message,
+          console.log("Error finding listing in server cache!");
+          console.log(err);
+
+          // if LP listing data not found in server cache, then fetch from KG
+          let url = baseUrl + "/livepapers-published/";
+          let config = {
+            cancelToken: this.signal.token,
+          };
+          axios
+            .get(url, config)
+            .then((res2) => {
+              // console.log(res2);
+              this.setState({
+                lp_listing: res2.data,
+                loadingListing: false,
+                error: null,
+              });
+            })
+            .catch((err) => {
+              if (axios.isCancel(err)) {
+                console.log("error: ", err.message);
+              } else {
+                // Something went wrong. Save the error in state and re-render.
+                let error_message = "";
+                try {
+                  error_message = err.message;
+                } catch {
+                  error_message = err;
+                }
+                this.setState({
+                  error: error_message,
+                });
+              }
+              this.setState({
+                loadingListing: false,
+              });
             });
-          }
-          this.setState({
-            loadingListing: false,
-          });
-        });
+        })
     });
   }
 
   handleSelectedLP(lp_id, open = false) {
     // Note: lp_id can be UUID or alias
     // Workflow:
-    // 1) cached: check if LP data in cache; if yes, load LP
-    // 2) published: check if LP published; if yes, fetch LP, add to cache
-    // 3) password-protected: check if LP in GET all LPs  (-> password-protected)
+    // 1) locally cached: check if LP data in cache; if yes, load LP
+    // 2) server cached: check if LP data in server cache; if yes, fetch and load LP
+    // 3) published: check if LP published; if yes, fetch LP, add to cache
+    // 4) password-protected: check if LP in GET all LPs  (-> password-protected)
     // Note: does not handle
 
     this.setState({ loadingSelectedLP: true }, () => {
+
+      // 1) check if LP in local cache
       if (
         Object.keys(this.state.dataLPs).includes(lp_id) &&
         this.state.dataLPs[lp_id] !== null
       ) {
         // 1) cached: check if LP data in cache; if yes, load LP
-        console.log("Get LP data from cached data");
+        console.log("Found LP in local cache!");
         this.setState({
           lp_open_id: lp_id,
           loadingSelectedLP: false,
         });
         return;
-      } else {
-        // 2) published: check if LP published; if yes, fetch LP, add to cache
-        let context = this;
-        console.log("Get LP data from KG");
-        let url = baseUrl + "/livepapers-published/" + lp_id;
-        let config = {
-          cancelToken: this.signal.token,
-        };
-        axios
-          .get(url, config)
-          .then((res) => {
-            // console.log(res);
-            // 2.1) found
-            // cache response with UUID key; alias key points to UUID
-            this.setState((prevState) => ({
-              dataLPs: {
-                ...prevState.dataLPs,
-                [res.data.id]: res.data,
-                [res.data.alias]: res.data.id,
-              },
-              loadingSelectedLP: false,
-              lp_open_id: open ? lp_id : false,
-            }));
-            return;
-          })
-          .catch((err) => {
-            // 2.2) not found
-            if (axios.isCancel(err)) {
-              console.log("error: ", err.message);
-            } else {
-              // 3) password-protected: check if LP in GET all LPs  (-> password-protected)
-              url = baseUrl + "/livepapers/" + lp_id;
-              axios
-                .get(url, config)
-                .then((res2) => {
-                  console.log("Code not expected to reach here!");
-                  return;
-                })
-                .catch((err) => {
-                  if (axios.isCancel(err)) {
-                    console.log("error: ", err.message);
-                  } else {
-                    if (err.response.status === 403) {
-                      console.log("Password-protected Live Paper");
-                      // 3.1) found
-                      // only UUID here, as alias assigned only after publication (not for password-protected)
-                      let context = this;
-                      const password = prompt(
-                        "Please enter the live paper password:"
-                      );
-                      let hash = saltedMd5(password, lp_id).toString();
-                      config = {
-                        cancelToken: context.signal.token,
-                        headers: {
-                          Authorization: "Bearer " + hash,
-                          "Content-type": "application/json",
-                        },
-                      };
-                      axios
-                        .get(url, config)
-                        .then((res3) => {
-                          // console.log(res3);
-                          context.setState((prevState) => ({
-                            dataLPs: {
-                              ...prevState.dataLPs,
-                              [res3.data.id]: res3.data,
-                            },
-                            loadingSelectedLP: false,
-                            lp_open_id: open ? lp_id : false,
-                          }));
-                          // console.log(lp_id);
-                          // console.log(open);
-                        })
-                        .catch((err) => {
-                          console.log(err);
-                          let error_message = err.message;
-                          if (err.response.status === 401) {
-                            error_message = "Live Paper password is incorrect!";
-                          }
-                          if (err.response.status === 404) {
-                            error_message = "You have requested a non-existent Live Paper!";
-                          }
-                          context.setState({
-                            error: error_message,
-                            loadingSelectedLP: false,
-                          });
-                          updateHash("");
-                          context.forceUpdate();
-                        });
-                    } else {
-                      // 3.2) not found
-                      // Something went wrong. Save the error in state and re-render.
-                      context.setState({
-                        error: err.message,
-                        loadingSelectedLP: false,
-                      });
-                      updateHash("");
-                      context.forceUpdate();
-                    }
-                  }
-                });
-            }
-          });
       }
+
+      // 2) check if LP in server cache
+      axios
+        .get("/cache/" + lp_id + ".json")
+        .then((res) => {
+          console.log("Found LP in server cache!");
+          console.log(res);
+          this.setState((prevState) => ({
+            dataLPs: {
+              ...prevState.dataLPs,
+              [res.data.id]: res.data,
+              [res.data.alias]: res.data.id,
+            },
+            loadingSelectedLP: false,
+            lp_open_id: open ? lp_id : false,
+          }));
+          return
+        })
+        .catch((err) => {
+          console.log("Error finding LP in server cache!");
+          console.log(err);
+
+          // 3) published: check if LP published; if yes, fetch LP, add to cache
+          let context = this;
+          console.log("Get LP data from KG");
+          let url = baseUrl + "/livepapers-published/" + lp_id;
+          let config = {
+            cancelToken: this.signal.token,
+          };
+          axios
+            .get(url, config)
+            .then((res) => {
+              // console.log(res);
+              // 3.1) found
+              // cache response with UUID key; alias key points to UUID
+              this.setState((prevState) => ({
+                dataLPs: {
+                  ...prevState.dataLPs,
+                  [res.data.id]: res.data,
+                  [res.data.alias]: res.data.id,
+                },
+                loadingSelectedLP: false,
+                lp_open_id: open ? lp_id : false,
+              }));
+              return;
+            })
+            .catch((err) => {
+              // 3.2) not found
+              if (axios.isCancel(err)) {
+                console.log("error: ", err.message);
+              } else {
+                // 4) password-protected: check if LP in GET all LPs  (-> password-protected)
+                url = baseUrl + "/livepapers/" + lp_id;
+                axios
+                  .get(url, config)
+                  .then((res2) => {
+                    console.log("Code not expected to reach here!");
+                    return;
+                  })
+                  .catch((err) => {
+                    if (axios.isCancel(err)) {
+                      console.log("error: ", err.message);
+                    } else {
+                      if (err.response.status === 403) {
+                        console.log("Password-protected Live Paper");
+                        // 4.1) found
+                        // only UUID here, as alias assigned only after publication (not for password-protected)
+                        let context = this;
+                        const password = prompt(
+                          "Please enter the live paper password:"
+                        );
+                        let hash = saltedMd5(password, lp_id).toString();
+                        config = {
+                          cancelToken: context.signal.token,
+                          headers: {
+                            Authorization: "Bearer " + hash,
+                            "Content-type": "application/json",
+                          },
+                        };
+                        axios
+                          .get(url, config)
+                          .then((res3) => {
+                            // console.log(res3);
+                            context.setState((prevState) => ({
+                              dataLPs: {
+                                ...prevState.dataLPs,
+                                [res3.data.id]: res3.data,
+                              },
+                              loadingSelectedLP: false,
+                              lp_open_id: open ? lp_id : false,
+                            }));
+                            // console.log(lp_id);
+                            // console.log(open);
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                            let error_message = err.message;
+                            if (err.response.status === 401) {
+                              error_message = "Live Paper password is incorrect!";
+                            }
+                            if (err.response.status === 404) {
+                              error_message = "You have requested a non-existent Live Paper!";
+                            }
+                            context.setState({
+                              error: error_message,
+                              loadingSelectedLP: false,
+                            });
+                            updateHash("");
+                            context.forceUpdate();
+                          });
+                      } else {
+                        // 4.2) not found
+                        // Something went wrong. Save the error in state and re-render.
+                        context.setState({
+                          error: err.message,
+                          loadingSelectedLP: false,
+                        });
+                        updateHash("");
+                        context.forceUpdate();
+                      }
+                    }
+                  });
+              }
+            });
+        })
     });
   }
 
@@ -819,7 +862,7 @@ export default class App extends React.Component {
                   }}
                   onRowClick={(event, selectedRow) => {
                     // console.log(selectedRow.alias);
-                    window.open(livePaperPlatformUrl + "#" + selectedRow.alias);
+                    window.open("/#" + selectedRow.alias);
                   }}
                   components={{
                     Toolbar: (props) => (

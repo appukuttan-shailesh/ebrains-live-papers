@@ -4,7 +4,7 @@
 # as it contains only the final built app
 
 # build environment
-FROM node:alpine as build
+FROM node:16-alpine as build
 
 WORKDIR /live-paper-platform
 ENV PATH /live-paper-platform/node_modules/.bin:$PATH
@@ -23,7 +23,7 @@ COPY live-paper-builder ./
 RUN npm run build
 
 
-# production environment
+# staging environment
 FROM nginx:stable-alpine
 COPY deployment/nginx-app-staging.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /live-paper-platform/build /usr/share/nginx/html/live-paper-platform
