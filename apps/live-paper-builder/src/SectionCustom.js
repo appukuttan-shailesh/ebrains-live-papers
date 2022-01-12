@@ -11,8 +11,10 @@ import { Converter } from "showdown";
 import prettier from "prettier/standalone";
 import html from "prettier/parser-html";
 import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/mode-java";
-import "ace-builds/src-noconflict/theme-github";
+import "ace-builds/webpack-resolver"
+import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/src-noconflict/mode-html";
+import "ace-builds/src-noconflict/theme-tomorrow";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -205,14 +207,11 @@ export default class SectionCustom extends React.Component {
     );
   }
 
-  handleCodeChange(value, event) {
-    console.log(event);
-    const target = event.target;
-    const name = target.name;
-    // console.log(name + " => " + value);
+  handleCodeChange(value) {
+    console.log(value);
     this.setState(
       {
-        [name]: value,
+        description: value,
       },
       () => {
         this.props.storeSectionInfo(this.state);
@@ -243,20 +242,24 @@ export default class SectionCustom extends React.Component {
     });
   }
 
-  handleDataInputOnBlur(value, event) {
+  handleDataInputOnBlur(event, editor) {
     const converter = new Converter({ tables: true });
     let code = converter.makeHtml(this.state.description);
     console.log(this.state.description);
     console.log(code);
-    const formattedCode = prettier.format(code, {
-      parser: "html",
-      plugins: [html]
-    });
-    console.log(formattedCode);
-
+    try {
+      code = prettier.format(code, {
+        parser: "html",
+        plugins: [html]
+      });
+      console.log(code);
+    } catch (error) {
+      console.log("Error using prettier on code. Potentially invalid HTML syntax!");
+    }
+    
     this.setState(
       {
-        description: formattedCode,
+        description: code,
       },
       () => {
         this.props.storeSectionInfo(this.state);
@@ -437,7 +440,7 @@ export default class SectionCustom extends React.Component {
                   /> */}
                   <AceEditor
                     placeholder="Enter markdown or HTML here. Click on ? icon for info on input format."
-                    mode="javascript"
+                    mode="html"
                     theme="tomorrow"
                     name="description"
                     fontSize={18}
@@ -446,11 +449,12 @@ export default class SectionCustom extends React.Component {
                     highlightActiveLine={true}
                     value={this.state.description}
                     setOptions={{
-                      enableBasicAutocompletion: false,
-                      enableLiveAutocompletion: false,
+                      enableBasicAutocompletion: true,
+                      enableLiveAutocompletion: true,
                       enableSnippets: false,
                       showLineNumbers: true,
                       tabSize: 2,
+                      useWorker: false
                     }}
                     width="100%"
                     height={!this.state.expandSection ? "200px" : "800px"}
