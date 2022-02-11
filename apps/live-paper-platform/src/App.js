@@ -758,11 +758,11 @@ export default class App extends React.Component {
                   an account yet and are interested in getting one, you can do
                   so by visiting:&nbsp;
                   <a
-                    href="https://iam.ebrains.eu/register"
+                    href="https://ebrains.eu/register"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    https://iam.ebrains.eu/register
+                    https://ebrains.eu/register
                   </a>
                   . It is free and simple to create a new account, and mainly
                   requires an institutional email account.
@@ -779,11 +779,11 @@ export default class App extends React.Component {
                   For any issues regarding usability or accessibility of
                   resources, users are requested to contact{" "}
                   <a
-                    href="mailto:support@ebrains.eu"
+                    href="https://ebrains.eu/support"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    support@ebrains.eu
+                    https://ebrains.eu/support
                   </a>{" "}
                   for further assistance.
                 </div>

@@ -77,7 +77,7 @@ const footerStyle = {
   transform: "translateX(-50%)",
   bottom: "0",
   height: "80px",
-  zIndex: "1",
+  zIndex: "1000",
   paddingBottom: "75px",
 };
 

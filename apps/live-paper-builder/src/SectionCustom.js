@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import MaterialIconSelector from "./MaterialIconSelector";
 import HelpIcon from "@material-ui/icons/Help";
@@ -7,6 +8,13 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import { Converter } from "showdown";
+import prettier from "prettier/standalone";
+import html from "prettier/parser-html";
+import AceEditor from "react-ace";
+import "ace-builds/webpack-resolver"
+import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/src-noconflict/mode-html";
+import "ace-builds/src-noconflict/theme-tomorrow";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -15,6 +23,7 @@ import ForwardIcon from "@material-ui/icons/Forward";
 import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
 import UnfoldLessIcon from "@material-ui/icons/UnfoldLess";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import AspectRatioIcon from "@material-ui/icons/AspectRatio";
 import styled from "styled-components";
 
 function HelpContentCustom() {
@@ -60,6 +69,9 @@ function HelpContentCustom() {
   return (
     <div>
       You can enter custom content using either Markdown syntax or HTML.
+      <br/>
+      <b>Note: </b>Markdown content will be automatically converted to 
+      equivalent HTML syntax.
       <br />
       <br />
       <h6>
@@ -122,10 +134,12 @@ export default class SectionCustom extends React.Component {
       showHelp: false,
       deleteOpen: false,
       expanded: true,
+      expandSection: false,
       ...props.data,
     };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
+    this.handleCodeChange = this.handleCodeChange.bind(this);
     this.clickHelp = this.clickHelp.bind(this);
     this.handleHelpClose = this.handleHelpClose.bind(this);
     this.setIcon = this.setIcon.bind(this);
@@ -134,6 +148,7 @@ export default class SectionCustom extends React.Component {
     this.handleMoveDown = this.handleMoveDown.bind(this);
     this.handleMoveUp = this.handleMoveUp.bind(this);
     this.toggleExpanded = this.toggleExpanded.bind(this);
+    this.toggleExpandSection = this.toggleExpandSection.bind(this);
   }
 
   componentDidMount() {
@@ -150,6 +165,12 @@ export default class SectionCustom extends React.Component {
         this.props.storeSectionInfo(this.state);
       }
     );
+  }
+
+  toggleExpandSection() {
+    this.setState((prevState) => ({
+      expandSection: !prevState.expandSection,
+    }));
   }
 
   handleDelete(flag) {
@@ -186,6 +207,18 @@ export default class SectionCustom extends React.Component {
     );
   }
 
+  handleCodeChange(value) {
+    console.log(value);
+    this.setState(
+      {
+        description: value,
+      },
+      () => {
+        this.props.storeSectionInfo(this.state);
+      }
+    );
+  }
+
   setIcon(icon_name) {
     this.setState(
       {
@@ -209,13 +242,24 @@ export default class SectionCustom extends React.Component {
     });
   }
 
-  handleDataInputOnBlur(event) {
+  handleDataInputOnBlur(event, editor) {
     const converter = new Converter({ tables: true });
-    let value = converter.makeHtml(this.state.description);
-    // console.log(value);
+    let code = converter.makeHtml(this.state.description);
+    console.log(this.state.description);
+    console.log(code);
+    try {
+      code = prettier.format(code, {
+        parser: "html",
+        plugins: [html]
+      });
+      console.log(code);
+    } catch (error) {
+      console.log("Error using prettier on code. Potentially invalid HTML syntax!");
+    }
+    
     this.setState(
       {
-        description: value,
+        description: code,
       },
       () => {
         this.props.storeSectionInfo(this.state);
@@ -374,14 +418,14 @@ export default class SectionCustom extends React.Component {
                 <br />
 
                 <Grid item xs={12}>
-                  <TextField
+                  {/* <TextField
                     multiline
-                    rows="8"
+                    rows={!this.state.expandSection ? "10" : "50"}
                     label="Input custom content"
                     variant="outlined"
                     fullWidth={true}
                     helperText="Click on ? icon for info on input format."
-                    name="description"
+                    name="description1"
                     value={this.state.description}
                     onChange={this.handleFieldChange}
                     onBlur={this.handleDataInputOnBlur}
@@ -393,7 +437,50 @@ export default class SectionCustom extends React.Component {
                           "'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace",
                       },
                     }}
+                  /> */}
+                  <AceEditor
+                    placeholder="Enter markdown or HTML here. Click on ? icon for info on input format."
+                    mode="html"
+                    theme="tomorrow"
+                    name="description"
+                    fontSize={18}
+                    showPrintMargin={true}
+                    showGutter={true}
+                    highlightActiveLine={true}
+                    value={this.state.description}
+                    setOptions={{
+                      enableBasicAutocompletion: true,
+                      enableLiveAutocompletion: true,
+                      enableSnippets: false,
+                      showLineNumbers: true,
+                      tabSize: 2,
+                      useWorker: false
+                    }}
+                    width="100%"
+                    height={!this.state.expandSection ? "200px" : "800px"}
+                    onChange={this.handleCodeChange}
+                    onBlur={this.handleDataInputOnBlur}
                   />
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.toggleExpandSection}
+                      style={{
+                        width: "200px",
+                        backgroundColor: "#795548",
+                      }}
+                      startIcon={<AspectRatioIcon />}
+                    >
+                    Expand Section
+                  </Button>
+                  </div>
                 </Grid>
                 <br />
                 <br />
