@@ -117,7 +117,7 @@ const MyDialogTitle = withStyles(styles)((props) => {
 });
 
 const popular_licenses = [
-  "None",
+  // "None", // temporary this option is disabled; API not accepting null
   "Apache License 2.0",
   'BSD 2-Clause "Simplified" License',
   'BSD 3-Clause "New" or "Revised" License',
@@ -162,7 +162,7 @@ class CreateLivePaper extends React.Component {
       citation: "",
       associated_paper_doi: "",
       abstract: "",
-      license: null,
+      license: "Creative Commons Attribution Non Commercial 4.0 International", // temp change to avoid null issue. Original value: null,
       collab_id: "",
       resources_description: "",
       resources: [],
@@ -1928,6 +1928,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
+                    overflowX:"hidden"
                   }}
                   startIcon={<AcUnitIcon style={{ width: 30, height: 30 }} />}
                   onClick={() => this.handleAddSection("section_morphology")}
@@ -1947,6 +1948,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
+                    overflowX:"hidden"
                   }}
                   startIcon={<TimelineIcon style={{ width: 30, height: 30 }} />}
                   onClick={() => this.handleAddSection("section_traces")}
@@ -1966,6 +1968,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
+                    overflowX:"hidden"
                   }}
                   startIcon={
                     <LocalPlayIcon style={{ width: 30, height: 30 }} />
@@ -1987,6 +1990,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
+                    overflowX:"hidden"
                   }}
                   startIcon={
                     <FormatListBulletedIcon style={{ width: 30, height: 30 }} />
@@ -2008,6 +2012,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
+                    overflowX:"hidden"
                   }}
                   startIcon={
                     <CheckBoxOutlineBlankIcon
@@ -2070,6 +2075,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
+                    overflowX:"hidden"
                   }}
                   onClick={this.handlePreview}
                 >
@@ -2088,6 +2094,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
+                    overflowX:"hidden"
                   }}
                   onClick={this.handleDownload}
                 >
@@ -2105,6 +2112,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
+                    overflowX:"hidden"
                   }}
                   onClick={this.handleSaveOpen}
                 >
@@ -2122,6 +2130,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
+                    overflowX:"hidden"
                   }}
                   onClick={this.handleSubmitOpen}
                 >
