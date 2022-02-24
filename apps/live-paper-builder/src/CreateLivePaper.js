@@ -41,7 +41,7 @@ import SubmitModal from "./SubmitModal";
 import ModalDialog from "./ModalDialog";
 import MarkdownLatexExample from "./MarkdownLatexExample";
 
-import { lp_tool_version } from "./globals";
+import { lp_tool_version, updateHash } from "./globals";
 import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
 
 import nunjucks from "nunjucks";
@@ -1050,6 +1050,7 @@ class CreateLivePaper extends React.Component {
     this.setState({
       id: value,
     });
+    updateHash(value);
   }
 
   setCollabID(value) {

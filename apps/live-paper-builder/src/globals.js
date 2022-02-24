@@ -55,6 +55,25 @@ export const filterBioModelsKeys = [
   "modelformat",
   "modellingapproach",
 ];
+
+export const isParent = window.opener == null;
+export const isIframe = window !== window.parent;
+export const isFramedApp = isIframe && isParent;
+export const collaboratoryOrigin = "https://wiki.ebrains.eu";
+export const hashChangedTopic = "/clb/community-app/hashchange";
+export const updateHash = (value) => {
+  window.location.hash = value;
+  if (isFramedApp) {
+    window.parent.postMessage(
+      {
+        topic: hashChangedTopic,
+        data: value,
+      },
+      collaboratoryOrigin
+    );
+  }
+};
+
 // To access certain APIs that give CORS related issues
 export const corsProxy = "https://corsproxy.hbpneuromorphic.eu/";
 // previously used https://corsproxy-sa.herokuapp.com/ 

@@ -19,6 +19,7 @@ import {
   filterModelDBKeys,
   filterNeuroMorphoKeys,
   filterBioModelsKeys,
+  updateHash
 } from "./globals";
 import {
   compareArrayoOfObjectsByOrder,
@@ -62,6 +63,7 @@ class App extends React.Component {
       this.retrieveNeuroMorphoFilterValidValues.bind(this);
     this.retrieveBioModelsFilterValidValues =
       this.retrieveBioModelsFilterValidValues.bind(this);
+    this.handleSpecifiedLP = this.handleSpecifiedLP.bind(this);
   }
 
   componentDidMount() {
@@ -73,6 +75,52 @@ class App extends React.Component {
     this.retrieveModelDBFilterValidValues();
     this.retrieveNeuroMorphoFilterValidValues();
     this.retrieveBioModelsFilterValidValues();
+
+    if (window.location.hash) {
+      const lp_id = window.location.hash.slice(1);
+      console.log(lp_id);
+      this.handleSpecifiedLP(lp_id);
+    }
+  }
+
+  handleSpecifiedLP(lp_id) {
+    this.setState({ loading: true }, () => {
+      let url = baseUrl + "/livepapers/" + lp_id;
+      let config = {
+        cancelToken: this.signal.token,
+        headers: {
+          Authorization: "Bearer " + this.context.auth[0].token,
+        },
+      };
+      axios
+        .get(url, config)
+        .then((res) => {
+          console.log(res.data);
+          this.setState({
+            loading: false,
+          });
+          this.handleLoadProjectKGClose(res.data);
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("error: ", err.message);
+          } else {
+            // Something went wrong. Save the error in state and re-render.
+            let error_message = "";
+            try {
+              error_message = err.response.data.detail;
+            } catch {
+              error_message = err;
+            }
+            this.setState({
+              error: error_message,
+            });
+          }
+          this.setState({
+            loading: false,
+          });
+        });
+    });
   }
 
   handleCreateLivePaperOpen() {
@@ -90,6 +138,7 @@ class App extends React.Component {
       projectData: {},
       loadData: false,
     });
+    updateHash("");
   }
 
   handleLoadProjectFile() {
@@ -191,6 +240,7 @@ class App extends React.Component {
         loadData: true,
         createLivePaperOpen: true,
       });
+      updateHash(data["id"])
     } else {
       this.setState({
         loadProjectKGOpen: false,
