@@ -86,6 +86,25 @@ function HelpContentCustom() {
       <pre>
         <code>{example_html}</code>
       </pre>
+      <br/>
+      <hr/>
+      <br/>
+      <h6>
+        <b>Live Paper CSS & JS dependencies</b>
+      </h6>
+      <br/>
+      <div>
+        Live Papers make use of&nbsp;
+        <a href="https://materializecss.com/" 
+          target="_blank" 
+          rel="noreferrer">Materialize CSS</a>.
+        <br/>
+        To view a complete list of the CSS and JS dependencies, check&nbsp;
+        <a href="https://github.com/appukuttan-shailesh/ebrains-live-papers/blob/main/apps/live-paper-platform/src/templates/LivePaper_v0.1.njk#L485-L498" 
+          target="_blank" 
+          rel="noreferrer">here</a>.  
+      </div>
+      <br/>
     </div>
   );
 }
@@ -416,6 +435,21 @@ export default class SectionCustom extends React.Component {
                   </div>
                 </div>
                 <br />
+
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    paddingBottom: "20px",
+                  }}
+                >
+                  <span style={{ paddingRight: "10px" }}>
+                    Click on ? icon for help on input, 
+                    and for info on the existing CSS/JS dependencies.
+                  </span>
+                </Grid>
 
                 <Grid item xs={12}>
                   {/* <TextField
