@@ -131,6 +131,7 @@ export default class SubmitModal extends React.Component {
           open={Boolean(this.state.error)}
           handleErrorDialogClose={this.handleErrorDialogClose}
           error={this.state.error.message || this.state.error}
+          whileDevelop={true}
         />
       );
     } else {

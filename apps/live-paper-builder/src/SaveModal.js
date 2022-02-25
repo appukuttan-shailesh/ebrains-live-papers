@@ -155,6 +155,9 @@ export default class SaveModal extends React.Component {
       })
       .catch((err) => {
         console.log("Error: ", err.message);
+        this.setState({
+          error: err.response || err,
+        });
         flag = false;
       });
     return flag;
@@ -319,6 +322,7 @@ export default class SaveModal extends React.Component {
           open={Boolean(this.state.error)}
           handleErrorDialogClose={this.handleErrorDialogClose}
           error={this.state.error.message || this.state.error}
+          whileDevelop={true}
         />
       );
     } else {
