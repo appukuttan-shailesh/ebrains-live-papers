@@ -59,7 +59,7 @@ export default function ErrorDialog(props) {
             }
             {
               // props.whileDevelop is true only via SaveModal and SubmitModal
-              (props.error.status === 401)
+              (props.error === "Token verification failed" || props.error.status === 401)
               && <div>
                   <br/>
                   <hr/>
