@@ -342,9 +342,9 @@ export default class SaveModal extends React.Component {
           <DialogContent>
             <LoadingIndicatorModal open={this.state.loading} />
             <Box my={2}>
-              Each live paper needs to be associated with a Collab on the
-              EBRAINS Collaboratory, to handle access permissions for viewing
-              live papers prior to their publication, and their editing in
+              Each Live Paper needs to be associated with a Collab on the
+              EBRAINS Collaboratory, to handle access permissions for Live
+              Papers prior to their publication, and any further editing in
               future. Accordingly, please specify a Collab for this live paper.
               You may need to create a new Collab if you don't already have
               access to one.{" "}
@@ -356,6 +356,9 @@ export default class SaveModal extends React.Component {
                 Click here
               </a>{" "}
               to create a new Collab.
+              <br/><br/>
+              <strong>Note:</strong> Please select a <strong>private Collab</strong> to ensure that the 
+              live paper content is viewable only to Live Paper owners prior to publication.
             </Box>
             <Box my={2}>
               <SingleSelect
