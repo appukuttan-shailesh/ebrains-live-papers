@@ -117,7 +117,7 @@ const MyDialogTitle = withStyles(styles)((props) => {
 });
 
 const popular_licenses = [
-  // "None", // temporary this option is disabled; API not accepting null
+  "None",
   "Apache License 2.0",
   'BSD 2-Clause "Simplified" License',
   'BSD 3-Clause "New" or "Revised" License',
@@ -162,7 +162,7 @@ class CreateLivePaper extends React.Component {
       citation: "",
       associated_paper_doi: "",
       abstract: "",
-      license: "Creative Commons Attribution Non Commercial 4.0 International", // temp change to avoid null issue. Original value: null,
+      license: null,
       collab_id: "",
       resources_description: "",
       resources: [],
@@ -1736,7 +1736,7 @@ class CreateLivePaper extends React.Component {
                   itemNames={popular_licenses}
                   label="License"
                   name="license"
-                  value={this.state.license}
+                  value={this.state.license ? this.state.license : "None"}
                   handleChange={this.handleFieldChange}
                   helperText="For guidance on choosing a licence, see https://choosealicense.com"
                 />

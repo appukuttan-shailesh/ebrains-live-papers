@@ -94,11 +94,12 @@ function HelpContentCustom() {
       </h6>
       <br/>
       <div>
-        Live Papers make use of&nbsp;
+        Live Papers make use of a series of CSS and JS libraries, such as&nbsp;
         <a href="https://materializecss.com/" 
           target="_blank" 
           rel="noreferrer">Materialize CSS</a>.
-        <br/>
+        These are imported by default in every sheet.<br/>
+        Please bear this in mind when developing your own custom Live Paper section with additional dependencies to avoid conflicts.<br/><br/>
         To view a complete list of the CSS and JS dependencies, check&nbsp;
         <a href="https://github.com/appukuttan-shailesh/ebrains-live-papers/blob/main/apps/live-paper-platform/src/templates/LivePaper_v0.1.njk#L485-L498" 
           target="_blank" 

@@ -33,7 +33,8 @@ export default class SubmitModal extends React.Component {
       showProtectedSummary: false,
     };
 
-    this.mailTo = React.createRef();
+    this.mailTo1 = React.createRef();
+    this.mailTo2 = React.createRef();
     this.mailSubject = React.createRef();
     this.mailBodyRef = React.createRef();
 
@@ -234,24 +235,54 @@ export default class SubmitModal extends React.Component {
                   >
                     Alternatively, copy the content below and email it to:{" "}
                     <strong
-                      ref={this.mailTo}
-                      onClick={() =>
+                      ref={this.mailTo1}
+                      onClick={() => {
                         navigator.clipboard.writeText(
-                          this.mailTo.current.innerText
-                        )
-                      }
+                          this.mailTo1.current.innerText
+                        );
+                        showNotification(
+                          this.props.enqueueSnackbar,
+                          this.props.closeSnackbar,
+                          "Copied to clipboard!",
+                          "info"
+                        );
+                      }}
                       style={{ cursor: "pointer" }}
                     >
                       lucaleonardo.bologna@cnr.it
-                    </strong>{" "}
+                    </strong> or{" "}
+                    <strong
+                      ref={this.mailTo2}
+                      onClick={() => {
+                        navigator.clipboard.writeText(
+                          this.mailTo2.current.innerText
+                        );
+                        showNotification(
+                          this.props.enqueueSnackbar,
+                          this.props.closeSnackbar,
+                          "Copied to clipboard!",
+                          "info"
+                        );
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      shailesh.appukuttan@cnrs.fr
+                    </strong> 
+                    {" "}
                     with the following subject:{" "}
                     <strong
                       ref={this.mailSubject}
-                      onClick={() =>
+                      onClick={() => {
                         navigator.clipboard.writeText(
                           this.mailSubject.current.innerText
-                        )
-                      }
+                        );
+                        showNotification(
+                          this.props.enqueueSnackbar,
+                          this.props.closeSnackbar,
+                          "Copied to clipboard!",
+                          "info"
+                        );
+                      }}
                       style={{ cursor: "pointer" }}
                     >
                       Request to publish Live Paper

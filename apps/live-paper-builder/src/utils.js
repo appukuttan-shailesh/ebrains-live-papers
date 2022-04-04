@@ -26,12 +26,7 @@ export function replaceEmptyStringsWithNull(param) {
     return param.map((element) => replaceEmptyStringsWithNull(element));
   } else if (typeof param === "object") {
     Object.entries(param).map(function ([key, val]) {
-      if (key === "journal") {
-        // KG does not accept null value for journal
-        return (param[key] = val);
-      } else {
-        return (param[key] = replaceEmptyStringsWithNull(val));
-      }
+      return (param[key] = replaceEmptyStringsWithNull(val));
     });
     return param;
   } else {
