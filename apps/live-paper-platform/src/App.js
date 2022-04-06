@@ -484,42 +484,36 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <div
-          className="mycontainer"
-          style={{
-            textAlign: "left",
-          }}
-        >
-          <TopNavigation />
+        <div className="mycontainer" style={{ textAlign: "left" }}>
           <LoadingIndicatorModal open={this.state.loadingSelectedLP} />
-          <div
-            className="box rounded centered"
-            style={{
-              marginTop: "5px",
-              paddingTop: "50px",
-              paddingBottom: "50px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItem: "center",
-              }}
+          <TopNavigation />
+          <div className="box rounded centered"
+            style={{ marginTop: "5px", paddingTop: "0.75em", paddingBottom: "0.75em" }}>
+            <a
+              href="https://ebrains.eu/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="waves-effect waves-light"
+              style={{ textAlign: "center", color: "black" }}
             >
-              <img
-                className="ebrains-icon-small"
-                src="./imgs/ebrains_logo.png"
-                alt="EBRAINS logo"
-                style={{ width: "50px", height: "50px" }}
-              />
-              <span
-                className="title-style"
-                style={{ paddingLeft: "15px", marginTop: "4px" }}
-              >
-                EBRAINS Live Papers
-              </span>
-            </div>
+              <table>
+                <tbody>
+                  <tr>
+                    <td
+                      style={{ paddingTop: "0px",
+                                paddingBottom: "0px" }}>
+                      <img
+                        className="ebrains-icon-small"
+                        src="./imgs/ebrains_logo.svg"
+                        alt="EBRAINS logo"
+                        style={{ height: "60px" }}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </a>
+            <h5 className="title-style">Live Papers</h5>
           </div>
           <div
             style={{
