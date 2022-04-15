@@ -381,8 +381,8 @@
                                     {% endif %}
                                 </td>
                                 <td style="width: 175px">
-                                    {% if item["view_url"] %}
-                                        <a href="javascript:testing('{{ item["url"] }}');" class="waves-effect waves-light">
+                                    {% if item["url"] != item["view_url"] %}
+                                        <a href="javascript:openCloneDialog('{{ item["url"] }}');" class="waves-effect waves-light">
                                             <i class="material-icons left">open_in_browser</i>Clone
                                         </a>
                                     {% else %}
@@ -510,18 +510,6 @@
                 $(".collapsible").collapsible({accordion: false});
                 $(".tabs").tabs();
             });
-            function testing(value){
-                var modal = document.getElementById("myModal");
-                modal.style.display = "block";
-                var el = document.getElementById("modal-div-element");
-                el.textContent = value;
-		    }
-            function closeTesting(value){
-                var modal = document.getElementById("myModal");
-                modal.style.display = "none";
-                var el = document.getElementById("modal-div-element");
-                el.textContent = "";
-		    }
         </script>
         <link rel="stylesheet" href="https://unpkg.com/katex@0.10.0/dist/katex.min.css"/>
         
@@ -666,9 +654,6 @@
             {# // Get the button that opens the modal
             var btn = document.getElementById("myBtn"); #}
 
-            // Get the <span> element that closes the modal
-            var span = document.getElementById("dialogClose");
-
             {# // When the user clicks on the button, open the modal
             btn.onclick = function() {
                 modal.style.display = "block";
@@ -676,16 +661,31 @@
 
             // When the user clicks on <span> (x), close the modal
             span.onclick = function() {
-                alert("Hi");
                 modal.style.display = "none";
             }
 
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
+                console.log(event);
+                console.log(event.target);
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
             }
+
+            function openCloneDialog(value){
+                var modal = document.getElementById("myModal");
+                modal.style.display = "block";
+                let url = `https://collab-file-cloner.netlify.app/#source_file=${value}&dest_dir=/live-papers/{{ alias }}&file_overwrite=false`
+                console.log(url);
+                document.getElementById("btn-proceed-dialog").onclick = function() { window.open(url); }
+		    }
+
+            function closeCloneDialog(){
+                var modal = document.getElementById("myModal");
+                modal.style.display = "none";
+                document.getElementById("btn-proceed-dialog").onclick = function() { "" }
+		    }
         </script>
     </head>
     <body class="container">
@@ -706,10 +706,13 @@
                         If you already have an EBRAINS account, but do not have access to any Collab, you can create one 
                         <a href="https://wiki.ebrains.eu/bin/view/Collabs?clbaction=create" target="_blank" rel="noreferrer">here</a>.
                     </p>
+                    <p>
+                        Click 'Proceed' to login to the Collaboratory and clone the file to a Collab of your choice.
+                    </p>
                     <div id="modal-div-element"></div>
                     <div class="button-container">
-                        <button class="my-button orange-bg" id="dialogClose" onclick="javascript:closeTesting();">Back</button>
-                        <button class="my-button green-bg">Proceed</button>
+                        <button class="my-button orange-bg" id="btn-close-dialog" onclick="javascript:closeCloneDialog();">Close</button>
+                        <button class="my-button green-bg" id="btn-proceed-dialog" onclick="">Proceed</button>
                     </div>
                 </div>
             </div>
