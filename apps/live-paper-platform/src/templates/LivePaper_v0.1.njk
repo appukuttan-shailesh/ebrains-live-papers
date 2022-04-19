@@ -676,15 +676,21 @@
             function openCloneDialog(value){
                 var modal = document.getElementById("myModal");
                 modal.style.display = "block";
-                let url = `https://collab-file-cloner.netlify.app/#source_file=${value}&dest_dir=/live-papers/{{ alias }}&file_overwrite=false`
+                let url = `https://collab-file-cloner.netlify.app/#source_file=${encodeURI(value)}&dest_dir=/live-papers/{{ alias }}&file_overwrite=false`
                 console.log(url);
-                document.getElementById("btn-proceed-dialog").onclick = function() { window.open(url); }
+                
+                var link = document.createElement('a');
+                link.target = "_blank";
+                link.href = url;
+                link.rel = "noopener noreferrer";
+                document.body.appendChild(link); // you need to add it to the DOM to get FF working
+                link.click();
+                link.parentNode.removeChild(link); // link.remove(); doesn't work on IE11
 		    }
 
             function closeCloneDialog(){
                 var modal = document.getElementById("myModal");
                 modal.style.display = "none";
-                document.getElementById("btn-proceed-dialog").onclick = function() { "" }
 		    }
         </script>
     </head>
