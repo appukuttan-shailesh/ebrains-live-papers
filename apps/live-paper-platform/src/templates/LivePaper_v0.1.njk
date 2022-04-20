@@ -676,9 +676,21 @@
             function openCloneDialog(value){
                 var modal = document.getElementById("myModal");
                 modal.style.display = "block";
-                let url = `https://collab-file-cloner.netlify.app/#source_file=${encodeURI(value)}&dest_dir=/live-papers/{{ alias }}&file_overwrite=false`
+
+                // generate URL for cloning app
+                let url = `https://collab-file-cloner.netlify.app/#source_file=${encodeURI(value)}&dest_dir=/live-papers/{{ alias }}&file_overwrite=false&auto_run=true`
                 console.log(url);
-                
+
+                // save URL to a hidden element
+                var hidden_input = document.getElementById("hidden-clone-url");
+                hidden_input.value = url;
+		    }
+
+            function goToCloneApp() {
+                // retrieve URL from hidden element
+                var hidden_input = document.getElementById("hidden-clone-url");
+                var url = hidden_input.value;
+
                 var link = document.createElement('a');
                 link.target = "_blank";
                 link.href = url;
@@ -686,11 +698,15 @@
                 document.body.appendChild(link); // you need to add it to the DOM to get FF working
                 link.click();
                 link.parentNode.removeChild(link); // link.remove(); doesn't work on IE11
-		    }
+            }
 
             function closeCloneDialog(){
                 var modal = document.getElementById("myModal");
                 modal.style.display = "none";
+
+                // reset value of hidden element
+                var hidden_input = document.getElementById("hidden-clone-url");
+                hidden_input.value = "";
 		    }
         </script>
     </head>
@@ -715,10 +731,10 @@
                     <p>
                         Click 'Proceed' to login to the Collaboratory and clone the file to a Collab of your choice.
                     </p>
-                    <div id="modal-div-element"></div>
+                    <input type="hidden" name="hidden-clone-url" id="hidden-clone-url" value="">
                     <div class="button-container">
                         <button class="my-button orange-bg" id="btn-close-dialog" onclick="javascript:closeCloneDialog();">Close</button>
-                        <button class="my-button green-bg" id="btn-proceed-dialog" onclick="">Proceed</button>
+                        <button class="my-button green-bg" id="btn-proceed-dialog" onclick="javascript:goToCloneApp();">Proceed</button>
                     </div>
                 </div>
             </div>
