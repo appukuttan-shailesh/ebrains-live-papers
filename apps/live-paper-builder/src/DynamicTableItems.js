@@ -172,7 +172,7 @@ export class RowURL extends React.Component {
                 <input
                   name="view_url"
                   type="text"
-                  value={this.props.item["view_url"]}
+                  value={this.props.item["view_url"] || ""}
                   onChange={(e) =>
                     this.props.handleItemChanged(this.props.ind, e)
                   }
@@ -284,7 +284,7 @@ export class RowURLExpanded extends React.Component {
                         variant="outlined"
                         fullWidth={true}
                         name="view_url"
-                        value={this.props.item["view_url"]}
+                        value={this.props.item["view_url"] || ""}
                         onChange={(e) =>
                           this.props.handleItemChanged(this.props.ind, e)
                         }

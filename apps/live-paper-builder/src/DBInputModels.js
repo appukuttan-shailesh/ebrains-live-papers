@@ -459,8 +459,8 @@ export class KGContentModelVersion extends React.Component {
                 justifyContent: "center",
               }}
             >
-              <Typography variant="body2" color="textSecondary">
-                Model Instance ID: <span>{this.props.instance.id}</span>
+              <Typography variant="body2">
+                Model Instance ID: <span style={{ fontWeight: "bold" }}>{this.props.instance.id}</span>
               </Typography>
               <Typography
                 variant="body2"
@@ -560,10 +560,10 @@ export class KGContentModelVersionsPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor:"#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
-                Open Model
+                Open Page
               </Button>
             </Link>
           </Grid>
@@ -743,10 +743,10 @@ export class ModelDBContentModelPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor:"#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
-                Open Model
+                Open Page
               </Button>
             </Link>
           </Grid>
@@ -993,10 +993,10 @@ export class OSBContentModelPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor:"#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
-                Open Model
+                Open Page
               </Button>
             </Link>
           </Grid>
@@ -1034,8 +1034,8 @@ export class OSBContentModelPanel extends React.Component {
                     justifyContent: "center",
                   }}
                 >
-                  <Typography variant="body2" color="textSecondary">
-                    Model ID: <span>{this.props.data.id}</span>
+                  <Typography variant="body2">
+                    Model ID: <span style={{ fontWeight: "bold" }}>{this.props.data.id}</span>
                   </Typography>
                 </Box>
               </Grid>
@@ -1264,10 +1264,10 @@ export class BioModelsContentModelPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor:"#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
-                Open Model
+                Open Page
               </Button>
             </Link>
           </Grid>
@@ -2599,7 +2599,11 @@ export default class DBInputModels extends React.Component {
                       borderWidth: "1px",
                     }}
                     onClick={() => {
-                      this.setState({ showFilters: true });
+                      this.setState({ 
+                        list_models: [],
+                        model_collection: {},
+                        showFilters: true
+                       });
                     }}
                   >
                     Filters

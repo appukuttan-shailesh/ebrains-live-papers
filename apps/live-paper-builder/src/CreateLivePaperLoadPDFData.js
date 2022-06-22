@@ -833,13 +833,13 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   uploading its PDF file. We will use this to try 
                   auto-extracting the required metadata. 
                   <br />
-                  <ul class="collection">
-                    <li class="collection-item" style={{"backgroundColor":"#fff8e1"}}>
+                  <ul className="collection">
+                    <li className="collection-item" style={{"backgroundColor":"#fff8e1"}}>
                       To extract the metadata using the DOI, click on 'Specify DOI', 
                       input the DOI of the associated publication, 
                       and then click 'Retrieve' to fetch the metadata.
                     </li>
-                    <li class="collection-item" style={{"backgroundColor":"#fff8e1"}}>
+                    <li className="collection-item" style={{"backgroundColor":"#fff8e1"}}>
                       To extract the metadata using the PDF file, click on 'Upload PDF', 
                       select the PDF file in the file browser pop-up,
                       and then click 'Upload' to begin the extraction process.

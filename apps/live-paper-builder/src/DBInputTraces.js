@@ -420,7 +420,7 @@ class KGContentTraceVersionsPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor:"#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
                 Open Page
@@ -603,10 +603,10 @@ class AllenBrainContentTracePanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor:"#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
-                Open Trace
+                Open Page
               </Button>
             </Link>
           </Grid>
@@ -644,8 +644,8 @@ class AllenBrainContentTracePanel extends React.Component {
                     justifyContent: "center",
                   }}
                 >
-                  <Typography variant="body2" color="textSecondary">
-                    Trace ID: <span>{this.props.data.specimen__id}</span>
+                  <Typography variant="body2">
+                    Trace ID: <span style={{ fontWeight: "bold" }}>{this.props.data.specimen__id}</span>
                   </Typography>
                 </Box>
               </Grid>
@@ -1121,7 +1121,7 @@ export class FilterPanelAllenBrain extends React.Component {
               Citation Policy
             </a>
           </h6>
-          <p>
+          <div>
             Use one of the following general citation formats for any Allen
             Institute resource:
             <ul>
@@ -1140,7 +1140,7 @@ export class FilterPanelAllenBrain extends React.Component {
                 </em>
               </li>
             </ul>
-          </p>
+          </div>
         </Grid>
         <Grid item xs={12} style={{ paddingBottom: "10px" }}>
           <h6>
@@ -1499,7 +1499,11 @@ export default class DBInputTraces extends React.Component {
                       borderWidth: "1px",
                     }}
                     onClick={() => {
-                      this.setState({ showFilters: true });
+                      this.setState({ 
+                        list_traces: [],
+                        trace_collection: {},
+                        showFilters: true
+                       });
                     }}
                   >
                     Filters

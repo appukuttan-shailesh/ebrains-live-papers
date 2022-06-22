@@ -67,7 +67,7 @@ function HelpContent() {
             "https://model-catalog.brainsimulation.eu/#model_id.01f49d73-e8a1-4f23-be30-d01bd52f89a2",
         "identifier": null,
         "tab_name": "Group A"
-        },
+        }
     ]`;
 
   return (
@@ -79,11 +79,9 @@ function HelpContent() {
         <b>List of dicts/objects</b>
       </h6>
       Each dict in the list should have keys named 'type', 'url', 'label',
-      'view_url', 'identifier' and 'tab_name'. You can specify the model catalog
-      URL for each model using their `view_url' field. The 'identifier' field
-      corresponds to the Knowledge Graph UUID. For manually entered items,
-      'type' and 'identifier' can be set to 'URL' and 'null', respectively.{" "}
-      <i>Example:</i>
+      'view_url', 'identifier' and 'tab_name'. For manually entered items, 'type' 'view_url'
+      and 'identifier' can be set to 'URL', null and null, respectively. You may specify the 
+      model catalog URL for each model using their `view_url' field. <i>Example:</i>
       <br />
       <pre>
         <code>{list_of_dicts}</code>
@@ -147,7 +145,7 @@ export class SectionModelsEdit extends React.Component {
           "tab_name" in item &&
           typeof item["url"] === "string" &&
           typeof item["label"] === "string" &&
-          typeof item["view_url"] === "string" &&
+          (item["view_url"] === null || typeof item["view_url"] === "string") &&
           typeof item["tab_name"] === "string"
         );
       }
@@ -344,16 +342,17 @@ export default class SectionModels extends React.Component {
     // var items_data = data.filter(isNotEmpty);
     // console.log(items_data);
     if (items_data.length === 0) {
-      items_data = [
-        {
-          type: "URL",
-          label: "",
-          url: "",
-          view_url: "",
-          identifier: null,
-          tab_name: "",
-        },
-      ];
+      items_data = [];
+      // items_data = [
+      //   {
+      //     type: "URL",
+      //     label: "",
+      //     url: "",
+      //     view_url: "",
+      //     identifier: null,
+      //     tab_name: "",
+      //   },
+      // ];
     }
 
     this.setState(

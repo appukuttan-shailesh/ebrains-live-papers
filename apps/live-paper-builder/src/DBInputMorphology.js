@@ -383,7 +383,7 @@ class NeuroMorphoContentMorphologyPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor:"#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
                 Open Page
@@ -409,7 +409,7 @@ class NeuroMorphoContentMorphologyPanel extends React.Component {
                 <Box px={2} display="flex" flexDirection="row">
                   <p variant="subtitle2">
                     Morphology Name:{" "}
-                    <span style={{ cursor: "pointer", fontWeight: "bold" }}>
+                    <span style={{ fontWeight: "bold" }}>
                       {this.props.data.neuron_name}
                     </span>
                   </p>
@@ -424,8 +424,8 @@ class NeuroMorphoContentMorphologyPanel extends React.Component {
                     justifyContent: "center",
                   }}
                 >
-                  <Typography variant="body2" color="textSecondary">
-                    Morphology ID: <span>{this.props.data.neuron_id}</span>
+                  <Typography variant="body2">
+                    Morphology ID: <span style={{ fontWeight: "bold" }}>{this.props.data.neuron_id}</span>
                   </Typography>
                 </Box>
               </Grid>
@@ -650,10 +650,10 @@ class AllenBrainContentMorphologyPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor:"#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
-                Open Morphology
+                Open Page
               </Button>
             </Link>
           </Grid>
@@ -691,8 +691,8 @@ class AllenBrainContentMorphologyPanel extends React.Component {
                     justifyContent: "center",
                   }}
                 >
-                  <Typography variant="body2" color="textSecondary">
-                    Morphology ID: <span>{this.props.data.specimen__id}</span>
+                  <Typography variant="body2">
+                    Morphology ID: <span style={{ fontWeight: "bold" }}>{this.props.data.specimen__id}</span>
                   </Typography>
                 </Box>
               </Grid>
@@ -939,7 +939,6 @@ export class FilterPanelNeuroMorpho extends React.Component {
 
       list_morphology_ids.forEach(function (morphology_id, i) {
         let url =
-          corsProxy +
           neuromorpho_baseUrl +
           "/neuron/id/" +
           parseInt(morphology_id, 10);
@@ -1037,7 +1036,7 @@ export class FilterPanelNeuroMorpho extends React.Component {
       };
       let query = buildQuery(this.state.configFilters, "NeuroMorpho");
       let url =
-        corsProxy + neuromorpho_baseUrl + "/neuron/select?" + encodeURI(query);
+        neuromorpho_baseUrl + "/neuron/select?" + encodeURI(query);
       this.setState({ loading: true });
       let results = [];
       const context = this;
@@ -1056,7 +1055,6 @@ export class FilterPanelNeuroMorpho extends React.Component {
           if (numPages > 1) {
             for (let ind = 1; ind < numPages; ind++) {
               url =
-                corsProxy +
                 neuromorpho_baseUrl +
                 "/neuron/select?" +
                 encodeURI(query) +
@@ -1441,7 +1439,7 @@ export class FilterPanelAllenBrain extends React.Component {
               Citation Policy
             </a>
           </h6>
-          <p>
+          <div>
             Use one of the following general citation formats for any Allen
             Institute resource:
             <ul>
@@ -1460,7 +1458,7 @@ export class FilterPanelAllenBrain extends React.Component {
                 </em>
               </li>
             </ul>
-          </p>
+          </div>
         </Grid>
         <Grid item xs={12} style={{ paddingBottom: "10px" }}>
           <h6>
@@ -1831,7 +1829,11 @@ export default class DBInputMorphology extends React.Component {
                       borderWidth: "1px",
                     }}
                     onClick={() => {
-                      this.setState({ showFilters: true });
+                      this.setState({ 
+                        list_morphologies: [],
+                        morphology_collection: {},
+                        showFilters: true
+                       });
                     }}
                   >
                     Filters

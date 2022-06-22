@@ -501,6 +501,7 @@ export default class SectionCustom extends React.Component {
                       width: "100%",
                       display: "flex",
                       justifyContent: "flex-end",
+                      paddingTop: "20px",
                     }}
                   >
                     <Button
