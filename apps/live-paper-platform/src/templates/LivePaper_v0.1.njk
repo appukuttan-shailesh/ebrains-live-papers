@@ -380,6 +380,15 @@
                                         <span></span>
                                     {% endif %}
                                 </td>
+                                <td style="width: 175px">
+                                    {% if item["url"] != item["view_url"] %}
+                                        <a href="javascript:openCloneDialog('{{ item["url"] }}');" class="waves-effect waves-light">
+                                            <i class="material-icons left">open_in_browser</i>Clone
+                                        </a>
+                                    {% else %}
+                                        <span></span>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -502,8 +511,120 @@
                 $(".tabs").tabs();
             });
         </script>
-        <link
-        rel="stylesheet" href="https://unpkg.com/katex@0.10.0/dist/katex.min.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/katex@0.10.0/dist/katex.min.css"/>
+        
+        <style>
+            /* The Modal (background) */
+            .modal {
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 999999999; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 60%; /* Full width */
+                min-width: 820px;
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgba(0,0,0,0.0); /* Black w/ opacity */
+                box-shadow: none;
+            }
+
+            /* Modal Header */
+            .modal-header {
+                padding: 8px 16px;
+                margin-bottom: 16px;
+                background-color: #ffd180;
+                color: white;
+                font-size: 20px;
+                font-weight: bold;
+                color: #000000;
+            }
+
+            /* Modal Body */
+            .modal-body {
+                padding: 2px 16px;
+            }
+
+            /* Modal Footer */
+            .modal-footer {
+                padding: 2px 16px;
+                background-color: #5cb85c;
+                color: white;
+            }
+
+            /* Modal Content */
+            .modal-content {
+                position: relative;
+                background-color: #fefefe;
+                margin: auto;
+                padding: 0;
+                border: 1px solid #888;
+                width: 80%;
+                border-radius: 16px;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+                animation-name: animatetop;
+                animation-duration: 0.4s
+            }
+
+            .my-button {
+                width: 200px;
+                padding: 8px;
+                border-radius: 4px;
+                font-size: 16px;
+            }
+
+            .orange-bg {
+                background-color: #FF9800;
+            }
+            .orange-bg:hover,
+            .orange-bg:focus {
+                background-color: #FF9800;
+            }
+            
+
+            .green-bg {
+                background-color: #8BC34A;
+            }
+            .green-bg:hover,
+            .green-bg:focus {
+                background-color: #8BC34A;
+            }
+
+            .button-container {
+                display: flex;
+                justify-content: space-around;
+                margin-top: 10px;
+                padding: 6px;
+            }
+
+            /* Add Animation */
+            @-webkit-keyframes animatetop {
+                from {top:-300px; opacity:0} 
+                to {top:0; opacity:1}
+            }
+
+            @keyframes animatetop {
+                from {top:-300px; opacity:0}
+                to {top:0; opacity:1}
+            }
+
+            /* The Close Button */
+            .close {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        </style>
+
         <!-- Matomo -->
         <script>
             var _paq = window._paq = window._paq || [];
@@ -526,8 +647,99 @@
             })();
         </script>
         <!-- End Matomo Code -->
+        <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
+
+            {# // Get the button that opens the modal
+            var btn = document.getElementById("myBtn"); #}
+
+            {# // When the user clicks on the button, open the modal
+            btn.onclick = function() {
+                modal.style.display = "block";
+            } #}
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                console.log(event);
+                console.log(event.target);
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            function openCloneDialog(value){
+                var modal = document.getElementById("myModal");
+                modal.style.display = "block";
+
+                // generate URL for cloning app
+                let url = `https://collab-file-cloner.netlify.app/#source_file=${encodeURI(value)}&dest_dir=/live-papers/{{ alias }}&file_overwrite=false&auto_run=true`
+                console.log(url);
+
+                // save URL to a hidden element
+                var hidden_input = document.getElementById("hidden-clone-url");
+                hidden_input.value = url;
+		    }
+
+            function goToCloneApp() {
+                // retrieve URL from hidden element
+                var hidden_input = document.getElementById("hidden-clone-url");
+                var url = hidden_input.value;
+
+                var link = document.createElement('a');
+                link.target = "_blank";
+                link.href = url;
+                link.rel = "noopener noreferrer";
+                document.body.appendChild(link); // you need to add it to the DOM to get FF working
+                link.click();
+                link.parentNode.removeChild(link); // link.remove(); doesn't work on IE11
+            }
+
+            function closeCloneDialog(){
+                var modal = document.getElementById("myModal");
+                modal.style.display = "none";
+
+                // reset value of hidden element
+                var hidden_input = document.getElementById("hidden-clone-url");
+                hidden_input.value = "";
+		    }
+        </script>
     </head>
     <body class="container">
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    Clone File to Collab Storage
+                </div>
+                <div class="modal-body">
+                    <p>
+                        To clone a file into the EBRAINS Collaboratory, you are required to have an EBRAINS account.
+                    </p>
+                    <p>
+                        If you do not yet have an EBRAINS account, you can request for one 
+                        <a href="https://ebrains.eu/register/" target="_blank" rel="noreferrer">here</a>. 
+                        If you already have an EBRAINS account, but do not have access to any Collab, you can create one 
+                        <a href="https://wiki.ebrains.eu/bin/view/Collabs?clbaction=create" target="_blank" rel="noreferrer">here</a>.
+                    </p>
+                    <p>
+                        Click 'Proceed' to login to the Collaboratory and clone the file to a Collab of your choice.
+                    </p>
+                    <input type="hidden" name="hidden-clone-url" id="hidden-clone-url" value="">
+                    <div class="button-container">
+                        <button class="my-button orange-bg" id="btn-close-dialog" onclick="javascript:closeCloneDialog();">Close</button>
+                        <button class="my-button green-bg" id="btn-proceed-dialog" onclick="javascript:goToCloneApp();">Proceed</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="box rounded centered">
             <div style="text-align:center; color:black; display:inline-block">
                 <table>
