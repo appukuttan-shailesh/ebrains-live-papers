@@ -1148,30 +1148,27 @@ class CreateLivePaper extends React.Component {
         <DialogContent>
           <div className="mycontainer" style={{ textAlign: "left" }}>
             <TopNavigation />
-            <div className="box rounded centered" style={{ marginTop: "5px" }}>
+            <div className="box rounded centered"
+              style={{ marginTop: "5px", paddingTop: "0.75em", paddingBottom: "0.75em" }}>
               <a
-                href="../../index.html"
+                href="https://ebrains.eu/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="waves-effect waves-light"
                 style={{ textAlign: "center", color: "black" }}
               >
                 <table>
                   <tbody>
                     <tr>
-                      <td>
+                      <td
+                        style={{ paddingTop: "0px",
+                                paddingBottom: "0px" }}>
                         <img
                           className="ebrains-icon-small"
-                          src="./imgs/ebrains_logo.png"
+                          src="./imgs/ebrains_logo.svg"
                           alt="EBRAINS logo"
-                          style={{ width: "25px", height: "25px" }}
+                          style={{ height: "60px" }}
                         />
-                      </td>
-                      <td>
-                        <span
-                          className="title-style subtitle"
-                          style={{ paddingLeft: "5px" }}
-                        >
-                          EBRAINS Live Papers
-                        </span>
                       </td>
                     </tr>
                   </tbody>
