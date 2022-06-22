@@ -1623,7 +1623,8 @@ class CreateLivePaper extends React.Component {
                     <p>
                       <strong>
                         Provide the URL to access article (leave empty if
-                        awaiting publication or link to bioRxiv, if available):
+                        awaiting publication or link to publicly accessible preprint
+                        repositories, such as bioRxiv, if available):
                       </strong>
                     </p>
                   </div>
