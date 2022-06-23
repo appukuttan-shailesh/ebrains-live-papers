@@ -16,8 +16,8 @@ const YOUR_APP_SCOPES = 'openid team email profile clb.wiki.read clb.drive:read 
 export default function initAuth(main) {
     console.log('DOM content is loaded, initialising Keycloak client...');
     keycloak
-        // .init({ flow: 'standard', pkceMethod: 'S256' }) // for deployment
-        .init({ flow: 'implicit', promiseType: 'native' }) // for local development
+        .init({ flow: 'standard', pkceMethod: 'S256' }) // for deployment
+        // .init({ flow: 'implicit', promiseType: 'native' }) // for local development
         .then(() => checkAuth(main))
         .catch(console.log);
 }
