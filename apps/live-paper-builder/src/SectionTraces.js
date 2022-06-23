@@ -23,47 +23,47 @@ import styled from "styled-components";
 function HelpContent() {
   const list_of_dicts = `
     [
-        {
-          "type": "URL",
-          "label": "file_A",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idB.abf",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "label": "file_B",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idC.abf",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "label": "file_C",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idF.abf",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "label": "file_D",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idG.abf",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "label": "file_E",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idH.abf",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        }
-      ]`;
+      {
+        "type": "URL",
+        "label": "file_A",
+        "url": "https://www.datasource.com/traces/oh140807_A0_idB.abf",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "label": "file_B",
+        "url": "https://www.datasource.com/traces/oh140807_A0_idC.abf",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "label": "file_C",
+        "url": "https://www.datasource.com/traces/oh140807_A0_idF.abf",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "label": "file_D",
+        "url": "https://www.datasource.com/traces/oh140807_A0_idG.abf",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "label": "file_E",
+        "url": "https://www.datasource.com/traces/oh140807_A0_idH.abf",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      }
+    ]`;
 
   return (
     <div>
@@ -234,6 +234,7 @@ export class SectionTracesEdit extends React.Component {
         content={this.renderContent()}
         handleClose={this.handleSaveData}
         clickHelp={this.clickHelp}
+        bulkEntry="Recordings/Traces"
       />
     );
   }

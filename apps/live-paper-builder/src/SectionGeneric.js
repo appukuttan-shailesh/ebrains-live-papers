@@ -22,47 +22,47 @@ import styled from "styled-components";
 function HelpContent() {
   const list_of_dicts = `
     [
-        {
-          "type": "URL",
-          "url": "https://www.datasource.com/listing/file_idB.dat",
-          "view_url": null,
-          "label": "file_A",
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "url": "https://www.datasource.com/listing/file_idC.dat",
-          "view_url": null,
-          "label": "file_B",
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "url": "https://www.datasource.com/listing/file_idF.dat",
-          "view_url": null,
-          "label": "file_C",
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "url": "https://www.datasource.com/listing/file_idG.dat",
-          "view_url": null,
-          "label": "file_D",
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "url": "https://www.datasource.com/listing/file_idH.dat",
-          "view_url": null,
-          "label": "file_E",
-          "identifier": null,
-          "tab_name": "Group A"
-        }
-      ]`;
+      {
+        "type": "URL",
+        "url": "https://www.datasource.com/listing/file_idB.dat",
+        "view_url": null,
+        "label": "file_A",
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "url": "https://www.datasource.com/listing/file_idC.dat",
+        "view_url": null,
+        "label": "file_B",
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "url": "https://www.datasource.com/listing/file_idF.dat",
+        "view_url": null,
+        "label": "file_C",
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "url": "https://www.datasource.com/listing/file_idG.dat",
+        "view_url": null,
+        "label": "file_D",
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "url": "https://www.datasource.com/listing/file_idH.dat",
+        "view_url": null,
+        "label": "file_E",
+        "identifier": null,
+        "tab_name": "Group A"
+      }
+    ]`;
 
   return (
     <div>
@@ -233,6 +233,7 @@ export class SectionGenericEdit extends React.Component {
         content={this.renderContent()}
         handleClose={this.handleSaveData}
         clickHelp={this.clickHelp}
+        bulkEntry="Generic"
       />
     );
   }

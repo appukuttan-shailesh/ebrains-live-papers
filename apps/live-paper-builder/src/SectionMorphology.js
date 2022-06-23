@@ -23,47 +23,47 @@ import styled from "styled-components";
 function HelpContent() {
   const list_of_dicts = `
     [
-        {
-          "type": "URL",
-          "label": "file_A",
-          "url": "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "label": "file_B",
-          "url": "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "label": "file_C",
-          "url": "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "label": "file_D",
-          "url": "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group B"
-        },
-        {
-          "type": "URL",
-          "label": "file_E",
-          "url": "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group B"
-        }
-      ]`;
+      {
+        "type": "URL",
+        "label": "file_A",
+        "url": "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "label": "file_B",
+        "url": "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "label": "file_C",
+        "url": "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "label": "file_D",
+        "url": "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group B"
+      },
+      {
+        "type": "URL",
+        "label": "file_E",
+        "url": "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group B"
+      }
+    ]`;
 
   return (
     <div>
@@ -234,6 +234,7 @@ export class SectionMorphologyEdit extends React.Component {
         content={this.renderContent()}
         handleClose={this.handleSaveData}
         clickHelp={this.clickHelp}
+        bulkEntry="Morphology"
       />
     );
   }

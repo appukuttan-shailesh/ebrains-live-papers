@@ -23,7 +23,7 @@ import styled from "styled-components";
 function HelpContent() {
   const list_of_dicts = `
     [
-        {
+      {
         "type": "URL",
         "label": "file_A",
         "url": "https://www.datasource.com/models/model_1.zip",
@@ -31,8 +31,8 @@ function HelpContent() {
             "https://model-catalog.brainsimulation.eu/#model_id.00f2e856-27a8-4b8d-9ec3-4e2581c546e4",
         "identifier": null,
         "tab_name": "Group A"
-        },
-        {
+      },
+      {
         "type": "URL",
         "label": "file_B",
         "url": "https://www.datasource.com/models/model_2.zip",
@@ -40,8 +40,8 @@ function HelpContent() {
             "https://model-catalog.brainsimulation.eu/#model_id.01006de7-e861-45fb-abf4-3c84e609d33b",
         "identifier": null,
         "tab_name": "Group A"
-        },
-        {
+      },
+      {
         "type": "URL",
         "label": "file_C",
         "url": "https://www.datasource.com/models/model_3.zip",
@@ -49,8 +49,8 @@ function HelpContent() {
             "https://model-catalog.brainsimulation.eu/#model_id.01afb341-7ca2-4694-9968-16fc7d8fc765",
         "identifier": null,
         "tab_name": "Group A"
-        },
-        {
+      },
+      {
         "type": "URL",
         "label": "file_D",
         "url": "https://www.datasource.com/models/model_4.zip",
@@ -58,8 +58,8 @@ function HelpContent() {
             "https://model-catalog.brainsimulation.eu/#model_id.01da73a6-8715-431b-aaa7-efcd9358c786",
         "identifier": null,
         "tab_name": "Group A"
-        },
-        {
+      },
+      {
         "type": "URL",
         "label": "file_E",
         "url": "https://www.datasource.com/models/model_5.zip",
@@ -67,7 +67,7 @@ function HelpContent() {
             "https://model-catalog.brainsimulation.eu/#model_id.01f49d73-e8a1-4f23-be30-d01bd52f89a2",
         "identifier": null,
         "tab_name": "Group A"
-        }
+      }
     ]`;
 
   return (
@@ -240,6 +240,7 @@ export class SectionModelsEdit extends React.Component {
         content={this.renderContent()}
         handleClose={this.handleSaveData}
         clickHelp={this.clickHelp}
+        bulkEntry="Models"
       />
     );
   }
