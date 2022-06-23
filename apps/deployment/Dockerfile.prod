@@ -10,7 +10,7 @@ WORKDIR /live-paper-platform
 ENV PATH /live-paper-platform/node_modules/.bin:$PATH
 COPY live-paper-platform/package.json ./
 COPY live-paper-platform/package-lock.json ./
-RUN npm ci --silent
+RUN npm ci --silent --legacy-peer-deps
 COPY live-paper-platform ./
 RUN node --max-old-space-size=4096 `which npm` run build
 
@@ -18,7 +18,7 @@ WORKDIR /live-paper-builder
 ENV PATH /live-paper-builder/node_modules/.bin:$PATH
 COPY live-paper-builder/package.json ./
 COPY live-paper-builder/package-lock.json ./
-RUN npm ci --silent
+RUN npm ci --silent --legacy-peer-deps
 COPY live-paper-builder ./
 RUN npm run build
 
