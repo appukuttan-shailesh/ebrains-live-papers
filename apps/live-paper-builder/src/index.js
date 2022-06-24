@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import BulkEntryWizard from "./BulkEntryWizard";
 
 function initLoad() {
-  // to avoid authentication when opening BulkEntryWizard 
+  // to avoid authentication when opening BulkEntryWizard
   console.log(window.location.pathname);
   if (window.location.pathname.includes("BulkEntryWizard")) {
     renderApp(null);
@@ -23,7 +23,6 @@ function renderApp(auth) {
   console.log(auth);
   ReactDOM.render(
     <Router>
-      <h1>Test Header</h1>
       <Routes>
         {["/BulkEntryWizard", "/builder/BulkEntryWizard"].map((path, index) => {
           return (
@@ -31,7 +30,6 @@ function renderApp(auth) {
               <React.StrictMode>
                 <SnackbarProvider maxSnack={3}>
                   <ContextMainProvider>
-                    <h1>Test Header - 1</h1>
                     <BulkEntryWizard />
                   </ContextMainProvider>
                 </SnackbarProvider>
@@ -47,7 +45,6 @@ function renderApp(auth) {
               <React.StrictMode>
                 <SnackbarProvider maxSnack={3}>
                   <ContextMainProvider>
-                    <h1>Test Header - 2</h1>
                     <App auth={auth} />
                   </ContextMainProvider>
                 </SnackbarProvider>
