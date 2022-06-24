@@ -572,8 +572,13 @@ class CreateLivePaperLoadPDFData extends React.Component {
   }
 
   skipContinue() {
+    console.log(this.state);
     this.setState({
       loadPDF: false,
+      loadDOI: false,
+      dataExtracted: {},
+      selectedPDF: null,
+      articleDOI: "",
     });
   }
 
