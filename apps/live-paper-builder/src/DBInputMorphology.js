@@ -1429,6 +1429,9 @@ export class FilterPanelAllenBrain extends React.Component {
     return (
       <div>
         <Grid item xs={12} style={{ paddingBottom: "10px" }}>
+          <div style={{"color":"red", paddingBottom:"10px"}}>
+          <strong>Note: </strong> Currently unavailable as files have some compatibility issues with PyNWB and Neo.
+          </div>
           <h6>
             Allen Brain Atlas:{" "}
             <a
@@ -1481,10 +1484,12 @@ export class FilterPanelAllenBrain extends React.Component {
             </em>
             <form>
               <TextField
+                disabled  // TODO: Remove when fixed
                 variant="outlined"
                 fullWidth={true}
                 name="AllenBrain_morphology_ids"
-                value={this.state.morphology_ids}
+                // value={this.state.morphology_ids}  // TODO: Remove when fixed
+                value={"Currently unavailable!"}
                 onChange={this.handleIDsChange}
                 InputProps={{
                   style: {
@@ -1754,8 +1759,6 @@ export default class DBInputMorphology extends React.Component {
           open={this.props.open}
           fullWidth={this.state.showFilters ? false : true}
           maxWidth={"xl"}
-          //   disableBackdropClick={true}
-          //   disableEscapeKeyDown={true}
         >
           <DialogTitle
             id="customized-dialog-title"

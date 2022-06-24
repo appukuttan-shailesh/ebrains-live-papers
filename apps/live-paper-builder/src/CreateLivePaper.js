@@ -1138,7 +1138,6 @@ class CreateLivePaper extends React.Component {
     return (
       <Dialog
         fullScreen
-        disableBackdropClick
         disableEscapeKeyDown
         onClose={this.handleClose}
         aria-labelledby="simple-dialog-title"

@@ -65,7 +65,6 @@ export default class DialogConfirm extends React.Component {
           open={this.props.open}
           fullWidth={true}
           maxWidth={this.props.size || "md"}
-          disableBackdropClick={true}
           disableEscapeKeyDown={true}
         >
           <DialogTitle
