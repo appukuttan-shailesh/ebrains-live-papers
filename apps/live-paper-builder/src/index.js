@@ -39,7 +39,7 @@ function renderApp(auth) {
             />
           );
         })}
-        {["/", "/builder/"].map((path, index) => {
+        {["/", "/builder/", "*"].map((path, index) => {
           return (
             <Route path={path} element={
               <React.StrictMode>
