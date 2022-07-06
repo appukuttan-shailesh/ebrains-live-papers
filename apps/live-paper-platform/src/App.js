@@ -50,11 +50,11 @@ const TABLE_COLUMNS = [
       >
         {item.associated_paper_title ? (
           <InsertDriveFileTwoToneIcon
-            style={{ color: "#FF6900", fontSize: 30, marginLeft: 10 }}
+            style={{ color: "#00A595", fontSize: 30, marginLeft: 10 }}
           />
         ) : (
           <NoteAddTwoToneIcon
-            style={{ color: "#FF6900", fontSize: 30, marginLeft: 10 }}
+            style={{ color: "#00A595", fontSize: 30, marginLeft: 10 }}
           />
         )}
       </Tooltip>
@@ -135,7 +135,7 @@ function MediaCard(props) {
       <Card
         style={{
           width: "90%",
-          backgroundColor: "#FFECB3",
+          backgroundColor: "#B3E5C0",
           borderStyle: "solid",
           borderWidth: 2,
         }}
@@ -506,7 +506,7 @@ export default class App extends React.Component {
                         className="ebrains-icon-small"
                         src="./imgs/ebrains_logo.svg"
                         alt="EBRAINS logo"
-                        style={{ height: "60px" }}
+                        style={{ height: "70px" }}
                       />
                     </td>
                   </tr>
@@ -546,7 +546,7 @@ export default class App extends React.Component {
               alignItem: "center",
             }}
           > */}
-          <div className="box rounded centered" style={{ width: "90%" }}>
+          <div className="box rounded centered smallbox" style={{ width: "90%" }}>
             <span
               style={{
                 fontWeight: "bolder",
@@ -806,7 +806,7 @@ export default class App extends React.Component {
                     options={{
                       height: "400",
                       chrome: "noheader, nofooter",
-                      borderColor: "#F44336",
+                      borderColor: "#00A595",
 
                       id: "profile:HumanBrainProj",
                     }}
@@ -851,6 +851,7 @@ export default class App extends React.Component {
                       border: "solid",
                       borderWidth: 2,
                       borderColor: "#999999",
+                      backgroundColor: "#eff7e5"
                     },
                     // tableLayout: "fixed",
                   }}
@@ -862,7 +863,7 @@ export default class App extends React.Component {
                     Toolbar: (props) => (
                       <div
                         style={{
-                          backgroundColor: "#FFD180",
+                          backgroundColor: "#13AC8B",
                         }}
                       >
                         <MTableToolbar {...props} />

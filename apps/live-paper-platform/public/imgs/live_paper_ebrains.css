@@ -82,7 +82,8 @@
      padding: 1em 1.5em;
      margin: 2em auto;
      color: #000;
-     background: radial-gradient(ellipse 40% 100% at 50% 75%, #9CE142 0%, #77D256 10%, #00A595);
+     background: radial-gradient(ellipse 100% 100% at 50% 75%, #9CE142 0%, #77D256 10%, #00A595);
+     /* background: #00A595; */
      overflow: hidden;
 }
 
