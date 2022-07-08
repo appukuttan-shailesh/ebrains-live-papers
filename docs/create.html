@@ -1,184 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1;maximum-scale=1; minimum-scale=1;"
-    />
-    <title>EBRAINS Live Papers</title>
-    <script src="jquery-3.6.0.min.js"></script>
-    <script>
-      $(function () {
-        $("head").load("commonLoads.html");
-      });
-    </script>
-  </head>
 
-  <body>
-    <script>
-      $(function () {
-        $("#navContent").load("navigation.html");
-        $("#footerContent").load("footer.html");
-        $("#contactContent").load("contact.html");
-      });
-    </script>
-    <main>
-      <header>
-        <div id="navContent"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1;maximum-scale=1; minimum-scale=1;" />
+  <title>EBRAINS Live Papers</title>
+  <script src="jquery-3.6.0.min.js"></script>
+  <script src="cookieDisclaimer.js"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="static/img/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="static/img/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="static/img/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="static/img/favicon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="256x256" href="static/img/favicon-256x256.png" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="ebrains-minimal.css" />
 
-        <div class="section title">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm align-self-center">
-                <h1>Create Live Papers</h1>
-                <div>Share resources by creating live papers</div>
-              </div>
+</head>
+
+<body>
+  <main>
+    <header>
+      <nav class="navbar navbar-default navbar-light bg-light navbar-expand-lg">
+        <a href="https://ebrains.eu/" aria-label="EBRAINS homepage"
+          class="logo nuxt-link-exact-active nuxt-link-active">
+          <img src="static/img/ebrains_logo.svg" alt="ebrains" height="60" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse navitems" id="navbarNavAltMarkup">
+          <ul class="navbar-nav app-links">
+            <li>
+              <a class="nav-item nav-link line" href="https://humanbrainproject.github.io/hbp-bsp-live-papers/">
+                <span class="oi oi-document" title="View Live Papers" aria-hidden="true"></span>
+              </a>
+            </li>
+            <li>
+              <a class="nav-item nav-link line active" href="index.html" alt="About Live Papers">Introduction</a>
+            </li>
+            <li>
+              <a class="nav-item nav-link line" href="find.html" alt="Find live papers">Find</a>
+            </li>
+            <li>
+              <a class="nav-item nav-link line" href="create.html" alt="Create Live Paper">Create</a>
+            </li>
+            <li>
+              <a class="nav-item nav-link line" href="morphology.html"
+                alt="Sharing morphology related data">Morphology</a>
+            </li>
+            <li>
+              <a class="nav-item nav-link line" href="traces.html" alt="Sharing electrophysiological data">Traces</a>
+            </li>
+            <li>
+              <a class="nav-item nav-link line" href="models.html" alt="Sharing models">Models</a>
+            </li>
+            <li>
+              <a class="nav-item nav-link line" href="other.html" alt="Sharing other content">Other</a>
+            </li>
+            <li>
+              <a class="nav-item nav-link line" href="develop.html" alt="Resources for developers">Develop</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+
+      <div class="section title">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm align-self-center">
+              <h1>Create Live Papers</h1>
+              <div>Share resources by creating live papers</div>
             </div>
           </div>
         </div>
-      </header>
-
-      <div class="section">
-        <div class="container">
-          <h5>Live Paper Builder</h5>
-          <h3>Online tool for creating live papers</h3>
-          <p>
-            The live paper builder tool has been developed with the primary
-            focus on making the data sharing process as simple as possible. It
-            allows authors to construct live papers by simply filling info into
-            a form based interface.
-          </p>
-          <p>
-            The first step towards creating a live paper is to apply for an
-            EBRAINS account. Interested users can create an account
-            <a href="https://iam.ebrains.eu/register" target="_blank">here</a>.
-            It is free and simple to create a new account, and mainly requires
-            an institutional email account. Once they have an EBRAINS account,
-            they can access the
-            <a href="https://iam.ebrains.eu/register" target="_blank"
-              >live paper builder tool</a
-            >.
-          </p>
-          <p>
-            On opening the tool, users are given an option to continue working
-            on an existing project, either by loading a previously downloaded
-            project file or selecting a live paper project saved on the
-            KnowledgeGraph. Alternatively, they can start creating a new live
-            paper project as we demonstrate here.
-          </p>
-          <div style="text-align: center">
-            <img src="static/figures/create/lp_builder_homepage.png" />
-          </div>
-          <p>
-            Metadata about the associated publication can either be manually
-            entered field by field, or users can avail of the feature to upload
-            the PDF version of the manuscript and have the tool attempt to
-            auto-extract all the relevant info and populate the corresponding
-            fields.
-          </p>
-          <div style="text-align: center">
-            <img src="static/figures/create/lp_builder_create_home.png" />
-          </div>
-          <p>
-            An example outcome of auto-extracting the metadata from the PDF is
-            shown below. We employ
-            <a href="https://github.com/kermitt2/grobid" target="_blank"
-              >GROBID</a
-            >, a tool for extracting metadata from scholarly publications, for
-            this purpose. As this is an automated process, it is advised that
-            the the output be verified, and corrections be made as required.
-          </p>
-          <div style="text-align: center">
-            <img src="static/figures/create/lp_builder_pdf_extract.png" />
-          </div>
-          <p>
-            The data extracted from the PDF would be auto-populated into the
-            corresponding fields of the live paper builder. If no article PDF
-            was upload at the earlier stage, then all fields would start empty
-            and the authors would need to manually fill all of these. Also,
-            there are some additional fields (such as the license to be applied
-            to the shared resources) which are to be manually specified by the
-            authors irrespective of the two approaches.
-          </p>
-          <div style="text-align: center">
-            <img
-              src="static/figures/create/lp_builder_main_filled.png"
-              class="big"
-            />
-          </div>
-          <p>
-            Once all the metadata has been inserted, authors can proceed to
-            listing the resources that they wish to share through the developed
-            live paper. For computational modeling studies, we have found that
-            the most common resources being distributed comprise of the
-            following:
-          </p>
-          <div style="text-align: center">
-            <img
-              src="static/figures/create/lp_builder_resource_panel.png"
-              class="big"
-            />
-          </div>
-          <ul>
-            <li>
-              <a href="./morphology.html">Morphologies</a>
-            </li>
-            <li>
-              <a href="./traces.html">Electrophysiological Recordings</a>
-            </li>
-            <li><a href="./models.html">Models</a></li>
-            <li><a href="./other.html">Other Content</a> (Generic, Custom)</li>
-          </ul>
-          <p>
-            Click on the above links for more details on how to share each type
-            of resource in a live paper.
-          </p>
-          <p>
-            As seen on the toolbar at the bottom of the live paper builder, it
-            allows authors to preview any changes, download locally the
-            resultant HTML file as well as the project file, with all data saved
-            in JSON format, and also to save the project data on the KG. This
-            allows users to develop the live papers across multiple sessions
-            and/or enhance them over time, by either loading the previously
-            downloaded project files, or via selecting from a list of live paper
-            projects from the KG that the user has access to. Once the live
-            paper development is completed, users can raise requests for them to
-            be published on the platform.
-          </p>
-          <div style="text-align: center">
-            <img src="static/figures/create/lp_builder_toolbar.png" />
-          </div>
-          <p>
-            Live papers can be set to be password-protected, thereby enabling
-            them to be shared solely with reviewers prior to publication. When
-            you're ready to share publicly, the authors need to submit the live
-            paper for publication, after which it will undergo a review process.
-            Once reviewed, the live paper will be published and made available
-            to the scientific community.
-          </p>
-          <div style="text-align: center">
-            <img src="static/figures/create/lp_builder_submit_password.png" />
-          </div>
-          <p>
-            The review process primarily involves verifying that all contained
-            resources are actually accessible and that these are hosted on
-            reliable data storage repositories. Resources hosted on authors' or
-            universities' own websites are copied over to our own central data
-            repository, to ensure long term accessibility and availability of
-            these resources. In view of other established neuroscience data
-            repositories, such as ModelDB, OSB, BioModels, NeuroMorpho and the Allen Brain
-            Atlas, resources already hosted on these platforms are not
-            duplicated, but instead we provide redirects to the corresponding
-            entries on these platforms
-          </p>
-        </div>
       </div>
+    </header>
 
-      <div id="contactContent"></div>
-    </main>
+    <div class="section">
+      <div class="container">
+        <h5>Live Paper Builder</h5>
+        <h3>Online tool for creating live papers</h3>
+        <p>
+          The live paper builder tool has been developed with the primary
+          focus on making the data sharing process as simple as possible. It
+          allows authors to construct live papers by simply filling info into
+          a form based interface.
+        </p>
+        <p>
+          The first step towards creating a live paper is to apply for an
+          EBRAINS account. Interested users can create an account
+          <a href="https://iam.ebrains.eu/register" target="_blank">here</a>.
+          It is free and simple to create a new account, and mainly requires
+          an institutional email account. Once they have an EBRAINS account,
+          they can access the
+          <a href="https://iam.ebrains.eu/register" target="_blank">live paper builder tool</a>.
+        </p>
+        <p>
+          On opening the tool, users are given an option to continue working
+          on an existing project, either by loading a previously downloaded
+          project file or selecting a live paper project saved on the
+          KnowledgeGraph. Alternatively, they can start creating a new live
+          paper project as we demonstrate here.
+        </p>
+        <div style="text-align: center">
+          <img src="static/figures/create/lp_builder_homepage.png" />
+        </div>
+        <p>
+          Metadata about the associated publication can either be manually
+          entered field by field, or users can avail of the feature to upload
+          the PDF version of the manuscript and have the tool attempt to
+          auto-extract all the relevant info and populate the corresponding
+          fields.
+        </p>
+        <div style="text-align: center">
+          <img src="static/figures/create/lp_builder_create_home.png" />
+        </div>
+        <p>
+          An example outcome of auto-extracting the metadata from the PDF is
+          shown below. We employ
+          <a href="https://github.com/kermitt2/grobid" target="_blank">GROBID</a>, a tool for extracting metadata from
+          scholarly publications, for
+          this purpose. As this is an automated process, it is advised that
+          the the output be verified, and corrections be made as required.
+        </p>
+        <div style="text-align: center">
+          <img src="static/figures/create/lp_builder_pdf_extract.png" />
+        </div>
+        <p>
+          The data extracted from the PDF would be auto-populated into the
+          corresponding fields of the live paper builder. If no article PDF
+          was upload at the earlier stage, then all fields would start empty
+          and the authors would need to manually fill all of these. Also,
+          there are some additional fields (such as the license to be applied
+          to the shared resources) which are to be manually specified by the
+          authors irrespective of the two approaches.
+        </p>
+        <div style="text-align: center">
+          <img src="static/figures/create/lp_builder_main_filled.png" class="big" />
+        </div>
+        <p>
+          Once all the metadata has been inserted, authors can proceed to
+          listing the resources that they wish to share through the developed
+          live paper. For computational modeling studies, we have found that
+          the most common resources being distributed comprise of the
+          following:
+        </p>
+        <div style="text-align: center">
+          <img src="static/figures/create/lp_builder_resource_panel.png" class="big" />
+        </div>
+        <ul>
+          <li>
+            <a href="./morphology.html">Morphologies</a>
+          </li>
+          <li>
+            <a href="./traces.html">Electrophysiological Recordings</a>
+          </li>
+          <li><a href="./models.html">Models</a></li>
+          <li><a href="./other.html">Other Content</a> (Generic, Custom)</li>
+        </ul>
+        <p>
+          Click on the above links for more details on how to share each type
+          of resource in a live paper.
+        </p>
+        <p>
+          As seen on the toolbar at the bottom of the live paper builder, it
+          allows authors to preview any changes, download locally the
+          resultant HTML file as well as the project file, with all data saved
+          in JSON format, and also to save the project data on the KG. This
+          allows users to develop the live papers across multiple sessions
+          and/or enhance them over time, by either loading the previously
+          downloaded project files, or via selecting from a list of live paper
+          projects from the KG that the user has access to. Once the live
+          paper development is completed, users can raise requests for them to
+          be published on the platform.
+        </p>
+        <div style="text-align: center">
+          <img src="static/figures/create/lp_builder_toolbar.png" />
+        </div>
+        <p>
+          Live papers can be set to be password-protected, thereby enabling
+          them to be shared solely with reviewers prior to publication. When
+          you're ready to share publicly, the authors need to submit the live
+          paper for publication, after which it will undergo a review process.
+          Once reviewed, the live paper will be published and made available
+          to the scientific community.
+        </p>
+        <div style="text-align: center">
+          <img src="static/figures/create/lp_builder_submit_password.png" />
+        </div>
+        <p>
+          The review process primarily involves verifying that all contained
+          resources are actually accessible and that these are hosted on
+          reliable data storage repositories. Resources hosted on authors' or
+          universities' own websites are copied over to our own central data
+          repository, to ensure long term accessibility and availability of
+          these resources. In view of other established neuroscience data
+          repositories, such as ModelDB, OSB, BioModels, NeuroMorpho and the Allen Brain
+          Atlas, resources already hosted on these platforms are not
+          duplicated, but instead we provide redirects to the corresponding
+          entries on these platforms
+        </p>
+      </div>
+    </div>
 
-    <div id="footerContent"></div>
-  </body>
+    <div class="section">
+      <div class="container">
+        <h5>Contact</h5>
+        <h3>Any questions?</h3>
+
+        <p>
+          If you have questions that are not answered here, contact us by e-mail:
+          <a href="mailto:support@ebrains.eu">support@ebrains.eu</a>
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer__content">
+      <a href="https://ebrains.eu/" aria-label="EBRAINS homepage" class="logo nuxt-link-exact-active nuxt-link-active">
+        <img src="static/img/ebrains_logo.svg" alt="ebrains" height="60" />
+      </a>
+
+      <p class="small-text"></p>
+    </div>
+    <div class="footer__end">
+      <div class="footer__copyright">
+        Copyright © 2021 EBRAINS. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+</body>
+
 </html>

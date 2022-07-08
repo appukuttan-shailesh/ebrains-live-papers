@@ -6,7 +6,12 @@ import CreateLivePaperLoadPDFData from "./CreateLivePaperLoadPDFData";
 import LoadKGProjects from "./LoadKGProjects";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
-import TopNavigation from "./TopNavigation";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import { livePaperPlatformUrl, livePaperDocsUrl } from "./globals";
+
 import "./App.css";
 
 import {
@@ -446,36 +451,63 @@ class App extends React.Component {
     }
 
     return (
-      <div className="container" style={{ textAlign: "left" }}>
+      <div className="mycontainer" style={{ textAlign: "left" }}>
         <LoadingIndicatorModal open={this.state.loading} />
-        <TopNavigation />
         <div className="box rounded centered"
-          style={{ marginTop: "5px", paddingTop: "0.75em", paddingBottom: "0.75em" }}>
-          <a
-            href="https://ebrains.eu/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="waves-effect waves-light"
-            style={{ textAlign: "center", color: "black" }}
-          >
-            <table>
-              <tbody>
-                <tr>
-                  <td
-                    style={{ paddingTop: "0px",
-                             paddingBottom: "0px" }}>
+          style={{ marginTop: "25px", paddingTop: "0.75em", paddingBottom: "0.75em" }}>
+          <div style={{ display: "flex" }}>
+            <div style={{ flex: 1, textAlign: "left", paddingLeft: "25px", alignSelf: "center" }}>
+              <Tooltip title={"Open EBRAINS Homepage"}>
+                <img
+                  src="./imgs/General_logo_Portrait_White.svg"
+                  alt="EBRAINS logo"
+                  style={{ height: "120px", cursor: "pointer" }}
+                />
+              </Tooltip>
+            </div>
+            <div style={{ alignSelf: "center" }}>
+              <table>
+                <tr style={{ border: "None" }}>
+                  <td>
                     <img
-                      className="ebrains-icon-small"
-                      src="./imgs/ebrains_logo.svg"
+                      class="ebrains-icon-small"
+                      src="./imgs/LP_icon_large.svg"
                       alt="EBRAINS logo"
-                      style={{ height: "60px" }}
+                      style={{ height: "100px", paddingRight: "10px" }}
                     />
                   </td>
+                  <td>
+                    <h5 className="title-style">Live Paper Builder</h5>
+                  </td>
                 </tr>
-              </tbody>
-            </table>
-          </a>
-          <h5 className="title-style">Live Paper Builder</h5>
+              </table>
+            </div>
+            <div style={{ flex: 1, textAlign: "right", paddingRight: "25px", alignSelf: "center" }}>
+              <Tooltip title={"See Live Papers"}>
+                <a
+                  href={livePaperPlatformUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ paddingRight: "10px" }}
+                >
+                  <IconButton aria-label="Open Live Paper Builder">
+                    <LibraryBooksIcon fontSize="large" />
+                  </IconButton>
+                </a>
+              </Tooltip>
+              <Tooltip title={"Open Documentation"}>
+                <a
+                  href={livePaperDocsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconButton aria-label="Open Documentation">
+                    <HelpOutlineIcon fontSize="large" />
+                  </IconButton>
+                </a>
+              </Tooltip>
+            </div>
+          </div>
         </div>
         <div
           style={{

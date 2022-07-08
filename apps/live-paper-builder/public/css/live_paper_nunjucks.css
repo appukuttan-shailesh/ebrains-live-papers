@@ -67,14 +67,15 @@
 }
 
 .title-style {
+    /* font-family: 'Merriweather', 'serif'; */
     font-family: 'Rajdhani';
     font-weight: bold;
     line-height: 1.5;
-    font-size: 52px;
+    font-size: 36px;
     font-weight: 700;
-    color: #388E3C;
-    -webkit-text-fill-color: white;
-    -webkit-text-stroke: 1px;
+    color: #FFFFFF;
+    /* -webkit-text-fill-color: white; */
+    /* -webkit-text-stroke: 1px; */
 }
 
 .subtitle {
@@ -194,4 +195,29 @@
 
 .rainbow-row>div:nth-child(8) {
     background: #9CE142
+}
+
+
+.mycontainer {
+    margin: 0 auto;
+    max-width: 1440px;
+    width: 90%;
+}
+
+@media only screen and (min-width: 601px) {
+    .mycontainer {
+        width: 90%;
+    }
+}
+
+@media only screen and (min-width: 993px) {
+    .mycontainer {
+        width: 90%;
+    }
+}
+
+@media only screen and (min-width: 1280px) {
+    .mycontainer {
+        width: 90%;
+    }
 }
