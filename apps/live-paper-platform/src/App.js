@@ -1,10 +1,8 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import TopNavigation from "./TopNavigation";
 import LoadingIndicator from "./LoadingIndicator";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
-import InsertDriveFileTwoToneIcon from "@material-ui/icons/InsertDriveFileTwoTone";
-import NoteAddTwoToneIcon from "@material-ui/icons/NoteAddTwoTone";
+import IconButton from "@material-ui/core/IconButton";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import BuildIcon from "@material-ui/icons/Build";
 import axios from "axios";
@@ -30,6 +28,7 @@ import LinesEllipsis from "react-lines-ellipsis";
 import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
+import { livePaperBuilderUrl, livePaperDocsUrl } from "./globals";
 import "./App.css";
 
 const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
@@ -49,12 +48,18 @@ const TABLE_COLUMNS = [
         }
       >
         {item.associated_paper_title ? (
-          <InsertDriveFileTwoToneIcon
-            style={{ color: "#00A595", fontSize: 30, marginLeft: 10 }}
+          <img
+            className="ebrains-icon-small"
+            src="./imgs/LP_icon.png"
+            alt="Live Paper Icon"
+            style={{ height: "40px", marginLeft: 15 }}
           />
         ) : (
-          <NoteAddTwoToneIcon
-            style={{ color: "#00A595", fontSize: 30, marginLeft: 10 }}
+          <img
+            className="ebrains-icon-small"
+            src="./imgs/LP_icon.png"
+            alt="Live Paper Icon"
+            style={{ height: "40px", marginLeft: 15 }}
           />
         )}
       </Tooltip>
@@ -486,34 +491,61 @@ export default class App extends React.Component {
       return (
         <div className="mycontainer" style={{ textAlign: "left" }}>
           <LoadingIndicatorModal open={this.state.loadingSelectedLP} />
-          <TopNavigation />
           <div className="box rounded centered"
-            style={{ marginTop: "5px", paddingTop: "0.75em", paddingBottom: "0.75em" }}>
-            <a
-              href="https://ebrains.eu/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="waves-effect waves-light"
-              style={{ textAlign: "center", color: "black" }}
-            >
-              <table>
-                <tbody>
-                  <tr>
-                    <td
-                      style={{ paddingTop: "0px",
-                                paddingBottom: "0px" }}>
+            style={{ marginTop: "25px", paddingTop: "0.75em", paddingBottom: "0.75em" }}>
+            <div style={{ display: "flex" }}>
+              <div style={{ flex: 1, textAlign: "left", paddingLeft: "25px", alignSelf: "center" }}>
+                <Tooltip title={"Open EBRAINS Homepage"}>
+                  <img
+                    src="./imgs/General_logo_Portrait_White.svg"
+                    alt="EBRAINS logo"
+                    style={{ height: "120px", cursor: "pointer" }}
+                  />
+                </Tooltip>
+              </div>
+              <div style={{ alignSelf: "center" }}>
+                <table>
+                  <tr style={{ border: "None" }}>
+                    <td>
                       <img
-                        className="ebrains-icon-small"
-                        src="./imgs/ebrains_logo.svg"
+                        class="ebrains-icon-small"
+                        src="./imgs/LP_icon_large.svg"
                         alt="EBRAINS logo"
-                        style={{ height: "70px" }}
+                        style={{ height: "100px", paddingRight: "10px" }}
                       />
                     </td>
+                    <td>
+                      <h5 className="title-style">Live Papers</h5>
+                    </td>
                   </tr>
-                </tbody>
-              </table>
-            </a>
-            <h5 className="title-style">Live Papers</h5>
+                </table>
+              </div>
+              <div style={{ flex: 1, textAlign: "right", paddingRight: "25px", alignSelf: "center" }}>
+                <Tooltip title={"Open Live Paper Builder"}>
+                  <a
+                    href={livePaperBuilderUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ paddingRight: "10px" }}
+                  >
+                    <IconButton aria-label="Open Live Paper Builder">
+                      <BuildIcon fontSize="large" />
+                    </IconButton>
+                  </a>
+                </Tooltip>
+                <Tooltip title={"Open Documentation"}>
+                  <a
+                    href={livePaperDocsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <IconButton aria-label="Open Documentation">
+                      <HelpOutlineIcon fontSize="large" />
+                    </IconButton>
+                  </a>
+                </Tooltip>
+              </div>
+            </div>
           </div>
           <div
             style={{
@@ -546,7 +578,7 @@ export default class App extends React.Component {
               alignItem: "center",
             }}
           > */}
-          <div className="box rounded centered smallbox" style={{ width: "90%" }}>
+          <div className="box rounded centered smallbox titleText" style={{ width: "90%" }}>
             <span
               style={{
                 fontWeight: "bolder",
@@ -726,13 +758,13 @@ export default class App extends React.Component {
                     fontSize="small"
                     style={{ verticalAlign: "text-bottom" }}
                   />{" "}
-                  icon on the top-left of this page. If you wish to develop a
+                  icon on the top-right of this page. If you wish to develop a
                   new live paper, please click on the{" "}
                   <BuildIcon
                     fontSize="small"
                     style={{ verticalAlign: "text-bottom" }}
                   />{" "}
-                  icon on the top-left of this page to open the live paper
+                  icon on the top-right of this page to open the live paper
                   builder tool. The documentation also contains info on how to
                   develop live papers using this tool.
                 </div>
@@ -818,62 +850,64 @@ export default class App extends React.Component {
           <br />
           <br />
           {this.state.loadingListing && <LoadingIndicator />}
-          {!this.state.loadingListing && (
-            <div
-              style={{
-                paddingLeft: "5%",
-                paddingRight: "5%",
-                textAlign: "justify",
-              }}
-            >
-              <ThemeProvider theme={theme}>
-                <MaterialTable
-                  title="Published Live Papers"
-                  data={this.state.lp_listing}
-                  columns={TABLE_COLUMNS}
-                  options={{
-                    search: true,
-                    paging: false,
-                    filtering: false,
-                    exportButton: false,
-                    headerStyle: {
-                      position: "sticky",
-                      top: 0,
-                      backgroundColor: "#EEEEEE",
-                      color: "#000",
-                      fontWeight: "bold",
-                      fontSize: 16,
-                    },
-                    rowStyle: {
-                      fontSize: 16,
-                      paddingLeft: "10%",
-                      marginLeft: "10%",
-                      border: "solid",
-                      borderWidth: 2,
-                      borderColor: "#999999",
-                      backgroundColor: "#eff7e5"
-                    },
-                    // tableLayout: "fixed",
-                  }}
-                  onRowClick={(event, selectedRow) => {
-                    // console.log(selectedRow.alias);
-                    window.open("/#" + selectedRow.alias);
-                  }}
-                  components={{
-                    Toolbar: (props) => (
-                      <div
-                        style={{
-                          backgroundColor: "#13AC8B",
-                        }}
-                      >
-                        <MTableToolbar {...props} />
-                      </div>
-                    ),
-                  }}
-                />
-              </ThemeProvider>
-            </div>
-          )}
+          {
+            !this.state.loadingListing && (
+              <div
+                style={{
+                  paddingLeft: "5%",
+                  paddingRight: "5%",
+                  textAlign: "justify",
+                }}
+              >
+                <ThemeProvider theme={theme}>
+                  <MaterialTable
+                    title="Published Live Papers"
+                    data={this.state.lp_listing}
+                    columns={TABLE_COLUMNS}
+                    options={{
+                      search: true,
+                      paging: false,
+                      filtering: false,
+                      exportButton: false,
+                      headerStyle: {
+                        position: "sticky",
+                        top: 0,
+                        backgroundColor: "#EEEEEE",
+                        color: "#000",
+                        fontWeight: "bold",
+                        fontSize: 16,
+                      },
+                      rowStyle: {
+                        fontSize: 16,
+                        paddingLeft: "10%",
+                        marginLeft: "10%",
+                        border: "solid",
+                        borderWidth: 2,
+                        borderColor: "#999999",
+                        backgroundColor: "#eff7e5"
+                      },
+                      // tableLayout: "fixed",
+                    }}
+                    onRowClick={(event, selectedRow) => {
+                      // console.log(selectedRow.alias);
+                      window.open("/#" + selectedRow.alias);
+                    }}
+                    components={{
+                      Toolbar: (props) => (
+                        <div
+                          style={{
+                            backgroundColor: "#13AC8B",
+                          }}
+                        >
+                          <MTableToolbar {...props} />
+                        </div>
+                      ),
+                    }}
+                  />
+                </ThemeProvider>
+              </div>
+            )
+          }
           <br />
           <br />
           <div className="rainbow-row">
@@ -889,7 +923,7 @@ export default class App extends React.Component {
           <br />
           <br />
           {errorModal}
-        </div>
+        </div >
       );
     }
   }

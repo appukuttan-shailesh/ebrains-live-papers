@@ -11,6 +11,20 @@ export default class TopNavigation extends React.Component {
     return (
       <Grid container direction="row">
         <Grid item>
+          <Tooltip title={"Open EBRAINS Homepage"}>
+            <a
+              href="https://ebrains.eu/"
+              target="_blank"
+              rel="noopener noreferrer"
+            // className="waves-effect waves-light"
+            >
+              <img
+                src="./imgs/General_logo_Landscape_Color.svg"
+                alt="EBRAINS logo"
+                style={{ height: "70px" }}
+              />
+            </a>
+          </Tooltip>
           <Tooltip title={"Open Live Paper Builder"}>
             <a
               href={livePaperBuilderUrl}
