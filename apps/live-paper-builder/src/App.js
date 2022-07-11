@@ -490,7 +490,7 @@ class App extends React.Component {
                   rel="noopener noreferrer"
                   style={{ paddingRight: "10px" }}
                 >
-                  <IconButton aria-label="Open Live Paper Builder">
+                  <IconButton aria-label="See Live Papers">
                     <LibraryBooksIcon fontSize="large" />
                   </IconButton>
                 </a>
