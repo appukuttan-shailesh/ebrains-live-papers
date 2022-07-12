@@ -16,52 +16,55 @@ export default class Models extends React.Component {
             marginBottom: "40px"
           }}
         >
-          <div className="title-solid-style" style={{ fontSize: 44 }}>Resource Type: Morphology</div>
+          <div className="title-solid-style" style={{ fontSize: 44 }}>Resource Type: Models</div>
           <div className="title-solid-style" style={{ fontSize: 32, color: "#00A595" }}>How to share... How to use...</div>
         </div>
 
         <div className="block">
           <div className="block-little-header">Share Resource</div>
-          <div className="block-main-header">Sharing morphology related resources</div>
+          <div className="block-main-header">Sharing model source code</div>
           <div className="block-text">
-            Authors can share neuronal morphology related resources via their
-            live papers. Each individual morphology is listed as a separate
+            Authors can share model source code related resources via their
+            live papers. Each individual model is listed as a separate
             entry, as shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/example_morphology_section.png" width="85%" />
+              <img src="/figures/models/example_models_section.png" width="85%" />
             </div>
             <br />
             For general instructions on how to add info to resource sections,{" "}
             <a href="share_common.html" target="_blank">click here</a>.
             <br /><br />
-            Authors can import / link existing morphology related entries from
+            Authors can import / link existing model related entries from
             other repositories such as:
             <ul>
-              <li><a href="http://neuromorpho.org/" target="_blank">NeuroMoprho.Org</a></li>
-              <li><a href="https://celltypes.brain-map.org/data/" target="_blank">Allen Brain Atlas</a></li>
+              <li><a href="https://search.kg.ebrains.eu/?facet_type[0]=Dataset" target="_blank">EBRAINS Knowledge Graph</a></li>
+              <li><a href="https://senselab.med.yale.edu/modeldb/" target="_blank">ModelDB</a></li>
+              <li><a href="https://www.opensourcebrain.org/" target="_blank">Open Source Brain</a></li>
+              <li><a href="https://www.ebi.ac.uk/biomodels/" target="_blank">BioModels</a></li>
             </ul>
           </div>
         </div>
 
         <div className="block">
           <div className="block-little-header">Access Resource</div>
-          <div className="block-main-header">Accessing morphology related resources</div>
+          <div className="block-main-header">Accessing model source code</div>
           <div className="block-text">
-            An example of a morphology related resource section in a live paper
+            An example of a model related resource section in a live paper
             is shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/example_morphology_output.png" width="85%" />
+              <img src="/figures/models/example_models_output.png" width="85%" />
             </div>
             <br />
-            Users are able to download each listed morphology file by clicking
-            on the 'Download' button for that entry. By clicking on the 'View'
-            button, they can also launch the morphology inside an integrated 3D
-            morphology viewer. This is illustrated below:
+            Users are able to downloaded each listed model file by clicking on
+            the 'Download' button for that entry. By clicking on the 'View'
+            button, they can open the model's detailed page, if it was imported
+            from a neuroscience repository. An example of such a model from the
+            EBRAINS model catalog (Knowledge Graph) is illustrated below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/morphology_viewer.png" width="75%" />
+              <img src="/figures/models/model_catalog.png" width="85%" />
             </div>
           </div>
         </div>

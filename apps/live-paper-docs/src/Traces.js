@@ -16,29 +16,29 @@ export default class Traces extends React.Component {
             marginBottom: "40px"
           }}
         >
-          <div className="title-solid-style" style={{ fontSize: 44 }}>Resource Type: Morphology</div>
+          <div className="title-solid-style" style={{ fontSize: 44 }}>Resource Type: Electrophysiological Data</div>
           <div className="title-solid-style" style={{ fontSize: 32, color: "#00A595" }}>How to share... How to use...</div>
         </div>
 
         <div className="block">
           <div className="block-little-header">Share Resource</div>
-          <div className="block-main-header">Sharing morphology related resources</div>
+          <div className="block-main-header">Sharing electrophysiology related resources</div>
           <div className="block-text">
-            Authors can share neuronal morphology related resources via their
-            live papers. Each individual morphology is listed as a separate
-            entry, as shown below:
+            Authors can share electrophysiology recording data via their live
+            papers. Each individual data file is listed as a separate entry, as
+            shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/example_morphology_section.png" width="85%" />
+              <img src="/figures/traces/example_traces_section.png" width="85%" />
             </div>
             <br />
             For general instructions on how to add info to resource sections,{" "}
             <a href="share_common.html" target="_blank">click here</a>.
             <br /><br />
-            Authors can import / link existing morphology related entries from
+            Authors can import / link existing electrophysiological data related entries from
             other repositories such as:
             <ul>
-              <li><a href="http://neuromorpho.org/" target="_blank">NeuroMoprho.Org</a></li>
+              <li><a href="https://search.kg.ebrains.eu/?facet_type[0]=Dataset" target="_blank">EBRAINS Knowledge Graph</a></li>
               <li><a href="https://celltypes.brain-map.org/data/" target="_blank">Allen Brain Atlas</a></li>
             </ul>
           </div>
@@ -46,22 +46,26 @@ export default class Traces extends React.Component {
 
         <div className="block">
           <div className="block-little-header">Access Resource</div>
-          <div className="block-main-header">Accessing morphology related resources</div>
+          <div className="block-main-header">Accessing electrophysiology related resources</div>
           <div className="block-text">
-            An example of a morphology related resource section in a live paper
+            An example of a electrophysiology related resource section in a live paper
             is shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/example_morphology_output.png" width="85%" />
+              <img src="/figures/traces/example_traces_output.png" width="85%" />
             </div>
             <br />
-            Users are able to download each listed morphology file by clicking
-            on the 'Download' button for that entry. By clicking on the 'View'
-            button, they can also launch the morphology inside an integrated 3D
-            morphology viewer. This is illustrated below:
+            By clicking on an entry, it expands to show further info and
+            actions. This is illustrated in the figure below. Users are able to
+            download each listed trace file by clicking on the 'Download' button
+            (button with down arrow symbol) for that entry. Additional info can
+            be viewed by clicking on the 'info' button (button with circled
+            'i'). The integrated NEO viewer allows for exploring the data from
+            within the live paper document itself. Users can specify the signals
+            of interest from those available within the data file.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/morphology_viewer.png" width="75%" />
+              <img src="/figures/traces/example_traces_output_detail.png" width="85%" />
             </div>
           </div>
         </div>

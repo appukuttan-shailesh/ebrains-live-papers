@@ -16,52 +16,64 @@ export default class Other extends React.Component {
             marginBottom: "40px"
           }}
         >
-          <div className="title-solid-style" style={{ fontSize: 44 }}>Resource Type: Morphology</div>
+          <div className="title-solid-style" style={{ fontSize: 44 }}>Resource Type: Other Data</div>
           <div className="title-solid-style" style={{ fontSize: 32, color: "#00A595" }}>How to share... How to use...</div>
         </div>
 
         <div className="block">
           <div className="block-little-header">Share Resource</div>
-          <div className="block-main-header">Sharing morphology related resources</div>
+          <div className="block-main-header">Sharing other types of resources</div>
           <div className="block-text">
-            Authors can share neuronal morphology related resources via their
-            live papers. Each individual morphology is listed as a separate
-            entry, as shown below:
+            The live papers provide two other types of resource sections to
+            enable authors to share data that might not fit well within the
+            other specific resource sections. These are:
+            <ul>
+              <li>Generic resource section</li>
+              <li>Custom resource section</li>
+            </ul>
+            <strong>Generic resource section</strong> basically allows authors
+            to create a listing of resource items, that isn't tied to any
+            specific type of resource. Each individual resource is listed as a
+            separate entry, as shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/example_morphology_section.png" width="85%" />
+              <img src="/figures/other/example_generic_section.png" width="85%" />
+            </div>
+            <br />
+            <strong>Custom resource sections</strong> provides advanced users
+            the ability to present custom data or add custom functionality by
+            being able to specify the content via HTML / Markdown. This ensures
+            that the live paper builder tool does not limit the complexity of
+            live papers that can be developed using it. An example of more
+            advanced usage of this is the leveraging of web-socket based service
+            to remotely run NEURON models on BlueNaaS (Blue Neuron as a Service).
+            <br /><br />
+            <div style={{ textAlign: "center" }}>
+              <img src="/figures/other/example_custom_section.png" width="85%" />
             </div>
             <br />
             For general instructions on how to add info to resource sections,{" "}
             <a href="share_common.html" target="_blank">click here</a>.
-            <br /><br />
-            Authors can import / link existing morphology related entries from
-            other repositories such as:
-            <ul>
-              <li><a href="http://neuromorpho.org/" target="_blank">NeuroMoprho.Org</a></li>
-              <li><a href="https://celltypes.brain-map.org/data/" target="_blank">Allen Brain Atlas</a></li>
-            </ul>
           </div>
         </div>
 
         <div className="block">
           <div className="block-little-header">Access Resource</div>
-          <div className="block-main-header">Accessing morphology related resources</div>
+          <div className="block-main-header">Accessing other types of data</div>
           <div className="block-text">
-            An example of a morphology related resource section in a live paper
-            is shown below:
+            An example of a generic listing resource section in a live paper is
+            shown below. Users are able to download each listed item by clicking
+            on the 'Download' button for that entry.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/example_morphology_output.png" width="85%" />
+              <img src="/figures/other/example_generic_output.png" width="85%" />
             </div>
             <br />
-            Users are able to download each listed morphology file by clicking
-            on the 'Download' button for that entry. By clicking on the 'View'
-            button, they can also launch the morphology inside an integrated 3D
-            morphology viewer. This is illustrated below:
+            An example of a custom listing resource section in a live paper is
+            shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/morphology_viewer.png" width="75%" />
+              <img src="/figures/other/example_custom_output.png" width="85%" />
             </div>
           </div>
         </div>

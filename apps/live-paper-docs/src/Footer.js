@@ -11,6 +11,7 @@ export default class Footer extends React.Component {
           If you have questions that are not answered here, contact us by e-mail:
           {" "}<a href="mailto:support@ebrains.eu">support@ebrains.eu</a>
         </div>
+        <br />
       </div>
     );
   }
