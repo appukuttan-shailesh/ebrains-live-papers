@@ -33,7 +33,7 @@ export default class Traces extends React.Component {
             </div>
             <br />
             For general instructions on how to add info to resource sections,{" "}
-            <a href="share_common.html" target="_blank">click here</a>.
+            <a onClick={() => this.props.updateHash("buildCommon")} target="_blank">click here</a>.
             <br /><br />
             Authors can import / link existing electrophysiological data related entries from
             other repositories such as:

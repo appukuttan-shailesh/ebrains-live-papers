@@ -13,6 +13,7 @@ import Models from "./Models";
 import Other from "./Other";
 import Develop from "./Develop";
 import BuildCommon from "./BuildCommon";
+import Tutorial from "./Tutorial";
 import Footer from "./Footer";
 import "./App.css";
 
@@ -115,7 +116,8 @@ export default class App extends React.Component {
         {this.state.pageOpen === "other" && <Other updateHash={this.updateHash} />}
         {this.state.pageOpen === "develop" && <Develop updateHash={this.updateHash} />}
         {this.state.pageOpen === "buildCommon" && <BuildCommon updateHash={this.updateHash} />}
-                
+        {this.state.pageOpen === "tutorial" && <Tutorial updateHash={this.updateHash} />}
+        
         <Footer />
         <div className="rainbow-row">
           <div></div>
