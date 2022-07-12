@@ -74,6 +74,16 @@ button:focus {
 
 .nav-item-style:hover {
   background-color: #9CE142;
+  color: #00A595;
+  -webkit-text-fill-color: #000000;
+  -webkit-text-stroke: 0.2px;
+}
+
+.nav-item-active-style {
+  background-color: #00A595;
+  color: #000000;
+  -webkit-text-fill-color: #FFFFFF;
+  -webkit-text-stroke: 0.2px;
 }
 
 .block {

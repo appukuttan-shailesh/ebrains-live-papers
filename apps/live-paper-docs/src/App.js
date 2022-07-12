@@ -6,6 +6,11 @@ import Tooltip from '@mui/material/Tooltip';
 import TopNavigation from "./TopNavigation";
 import Introduction from "./Introduction";
 import Find from "./Find";
+import Create from "./Create";
+import Morphology from "./Morphology";
+import Traces from "./Traces";
+import Models from "./Models";
+import Other from "./Other";
 import Footer from "./Footer";
 import "./App.css";
 
@@ -14,7 +19,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageOpen: "",
+      pageOpen: window.location.hash.slice(1),
     };
 
     this.updateHash = this.updateHash.bind(this);
@@ -97,11 +102,16 @@ export default class App extends React.Component {
           </div>
         </div>
 
-        <TopNavigation updateHash={this.updateHash} />
+        <TopNavigation updateHash={this.updateHash} pageOpen={this.state.pageOpen} />
 
         {this.state.pageOpen === "" && <Introduction updateHash={this.updateHash} />}
         {this.state.pageOpen === "find" && <Find updateHash={this.updateHash} />}
-
+        {this.state.pageOpen === "create" && <Create updateHash={this.updateHash} />}
+        {this.state.pageOpen === "morphology" && <Morphology updateHash={this.updateHash} />}
+        {this.state.pageOpen === "traces" && <Traces updateHash={this.updateHash} />}
+        {this.state.pageOpen === "models" && <Models updateHash={this.updateHash} />}
+        {this.state.pageOpen === "other" && <Other updateHash={this.updateHash} />}
+        
         <Footer />
         <div className="rainbow-row">
           <div></div>
