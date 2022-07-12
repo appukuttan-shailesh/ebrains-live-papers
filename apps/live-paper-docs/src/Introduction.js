@@ -47,11 +47,11 @@ export default class Introduction extends React.Component {
         </div>
 
         <div className="block">
-          <div className="block-text">
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <div style={{ flex: 0.5 }}>
-                <div className="block-little-header">Find</div>
-                <div className="block-main-header">Find and explore live papers</div>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div style={{ flex: 0.5 }}>
+              <div className="block-little-header">Find</div>
+              <div className="block-main-header">Find and explore live papers</div>
+              <div className="block-text">
                 All published live papers are categorized by year and listed on
                 the live paper platform. The Live Paper platform lets you
                 search/filter the list of live papers by:
@@ -71,29 +71,30 @@ export default class Introduction extends React.Component {
                 platform.
                 <p><a onClick={() => this.props.updateHash("find")}>Learn more...</a></p>
               </div>
-              <div style={{ flex: 0.5 }}>
-                <img
-                  src="/figures/index/find.png"
-                  width="100%"
-                  style={{ paddingLeft: "20px" }}
-                />
-              </div>
+            </div>
+            <div style={{ flex: 0.5 }}>
+              <img
+                src="/figures/index/find.png"
+                width="100%"
+                style={{ paddingLeft: "20px" }}
+              />
             </div>
           </div>
         </div>
+        
         <div className="block">
-          <div className="block-text">
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <div style={{ flex: 0.5 }}>
-                <img
-                  src="/figures/index/create.png"
-                  width="100%"
-                  style={{ paddingRight: "40px" }}
-                />
-              </div>
-              <div style={{ flex: 0.5 }}>
-                <div className="block-little-header">Create</div>
-                <div className="block-main-header">Create live papers, share resources</div>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div style={{ flex: 0.5 }}>
+              <img
+                src="/figures/index/create.png"
+                width="100%"
+                style={{ paddingRight: "40px" }}
+              />
+            </div>
+            <div style={{ flex: 0.5 }}>
+              <div className="block-little-header">Create</div>
+              <div className="block-main-header">Create live papers, share resources</div>
+              <div className="block-text">
                 Authors of scientific publications are encouraged to create live
                 papers to share the resources underlying their study. Live
                 papers allow authors to easily share a variety of resources,
