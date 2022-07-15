@@ -1,8 +1,34 @@
 import React from "react";
+import YouTube from 'react-youtube';
 import "./App.css";
 
 export default class Tutorial extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      player: null
+    }
+  }
+  onReady = (event) => {
+    // access to player in all event handlers via event.target
+    this.setState({
+      player: event.target
+    })
+    event.target.playVideo();
+  }
+
+  changeTime = (seconds) => {
+    console.log('seeking to: ' + seconds)
+    this.state.player.seekTo(seconds)
+    this.state.player.playVideo();
+  }
   render() {
+    const opts = {
+      width: '560',
+      height: '315',
+    };
+
     return (
       <div>
         <div
@@ -25,10 +51,14 @@ export default class Tutorial extends React.Component {
           <div className="block-main-header">Demonstration of Live Papers</div>
           <div className="block-text">
             <div class="video-container">
-              <iframe width="560" height="315" title="EBRAINS Live Papers Demo" src="https://www.youtube.com/embed/azBQRXMsLPY?start=21" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <YouTube videoId='azBQRXMsLPY' opts={opts} onReady={this.onReady} />
             </div>
+            <br /><br />
+            <a onClick={() => this.changeTime(100)}>Topic 1</a><br />
+            <a onClick={() => this.changeTime(500)}>Topic 2</a><br />
           </div>
         </div>
+
 
       </div>
     );
