@@ -21,29 +21,95 @@ export default class Introduction extends React.Component {
         </div>
 
         <div className="block">
-          <div className="block-little-header">Introduction</div>
-          <div className="block-main-header">What are EBRAINS Live Papers?</div>
-          <div className="block-text">
-            The {" "}
-            <a href="/"
-            >EBRAINS Live Papers</a
-            >{" "}
-            are intended to be structured and interactive supplementary
-            documents to complement journal publications, that allow users to
-            readily access, explore and utilize the various kinds of data
-            underlying scientific studies. Interactivity is a prominent feature
-            with several integrated tools and services that will allow users to
-            download, visualise or simulate data, models and results presented
-            in the corresponding publications.
-            <br /><br />
-            Live Papers bring together various neuroscience related resources
-            thereby providing a more complete picture of the original modelers'
-            workspace. By virtue of being developed within the EBRAINS
-            infrastructure setup, Live Papers are able to effectively leverage
-            the Knowledge Graph (KG) for storing all information. The KG, being
-            a graph based database, interlinks all data units thereby readily
-            offering a high degree of data provenance.
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div style={{ flex: 0.5 }}>
+              <div className="block-little-header">The Problem</div>
+              <div className="block-main-header">Where to find underlying data?</div>
+              <div className="block-text">
+                Consider that you came across a scientfic publication that piqued your interest.
+                It might be because:
+                <ul>
+                  <li>the experimental data produced by the authors could aid your own scientific work, or</li>
+                  <li>the model developed by them could be used by you to test certain other hypotheses, or</li>
+                  <li>you simply wish to reproduce the findings reported in the article</li>
+                </ul>
+                To do any of these, you need access to the underlying data. And this is where things can get difficult.
+                Very often authors simply resort to adding a statement in their publication, something similar to:
+
+                <div style={{
+                  backgroundColor: "#DCEDC8", textAlign: "center", padding: "10px",
+                  marginLeft: "10%", marginRight: "10%", marginTop: "20px", marginBottom: "20px"
+                }}>
+                  <span style={{ fontFamily: "cursive", fontWeight: "bold", fontStyle: "italic" }}>
+                    "Data are available from the authors upon request."
+                  </span>
+                </div>
+
+                This typically results in a situation where potential users face a dead-end because authors are
+                either unresponsive, have left academia, or because code or data have been lost,
+                or are otherwise no longer available.
+                <br /><br />
+                What is lacking is a structured and systematic way of offering these resources, that
+                makes this process simpler for both the authors and the potential users.
+              </div>
+            </div>
+            <div style={{ flex: 0.5, textAlign: "center" }}>
+              <img
+                src="/figures/index/problem.png"
+                width="60%"
+                style={{ paddingTop: "120px" }}
+              />
+            </div>
           </div>
+          <br />
+        </div>
+
+        <div className="block">
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div style={{ flex: 0.5, textAlign: "center" }}>
+              <img
+                src="/figures/index/banner2.png"
+                width="100%"
+                style={{ paddingRight: "40px", paddingTop: "75px" }}
+              />
+            </div>
+            <div style={{ flex: 0.5 }}>
+              <div className="block-little-header">The Solution</div>
+              <div className="block-main-header">EBRAINS Live Papers</div>
+              <div className="block-text">
+                The {" "}
+                <a href="/"
+                >EBRAINS Live Papers</a
+                >{" "}
+                are structured and interactive supplementary
+                documents to complement journal publications, that allow users to
+                readily access, explore and utilize the various kinds of data
+                underlying scientific studies. Interactivity is a prominent feature
+                with several integrated tools and services that will allow users to
+                download, visualise or simulate data, models and results presented
+                in the corresponding publications.
+                <br /><br />
+                Live papers provide a platform by means
+                of which authors can easily aggregate the various data components underlying
+                their scientific study into a systematic, structured and distributable format.
+                The live paper builder tool has been developed with the primary focus on making
+                this data sharing process as simple as possible.
+                <div style={{
+                  backgroundColor: "#DCEDC8", textAlign: "center", padding: "10px",
+                  marginLeft: "10%", marginRight: "10%", marginTop: "20px", marginBottom: "20px"
+                }}>
+                  <span style={{ fontFamily: "cursive", fontWeight: "bold", fontStyle: "italic" }}>
+                    Authors can easily create a new live paper within 2-3 hours <br /> using the live paper builder tool!
+                  </span>
+                </div>
+                The uploaded resources are stored on the EBRAINS archival data repository, 
+                thereby ensuring their long term retrievability.
+                With data being managed via the EBRAINS KG, the issue of data provenance can also be better tackled,
+                along with tighter integration with other tools and services offered under the EBRAINS ecosystem.
+              </div>
+            </div>
+          </div>
+          <br />
         </div>
 
         <div className="block">
@@ -81,7 +147,7 @@ export default class Introduction extends React.Component {
             </div>
           </div>
         </div>
-        
+
         <div className="block">
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div style={{ flex: 0.5 }}>
