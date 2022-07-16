@@ -884,7 +884,7 @@ export default class App extends React.Component {
                         border: "solid",
                         borderWidth: 2,
                         borderColor: "#999999",
-                        backgroundColor: "#eff7e5"
+                        backgroundColor: "#EFF7E5"
                       },
                       // tableLayout: "fixed",
                     }}

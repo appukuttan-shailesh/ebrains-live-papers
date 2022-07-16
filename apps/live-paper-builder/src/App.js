@@ -536,65 +536,67 @@ class App extends React.Component {
           could render them unreadable by the tool. Alternatively, users also
           have the option of loading an existing project that was previously
           saved on the EBRAINS Knowledge Graph.
-        </div>
-        <br />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
+          <br /><br />
+          <div
             style={{
-              width: "27.5%",
-              backgroundColor: "#FF9800",
-              color: "#000000",
-              fontWeight: "bold",
-              border: "solid",
-              borderColor: "#000000",
-              borderWidth: "1px",
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
             }}
-            onClick={this.handleCreateLivePaperOpen}
           >
-            Create New
-          </Button>
-          <br />
-          <br />
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{
-              width: "27.5%",
-              backgroundColor: "#01579b",
-              fontWeight: "bold",
-              border: "solid",
-              borderColor: "#000000",
-              borderWidth: "1px",
-            }}
-            onClick={this.handleLoadProjectFile}
-          >
-            Load From File
-          </Button>
-          <br />
-          <br />
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{
-              width: "27.5%",
-              backgroundColor: "#1D7021",
-              fontWeight: "bold",
-              border: "solid",
-              borderColor: "#000000",
-              borderWidth: "1px",
-            }}
-            onClick={this.handleLoadProjectKG}
-          >
-            Load From KG
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{
+                width: "27.5%",
+                backgroundColor: "#00A595",
+                color: "#000000",
+                fontWeight: "bold",
+                border: "solid",
+                borderColor: "#000000",
+                borderWidth: "1px",
+              }}
+              onClick={this.handleCreateLivePaperOpen}
+            >
+              Create New
+            </Button>
+            <br />
+            <br />
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{
+                width: "27.5%",
+                backgroundColor: "#4DC26D",
+                color: "#000000",
+                fontWeight: "bold",
+                border: "solid",
+                borderColor: "#000000",
+                borderWidth: "1px",
+              }}
+              onClick={this.handleLoadProjectFile}
+            >
+              Load From File
+            </Button>
+            <br />
+            <br />
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{
+                width: "27.5%",
+                backgroundColor: "#9CE142",
+                color: "#000000",
+                fontWeight: "bold",
+                border: "solid",
+                borderColor: "#000000",
+                borderWidth: "1px",
+              }}
+              onClick={this.handleLoadProjectKG}
+            >
+              Load From KG
+            </Button>
+          </div>
         </div>
         <br />
         <br />

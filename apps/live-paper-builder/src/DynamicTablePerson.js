@@ -160,7 +160,7 @@ export default class DynamicTablePerson extends React.Component {
           variant="contained"
           color="primary"
           onClick={this.handleAdd.bind(this)}
-          style={{width:"110px"}}
+          style={{width:"110px", backgroundColor:"#61CA62", color: "#000000"}}
           startIcon={<AddCircleOutlineIcon />}
         >
           Add

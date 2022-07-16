@@ -325,7 +325,7 @@ class KGContentTraceVersion extends React.Component {
           style={{
             display: "flex",
             alignItems: "center",
-            backgroundColor: "#FFD180",
+            backgroundColor: "#13AC8B",
           }}
         >
           <Grid item xs={6}>
@@ -420,7 +420,7 @@ class KGContentTraceVersionsPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ backgroundColor:"#01579b", color: "#ffffff" }}
+                style={{ backgroundColor: "#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
                 Open Page
@@ -506,7 +506,7 @@ export class KGContent extends React.Component {
               backgroundColor: this.state.selectedRows.includes(
                 rowData.tableData.id
               )
-                ? "#FFD180"
+                ? "#13AC8B"
                 : "#EEEEEE",
             }),
           }}
@@ -536,7 +536,7 @@ export class KGContent extends React.Component {
             Toolbar: (props) => (
               <div
                 style={{
-                  backgroundColor: "#FFD180",
+                  backgroundColor: "#13AC8B",
                   fontWeight: "bolder !important",
                 }}
               >
@@ -603,7 +603,7 @@ class AllenBrainContentTracePanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ backgroundColor:"#01579b", color: "#ffffff" }}
+                style={{ backgroundColor: "#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
                 Open Page
@@ -622,7 +622,7 @@ class AllenBrainContentTracePanel extends React.Component {
               style={{
                 display: "flex",
                 alignItems: "center",
-                backgroundColor: "#FFD180",
+                backgroundColor: "#13AC8B",
               }}
             >
               <Grid item xs={6}>
@@ -779,7 +779,7 @@ export class AllenBrainContent extends React.Component {
               backgroundColor: this.state.selectedRows.includes(
                 rowData.tableData.id
               )
-                ? "#FFD180"
+                ? "#13AC8B"
                 : "#EEEEEE",
             }),
           }}
@@ -809,7 +809,7 @@ export class AllenBrainContent extends React.Component {
             Toolbar: (props) => (
               <div
                 style={{
-                  backgroundColor: "#FFD180",
+                  backgroundColor: "#13AC8B",
                   fontWeight: "bolder !important",
                 }}
               >
@@ -1425,13 +1425,13 @@ export default class DBInputTraces extends React.Component {
           open={this.props.open}
           fullWidth={this.state.showFilters ? false : true}
           maxWidth={"xl"}
-          //   disableBackdropClick={true}
-          //   disableEscapeKeyDown={true}
+        //   disableBackdropClick={true}
+        //   disableEscapeKeyDown={true}
         >
           <DialogTitle
             id="customized-dialog-title"
             onClose={() => this.props.handleClose(false)}
-            style={{ backgroundColor: "#ffd180" }}
+            style={{ backgroundColor: "#00A595" }}
           >
             <span style={{ fontWeight: "bolder", fontSize: 18 }}>
               Input From Database
@@ -1439,7 +1439,7 @@ export default class DBInputTraces extends React.Component {
           </DialogTitle>
           <DialogContent dividers>
             {(!this.context.validKGFilterValues[0] && this.state.showFilters) ||
-            this.state.loading ? (
+              this.state.loading ? (
               <div
                 style={{
                   minWidth: 700,
@@ -1471,8 +1471,8 @@ export default class DBInputTraces extends React.Component {
                 color="primary"
                 style={{
                   width: "150px",
-                  backgroundColor: "#FF9800",
-                  color: "#000000",
+                  backgroundColor: "#525252",
+                  color: "#FFFFFF",
                   fontWeight: "bold",
                   border: "solid",
                   borderColor: "#000000",
@@ -1491,19 +1491,19 @@ export default class DBInputTraces extends React.Component {
                     color="primary"
                     style={{
                       width: "150px",
-                      backgroundColor: "#01579B",
-                      color: "#FFFFFF",
+                      backgroundColor: "#29B480",
+                      color: "#000000",
                       fontWeight: "bold",
                       border: "solid",
                       borderColor: "#000000",
                       borderWidth: "1px",
                     }}
                     onClick={() => {
-                      this.setState({ 
+                      this.setState({
                         list_traces: [],
                         trace_collection: {},
                         showFilters: true
-                       });
+                      });
                     }}
                   >
                     Filters
@@ -1517,7 +1517,7 @@ export default class DBInputTraces extends React.Component {
                 color="primary"
                 style={{
                   width: "150px",
-                  backgroundColor: "#8BC34A",
+                  backgroundColor: "#4DC26D",
                   color: "#000000",
                   fontWeight: "bold",
                   border: "solid",
@@ -1528,10 +1528,10 @@ export default class DBInputTraces extends React.Component {
                   this.state.showFilters
                     ? this.handleProceed()
                     : this.props.handleClose(
-                        true,
-                        this.state.trace_collection,
-                        this.state.sourceDB
-                      )
+                      true,
+                      this.state.trace_collection,
+                      this.state.sourceDB
+                    )
                 }
               >
                 {this.state.showFilters ? "Proceed" : "Add Items"}

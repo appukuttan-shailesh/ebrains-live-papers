@@ -12,7 +12,7 @@ class ColoredCircularProgress extends Component {
 const styles = props => ({
     colorPrimary: {
         backgroundColor: 'transparent',
-        color: '#FF9800'
+        color: '#9CE142'
     },
 });
 

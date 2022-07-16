@@ -334,7 +334,7 @@ export default class SaveModal extends React.Component {
           fullWidth={true}
           maxWidth="md"
         >
-          <DialogTitle style={{ backgroundColor: "#ffd180" }}>
+          <DialogTitle style={{ backgroundColor: "#00A595" }}>
             <span style={{ fontWeight: "bolder", fontSize: 18 }}>
               Save Live Paper On EBRAINS Knowledge Graph
             </span>
@@ -469,8 +469,8 @@ export default class SaveModal extends React.Component {
                 color="primary"
                 style={{
                   width: "20%",
-                  backgroundColor: "#FF9800",
-                  color: "#000000",
+                  backgroundColor: "#525252",
+                  color: "#FFFFFF",
                   fontWeight: "bold",
                   border: "solid",
                   borderColor: "#000000",
@@ -489,7 +489,7 @@ export default class SaveModal extends React.Component {
                   width: "20%",
                   backgroundColor:
                     this.state.collab_id && this.state.live_paper_title
-                      ? "#8BC34A"
+                      ? "#4DC26D"
                       : "#FFFFFF",
                   color: "#000000",
                   fontWeight: "bold",

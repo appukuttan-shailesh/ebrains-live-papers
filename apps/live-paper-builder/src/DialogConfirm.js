@@ -71,7 +71,7 @@ export default class DialogConfirm extends React.Component {
           <DialogTitle
             id="customized-dialog-title"
             onClose={() => this.props.handleClose(false)}
-            style={{ backgroundColor: this.props.headerBgColor || "#ffd180" }}
+            style={{ backgroundColor: this.props.headerBgColor || "#00A595" }}
           >
             <span style={{ fontWeight: "bolder", fontSize: 18 }}>
               {this.props.title}
