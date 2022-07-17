@@ -155,16 +155,23 @@ export default class DynamicTablePerson extends React.Component {
           </thead>
           <tbody>{this.renderRows()}</tbody>
         </table>
-        <div style={{width:"100%", display:"flex", justifyContent:"flex-end", paddingTop:"10px"}}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.handleAdd.bind(this)}
-          style={{width:"110px", backgroundColor:"#61CA62", color: "#000000"}}
-          startIcon={<AddCircleOutlineIcon />}
-        >
-          Add
-        </Button>
+        <div style={{ width: "100%", display: "flex", justifyContent: "flex-end", paddingTop: "10px" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleAdd.bind(this)}
+            style={{
+              width: "110px", 
+              backgroundColor: "#61CA62", 
+              color: "#000000",
+              border: "solid",
+              borderColor: "#000000",
+              borderWidth: "1px",
+            }}
+            startIcon={<AddCircleOutlineIcon />}
+          >
+            Add
+          </Button>
         </div>
         <hr />
       </div>
