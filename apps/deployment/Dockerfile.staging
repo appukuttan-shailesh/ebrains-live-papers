@@ -22,7 +22,7 @@ RUN npm ci --silent --legacy-peer-deps
 COPY live-paper-builder ./
 RUN npm run build
 
-WORKDIR /docs
+WORKDIR /live-paper-docs
 ENV PATH /live-paper-docs/node_modules/.bin:$PATH
 COPY live-paper-docs/package.json ./
 COPY live-paper-docs/package-lock.json ./
