@@ -99,7 +99,7 @@ export default class Introduction extends React.Component {
                   marginLeft: "10%", marginRight: "10%", marginTop: "20px", marginBottom: "20px"
                 }}>
                   <span style={{ fontFamily: "cursive", fontWeight: "bold", fontStyle: "italic" }}>
-                    Authors can easily create a new live paper within 2-3 hours <br /> using the live paper builder tool!
+                    Authors can easily create a new live paper within 2-3 hours using the live paper builder tool!
                   </span>
                 </div>
                 The uploaded resources are stored on the EBRAINS archival data repository, 

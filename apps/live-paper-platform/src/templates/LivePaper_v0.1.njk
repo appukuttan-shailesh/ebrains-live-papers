@@ -17,8 +17,8 @@
     {% endif %}
 {% endmacro %}
 {% macro sectionMorphology(data) %}
-    <li>
-        <div class="collapsible-header light-green lighten-4" style="border:#00A595 solid 1px">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -71,8 +71,8 @@
     </li>
 {% endmacro %}
 {% macro sectionMorphologyWithTabs(data, index) %}
-    <li>
-        <div class="collapsible-header light-green lighten-4" style="border:#00A595 solid 1px">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -145,8 +145,8 @@
     </li>
 {% endmacro %}
 {% macro sectionTraces(data) %}
-    <li>
-        <div class="collapsible-header light-green lighten-4" style="border:#00A595 solid 1px">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -177,8 +177,8 @@
     </li>
 {% endmacro %}
 {% macro sectionTracesWithTabs(data, index) %}
-    <li>
-        <div class="collapsible-header light-green lighten-4" style="border:#00A595 solid 1px">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -229,8 +229,8 @@
     </li>
 {% endmacro %}
 {% macro sectionModels(data) %}
-    <li>
-        <div class="collapsible-header light-green lighten-4" style="border:#00A595 solid 1px">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -277,8 +277,8 @@
     </li>
 {% endmacro %}
 {% macro sectionModelsWithTabs(data, index) %}
-    <li>
-        <div class="collapsible-header light-green lighten-4" style="border:#00A595 solid 1px">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -345,8 +345,8 @@
     </li>
 {% endmacro %}
 {% macro sectionGeneric(data) %}
-    <li>
-        <div class="collapsible-header light-green lighten-4" style="border:#00A595 solid 1px">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -401,8 +401,8 @@
     </li>
 {% endmacro %}
 {% macro sectionGenericWithTabs(data, index) %}
-    <li>
-        <div class="collapsible-header light-green lighten-4" style="border:#00A595 solid 1px">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -468,8 +468,8 @@
     </li>
 {% endmacro %}
 {% macro sectionCustom(data) %}
-    <li>
-        <div class="collapsible-header light-green lighten-4" style="border:#00A595 solid 1px">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -744,7 +744,6 @@
         </script>
     </head>
     <body class="mycontainer">
-	<br />
         <!-- The Modal -->
         <div id="myModal" class="modal">
             <!-- Modal content -->
@@ -800,13 +799,19 @@
             </a> #}
             <table>
                 <tr style="border: None">
-                    <td>
-                        <img
-                            class="ebrains-icon-small"
-                            src="./imgs/General_logo_Portrait_White.svg"
-                            alt="EBRAINS logo"
-                            style="width: 100px; padding-left: 10px; padding-right: 0px"
-                        />
+                    <td style="cursor:pointer">
+                        <a href="https://ebrains.eu/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style="text-align:center; color:black"
+                        >
+                            <img
+                                class="ebrains-icon-small"
+                                src="./imgs/General_logo_Portrait_White.svg"
+                                alt="EBRAINS logo"
+                                style="width: 100px; padding-left: 10px; padding-right: 0px"
+                            />
+                        </a>
                     </td>
                     <td style="text-align:center">
                         <h5 class="title-style">
@@ -817,13 +822,19 @@
                             {% endif %}
                         </h5>
                     </td>
-                    <td>
-                        <img
-                            class="ebrains-icon-small"
-                            src="./imgs/LP_icon_large.svg"
-                            alt="EBRAINS Live Papers"
-                            style="width: 90px; padding-left: 10px; padding-right: 10px"
-                        />
+                    <td style="cursor:pointer; text-align: right">
+                        <a href="https://live-papers.brainsimulation.eu/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style="text-align:center; color:black"
+                        >
+                            <img
+                                class="ebrains-icon-small"
+                                src="./imgs/LP_icon_large.svg"
+                                alt="EBRAINS Live Papers"
+                                style="width: 90px; padding-left: 10px; padding-right: 10px"
+                            />
+                        </a>
                     </td>
                 </tr>
             </table>

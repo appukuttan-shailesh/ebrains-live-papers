@@ -25,11 +25,7 @@ import { useSnackbar } from 'notistack';
 class BulkEntryWizardComp extends React.Component {
   constructor() {
     super();
-    // this.state = {data: [
-    //     [{ value: "Vanilla" }, { value: "Chocolate" }],
-    //     [{ value: "Strawberry" }, { value: "Cookies" }],
-    //   ]
-    // };
+
     this.state = {
       data: createEmptyMatrix(10, 3),
       data_full: createEmptyMatrix(10, 5),
@@ -128,33 +124,22 @@ class BulkEntryWizardComp extends React.Component {
     return (
       <div className="mycontainer" style={{ textAlign: "left" }}>
         <div className="box rounded centered"
-          style={{ marginTop: "25px", paddingTop: "0.75em", paddingBottom: "0.75em" }}>
+          style={{ marginTop: "25px", paddingTop: "0.25em", paddingBottom: "0.25em", marginBottom: "1em" }}>
           <div style={{ display: "flex" }}>
             <div style={{ flex: 1, textAlign: "left", paddingLeft: "25px", alignSelf: "center" }}>
               <Tooltip title={"Open EBRAINS Homepage"}>
-                <img
-                  src="./imgs/General_logo_Portrait_White.svg"
-                  alt="EBRAINS logo"
-                  style={{ height: "120px", cursor: "pointer" }}
-                />
+                <a href="https://ebrains.eu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textAlign: "center" }}
+                >
+                  <img
+                    src="./imgs/General_logo_Landscape_White.svg"
+                    alt="EBRAINS logo"
+                    style={{ height: "70px", cursor: "pointer" }}
+                  />
+                </a>
               </Tooltip>
-            </div>
-            <div style={{ alignSelf: "center" }}>
-              <table>
-                <tr style={{ border: "None" }}>
-                  <td>
-                    <img
-                      class="ebrains-icon-small"
-                      src="./imgs/LP_icon_large.svg"
-                      alt="EBRAINS logo"
-                      style={{ height: "100px", paddingRight: "10px" }}
-                    />
-                  </td>
-                  <td>
-                    <h5 className="title-style">Live Paper Builder</h5>
-                  </td>
-                </tr>
-              </table>
             </div>
             <div style={{ flex: 1, textAlign: "right", paddingRight: "25px", alignSelf: "center" }}>
               <Tooltip title={"See Live Papers"}>
@@ -181,6 +166,31 @@ class BulkEntryWizardComp extends React.Component {
                 </a>
               </Tooltip>
             </div>
+          </div>
+        </div>
+        <div
+          style={{
+            paddingLeft: "5%",
+            paddingRight: "5%",
+            textAlign: "justify",
+            fontSize: 16,
+            lineHeight: 1.75,
+            paddingBottom: "20px",
+          }}
+        >
+          <div className="title-solid-style" style={{ fontSize: 44 }}>EBRAINS Live Paper Builder - Input Tool</div>
+          <div className="title-solid-style" style={{ fontSize: 32, color: "#00A595" }}>Input multiple entries using spreadsheet-based interface</div>
+        </div>
+        <div style={{ marginBottom: "40px", }}>
+          <div className="rainbow-row">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
         </div>
         <div
