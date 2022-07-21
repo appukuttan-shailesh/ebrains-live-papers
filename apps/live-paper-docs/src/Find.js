@@ -27,12 +27,12 @@ export default class Find extends React.Component {
             Published live papers are freely accessible on the live paper
             platform. The live papers are listed in reverse chronological order:
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/find/live_paper_homepage.png" width="95%" />
+              <img alt="" src="/figures/find/live_paper_homepage.png" width="95%" />
             </div>
             <br />
             You can click on any entry to view that specific live paper:
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/find/live_paper_migliore_2018.png" width="95%" />
+              <img alt="" src="/figures/find/live_paper_migliore_2018.png" width="95%" />
             </div>
           </div>
         </div>
@@ -62,10 +62,10 @@ export default class Find extends React.Component {
             For computational modeling studies, we have found that the most
             common resources being distributed comprise of the following:
             <ul>
-              <li><a onClick={() => this.props.updateHash("morphology")}>Morphologies</a></li>
-              <li><a onClick={() => this.props.updateHash("traces")}>Electrophysiological Recordings</a></li>
-              <li><a onClick={() => this.props.updateHash("models")}>Models</a></li>
-              <li><a onClick={() => this.props.updateHash("other")}>Other Content</a></li>
+              <li><a href onClick={() => this.props.updateHash("morphology")}>Morphologies</a></li>
+              <li><a href onClick={() => this.props.updateHash("traces")}>Electrophysiological Recordings</a></li>
+              <li><a href onClick={() => this.props.updateHash("models")}>Models</a></li>
+              <li><a href onClick={() => this.props.updateHash("other")}>Other Content</a></li>
             </ul>
             <br />
             Click on the above links for more details on how to access and

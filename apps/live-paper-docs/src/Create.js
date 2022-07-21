@@ -31,7 +31,7 @@ export default class Create extends React.Component {
             <br /><br />
             The first step towards creating a live paper is to apply for an
             EBRAINS account. Interested users can create an account{" "}
-            <a href="https://iam.ebrains.eu/register" target="_blank">here</a>.
+            <a href="https://iam.ebrains.eu/register" target="_blank" rel="noreferrer">here</a>.
             It is free and simple to create a new account, and mainly requires
             an institutional email account. Once they have an EBRAINS account,
             they can access the{" "}
@@ -44,7 +44,7 @@ export default class Create extends React.Component {
             paper project as we demonstrate here.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/create/lp_builder_homepage.png" width="95%" />
+              <img alt="" src="/figures/create/lp_builder_homepage.png" width="95%" />
             </div>
             <br />
             Metadata about the associated publication can either be manually
@@ -54,18 +54,18 @@ export default class Create extends React.Component {
             fields.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/create/lp_builder_create_home.png" width="95%" />
+              <img alt="" src="/figures/create/lp_builder_create_home.png" width="95%" />
             </div>
             <br />
             An example outcome of auto-extracting the metadata from the PDF is
             shown below. We employ {" "}
-            <a href="https://github.com/kermitt2/grobid" target="_blank">GROBID</a>
+            <a href="https://github.com/kermitt2/grobid" target="_blank" rel="noreferrer">GROBID</a>
             , a tool for extracting metadata from scholarly publications, for
             this purpose. As this is an automated process, it is advised that
             the the output be verified, and corrections be made as required.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/create/lp_builder_pdf_extract.png" width="95%" />
+              <img alt="" src="/figures/create/lp_builder_pdf_extract.png" width="95%" />
             <br /><br />
             </div>
             The data extracted from the PDF would be auto-populated into the
@@ -77,7 +77,7 @@ export default class Create extends React.Component {
             authors irrespective of the two approaches.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/create/lp_builder_main_filled.png" width="95%" />
+              <img alt="" src="/figures/create/lp_builder_main_filled.png" width="95%" />
             <br /><br />
             </div>
             Once all the metadata has been inserted, authors can proceed to
@@ -87,7 +87,7 @@ export default class Create extends React.Component {
             following:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/create/lp_builder_resource_panel.png" width="95%" />
+              <img alt="" src="/figures/create/lp_builder_resource_panel.png" width="95%" />
             </div>
             <ul>
               <li><a href="./morphology.html">Morphologies</a></li>
@@ -110,7 +110,7 @@ export default class Create extends React.Component {
             be published on the platform.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/create/lp_builder_toolbar.png" width="95%" />
+              <img alt="" src="/figures/create/lp_builder_toolbar.png" width="95%" />
             </div>
             <br />
             Live papers can be set to be password-protected, thereby enabling
@@ -121,7 +121,7 @@ export default class Create extends React.Component {
             to the scientific community.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/create/lp_builder_submit_password.png" width="95%" />
+              <img alt="" src="/figures/create/lp_builder_submit_password.png" width="95%" />
             </div>
             The review process primarily involves verifying that all contained
             resources are actually accessible and that these are hosted on

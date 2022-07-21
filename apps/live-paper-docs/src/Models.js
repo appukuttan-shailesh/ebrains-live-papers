@@ -29,19 +29,19 @@ export default class Models extends React.Component {
             entry, as shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/models/example_models_section.png" width="85%" />
+              <img alt="" src="/figures/models/example_models_section.png" width="85%" />
             </div>
             <br />
             For general instructions on how to add info to resource sections,{" "}
-            <a onClick={() => this.props.updateHash("buildCommon")} target="_blank">click here</a>.
+            <a href onClick={() => this.props.updateHash("buildCommon")} target="_blank">click here</a>.
             <br /><br />
             Authors can import / link existing model related entries from
             other repositories such as:
             <ul>
-              <li><a href="https://search.kg.ebrains.eu/?facet_type[0]=Dataset" target="_blank">EBRAINS Knowledge Graph</a></li>
-              <li><a href="https://senselab.med.yale.edu/modeldb/" target="_blank">ModelDB</a></li>
-              <li><a href="https://www.opensourcebrain.org/" target="_blank">Open Source Brain</a></li>
-              <li><a href="https://www.ebi.ac.uk/biomodels/" target="_blank">BioModels</a></li>
+              <li><a href="https://search.kg.ebrains.eu/?facet_type[0]=Dataset" target="_blank" rel="noreferrer">EBRAINS Knowledge Graph</a></li>
+              <li><a href="https://senselab.med.yale.edu/modeldb/" target="_blank" rel="noreferrer">ModelDB</a></li>
+              <li><a href="https://www.opensourcebrain.org/" target="_blank" rel="noreferrer">Open Source Brain</a></li>
+              <li><a href="https://www.ebi.ac.uk/biomodels/" target="_blank" rel="noreferrer">BioModels</a></li>
             </ul>
           </div>
         </div>
@@ -54,7 +54,7 @@ export default class Models extends React.Component {
             is shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/models/example_models_output.png" width="85%" />
+              <img alt="" src="/figures/models/example_models_output.png" width="85%" />
             </div>
             <br />
             Users are able to downloaded each listed model file by clicking on
@@ -64,7 +64,7 @@ export default class Models extends React.Component {
             EBRAINS model catalog (Knowledge Graph) is illustrated below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/models/model_catalog.png" width="85%" />
+              <img alt="" src="/figures/models/model_catalog.png" width="85%" />
             </div>
           </div>
         </div>

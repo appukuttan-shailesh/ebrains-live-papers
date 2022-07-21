@@ -29,17 +29,17 @@ export default class Traces extends React.Component {
             shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/traces/example_traces_section.png" width="85%" />
+              <img alt="" src="/figures/traces/example_traces_section.png" width="85%" />
             </div>
             <br />
             For general instructions on how to add info to resource sections,{" "}
-            <a onClick={() => this.props.updateHash("buildCommon")} target="_blank">click here</a>.
+            <a href onClick={() => this.props.updateHash("buildCommon")} target="_blank" rel="noreferrer">click here</a>.
             <br /><br />
             Authors can import / link existing electrophysiological data related entries from
             other repositories such as:
             <ul>
-              <li><a href="https://search.kg.ebrains.eu/?facet_type[0]=Dataset" target="_blank">EBRAINS Knowledge Graph</a></li>
-              <li><a href="https://celltypes.brain-map.org/data/" target="_blank">Allen Brain Atlas</a></li>
+              <li><a href="https://search.kg.ebrains.eu/?facet_type[0]=Dataset" target="_blank" rel="noreferrer">EBRAINS Knowledge Graph</a></li>
+              <li><a href="https://celltypes.brain-map.org/data/" target="_blank" rel="noreferrer">Allen Brain Atlas</a></li>
             </ul>
           </div>
         </div>
@@ -52,7 +52,7 @@ export default class Traces extends React.Component {
             is shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/traces/example_traces_output.png" width="85%" />
+              <img alt="" src="/figures/traces/example_traces_output.png" width="85%" />
             </div>
             <br />
             By clicking on an entry, it expands to show further info and
@@ -65,7 +65,7 @@ export default class Traces extends React.Component {
             of interest from those available within the data file.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/traces/example_traces_output_detail.png" width="85%" />
+              <img alt="" src="/figures/traces/example_traces_output_detail.png" width="85%" />
             </div>
           </div>
         </div>

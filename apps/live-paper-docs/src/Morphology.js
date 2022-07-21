@@ -29,17 +29,17 @@ export default class Morphology extends React.Component {
             entry, as shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/example_morphology_section.png" width="85%" />
+              <img alt="" src="/figures/morphology/example_morphology_section.png" width="85%" />
             </div>
             <br />
             For general instructions on how to add info to resource sections,{" "}
-            <a onClick={() => this.props.updateHash("buildCommon")} target="_blank">click here</a>.
+            <a href onClick={() => this.props.updateHash("buildCommon")} target="_blank">click here</a>.
             <br /><br />
             Authors can import / link existing morphology related entries from
             other repositories such as:
             <ul>
-              <li><a href="http://neuromorpho.org/" target="_blank">NeuroMoprho.Org</a></li>
-              <li><a href="https://celltypes.brain-map.org/data/" target="_blank">Allen Brain Atlas</a></li>
+              <li><a href="http://neuromorpho.org/" target="_blank" rel="noreferrer">NeuroMoprho.Org</a></li>
+              <li><a href="https://celltypes.brain-map.org/data/" target="_blank" rel="noreferrer">Allen Brain Atlas</a></li>
             </ul>
           </div>
         </div>
@@ -52,7 +52,7 @@ export default class Morphology extends React.Component {
             is shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/example_morphology_output.png" width="85%" />
+              <img alt="" src="/figures/morphology/example_morphology_output.png" width="85%" />
             </div>
             <br />
             Users are able to download each listed morphology file by clicking
@@ -61,7 +61,7 @@ export default class Morphology extends React.Component {
             morphology viewer. This is illustrated below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img src="/figures/morphology/morphology_viewer.png" width="75%" />
+              <img alt="" src="/figures/morphology/morphology_viewer.png" width="75%" />
             </div>
           </div>
         </div>

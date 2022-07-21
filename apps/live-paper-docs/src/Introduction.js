@@ -55,6 +55,7 @@ export default class Introduction extends React.Component {
             </div>
             <div style={{ flex: 0.5, textAlign: "center" }}>
               <img
+                alt=""
                 src="/figures/index/problem.png"
                 width="60%"
                 style={{ paddingTop: "120px" }}
@@ -68,6 +69,7 @@ export default class Introduction extends React.Component {
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div style={{ flex: 0.5, textAlign: "center" }}>
               <img
+                alt=""
                 src="/figures/index/banner2.png"
                 width="100%"
                 style={{ paddingRight: "40px", paddingTop: "75px" }}
@@ -135,11 +137,12 @@ export default class Introduction extends React.Component {
                 resources can also be explored/executed interactively from
                 within the live paper using tools integrated into the live paper
                 platform.
-                <p><a onClick={() => this.props.updateHash("find")}>Learn more...</a></p>
+                <p><a href onClick={() => this.props.updateHash("find")}>Learn more...</a></p>
               </div>
             </div>
             <div style={{ flex: 0.5 }}>
               <img
+                alt=""
                 src="/figures/index/find.png"
                 width="100%"
                 style={{ paddingLeft: "20px" }}
@@ -152,6 +155,7 @@ export default class Introduction extends React.Component {
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div style={{ flex: 0.5 }}>
               <img
+                alt=""
                 src="/figures/index/create.png"
                 width="100%"
                 style={{ paddingRight: "40px" }}
@@ -178,7 +182,7 @@ export default class Introduction extends React.Component {
                 <br /><br />
                 The EBRAINS platform issues DOIs to published live papers.
                 This assists in the citation of published data and models.
-                <p><a onClick={() => this.props.updateHash("create")}>Learn more...</a></p>
+                <p><a href onClick={() => this.props.updateHash("create")}>Learn more...</a></p>
               </div>
             </div>
           </div>
