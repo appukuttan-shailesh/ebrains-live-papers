@@ -1138,7 +1138,6 @@ class CreateLivePaper extends React.Component {
     return (
       <Dialog
         fullScreen
-        disableBackdropClick
         disableEscapeKeyDown
         onClose={this.handleClose}
         aria-labelledby="simple-dialog-title"
@@ -1693,7 +1692,7 @@ class CreateLivePaper extends React.Component {
                   <div>
                     <TextField
                       multiline
-                      rows="3"
+                      minRows="3"
                       label="Citation"
                       variant="outlined"
                       fullWidth={true}
@@ -1743,7 +1742,7 @@ class CreateLivePaper extends React.Component {
                     <Grid item xs={12}>
                       <TextField
                         multiline
-                        rows="8"
+                        minRows="8"
                         label="Abstract"
                         variant="outlined"
                         fullWidth={true}
@@ -1810,7 +1809,7 @@ class CreateLivePaper extends React.Component {
                 <Grid item xs={12}>
                   <TextField
                     multiline
-                    rows="4"
+                    minRows="4"
                     label="Description of resources (optional)"
                     variant="outlined"
                     fullWidth={true}

@@ -2525,8 +2525,6 @@ export default class DBInputModels extends React.Component {
           open={this.props.open}
           fullWidth={this.state.showFilters ? false : true}
           maxWidth={"xl"}
-        //   disableBackdropClick={true}
-        //   disableEscapeKeyDown={true}
         >
           <DialogTitle
             id="customized-dialog-title"
