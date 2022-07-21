@@ -27,6 +27,7 @@ export default class App extends React.Component {
     };
 
     this.updateHash = this.updateHash.bind(this);
+    this.scrollToTop = this.scrollToTop.bind(this);
   }
 
   componentDidMount() {
@@ -41,9 +42,17 @@ export default class App extends React.Component {
     this.setState({ pageOpen: value });
   }
 
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   render() {
     // update hash
     window.location.hash = this.state.pageOpen;
+    this.scrollToTop();
 
     return (
       <div className="mycontainer" style={{ textAlign: "left" }}>
