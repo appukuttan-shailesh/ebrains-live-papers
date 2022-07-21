@@ -10,6 +10,7 @@ import ContextMain from "./ContextMain";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { baseUrl } from "./globals";
 
 // define the columns for the material data table
@@ -31,6 +32,24 @@ const TABLE_COLUMNS = [
     width: "100px",
   },
 ];
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiTypography: {
+      h6: {
+        fontWeight: "bolder !important",
+        color: "#000000",
+      },
+      MuiTableRow: {
+        hover: {
+          "&:hover": {
+            backgroundColor: "#FFECB3 !important",
+          },
+        },
+      },
+    },
+  },
+});
 
 export default class LoadKGProjects extends React.Component {
   signal = axios.CancelToken.source();
@@ -149,7 +168,7 @@ export default class LoadKGProjects extends React.Component {
           fullWidth={true}
           maxWidth="md"
         >
-          <DialogTitle style={{ backgroundColor: "#ffd180" }}>
+          <DialogTitle style={{ backgroundColor: "#00A595" }}>
             <span style={{ fontWeight: "bolder", fontSize: 18 }}>
               Load Live Paper Project From EBRAINS Knowledge Graph
             </span>
@@ -162,46 +181,48 @@ export default class LoadKGProjects extends React.Component {
               edit the below listed live paper projects on the Knowledge Graph.
             </Box>
             <Box my={2}>
-              <MaterialTable
-                title="Live Paper Projects"
-                data={this.props.kg_project_list}
-                columns={TABLE_COLUMNS}
-                onRowClick={(evt, selectedRow) =>
-                  this.setState({ selectedRow: selectedRow.tableData.id })
-                }
-                options={{
-                  search: true,
-                  paging: false,
-                  filtering: false,
-                  exportButton: false,
-                  maxBodyHeight: "60vh",
-                  headerStyle: {
-                    position: "sticky",
-                    top: 0,
-                    backgroundColor: "#FFFFFF",
-                    fontWeight: "bolder",
-                    fontSize: 15,
-                  },
-                  rowStyle: (rowData) => ({
-                    backgroundColor:
-                      this.state.selectedRow === rowData.tableData.id
-                        ? "#FFD180"
-                        : "#EEEEEE",
-                  }),
-                }}
-                components={{
-                  Toolbar: (props) => (
-                    <div
-                      style={{
-                        backgroundColor: "#FFD180",
-                        fontWeight: "bolder !important",
-                      }}
-                    >
-                      <MTableToolbar {...props} />
-                    </div>
-                  ),
-                }}
-              />
+              <ThemeProvider theme={theme}>
+                <MaterialTable
+                  title="Live Paper Projects"
+                  data={this.props.kg_project_list}
+                  columns={TABLE_COLUMNS}
+                  onRowClick={(evt, selectedRow) =>
+                    this.setState({ selectedRow: selectedRow.tableData.id })
+                  }
+                  options={{
+                    search: true,
+                    paging: false,
+                    filtering: false,
+                    exportButton: false,
+                    maxBodyHeight: "60vh",
+                    headerStyle: {
+                      position: "sticky",
+                      top: 0,
+                      backgroundColor: "#EEEEEE",
+                      color: "#000",
+                      fontWeight: "bolder",
+                      fontSize: 16,
+                    },
+                    rowStyle: (rowData) => ({
+                      backgroundColor:
+                        this.state.selectedRow === rowData.tableData.id
+                          ? "#FFD180"
+                          : "#EFF7E5",
+                    }),
+                  }}
+                  components={{
+                    Toolbar: (props) => (
+                      <div
+                        style={{
+                          backgroundColor: "#13AC8B",
+                        }}
+                      >
+                        <MTableToolbar {...props} />
+                      </div>
+                    ),
+                  }}
+                />
+              </ThemeProvider>
             </Box>
             <div
               style={{
@@ -219,8 +240,8 @@ export default class LoadKGProjects extends React.Component {
                 color="primary"
                 style={{
                   width: "20%",
-                  backgroundColor: "#FF9800",
-                  color: "#000000",
+                  backgroundColor: "#525252",
+                  color: "#FFFFFF",
                   fontWeight: "bold",
                   border: "solid",
                   borderColor: "#000000",
@@ -239,8 +260,8 @@ export default class LoadKGProjects extends React.Component {
                   width: "20%",
                   backgroundColor:
                     (this.state.selectedRow || this.state.selectedRow === 0) &&
-                    this.state.selectedRow >= 0
-                      ? "#8BC34A"
+                      this.state.selectedRow >= 0
+                      ? "#4DC26D"
                       : "#FFFFFF",
                   color: "#000000",
                   fontWeight: "bold",

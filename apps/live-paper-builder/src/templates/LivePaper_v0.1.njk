@@ -3,22 +3,22 @@
     {% if type == "URL" %}
         <span></span>
     {% elseif type == "NeuroMorpho" %}
-        <img width="40px" title="NeuroMorpho.Org Entry" src="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/resources/logos/NeuroMorpho.png"/>
+        <img width="40px" title="NeuroMorpho.Org Entry" src="./imgs/NeuroMorpho.png"/>
     {% elseif type == "ModelDB" %}
-        <img width="40px" title="ModelDB Entry" src="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/resources/logos/ModelDB.png"/>
+        <img width="40px" title="ModelDB Entry" src="./imgs/ModelDB.png"/>
     {% elseif type == "OSB" %}
-        <img width="40px" title="Open Source Brain Entry" src="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/resources/logos/OSB.png"/>
+        <img width="40px" title="Open Source Brain Entry" src="./imgs/OSB.png"/>
     {% elseif type == "AllenBrain" %}
-        <img width="40px" title="Allen Brain Atlas Entry" src="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/resources/logos/AllenBrain.png"/>
+        <img width="40px" title="Allen Brain Atlas Entry" src="./imgs/AllenBrain.png"/>
     {% elseif type == "BioModels" %}
-        <img width="40px" title="BioModels Entry" src="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/resources/logos/BioModels.png"/>
+        <img width="40px" title="BioModels Entry" src="./imgs/BioModels.png"/>
     {% else %}
-        <img width="40px" title="EBRAINS Knowledge Graph Entry" src="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/resources/logos/KG.png"/>
+        <img width="40px" title="EBRAINS Knowledge Graph Entry" src="./imgs/KG.png"/>
     {% endif %}
 {% endmacro %}
 {% macro sectionMorphology(data) %}
-    <li>
-        <div class="collapsible-header amber lighten-5">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -71,8 +71,8 @@
     </li>
 {% endmacro %}
 {% macro sectionMorphologyWithTabs(data, index) %}
-    <li>
-        <div class="collapsible-header amber lighten-5">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -99,7 +99,8 @@
                             <table class="striped">
                                 <tbody>
                                     {% for item in data["data"] %}
-                                        {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
+                                        {% if (item["tab_name"] == tab) 
+                                            or((tab == "no tab name") and (item["tab_name"] == "")) %}
                                             <tr>
                                                 <td style="width: 50px; padding-right: 15px;">
                                                     {{ cellSourceLogo(type=item["type"]) }}
@@ -144,8 +145,8 @@
     </li>
 {% endmacro %}
 {% macro sectionTraces(data) %}
-    <li>
-        <div class="collapsible-header amber lighten-5">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -176,8 +177,8 @@
     </li>
 {% endmacro %}
 {% macro sectionTracesWithTabs(data, index) %}
-    <li>
-        <div class="collapsible-header amber lighten-5">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -203,7 +204,8 @@
                         <div id='res_{{ index }}_tab_{{ tab|replace(" ", "_") }}' class="col s12">
                             <ul class="collapsible expandable">
                                 {% for item in data["data"] %}
-                                    {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
+                                    {% if (item["tab_name"] == tab) 
+                                        or((tab == "no tab name") and (item["tab_name"] == "")) %}
                                         <li>
                                             <div class="collapsible-header" style="align-items: baseline">
                                                 <span style="width: 50px; padding-right: 15px;">
@@ -227,8 +229,8 @@
     </li>
 {% endmacro %}
 {% macro sectionModels(data) %}
-    <li>
-        <div class="collapsible-header amber lighten-5">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -275,8 +277,8 @@
     </li>
 {% endmacro %}
 {% macro sectionModelsWithTabs(data, index) %}
-    <li>
-        <div class="collapsible-header amber lighten-5">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -303,7 +305,8 @@
                             <table class="striped">
                                 <tbody>
                                     {% for item in data["data"] %}
-                                        {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
+                                        {% if (item["tab_name"] == tab) 
+                                            or((tab == "no tab name") and (item["tab_name"] == "")) %}
                                             <tr>
                                                 <td style="width: 50px; padding-right: 15px;">
                                                     {{ cellSourceLogo(type=item["type"]) }}
@@ -342,8 +345,8 @@
     </li>
 {% endmacro %}
 {% macro sectionGeneric(data) %}
-    <li>
-        <div class="collapsible-header amber lighten-5">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -380,6 +383,15 @@
                                         <span></span>
                                     {% endif %}
                                 </td>
+                                <td style="width: 175px">
+                                    {% if item["url"] != item["view_url"] %}
+                                        <a href="javascript:openCloneDialog('{{ item["url"] }}');" class="waves-effect waves-light">
+                                            <i class="material-icons left">open_in_browser</i>Clone
+                                        </a>
+                                    {% else %}
+                                        <span></span>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -389,8 +401,8 @@
     </li>
 {% endmacro %}
 {% macro sectionGenericWithTabs(data, index) %}
-    <li>
-        <div class="collapsible-header amber lighten-5">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -417,7 +429,8 @@
                             <table class="striped">
                                 <tbody>
                                     {% for item in data["data"] %}
-                                        {% if (item["tab_name"] == tab) or ((tab=="no tab name") and (item["tab_name"] == "")) %}
+                                        {% if (item["tab_name"] == tab) 
+                                            or((tab == "no tab name") and (item["tab_name"] == "")) %}
                                             <tr>
                                                 <td>
                                                     {{ item["label"] }}
@@ -455,8 +468,8 @@
     </li>
 {% endmacro %}
 {% macro sectionCustom(data) %}
-    <li>
-        <div class="collapsible-header amber lighten-5">
+    <li class="section-collapsible">
+        <div class="collapsible-header light-green lighten-4">
             <i class="material-icons">{{ data["icon"] }}</i>
             {{ data["title"] }}
         </div>
@@ -485,8 +498,9 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <link rel="stylesheet" href="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/resources/css/live_paper.css">
-        <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+        <link rel="stylesheet" href="./css/live_paper_nunjucks.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani">
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.css">
@@ -503,33 +517,329 @@
             });
         </script>
         <link rel="stylesheet" href="https://unpkg.com/katex@0.10.0/dist/katex.min.css"/>
+
+        <style>
+            /* The Modal (background) */
+            .modal {
+                display: none;
+                /* Hidden by default */
+                position: fixed;
+                /* Stay in place */
+                z-index: 999999999;
+                /* Sit on top */
+                padding-top: 100px;
+                /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 60%;
+                /* Full width */
+                min-width: 820px;
+                height: 100%;
+                /* Full height */
+                overflow: auto;
+                /* Enable scroll if needed */
+                background-color: rgba(0,0,0,0.0);
+                /* Black w/ opacity */
+                box-shadow: none;
+            }
+
+            /* Modal Header */
+            .modal-header {
+                padding: 8px 16px;
+                margin-bottom: 16px;
+                background-color: #13AC8B;
+                color: white;
+                font-size: 20px;
+                font-weight: bold;
+                color: #000000;
+            }
+
+            /* Modal Body */
+            .modal-body {
+                padding: 2px 16px;
+            }
+
+            /* Modal Footer */
+            .modal-footer {
+                padding: 2px 16px;
+                background-color: #5cb85c;
+                color: white;
+            }
+
+            /* Modal Content */
+            .modal-content {
+                position: relative;
+                background-color: #fefefe;
+                margin: auto;
+                padding: 0;
+                border: 1px solid #888;
+                width: 80%;
+                border-radius: 16px;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+                animation-name: animatetop;
+                animation-duration: 0.4s;
+            }
+
+            .my-button {
+                width: 200px;
+                padding: 8px;
+                border-radius: 4px;
+                font-size: 16px;
+            }
+
+            .orange-bg {
+                background-color: #FF9800;
+            }
+            .orange-bg:focus,
+            .orange-bg:hover {
+                background-color: #FF9800;
+            }
+
+            .green-bg {
+                background-color: #8BC34A;
+            }
+            .green-bg:focus,
+            .green-bg:hover {
+                background-color: #8BC34A;
+            }
+
+            .button-container {
+                display: flex;
+                justify-content: space-around;
+                margin-top: 10px;
+                padding: 6px;
+            }
+
+            /* Add Animation */
+            @-webkit-keyframes animatetop {
+                from {
+                    top: -300px;
+                    opacity: 0;
+                }
+                to {
+                    top: 0;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes animatetop {
+                from {
+                    top: -300px;
+                    opacity: 0;
+                }
+                to {
+                    top: 0;
+                    opacity: 1;
+                }
+            }
+
+            /* The Close Button */
+            .close {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:focus,
+            .close:hover {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        </style>
+
+        <!-- Matomo -->
+        <script>
+            var _paq = window._paq = window._paq || [];
+            /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function () {
+                var u = "//stats.humanbrainproject.eu/";
+                _paq.push([
+                    'setTrackerUrl', u + 'matomo.php'
+                ]);
+                _paq.push(['setSiteId', '18']);
+                var d = document,
+                    g = d.createElement('script'),
+                    s = d.getElementsByTagName('script')[0];
+                g.async = true;
+                g.src = u + 'matomo.js';
+                s
+                    .parentNode
+                    .insertBefore(g, s);
+            })();
+        </script>
+        <!-- End Matomo Code -->
+        <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
+
+            {
+                # // Get the button that opens the modal
+                var btn = document.getElementById("myBtn");
+                #
+            } {
+                # // When the user clicks on the button, open the modal
+                btn.onclick = function () {
+                    modal.style.display = "block";
+                }
+                #
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                console.log(event);
+                console.log(event.target);
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            function openCloneDialog(value) {
+                var modal = document.getElementById("myModal");
+                modal.style.display = "block";
+
+                // generate URL for cloning app
+                let url = `https://collab-file-cloner.netlify.app/#source_file=${encodeURI(value)}&dest_dir=/live-papers/{{ alias }}&file_overwrite=false&auto_run=true`
+                console.log(url);
+
+                // save URL to a hidden element
+                var hidden_input = document.getElementById("hidden-clone-url");
+                hidden_input.value = url;
+            }
+
+            function goToCloneApp() {
+                // retrieve URL from hidden element
+                var hidden_input = document.getElementById("hidden-clone-url");
+                var url = hidden_input.value;
+
+                var link = document.createElement('a');
+                link.target = "_blank";
+                link.href = url;
+                link.rel = "noopener noreferrer";
+                document
+                    .body
+                    .appendChild(link); // you need to add it to the DOM to get FF working
+                link.click();
+                link
+                    .parentNode
+                    .removeChild(link); // link.remove(); doesn't work on IE11
+            }
+
+            function closeCloneDialog() {
+                var modal = document.getElementById("myModal");
+                modal.style.display = "none";
+
+                // reset value of hidden element
+                var hidden_input = document.getElementById("hidden-clone-url");
+                hidden_input.value = "";
+            }
+        </script>
     </head>
-    <body class="container">
-        <div class="box rounded centered">
-            <div style="text-align:center; color:black; display:inline-block">
+    <body class="mycontainer">
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    Clone File to Collab Storage
+                </div>
+                <div class="modal-body">
+                    <p>
+                        To clone a file into the EBRAINS Collaboratory, you are required to have an EBRAINS account.
+                    </p>
+                    <p>
+                        If you do not yet have an EBRAINS account, you can request for one 
+                        <a href="https://ebrains.eu/register/" target="_blank" rel="noreferrer">here</a>. 
+                        If you already have an EBRAINS account, but do not have access to any Collab, you can create one 
+                        <a href="https://wiki.ebrains.eu/bin/view/Collabs?clbaction=create" target="_blank" rel="noreferrer">here</a>.
+                    </p>
+                    <p>
+                        Click 'Proceed' to login to the Collaboratory and clone the file to a Collab of your choice.
+                    </p>
+                    <input type="hidden" name="hidden-clone-url" id="hidden-clone-url" value="">
+                    <div class="button-container">
+                        <button class="my-button orange-bg" id="btn-close-dialog" onclick="javascript:closeCloneDialog();">Close</button>
+                        <button class="my-button green-bg" id="btn-proceed-dialog" onclick="javascript:goToCloneApp();">Proceed</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box rounded centered"
+            style="margin-top:5px; padding-top:0.75em; padding-bottom:0.75em">
+            {# <a
+              href="https://ebrains.eu/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="waves-effect waves-light"
+              style="text-align:center; color:black"
+            >
                 <table>
                     <tbody>
                         <tr>
-                            <td>
-                                <img classname="ebrains-icon-small" src="https://object.cscs.ch/v1/AUTH_c0a333ecf7c045809321ce9d9ecdfdea/EBRAINS_live_papers/resources/imgs/ebrains_logo.png" alt="EBRAINS logo" style="width:25px; height:25px;"/>
-                            </td>
-                            <td>
-                                <span class="title-style subtitle" style="padding-left:5px;">
-                                    EBRAINS Live Papers
-                                </span>
+                            <td style="padding-top:0px; padding-bottom:0px">
+                                <img
+                                    class="ebrains-icon-small"
+                                    src="./imgs/ebrains_logo.svg"
+                                    alt="EBRAINS logo"
+                                    style="height:70px"
+                                />
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <h5 class="title-style">
-                {% if associated_paper_title %}
-                    {{ associated_paper_title }}
-                {% else %}
-                    To be filled...
-                {% endif %}
-            </h5>
+            </a> #}
+            <table>
+                <tr style="border: None">
+                    <td style="cursor:pointer">
+                        <a href="https://ebrains.eu/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style="text-align:center; color:black"
+                        >
+                            <img
+                                class="ebrains-icon-small"
+                                src="./imgs/General_logo_Portrait_White.svg"
+                                alt="EBRAINS logo"
+                                style="width: 100px; padding-left: 10px; padding-right: 0px"
+                            />
+                        </a>
+                    </td>
+                    <td style="text-align:center">
+                        <h5 class="title-style">
+                            {% if associated_paper_title %}
+                                {{ associated_paper_title }}
+                            {% else %}
+                                To be filled...
+                            {% endif %}
+                        </h5>
+                    </td>
+                    <td style="cursor:pointer; text-align: right">
+                        <a href="https://live-papers.brainsimulation.eu/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style="text-align:center; color:black"
+                        >
+                            <img
+                                class="ebrains-icon-small"
+                                src="./imgs/LP_icon_large.svg"
+                                alt="EBRAINS Live Papers"
+                                style="width: 90px; padding-left: 10px; padding-right: 10px"
+                            />
+                        </a>
+                    </td>
+                </tr>
+            </table>
         </div>
+
         <div>
             <table>
                 <tr style="border:none">
@@ -545,7 +855,7 @@
                         {% endif %}
                     </td>
                 </tr>
-            </table>    
+            </table>
             <table>
                 <tr style="border:none">
                     <td style="width: 150px; vertical-align:top">
@@ -558,236 +868,235 @@
                             {% set affiliations_list = affiliations_string.split(';;') %}
                             {% for aff in affiliations_list %}
                                 <p style="padding-left: 2em; text-indent:-2em">{{ aff | safe }}<p/>
-                            {% endfor %} 
-                        {% else %}
+                                {% endfor %}
+                            {% else %}
                             To be filled...
                         {% endif %}
-                    </td>
-                </tr>
-            </table>                
-            <table>
-                <tr style="border:none">
-                    <td style="width: 150px; vertical-align:top">
-                        <strong style="font-weight:bolder">Corresponding author{{ ":" if corresponding_authors_string.split(';;')|length <2 else "(s):" }}
-                        </strong>
-                    </td>
-                    <td>
-                        {% if corresponding_authors_string %}
-                            {# {{ corresponding_authors_string | safe }} #}
-                            {% set corresponding_authors_list = corresponding_authors_string.split(';;') %}
-                            {% for corr_auth in corresponding_authors_list %}
-                                <p style="padding-left: 2em; text-indent:-2em">{{ corr_auth | safe }}<p/>
-                            {% endfor %} 
-                        {% else %}
-                            To be filled...
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>                                    
-            <table>
-                <tr style="border:none">
-                    <td style="width: 150px; vertical-align:top">
-                        <strong style="font-weight:bolder">Live paper author:
-                        </strong>
-                    </td>
-                    <td>
-                        {% if created_authors_string %}
-                            {# {{ created_authors_string | safe }} #}
-                            {% set created_authors_list = created_authors_string.split(';;') %}
-                            {% for create_auth in created_authors_list %}
-                                <p style="padding-left: 2em; text-indent:-2em">{{ create_auth | safe }}<p/>
-                            {% endfor %} 
-                        {% else %}
-                            To be filled...
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>                    
-            {% if not ((created_author | length == 1) and (approved_author.firstname == created_author[0].firstname) and (approved_author.lastname == created_author[0].lastname)) %}
+                        </td>
+                    </tr>
+                </table>
                 <table>
                     <tr style="border:none">
                         <td style="width: 150px; vertical-align:top">
-                            <strong style="font-weight:bolder">Approved by:
+                            <strong style="font-weight:bolder">Corresponding author{{ ":" if corresponding_authors_string.split(';;')|length <2 else "(s):" }}
                             </strong>
                         </td>
                         <td>
-                            {% if (approved_author.firstname != "") and (approved_author.lastname != "") %}
-                                {{ approved_author.firstname + " " + approved_author.lastname }}
-                                {% if approved_author.affiliation %}
+                            {% if corresponding_authors_string %}
+                                {# {{ corresponding_authors_string | safe }} #}
+                                {% set corresponding_authors_list = corresponding_authors_string.split(';;') %}
+                                {% for corr_auth in corresponding_authors_list %}
+                                    <p style="padding-left: 2em; text-indent:-2em">{{ corr_auth | safe }}<p/>
+                                    {% endfor %}
+                                {% else %}
+                            To be filled...
+                        {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr style="border:none">
+                            <td style="width: 150px; vertical-align:top">
+                                <strong style="font-weight:bolder">Live paper author:
+                        </strong>
+                            </td>
+                            <td>
+                                {% if created_authors_string %}
+                                    {# {{ created_authors_string | safe }} #}
+                                    {% set created_authors_list = created_authors_string.split(';;') %}
+                                    {% for create_auth in created_authors_list %}
+                                        <p style="padding-left: 2em; text-indent:-2em">{{ create_auth | safe }}<p/>
+                                        {% endfor %}
+                                    {% else %}
+                            To be filled...
+                        {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                        {% if not((created_author | length == 1) and (approved_author.firstname == created_author[0].firstname) and (approved_author.lastname == created_author[0].lastname)) %}
+                            <table>
+                                <tr style="border:none">
+                                    <td style="width: 150px; vertical-align:top">
+                                        <strong style="font-weight:bolder">Approved by:
+                            </strong>
+                                    </td>
+                                    <td>
+                                        {% if (approved_author.firstname != "") and (approved_author.lastname != "") %}
+                                            {{ approved_author.firstname + " " + approved_author.lastname }}
+                                            {% if approved_author.affiliation %}
                                     (<em>{{ approved_author.affiliation }}</em>)
                                 {% endif %}
-                            {% else %}
+                                        {% else %}
                                 To be filled...
                             {% endif %}
-                        </td>
-                    </tr>
-                </table>                    
-            {% endif %}
-            <table>
-                <tr style="border:none">
-                    <td style="width: 150px; vertical-align:top">
-                        <strong style="font-weight:bolder">Live paper DOI:
+                                    </td>
+                                </tr>
+                            </table>
+                        {% endif %}
+                        <table>
+                            <tr style="border:none">
+                                <td style="width: 150px; vertical-align:top">
+                                    <strong style="font-weight:bolder">Live paper DOI:
                         </strong>
-                    </td>
-                    <td>
-                        {% if doi %}
-                            <a target="_blank" rel="noopener noreferrer" href="{{ doi }}">{{ doi }}</a>
-                        {% else %}
+                                </td>
+                                <td>
+                                    {% if doi %}
+                                        <a target="_blank" rel="noopener noreferrer" href="{{ doi }}">{{ doi }}</a>
+                                    {% else %}
                             To be assigned...
                         {% endif %}
-                    </td>
-                </tr>
-            </table>                    
-        </div>
-        <div class="rainbow-row" style="margin-top: 10px; margin-bottom: 10px">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <br/>
-        <div>
-            <table>
-                <tr style="border:none">
-                    <td style="width: 150px; vertical-align:top">
-                        <strong style="font-weight:bolder">Journal:
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="rainbow-row" style="margin-top: 10px; margin-bottom: 10px">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div>
+                        <table>
+                            <tr style="border:none">
+                                <td style="width: 150px; vertical-align:top">
+                                    <strong style="font-weight:bolder">Journal:
                         </strong>
-                    </td>
-                    <td>
-                        {% if journal %}
-                            {{ journal | safe }}
-                        {% else %}
-                            <i>Not Available</i>
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>
-            <table>
-                <tr style="border:none">
-                    <td style="width: 150px; vertical-align:top">
-                        <strong style="font-weight:bolder">Download Url:
+                                </td>
+                                <td>
+                                    {% if journal %}
+                                        {{ journal | safe }}
+                                    {% else %}
+                                        <i>Not Available</i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr style="border:none">
+                                <td style="width: 150px; vertical-align:top">
+                                    <strong style="font-weight:bolder">Download Url:
                         </strong>
-                    </td>
-                    <td>
-                        {% if url %}
-                            <a target="_blank" rel="noopener noreferrer" href="{{ url }}">{{ url }}</a>
-                        {% else %}
-                            <i>Not Available</i>
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>
-            <table>
-                <tr style="border:none">
-                    <td style="width: 150px; vertical-align:top">
-                        <strong style="font-weight:bolder">Citation:
+                                </td>
+                                <td>
+                                    {% if url %}
+                                        <a target="_blank" rel="noopener noreferrer" href="{{ url }}">{{ url }}</a>
+                                    {% else %}
+                                        <i>Not Available</i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr style="border:none">
+                                <td style="width: 150px; vertical-align:top">
+                                    <strong style="font-weight:bolder">Citation:
                         </strong>
-                    </td>
-                    <td>
-                        {% if citation %}
-                            {{ citation }}
-                        {% else %}
-                            <i>Not Available</i>
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>
-            <table>
-                <tr style="border:none">
-                    <td style="width: 150px; vertical-align:top">
-                        <strong style="font-weight:bolder">Article DOI:
+                                </td>
+                                <td>
+                                    {% if citation %}
+                                        {{ citation }}
+                                    {% else %}
+                                        <i>Not Available</i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr style="border:none">
+                                <td style="width: 150px; vertical-align:top">
+                                    <strong style="font-weight:bolder">Article DOI:
                         </strong>
-                    </td>
-                    <td>
-                        {% if associated_paper_doi %}
-                            <a target="_blank" rel="noopener noreferrer" href="{{ associated_paper_doi }}">{{ associated_paper_doi }}</a>
-                        {% else %}
-                            <i>Not Available</i>
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>
-            <table>
-                <tr style="border:none">
-                    <td style="width: 150px; vertical-align:top">
-                        <strong style="font-weight:bolder">Licence:
+                                </td>
+                                <td>
+                                    {% if associated_paper_doi %}
+                                        <a target="_blank" rel="noopener noreferrer" href="{{ associated_paper_doi }}">{{ associated_paper_doi }}</a>
+                                    {% else %}
+                                        <i>Not Available</i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr style="border:none">
+                                <td style="width: 150px; vertical-align:top">
+                                    <strong style="font-weight:bolder">Licence:
                         </strong>
-                    </td>
-                    <td>
-                        {% if license %}
-                            {{ license }}
+                                </td>
+                                <td>
+                                    {% if license %}
+                                        {{ license }}
+                                    {% else %}
+                                        <i>Not Available</i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="note rounded">
+                        <h5>Abstract:</h5>
+                        {% if abstract %}
+                            {{ abstract }}
                         {% else %}
-                            <i>Not Available</i>
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="note rounded">
-            <h5>Abstract:</h5>
-            {% if abstract %}
-                {{ abstract }}
-            {% else %}
                 To be filled...
             {% endif %}
-        </div>
-        <h5>Resources</h5>
-        <p>
-            {% if resources_description %}
-                {{ resources_description | safe }}
-            {% endif %}
-        </p>
-        <ul class="collapsible expandable">
-            {% for data in resources %}
-                {% if data["type"] == "section_morphology" %}
-                    {% if data["tabs"] | length <= 1 %}
-                        {{ sectionMorphology(data=data) }}
-                    {% else %}
-                        {{ sectionMorphologyWithTabs(data=data, index=loop.index) }}
-                    {% endif %}
-                {% elseif data["type"] == "section_traces" %}
-                    {% if data["tabs"] | length <= 1 %}
-                        {{ sectionTraces(data=data) }}
-                    {% else %}
-                        {{ sectionTracesWithTabs(data=data, index=loop.index) }}
-                    {% endif %}
-                {% elseif data["type"] == "section_models" %}
-                    {% if data["tabs"] | length <= 1 %}
-                        {{ sectionModels(data=data) }}
-                    {% else %}
-                        {{ sectionModelsWithTabs(data=data, index=loop.index) }}
-                    {% endif %}
-                {% elseif data["type"] == "section_generic" %}
-                    {% if data["tabs"] | length <= 1 %}
-                        {{ sectionGeneric(data=data) }}
-                    {% else %}
-                        {{ sectionGenericWithTabs(data=data, index=loop.index) }}
-                    {% endif %}
-                {% elseif data["type"] == "section_custom" %}
-                    {{ sectionCustom(data=data) }}
-                {% else %}
-                    {{ null }}
-                {% endif %}
-            {% endfor %}
-        </ul>
-        <br>
-        <div class="rainbow-row">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-    </body>
-</html>
+                    </div>
+                    <h5>Resources</h5>
+                    <p>
+                        {% if resources_description %}
+                            {{ resources_description | safe }}
+                        {% endif %}
+                    </p>
+                    <ul class="collapsible expandable">
+                        {% for data in resources %}
+                            {% if data["type"] == "section_morphology" %}
+                                {% if data["tabs"] | length <= 1 %}
+                                    {{ sectionMorphology(data=data) }}
+                                {% else %}
+                                    {{ sectionMorphologyWithTabs(data=data, index=loop.index) }}
+                                {% endif %}
+                            {% elseif data["type"] == "section_traces" %}
+                                {% if data["tabs"] | length <= 1 %}
+                                    {{ sectionTraces(data=data) }}
+                                {% else %}
+                                    {{ sectionTracesWithTabs(data=data, index=loop.index) }}
+                                {% endif %}
+                            {% elseif data["type"] == "section_models" %}
+                                {% if data["tabs"] | length <= 1 %}
+                                    {{ sectionModels(data=data) }}
+                                {% else %}
+                                    {{ sectionModelsWithTabs(data=data, index=loop.index) }}
+                                {% endif %}
+                            {% elseif data["type"] == "section_generic" %}
+                                {% if data["tabs"] | length <= 1 %}
+                                    {{ sectionGeneric(data=data) }}
+                                {% else %}
+                                    {{ sectionGenericWithTabs(data=data, index=loop.index) }}
+                                {% endif %}
+                            {% elseif data["type"] == "section_custom" %}
+                                {{ sectionCustom(data=data) }}
+                            {% else %}
+                                {{ null }}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <br>
+                    <div class="rainbow-row">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </body>
+            </html>

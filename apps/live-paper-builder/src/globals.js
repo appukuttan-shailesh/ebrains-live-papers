@@ -1,7 +1,7 @@
 // NOTE: dummy data (in 'dev_data' directory) for DevMode is from v1 APIs; needs to be updated for v2 usage
-export const livePaperPlatformUrl = "https://live-papers.brainsimulation.eu/";
-export const livePaperBuilderUrl = "https://live-papers.brainsimulation.eu/builder/";
-export const livePaperDocsUrl = "https://live-paper-docs.netlify.app/";
+export const livePaperPlatformUrl = "/";
+export const livePaperBuilderUrl = "/builder";
+export const livePaperDocsUrl = "/docs";
 export const baseUrl = "https://validation-v2.brainsimulation.eu";
 export const mc_baseUrl = "https://model-catalog.brainsimulation.eu";
 export const nar_baseUrl =
@@ -9,8 +9,8 @@ export const nar_baseUrl =
 export const modelDB_baseUrl = "http://modeldb.science/api/v1";
 export const modelDB_viewUrl = "https://senselab.med.yale.edu/modeldb";
 export const osb_baseUrl = "https://www.opensourcebrain.org";
-export const neuromorpho_baseUrl = "http://neuromorpho.org/api";
-export const neuromorpho_viewUrl = "http://neuromorpho.org";
+export const neuromorpho_baseUrl = "https://neuromorpho.org/api";
+export const neuromorpho_viewUrl = "https://neuromorpho.org";
 export const allenbrain_baseUrl =
   "https://celltypes.brain-map.org/api/v2/data/ApiCellTypesSpecimenDetail";
 export const allenbrain_downloadUrl =

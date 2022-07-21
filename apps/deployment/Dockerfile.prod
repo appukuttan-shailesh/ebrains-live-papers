@@ -10,7 +10,7 @@ WORKDIR /live-paper-platform
 ENV PATH /live-paper-platform/node_modules/.bin:$PATH
 COPY live-paper-platform/package.json ./
 COPY live-paper-platform/package-lock.json ./
-RUN npm ci --silent
+RUN npm ci --silent --legacy-peer-deps
 COPY live-paper-platform ./
 RUN node --max-old-space-size=4096 `which npm` run build
 
@@ -18,16 +18,24 @@ WORKDIR /live-paper-builder
 ENV PATH /live-paper-builder/node_modules/.bin:$PATH
 COPY live-paper-builder/package.json ./
 COPY live-paper-builder/package-lock.json ./
-RUN npm ci --silent
+RUN npm ci --silent --legacy-peer-deps
 COPY live-paper-builder ./
 RUN npm run build
 
+WORKDIR /docs
+ENV PATH /live-paper-docs/node_modules/.bin:$PATH
+COPY live-paper-docs/package.json ./
+COPY live-paper-docs/package-lock.json ./
+RUN npm ci --silent --legacy-peer-deps
+COPY live-paper-docs ./
+RUN npm run build
 
 # production environment
 FROM nginx:stable-alpine
 COPY deployment/nginx-app.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /live-paper-platform/build /usr/share/nginx/html/live-paper-platform
 COPY --from=build /live-paper-builder/build /usr/share/nginx/html/live-paper-builder
+COPY --from=build /live-paper-docs/build /usr/share/nginx/html/live-paper-docs
 EXPOSE 80
 EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]

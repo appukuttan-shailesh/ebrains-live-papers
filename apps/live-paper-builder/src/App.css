@@ -1,3 +1,8 @@
+body {
+  font-size: 16px;
+  line-height: 1.75;
+}
+
 .App {
   text-align: center;
 }
@@ -37,6 +42,11 @@
   }
 }
 
+.slick-prev:before,
+.slick-next:before {
+  color: black !important;
+}
+
 input {
   border-bottom: 0 !important;
 }
@@ -44,4 +54,14 @@ input {
 button:focus {
   outline: none;
   background-color: transparent;
+}
+
+.title-solid-style {
+  font-family: 'Rajdhani';
+  font-weight: bold;
+  line-height: 1.5;
+  font-size: 52px;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
 }

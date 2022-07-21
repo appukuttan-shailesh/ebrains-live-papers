@@ -437,7 +437,7 @@ export class KGContentModelVersion extends React.Component {
           style={{
             display: "flex",
             alignItems: "center",
-            backgroundColor: "#FFD180",
+            backgroundColor: "#13AC8B",
           }}
         >
           <Grid item xs={6}>
@@ -459,8 +459,8 @@ export class KGContentModelVersion extends React.Component {
                 justifyContent: "center",
               }}
             >
-              <Typography variant="body2" color="textSecondary">
-                Model Instance ID: <span>{this.props.instance.id}</span>
+              <Typography variant="body2">
+                Model Instance ID: <span style={{ fontWeight: "bold" }}>{this.props.instance.id}</span>
               </Typography>
               <Typography
                 variant="body2"
@@ -560,10 +560,10 @@ export class KGContentModelVersionsPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor: "#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
-                Open Model
+                Open Page
               </Button>
             </Link>
           </Grid>
@@ -644,7 +644,7 @@ export class KGContent extends React.Component {
               backgroundColor: this.state.selectedRows.includes(
                 rowData.tableData.id
               )
-                ? "#FFD180"
+                ? "#13AC8B"
                 : "#EEEEEE",
             }),
           }}
@@ -674,7 +674,7 @@ export class KGContent extends React.Component {
             Toolbar: (props) => (
               <div
                 style={{
-                  backgroundColor: "#FFD180",
+                  backgroundColor: "#13AC8B",
                   fontWeight: "bolder !important",
                 }}
               >
@@ -743,10 +743,10 @@ export class ModelDBContentModelPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor: "#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
-                Open Model
+                Open Page
               </Button>
             </Link>
           </Grid>
@@ -762,7 +762,7 @@ export class ModelDBContentModelPanel extends React.Component {
               style={{
                 display: "flex",
                 alignItems: "center",
-                backgroundColor: "#FFD180",
+                backgroundColor: "#13AC8B",
               }}
             >
               <Grid item xs={6}>
@@ -898,7 +898,7 @@ export class ModelDBContent extends React.Component {
               backgroundColor: this.state.selectedRows.includes(
                 rowData.tableData.id
               )
-                ? "#FFD180"
+                ? "#13AC8B"
                 : "#EEEEEE",
             }),
           }}
@@ -928,7 +928,7 @@ export class ModelDBContent extends React.Component {
             Toolbar: (props) => (
               <div
                 style={{
-                  backgroundColor: "#FFD180",
+                  backgroundColor: "#13AC8B",
                   fontWeight: "bolder !important",
                 }}
               >
@@ -993,10 +993,10 @@ export class OSBContentModelPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor: "#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
-                Open Model
+                Open Page
               </Button>
             </Link>
           </Grid>
@@ -1012,7 +1012,7 @@ export class OSBContentModelPanel extends React.Component {
               style={{
                 display: "flex",
                 alignItems: "center",
-                backgroundColor: "#FFD180",
+                backgroundColor: "#13AC8B",
               }}
             >
               <Grid item xs={6}>
@@ -1034,8 +1034,8 @@ export class OSBContentModelPanel extends React.Component {
                     justifyContent: "center",
                   }}
                 >
-                  <Typography variant="body2" color="textSecondary">
-                    Model ID: <span>{this.props.data.id}</span>
+                  <Typography variant="body2">
+                    Model ID: <span style={{ fontWeight: "bold" }}>{this.props.data.id}</span>
                   </Typography>
                 </Box>
               </Grid>
@@ -1169,7 +1169,7 @@ export class OSBContent extends React.Component {
               backgroundColor: this.state.selectedRows.includes(
                 rowData.tableData.id
               )
-                ? "#FFD180"
+                ? "#13AC8B"
                 : "#EEEEEE",
             }),
           }}
@@ -1199,7 +1199,7 @@ export class OSBContent extends React.Component {
             Toolbar: (props) => (
               <div
                 style={{
-                  backgroundColor: "#FFD180",
+                  backgroundColor: "#13AC8B",
                   fontWeight: "bolder !important",
                 }}
               >
@@ -1264,10 +1264,10 @@ export class BioModelsContentModelPanel extends React.Component {
             >
               <Button
                 variant="contained"
-                style={{ color: "#455A64" }}
+                style={{ backgroundColor: "#01579b", color: "#ffffff" }}
                 startIcon={<OpenInNewIcon />}
               >
-                Open Model
+                Open Page
               </Button>
             </Link>
           </Grid>
@@ -1283,7 +1283,7 @@ export class BioModelsContentModelPanel extends React.Component {
               style={{
                 display: "flex",
                 alignItems: "center",
-                backgroundColor: "#FFD180",
+                backgroundColor: "#13AC8B",
               }}
             >
               <Grid item xs={6}>
@@ -1410,7 +1410,7 @@ export class BioModelsContent extends React.Component {
               backgroundColor: this.state.selectedRows.includes(
                 rowData.tableData.id
               )
-                ? "#FFD180"
+                ? "#13AC8B"
                 : "#EEEEEE",
             }),
           }}
@@ -1440,7 +1440,7 @@ export class BioModelsContent extends React.Component {
             Toolbar: (props) => (
               <div
                 style={{
-                  backgroundColor: "#FFD180",
+                  backgroundColor: "#13AC8B",
                   fontWeight: "bolder !important",
                 }}
               >
@@ -1803,7 +1803,7 @@ export class FilterPanelModelDB extends React.Component {
                   name={filterAttributeMappingModelDB[filter]}
                   value={
                     this.state.configFilters[
-                      filterAttributeMappingModelDB[filter]
+                    filterAttributeMappingModelDB[filter]
                     ] || ""
                   }
                   handleChange={this.handleFiltersChange}
@@ -2525,13 +2525,13 @@ export default class DBInputModels extends React.Component {
           open={this.props.open}
           fullWidth={this.state.showFilters ? false : true}
           maxWidth={"xl"}
-          //   disableBackdropClick={true}
-          //   disableEscapeKeyDown={true}
+        //   disableBackdropClick={true}
+        //   disableEscapeKeyDown={true}
         >
           <DialogTitle
             id="customized-dialog-title"
             onClose={() => this.props.handleClose(false)}
-            style={{ backgroundColor: "#ffd180" }}
+            style={{ backgroundColor: "#00A595" }}
           >
             <span style={{ fontWeight: "bolder", fontSize: 18 }}>
               Input From Database
@@ -2539,7 +2539,7 @@ export default class DBInputModels extends React.Component {
           </DialogTitle>
           <DialogContent dividers>
             {(!this.context.validKGFilterValues[0] && this.state.showFilters) ||
-            this.state.loading ? (
+              this.state.loading ? (
               <div
                 style={{
                   minWidth: 700,
@@ -2571,8 +2571,8 @@ export default class DBInputModels extends React.Component {
                 color="primary"
                 style={{
                   width: "150px",
-                  backgroundColor: "#FF9800",
-                  color: "#000000",
+                  backgroundColor: "#525252",
+                  color: "#FFFFFF",
                   fontWeight: "bold",
                   border: "solid",
                   borderColor: "#000000",
@@ -2591,15 +2591,19 @@ export default class DBInputModels extends React.Component {
                     color="primary"
                     style={{
                       width: "150px",
-                      backgroundColor: "#01579B",
-                      color: "#FFFFFF",
+                      backgroundColor: "#29B480",
+                      color: "#000000",
                       fontWeight: "bold",
                       border: "solid",
                       borderColor: "#000000",
                       borderWidth: "1px",
                     }}
                     onClick={() => {
-                      this.setState({ showFilters: true });
+                      this.setState({
+                        list_models: [],
+                        model_collection: {},
+                        showFilters: true
+                      });
                     }}
                   >
                     Filters
@@ -2613,7 +2617,7 @@ export default class DBInputModels extends React.Component {
                 color="primary"
                 style={{
                   width: "150px",
-                  backgroundColor: "#8BC34A",
+                  backgroundColor: "#4DC26D",
                   color: "#000000",
                   fontWeight: "bold",
                   border: "solid",
@@ -2624,10 +2628,10 @@ export default class DBInputModels extends React.Component {
                   this.state.showFilters
                     ? this.handleProceed()
                     : this.props.handleClose(
-                        true,
-                        this.state.model_collection,
-                        this.state.sourceDB
-                      )
+                      true,
+                      this.state.model_collection,
+                      this.state.sourceDB
+                    )
                 }
               >
                 {this.state.showFilters ? "Proceed" : "Add Items"}

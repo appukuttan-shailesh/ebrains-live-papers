@@ -6,7 +6,12 @@ import CreateLivePaperLoadPDFData from "./CreateLivePaperLoadPDFData";
 import LoadKGProjects from "./LoadKGProjects";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
-import TopNavigation from "./TopNavigation";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import { livePaperPlatformUrl, livePaperDocsUrl } from "./globals";
+
 import "./App.css";
 
 import {
@@ -364,7 +369,7 @@ class App extends React.Component {
   retrieveNeuroMorphoFilterValidValues() {
     let neuroMorphoReqs = [];
     for (let item of filterNeuroMorphoKeys) {
-      let url = corsProxy + neuromorpho_baseUrl + "/neuron/fields/" + item;
+      let url = neuromorpho_baseUrl + "/neuron/fields/" + item;
       neuroMorphoReqs.push(axios.get(url));
     }
     const context = this.context;
@@ -446,45 +451,90 @@ class App extends React.Component {
     }
 
     return (
-      <div className="container" style={{ textAlign: "left" }}>
+      <div className="mycontainer" style={{ textAlign: "left" }}>
         <LoadingIndicatorModal open={this.state.loading} />
-        <TopNavigation />
         <div className="box rounded centered"
-          style={{ marginTop: "5px", paddingTop: "0.75em", paddingBottom: "0.75em" }}>
-          <a
-            href="https://ebrains.eu/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="waves-effect waves-light"
-            style={{ textAlign: "center", color: "black" }}
-          >
-            <table>
-              <tbody>
-                <tr>
-                  <td
-                    style={{ paddingTop: "0px",
-                             paddingBottom: "0px" }}>
-                    <img
-                      className="ebrains-icon-small"
-                      src="./imgs/ebrains_logo.svg"
-                      alt="EBRAINS logo"
-                      style={{ height: "60px" }}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </a>
-          <h5 className="title-style">Live Paper Builder</h5>
+          style={{ marginTop: "25px", paddingTop: "0.25em", paddingBottom: "0.25em", marginBottom: "1em" }}>
+          <div style={{ display: "flex" }}>
+            <div style={{ flex: 1, textAlign: "left", paddingLeft: "25px", alignSelf: "center" }}>
+              <Tooltip title={"Open EBRAINS Homepage"}>
+                <a href="https://ebrains.eu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textAlign: "center" }}
+                >
+                  <img
+                    src="./imgs/General_logo_Landscape_White.svg"
+                    alt="EBRAINS logo"
+                    style={{ height: "70px", cursor: "pointer" }}
+                  />
+                </a>
+              </Tooltip>
+            </div>
+            <div style={{ flex: 1, textAlign: "right", paddingRight: "25px", alignSelf: "center" }}>
+              <Tooltip title={"See Live Papers"}>
+                <a
+                  href={livePaperPlatformUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ paddingRight: "10px" }}
+                >
+                  <IconButton aria-label="See Live Papers">
+                    <LibraryBooksIcon fontSize="large" />
+                  </IconButton>
+                </a>
+              </Tooltip>
+              <Tooltip title={"Open Documentation"}>
+                <a
+                  href={livePaperDocsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconButton aria-label="Open Documentation">
+                    <HelpOutlineIcon fontSize="large" />
+                  </IconButton>
+                </a>
+              </Tooltip>
+            </div>
+          </div>
         </div>
         <div
           style={{
             paddingLeft: "5%",
             paddingRight: "5%",
             textAlign: "justify",
+            fontSize: 16,
+            lineHeight: 1.75,
+            paddingBottom: "20px",
           }}
         >
-          <strong>Welcome to the EBRAINS live paper builder!</strong>
+          <div className="title-solid-style" style={{ fontSize: 44 }}>EBRAINS Live Paper Builder</div>
+          <div className="title-solid-style" style={{ fontSize: 32, color: "#00A595" }}>Quickly create and distribute interactive live papers</div>
+        </div>
+        <div style={{ marginBottom: "40px", }}>
+          <div className="rainbow-row">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <div
+          style={{
+            paddingLeft: "5%",
+            paddingRight: "5%",
+            textAlign: "justify",
+            fontSize: 16,
+            lineHeight: 1.75,
+          }}
+        >
+          <strong style={{ fontSize: 18 }}>
+            Welcome to the EBRAINS live paper builder!
+          </strong>
           <br />
           <br />
           Here you can start building a new live paper linked to your manuscript
@@ -504,65 +554,67 @@ class App extends React.Component {
           could render them unreadable by the tool. Alternatively, users also
           have the option of loading an existing project that was previously
           saved on the EBRAINS Knowledge Graph.
-        </div>
-        <br />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
+          <br /><br />
+          <div
             style={{
-              width: "27.5%",
-              backgroundColor: "#FF9800",
-              color: "#000000",
-              fontWeight: "bold",
-              border: "solid",
-              borderColor: "#000000",
-              borderWidth: "1px",
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
             }}
-            onClick={this.handleCreateLivePaperOpen}
           >
-            Create New
-          </Button>
-          <br />
-          <br />
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{
-              width: "27.5%",
-              backgroundColor: "#01579b",
-              fontWeight: "bold",
-              border: "solid",
-              borderColor: "#000000",
-              borderWidth: "1px",
-            }}
-            onClick={this.handleLoadProjectFile}
-          >
-            Load From File
-          </Button>
-          <br />
-          <br />
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{
-              width: "27.5%",
-              backgroundColor: "#1D7021",
-              fontWeight: "bold",
-              border: "solid",
-              borderColor: "#000000",
-              borderWidth: "1px",
-            }}
-            onClick={this.handleLoadProjectKG}
-          >
-            Load From KG
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{
+                width: "27.5%",
+                backgroundColor: "#00A595",
+                color: "#000000",
+                fontWeight: "bold",
+                border: "solid",
+                borderColor: "#000000",
+                borderWidth: "1px",
+              }}
+              onClick={this.handleCreateLivePaperOpen}
+            >
+              Create New
+            </Button>
+            <br />
+            <br />
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{
+                width: "27.5%",
+                backgroundColor: "#4DC26D",
+                color: "#000000",
+                fontWeight: "bold",
+                border: "solid",
+                borderColor: "#000000",
+                borderWidth: "1px",
+              }}
+              onClick={this.handleLoadProjectFile}
+            >
+              Load From File
+            </Button>
+            <br />
+            <br />
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{
+                width: "27.5%",
+                backgroundColor: "#9CE142",
+                color: "#000000",
+                fontWeight: "bold",
+                border: "solid",
+                borderColor: "#000000",
+                borderWidth: "1px",
+              }}
+              onClick={this.handleLoadProjectKG}
+            >
+              Load From KG
+            </Button>
+          </div>
         </div>
         <br />
         <br />

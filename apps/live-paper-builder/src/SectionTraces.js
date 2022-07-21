@@ -23,47 +23,47 @@ import styled from "styled-components";
 function HelpContent() {
   const list_of_dicts = `
     [
-        {
-          "type": "URL",
-          "label": "file_A",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idB.abf",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "label": "file_B",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idC.abf",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "label": "file_C",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idF.abf",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "label": "file_D",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idG.abf",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-        {
-          "type": "URL",
-          "label": "file_E",
-          "url": "https://www.datasource.com/traces/oh140807_A0_idH.abf",
-          "view_url": null,
-          "identifier": null,
-          "tab_name": "Group A"
-        },
-      ]`;
+      {
+        "type": "URL",
+        "label": "file_A",
+        "url": "https://www.datasource.com/traces/oh140807_A0_idB.abf",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "label": "file_B",
+        "url": "https://www.datasource.com/traces/oh140807_A0_idC.abf",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "label": "file_C",
+        "url": "https://www.datasource.com/traces/oh140807_A0_idF.abf",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "label": "file_D",
+        "url": "https://www.datasource.com/traces/oh140807_A0_idG.abf",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      },
+      {
+        "type": "URL",
+        "label": "file_E",
+        "url": "https://www.datasource.com/traces/oh140807_A0_idH.abf",
+        "view_url": null,
+        "identifier": null,
+        "tab_name": "Group A"
+      }
+    ]`;
 
   return (
     <div>
@@ -74,9 +74,8 @@ function HelpContent() {
         <b>List of dicts/objects</b>
       </h6>
       Each dict in the list should have keys named 'type', 'url', 'view_url',
-      'label', 'identifier' and 'tab_name'. The 'identifier' field corresponds
-      to the Knowledge Graph UUID. For manually entered items, 'type' and
-      'identifier' can be set to 'URL' and 'null', respectively. <i>Example:</i>
+      'label', 'identifier' and 'tab_name'. For manually entered items, 'type' 'view_url'
+      and 'identifier' can be set to 'URL', null and null, respectively. <i>Example:</i>
       <br />
       <pre>
         <code>{list_of_dicts}</code>
@@ -140,7 +139,7 @@ export class SectionTracesEdit extends React.Component {
           "tab_name" in item &&
           typeof item["url"] === "string" &&
           typeof item["label"] === "string" &&
-          typeof item["view_url"] === "string" &&
+          (item["view_url"] === null || typeof item["view_url"] === "string") &&
           typeof item["tab_name"] === "string"
         );
       }
@@ -235,6 +234,7 @@ export class SectionTracesEdit extends React.Component {
         content={this.renderContent()}
         handleClose={this.handleSaveData}
         clickHelp={this.clickHelp}
+        bulkEntry="Recordings/Traces"
       />
     );
   }
@@ -337,16 +337,17 @@ export default class SectionTraces extends React.Component {
     // var items_data = data.filter(isNotEmpty);
     // console.log(items_data);
     if (items_data.length === 0) {
-      items_data = [
-        {
-          type: "URL",
-          label: "",
-          url: "",
-          view_url: "",
-          identifier: null,
-          tab_name: "",
-        },
-      ];
+      items_data = [];
+      // items_data = [
+      //   {
+      //     type: "URL",
+      //     label: "",
+      //     url: "",
+      //     view_url: "",
+      //     identifier: null,
+      //     tab_name: "",
+      //   },
+      // ];
     }
 
     this.setState(

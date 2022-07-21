@@ -14,7 +14,10 @@ import Button from "@material-ui/core/Button";
 import CreateLivePaper from "./CreateLivePaper";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
-import TopNavigation from "./TopNavigation";
+import Tooltip from "@material-ui/core/Tooltip";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import { livePaperPlatformUrl, livePaperDocsUrl } from "./globals";
 
 const styles = (theme) => ({
   root: {
@@ -56,19 +59,25 @@ class CreateLivePaperLoadPDFData extends React.Component {
       data: this.props.data,
       loadData: this.props.loadData,
       showError: false,
-      loadPDF: true,
+      loadPDF: true, // default state
       selectedPDF: null,
-      dataFromPDF: {},
+      dataExtracted: {},
+      loadDOI: false,
+      articleDOI: "",
       loading: false,
     };
 
     this.loadPDFRef = React.createRef();
     this.handleClose = this.handleClose.bind(this);
     this.browseForPDF = this.browseForPDF.bind(this);
+    this.acceptDOI = this.acceptDOI.bind(this);
     this.onPDFSelect = this.onPDFSelect.bind(this);
     this.cancelSelectPDF = this.cancelSelectPDF.bind(this);
+    this.handleFieldChange = this.handleFieldChange.bind(this);
+    this.retrieveDOI = this.retrieveDOI.bind(this);
+    this.cancelDOI = this.cancelDOI.bind(this);
     this.uploadPDF = this.uploadPDF.bind(this);
-    this.displayDataPDF = this.displayDataPDF.bind(this);
+    this.displayDataExtracted = this.displayDataExtracted.bind(this);
     this.proceed = this.proceed.bind(this);
     this.skipContinue = this.skipContinue.bind(this);
     this.handleErrorDialogClose = this.handleErrorDialogClose.bind(this);
@@ -79,9 +88,21 @@ class CreateLivePaperLoadPDFData extends React.Component {
   }
 
   browseForPDF() {
-    this.setState({ loadPDF: true }, () => {
+    this.setState({
+      loadDOI: false,
+      loadPDF: true
+    }, () => {
       this.loadPDFRef.current.click();
     });
+  }
+
+  acceptDOI() {
+    this.setState({
+      loadDOI: true,
+      loadPDF: false,
+      selectedPDF: null,
+      dataExtracted: {}
+    })
   }
 
   onPDFSelect(event) {
@@ -90,7 +111,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
         selectedPDF: event.target.files[0],
       });
     } else {
-      this.setState({ selectedPDF: null, dataFromPDF: {} });
+      this.setState({ selectedPDF: null, dataExtracted: {} });
     }
   }
 
@@ -98,7 +119,69 @@ class CreateLivePaperLoadPDFData extends React.Component {
     this.loadPDFRef.current.value = "";
     this.setState({
       selectedPDF: null,
-      dataFromPDF: {},
+      dataExtracted: {},
+    });
+  }
+
+  handleFieldChange(event) {
+    const target = event.target;
+    let value = target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  retrieveDOI() {
+    this.setState({ loading: true }, () => {
+      let scope = this;
+      axios
+        .get("https://api.crossref.org/works/" + this.state.articleDOI.split(".org/")[1])
+        .then((res) => {
+          console.log(res);
+          let result = res.data.message;
+          let data = {};
+          data["associated_paper_title"] = result["title"][0];
+          data["live_paper_title"] = result["title"][0];
+          data["associated_paper_doi"] = "https://doi.org/" + result["DOI"];
+
+          let author_data = [];
+          result["author"].forEach(function (item) {
+            author_data.push({
+              firstname: item.given,
+              lastname: item.family,
+              affiliation: item.affiliation[0] || ""
+            });
+          });
+          data["authors"] = author_data;
+
+          data["journal"] = result["container-title"][0];
+
+          data["year"] = result["created"]["date-time"];
+
+          data["url"] = result["link"][0]["URL"];
+
+          scope.setState({ dataExtracted: data, loading: false });
+        })
+        .catch((err) => {
+          if (axios.isCancel(err)) {
+            console.log("Error: ", err.message);
+          } else {
+            console.log(err);
+            console.log(err.response);
+            this.setState({ showError: true });
+          }
+          this.setState({ loading: false });
+        });
+    });
+  }
+
+  cancelDOI() {
+    this.setState({
+      articleDOI: "",
+      dataExtracted: {},
+      loadDOI: false,
+      loadPDF: true // default state
     });
   }
 
@@ -133,37 +216,37 @@ class CreateLivePaperLoadPDFData extends React.Component {
               let data = {};
               data["associated_paper_title"] =
                 result["TEI"]["teiHeader"][0]["fileDesc"][0]["titleStmt"][0][
-                  "title"
+                "title"
                 ][0]["_"];
               data["live_paper_title"] =
                 result["TEI"]["teiHeader"][0]["fileDesc"][0]["titleStmt"][0][
-                  "title"
+                "title"
                 ][0]["_"];
 
               data["abstract"] = "";
               if (
                 Object.prototype.hasOwnProperty.call(
                   result["TEI"]["teiHeader"][0]["profileDesc"][0][
-                    "abstract"
+                  "abstract"
                   ][0],
                   "p"
                 )
               ) {
                 data["abstract"] =
                   result["TEI"]["teiHeader"][0]["profileDesc"][0][
-                    "abstract"
+                  "abstract"
                   ][0]["p"][0];
               }
 
               data["associated_paper_doi"] =
                 "https://doi.org/" +
                 result["TEI"]["teiHeader"][0]["fileDesc"][0]["sourceDesc"][0][
-                  "biblStruct"
+                "biblStruct"
                 ][0]["idno"][0]["_"];
 
               let author_dict =
                 result["TEI"]["teiHeader"][0]["fileDesc"][0]["sourceDesc"][0][
-                  "biblStruct"
+                "biblStruct"
                 ][0]["analytic"][0]["author"];
 
               let author_data = [];
@@ -191,11 +274,11 @@ class CreateLivePaperLoadPDFData extends React.Component {
                       item["persName"][0]["forename"].length === 1
                         ? item["persName"][0]["forename"][0]["_"]
                         : item["persName"][0]["forename"][0]["_"] +
-                          " " +
-                          item["persName"][0]["forename"][1]["_"]
-                            .split(" ")
-                            .join(".") +
-                          ".",
+                        " " +
+                        item["persName"][0]["forename"][1]["_"]
+                          .split(" ")
+                          .join(".") +
+                        ".",
                     lastname: item["persName"][0]["surname"][0],
                     // email: "email" in item ? item["email"][0] : "",
                     affiliation: aff,
@@ -204,21 +287,21 @@ class CreateLivePaperLoadPDFData extends React.Component {
                 author_data.push({
                   firstname:
                     "persName" in item &&
-                    "forename" in item["persName"][0] &&
-                    item["persName"][0]["forename"].length > 0
+                      "forename" in item["persName"][0] &&
+                      item["persName"][0]["forename"].length > 0
                       ? item["persName"][0]["forename"].length === 1
                         ? item["persName"][0]["forename"][0]["_"]
                         : item["persName"][0]["forename"][0]["_"] +
-                          " " +
-                          item["persName"][0]["forename"][1]["_"]
-                            .split(" ")
-                            .join(".") +
-                          "."
+                        " " +
+                        item["persName"][0]["forename"][1]["_"]
+                          .split(" ")
+                          .join(".") +
+                        "."
                       : "",
                   lastname:
                     "persName" in item &&
-                    "surname" in item["persName"][0] &&
-                    item["persName"][0]["surname"].length > 0
+                      "surname" in item["persName"][0] &&
+                      item["persName"][0]["surname"].length > 0
                       ? item["persName"][0]["surname"][0]
                       : "",
                   affiliation: aff,
@@ -232,7 +315,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
               if (
                 Object.prototype.hasOwnProperty.call(
                   result["TEI"]["teiHeader"][0]["fileDesc"][0]["sourceDesc"][0][
-                    "biblStruct"
+                  "biblStruct"
                   ][0]["monogr"][0],
                   "title"
                 )
@@ -250,7 +333,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
                 //    "biblStruct"][0]["monogr"][0]["imprint"][0]["date"][0]["$"]["when"]
                 data["year"] = new Date(
                   result["TEI"]["teiHeader"][0]["fileDesc"][0][
-                    "publicationStmt"
+                  "publicationStmt"
                   ][0]["date"][0]["$"]["when"]
                 )
                   .toISOString()
@@ -265,13 +348,13 @@ class CreateLivePaperLoadPDFData extends React.Component {
               try {
                 data["url"] =
                   result["TEI"]["teiHeader"][0]["fileDesc"][0]["sourceDesc"][0][
-                    "biblStruct"
+                  "biblStruct"
                   ][0]["ptr"][0]["$"]["target"];
               } catch (error) {
                 console.log("Could not identify download URL!");
               }
 
-              scope.setState({ dataFromPDF: data, loading: false });
+              scope.setState({ dataExtracted: data, loading: false });
             }
           );
         })
@@ -288,7 +371,8 @@ class CreateLivePaperLoadPDFData extends React.Component {
     });
   }
 
-  displayDataPDF() {
+  displayDataExtracted() {
+    console.log(this.state.dataExtracted);
     return (
       <div
         style={{
@@ -297,40 +381,51 @@ class CreateLivePaperLoadPDFData extends React.Component {
         }}
       >
         <h6>
-          <strong>Data extracted from selected PDF</strong>
+          {
+            this.state.loadPDF
+              ? <strong>Data extracted from selected PDF</strong>
+              : <strong>Data extracted using DOI</strong>
+          }
         </h6>
-        <strong>Note: </strong>We make use of{" "}
-        <i>
-          <a href="https://github.com/kermitt2/grobid">GROBID</a>
-        </i>{" "}
-        for extracting the required info from the uploaded PDF file. As this is
-        an automated process, it could result in certain discrepancies. We urge
-        you to verify the extracted info, and rectify them wherever necessary on
-        the live paper creation page (after clicking 'Proceed').
+        {
+          this.state.loadPDF
+          &&
+          <div>
+            <strong>Note: </strong>We make use of{" "}
+            <i>
+              <a href="https://github.com/kermitt2/grobid">GROBID</a>
+            </i>{" "}
+            for extracting the required info from the uploaded PDF file. As this is
+            an automated process, it could result in certain discrepancies. We urge
+            you to verify the extracted info, and rectify them wherever necessary on
+            the live paper creation page (after clicking 'Proceed').
+          </div>
+        }
+
         <Paper
           variant="outlined"
           elevation={3}
           style={{
             marginTop: "30px",
             padding: "20px",
-            backgroundColor: "#FBEFDD",
+            backgroundColor: "#EFF7E5",
           }}
         >
-          {"associated_paper_title" in this.state.dataFromPDF && (
+          {"associated_paper_title" in this.state.dataExtracted && (
             <div>
               <strong>Title: </strong>
-              {this.state.dataFromPDF["associated_paper_title"]}
+              {this.state.dataExtracted["associated_paper_title"]}
               <br />
               <br />
             </div>
           )}
-          {"authors" in this.state.dataFromPDF ? (
+          {"authors" in this.state.dataExtracted ? (
             <div>
               <strong>Authors </strong>
-              (count = {this.state.dataFromPDF["authors"].length})
+              (count = {this.state.dataExtracted["authors"].length})
               <br />
               <br />
-              {this.state.dataFromPDF["authors"].map((entry, i) => (
+              {this.state.dataExtracted["authors"].map((entry, i) => (
                 <div key={i}>
                   <strong>
                     <i>{i + 1})</i>
@@ -380,70 +475,70 @@ class CreateLivePaperLoadPDFData extends React.Component {
           ) : (
             ""
           )}
-          {"corresponding_author" in this.state.dataFromPDF && (
+          {"corresponding_author" in this.state.dataExtracted && (
             <div>
               <strong>Corresponding Author: </strong>
               <br />
               {
-                this.state.dataFromPDF["corresponding_author"]["firstname"] +
-                  " " +
-                  this.state.dataFromPDF["corresponding_author"]["lastname"]
+                this.state.dataExtracted["corresponding_author"]["firstname"] +
+                " " +
+                this.state.dataExtracted["corresponding_author"]["lastname"]
                 //  +
                 // " (" +
-                // this.state.dataFromPDF["corresponding_author"]["email"] +
+                // this.state.dataExtracted["corresponding_author"]["email"] +
                 // ")"
               }
               <br />
               <br />
             </div>
           )}
-          {"journal" in this.state.dataFromPDF && (
+          {"journal" in this.state.dataExtracted && (
             <div>
               <strong>Journal: </strong>
               <br />
-              {this.state.dataFromPDF["journal"]}
+              {this.state.dataExtracted["journal"]}
               <br />
               <br />
             </div>
           )}
-          {"year" in this.state.dataFromPDF && (
+          {"year" in this.state.dataExtracted && (
             <div>
               <strong>Year: </strong>
               <br />
-              {this.state.dataFromPDF["year"].slice(0, 4)}
+              {this.state.dataExtracted["year"].slice(0, 4)}
               <br />
               <br />
             </div>
           )}
-          {"abstract" in this.state.dataFromPDF && (
+          {"abstract" in this.state.dataExtracted && (
             <div>
               <strong>Abstract: </strong>
               <br />
-              {this.state.dataFromPDF["abstract"] === "" ? (
+              {this.state.dataExtracted["abstract"] === "" ? (
                 <span style={{ color: "red" }}>
                   <i>Missing!</i>
                 </span>
               ) : (
-                this.state.dataFromPDF["abstract"]
+                this.state.dataExtracted["abstract"]
               )}
               <br />
               <br />
             </div>
           )}
-          {"associated_paper_doi" in this.state.dataFromPDF && (
+          {"associated_paper_doi" in this.state.dataExtracted && (
             <div>
               <strong>Article DOI: </strong>
               <br />
-              {this.state.dataFromPDF["associated_paper_doi"]}
+              {this.state.dataExtracted["associated_paper_doi"]}
               <br />
               <br />
             </div>
           )}
-          {"url" in this.state.dataFromPDF && (
+          {"url" in this.state.dataExtracted && (
             <div>
               <strong>Article URL: </strong>
               <br />
-              {this.state.dataFromPDF["url"]}
+              {this.state.dataExtracted["url"]}
               <br />
               <br />
             </div>
@@ -458,9 +553,14 @@ class CreateLivePaperLoadPDFData extends React.Component {
                 variant="contained"
                 color="primary"
                 style={{
-                  backgroundColor: "#3F51B5",
-                  color: "#FFFFFF",
+                  width: "150px",
+                  backgroundColor: "#4DC26D",
+                  color: "#000000",
                   fontWeight: "bold",
+                  padding: "10px",
+                  border: "solid",
+                  borderColor: "#000000",
+                  borderWidth: "1px",
                 }}
                 onClick={this.proceed}
               >
@@ -469,6 +569,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
             </div>
           </div>
         </div>
+        <br />
       </div>
     );
   }
@@ -498,7 +599,9 @@ class CreateLivePaperLoadPDFData extends React.Component {
           open={Boolean(this.state.showError)}
           handleErrorDialogClose={this.handleErrorDialogClose}
           error={
-            "We were unable to extract info from the specified PDF.\n\nPlease report this at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"
+            this.state.articleDOI
+              ? "We were unable to extract info from the specified DOI.\n\nPlease report this at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"
+              : "We were unable to extract info from the specified PDF.\n\nPlease report this at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"
           }
         />
       );
@@ -529,7 +632,6 @@ class CreateLivePaperLoadPDFData extends React.Component {
               fullWidth={true}
               name="pdf_file"
               value={this.state.selectedPDF.name}
-              onChange={this.handleFieldChange}
               InputProps={{
                 readOnly: true,
                 style: {
@@ -548,7 +650,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   color="primary"
                   style={{
                     width: "150px",
-                    backgroundColor: "#8BC34A",
+                    backgroundColor: "#4DC26D",
                     color: "#000000",
                     fontWeight: "bold",
                     padding: "10px",
@@ -573,8 +675,8 @@ class CreateLivePaperLoadPDFData extends React.Component {
                   color="primary"
                   style={{
                     width: "150px",
-                    backgroundColor: "#FF9800",
-                    color: "#000000",
+                    backgroundColor: "#525252",
+                    color: "#FFFFFF",
                     fontWeight: "bold",
                     padding: "10px",
                     border: "solid",
@@ -591,8 +693,8 @@ class CreateLivePaperLoadPDFData extends React.Component {
           <br />
           <br />
           <div>
-            {Object.keys(this.state.dataFromPDF).length > 1
-              ? this.displayDataPDF()
+            {Object.keys(this.state.dataExtracted).length > 1
+              ? this.displayDataExtracted()
               : ""}
           </div>
           <br />
@@ -601,7 +703,89 @@ class CreateLivePaperLoadPDFData extends React.Component {
       );
     }
 
-    if (!this.state.loadData && this.state.loadPDF) {
+    var showInputDOI = "";
+    if (this.state.loadDOI) {
+      showInputDOI = (
+        <div>
+          <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>
+            <TextField
+              label="Specify DOI"
+              variant="outlined"
+              fullWidth={true}
+              name="articleDOI"
+              value={this.state.articleDOI}
+              onChange={this.handleFieldChange}
+              InputProps={{
+                style: {
+                  padding: "5px 15px",
+                },
+              }}
+            />
+          </div>
+          <div style={{ paddingRight: "20px" }}>
+            <div
+              style={{ flex: 1, flexDirection: "row-reverse", float: "right" }}
+            >
+              <div style={{ float: "right", paddingTop: "10px" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    width: "150px",
+                    backgroundColor: "#4DC26D",
+                    color: "#000000",
+                    fontWeight: "bold",
+                    padding: "10px",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  onClick={this.retrieveDOI}
+                >
+                  Retrieve
+                </Button>
+              </div>
+              <div
+                style={{
+                  float: "right",
+                  paddingTop: "10px",
+                  paddingRight: "20px",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    width: "150px",
+                    backgroundColor: "#525252",
+                    color: "#FFFFFF",
+                    fontWeight: "bold",
+                    padding: "10px",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                  }}
+                  onClick={this.cancelDOI}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </div>
+          <br />
+          <br />
+          <div>
+            {Object.keys(this.state.dataExtracted).length > 1
+              ? this.displayDataExtracted()
+              : ""}
+          </div>
+          <br />
+          <br />
+        </div>
+      );
+    }
+
+    if ((!this.state.loadData && this.state.loadPDF) || (!this.state.loadData && this.state.loadDOI)) {
       return (
         <Dialog
           fullScreen
@@ -615,41 +799,76 @@ class CreateLivePaperLoadPDFData extends React.Component {
           <DialogContent>
             <LoadingIndicatorModal open={this.state.loading} />
 
-            <div className="container" style={{ textAlign: "left" }}>
-              <TopNavigation />
+            <div className="mycontainer" style={{ textAlign: "left" }}>
+              <div className="box rounded centered"
+                style={{ marginTop: "0px", paddingTop: "0.25em", paddingBottom: "0.25em", marginBottom: "1em" }}>
+                <div style={{ display: "flex" }}>
+                  <div style={{ flex: 1, textAlign: "left", paddingLeft: "25px", alignSelf: "center" }}>
+                    <Tooltip title={"Open EBRAINS Homepage"}>
+                      <a href="https://ebrains.eu/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textAlign: "center" }}
+                      >
+                        <img
+                          src="./imgs/General_logo_Landscape_White.svg"
+                          alt="EBRAINS logo"
+                          style={{ height: "70px", cursor: "pointer" }}
+                        />
+                      </a>
+                    </Tooltip>
+                  </div>
+                  <div style={{ flex: 1, textAlign: "right", paddingRight: "25px", alignSelf: "center" }}>
+                    <Tooltip title={"See Live Papers"}>
+                      <a
+                        href={livePaperPlatformUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ paddingRight: "10px" }}
+                      >
+                        <IconButton aria-label="See Live Papers">
+                          <LibraryBooksIcon fontSize="large" />
+                        </IconButton>
+                      </a>
+                    </Tooltip>
+                    <Tooltip title={"Open Documentation"}>
+                      <a
+                        href={livePaperDocsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <IconButton aria-label="Open Documentation">
+                          <HelpOutlineIcon fontSize="large" />
+                        </IconButton>
+                      </a>
+                    </Tooltip>
+                  </div>
+                </div>
+              </div>
               <div
-                className="box rounded centered"
-                style={{ marginTop: "5px" }}
+                style={{
+                  paddingLeft: "5%",
+                  paddingRight: "5%",
+                  textAlign: "justify",
+                  fontSize: 16,
+                  lineHeight: 1.75,
+                  paddingBottom: "20px",
+                }}
               >
-                <a
-                  href="../../index.html"
-                  className="waves-effect waves-light"
-                  style={{ textAlign: "center", color: "black" }}
-                >
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <img
-                            className="ebrains-icon-small"
-                            src="./imgs/ebrains_logo.png"
-                            alt="EBRAINS logo"
-                            style={{ width: "25px", height: "25px" }}
-                          />
-                        </td>
-                        <td>
-                          <span
-                            className="title-style subtitle"
-                            style={{ paddingLeft: "5px" }}
-                          >
-                            EBRAINS Live Papers
-                          </span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </a>
-                <h5 className="title-style">Live Paper Builder</h5>
+                <div className="title-solid-style" style={{ fontSize: 44 }}>EBRAINS Live Paper Builder</div>
+                <div className="title-solid-style" style={{ fontSize: 32, color: "#00A595" }}>Quickly create and distribute interactive live papers</div>
+              </div>
+              <div style={{ marginBottom: "40px", }}>
+                <div className="rainbow-row">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
               </div>
               <div
                 style={{
@@ -659,23 +878,31 @@ class CreateLivePaperLoadPDFData extends React.Component {
                 }}
               >
                 <div>
-                  You can start the live paper creation process by uploading the
-                  PDF file of the corresponding paper. We will try to extract
-                  required metadata such as title, author, affiliations,
-                  abstract and DOI from the uploaded file. To do so click on
-                  'Browse' and select the PDF file in the file browser pop-up.
-                  Once selected, click 'Upload' to begin the extraction process.
-                  When complete, the extracted info is displayed on the page for
+                  You can start the live paper creation process by either
+                  specifying the DOI of the associated publication, or
+                  uploading its PDF file. We will use this to try
+                  auto-extracting the required metadata.
+                  <br />
+                  <ul className="collection">
+                    <li className="collection-item" style={{ "backgroundColor": "#EFF7E5" }}>
+                      To extract the metadata using the DOI, click on <strong>Specify DOI</strong>,
+                      input the DOI of the associated publication,
+                      and then click 'Retrieve' to fetch the metadata.
+                    </li>
+                    <li className="collection-item" style={{ "backgroundColor": "#EFF7E5" }}>
+                      To extract the metadata using the PDF file, click on <strong>Upload PDF</strong>,
+                      select the PDF file in the file browser pop-up,
+                      and then click 'Upload' to begin the extraction process.
+                    </li>
+                  </ul>
+                  When completed, the extracted info is displayed on the page for
                   you to verify. You can then click 'Proceed' (scroll to bottom
                   of page) to be redirected to the live paper creation page with
-                  the extracted info auto-populated into their respective
-                  fields.
-                  <br />
-                  <br />
+                  the extracted info auto-populated into their respective fields.
+                  <br /><br />
                   Alternatively, if the info extracted is not helpful or you
                   wish to enter all the info manually, you can click on 'Skip'
-                  to start the live paper creation process with an empty
-                  template.
+                  to start the live paper creation process with an empty template.
                 </div>
                 <br />
                 <div
@@ -689,8 +916,26 @@ class CreateLivePaperLoadPDFData extends React.Component {
                     variant="contained"
                     color="primary"
                     style={{
-                      width: "40%",
-                      backgroundColor: "#009688",
+                      width: "27.5%",
+                      backgroundColor: "#00A595",
+                      color: "#000000",
+                      fontWeight: "bold",
+                      border: "solid",
+                      borderColor: "#000000",
+                      borderWidth: "1px",
+                    }}
+                    onClick={this.acceptDOI}
+                  >
+                    Specify DOI
+                  </Button>
+                  <br />
+                  <br />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{
+                      width: "27.5%",
+                      backgroundColor: "#4DC26D",
                       color: "#000000",
                       fontWeight: "bold",
                       border: "solid",
@@ -699,7 +944,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
                     }}
                     onClick={this.browseForPDF}
                   >
-                    Browse
+                    Upload PDF
                   </Button>
                   <br />
                   <br />
@@ -707,8 +952,8 @@ class CreateLivePaperLoadPDFData extends React.Component {
                     variant="contained"
                     color="secondary"
                     style={{
-                      width: "40%",
-                      backgroundColor: "#E57373",
+                      width: "27.5%",
+                      backgroundColor: "#9CE142",
                       color: "#000000",
                       fontWeight: "bold",
                       border: "solid",
@@ -723,6 +968,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
                 <br />
                 <br />
                 {showSelectedPDF}
+                {showInputDOI}
                 <div className="rainbow-row">
                   <div></div>
                   <div></div>
@@ -751,8 +997,8 @@ class CreateLivePaperLoadPDFData extends React.Component {
             this.props.loadData
               ? this.state.data // for loading saved project data (.lpp file)
               : this.state.loadData
-              ? { ...this.state.data, ...this.state.dataFromPDF } // for loading PDF data
-              : {} // no data to be loaded
+                ? { ...this.state.data, ...this.state.dataExtracted } // for loading PDF data
+                : {} // no data to be loaded
           }
           loadData={this.state.loadData}
         />

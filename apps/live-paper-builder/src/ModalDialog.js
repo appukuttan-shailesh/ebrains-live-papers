@@ -66,7 +66,7 @@ export default class ModalDialog extends React.Component {
         <DialogTitle
           id="customized-dialog-title"
           onClose={this.props.handleClose}
-          style={{ backgroundColor: this.props.headerBgColor || "#ffd180" }}
+          style={{ backgroundColor: this.props.headerBgColor || "#00A595" }}
         >
           <b>{this.props.title}</b>
         </DialogTitle>

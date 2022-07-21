@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import parse from "html-react-parser";
+import {Link} from "react-router-dom";
 
 const styles = (theme) => ({
   root: {
@@ -70,7 +71,7 @@ export default class DialogConfirm extends React.Component {
           <DialogTitle
             id="customized-dialog-title"
             onClose={() => this.props.handleClose(false)}
-            style={{ backgroundColor: this.props.headerBgColor || "#ffd180" }}
+            style={{ backgroundColor: this.props.headerBgColor || "#00A595" }}
           >
             <span style={{ fontWeight: "bolder", fontSize: 18 }}>
               {this.props.title}
@@ -101,8 +102,8 @@ export default class DialogConfirm extends React.Component {
                 color="primary"
                 style={{
                   width: "150px",
-                  backgroundColor: "#FF9800",
-                  color: "#000000",
+                  backgroundColor: "#8b0d0d",
+                  color: "#ffffff",
                   fontWeight: "bold",
                   border: "solid",
                   borderColor: "#000000",
@@ -136,7 +137,29 @@ export default class DialogConfirm extends React.Component {
                   <br />
                 </>
               )}
-
+              {this.props.bulkEntry && (
+                <>
+                  <Link to={{pathname: "/BulkEntryWizard", hash: this.props.bulkEntry }} target="_blank" >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{
+                        width: "150px",
+                        backgroundColor: "#FF9800",
+                        color: "#000000",
+                        fontWeight: "bold",
+                        border: "solid",
+                        borderColor: "#000000",
+                        borderWidth: "1px",
+                      }}
+                    >
+                      Input Tool
+                    </Button>
+                  </Link>
+                  <br />
+                  <br />
+                </>
+              )}
               <Button
                 variant="contained"
                 color="primary"
