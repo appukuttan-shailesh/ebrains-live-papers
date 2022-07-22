@@ -29,7 +29,7 @@ export default class Traces extends React.Component {
             shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/traces/example_traces_section.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/traces/example_traces_section.png"} width="85%" />
             </div>
             <br />
             For general instructions on how to add info to resource sections,{" "}
@@ -52,7 +52,7 @@ export default class Traces extends React.Component {
             is shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/traces/example_traces_output.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/traces/example_traces_output.png"} width="85%" />
             </div>
             <br />
             By clicking on an entry, it expands to show further info and
@@ -65,7 +65,7 @@ export default class Traces extends React.Component {
             of interest from those available within the data file.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/traces/example_traces_output_detail.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/traces/example_traces_output_detail.png"} width="85%" />
             </div>
           </div>
         </div>

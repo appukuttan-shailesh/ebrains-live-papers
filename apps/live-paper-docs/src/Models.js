@@ -29,7 +29,7 @@ export default class Models extends React.Component {
             entry, as shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/models/example_models_section.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/models/example_models_section.png"} width="85%" />
             </div>
             <br />
             For general instructions on how to add info to resource sections,{" "}
@@ -54,7 +54,7 @@ export default class Models extends React.Component {
             is shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/models/example_models_output.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/models/example_models_output.png"} width="85%" />
             </div>
             <br />
             Users are able to downloaded each listed model file by clicking on
@@ -64,7 +64,7 @@ export default class Models extends React.Component {
             EBRAINS model catalog (Knowledge Graph) is illustrated below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/models/model_catalog.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/models/model_catalog.png"} width="85%" />
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@ export default class Morphology extends React.Component {
             entry, as shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/morphology/example_morphology_section.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/morphology/example_morphology_section.png"} width="85%" />
             </div>
             <br />
             For general instructions on how to add info to resource sections,{" "}
@@ -52,7 +52,7 @@ export default class Morphology extends React.Component {
             is shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/morphology/example_morphology_output.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/morphology/example_morphology_output.png"} width="85%" />
             </div>
             <br />
             Users are able to download each listed morphology file by clicking
@@ -61,7 +61,7 @@ export default class Morphology extends React.Component {
             morphology viewer. This is illustrated below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/morphology/morphology_viewer.png" width="75%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/morphology/morphology_viewer.png"} width="75%" />
             </div>
           </div>
         </div>

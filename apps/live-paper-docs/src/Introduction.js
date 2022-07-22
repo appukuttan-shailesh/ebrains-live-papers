@@ -56,7 +56,7 @@ export default class Introduction extends React.Component {
             <div style={{ flex: 0.5, textAlign: "center" }}>
               <img
                 alt=""
-                src="/figures/index/problem.png"
+                src={process.env.PUBLIC_URL + "/figures/index/problem.png"}
                 width="60%"
                 style={{ paddingTop: "120px" }}
               />
@@ -70,7 +70,7 @@ export default class Introduction extends React.Component {
             <div style={{ flex: 0.5, textAlign: "center" }}>
               <img
                 alt=""
-                src="/figures/index/banner2.png"
+                src={process.env.PUBLIC_URL + "/figures/index/banner2.png"}
                 width="100%"
                 style={{ paddingRight: "40px", paddingTop: "75px" }}
               />
@@ -104,7 +104,7 @@ export default class Introduction extends React.Component {
                     Authors can easily create a new live paper within 2-3 hours using the live paper builder tool!
                   </span>
                 </div>
-                The uploaded resources are stored on the EBRAINS archival data repository, 
+                The uploaded resources are stored on the EBRAINS archival data repository,
                 thereby ensuring their long term retrievability.
                 With data being managed via the EBRAINS KG, the issue of data provenance can also be better tackled,
                 along with tighter integration with other tools and services offered under the EBRAINS ecosystem.
@@ -143,7 +143,7 @@ export default class Introduction extends React.Component {
             <div style={{ flex: 0.5 }}>
               <img
                 alt=""
-                src="/figures/index/find.png"
+                src={process.env.PUBLIC_URL + "/figures/index/find.png"}
                 width="100%"
                 style={{ paddingLeft: "20px" }}
               />
@@ -156,7 +156,7 @@ export default class Introduction extends React.Component {
             <div style={{ flex: 0.5 }}>
               <img
                 alt=""
-                src="/figures/index/create.png"
+                src={process.env.PUBLIC_URL + "/figures/index/create.png"}
                 width="100%"
                 style={{ paddingRight: "40px" }}
               />
@@ -170,10 +170,10 @@ export default class Introduction extends React.Component {
                 papers allow authors to easily share a variety of resources,
                 such as:
                 <ul>
-                  <li><a href="#morphology">Morphologies</a></li>
-                  <li><a href="#traces">Electrophysiological Recordings</a></li>
-                  <li><a href="#models">Models</a></li>
-                  <li><a href="#other">Other Content</a></li>
+                  <li><a href onClick={() => this.props.updateHash("morphology")}>Morphologies</a></li>
+                  <li><a href onClick={() => this.props.updateHash("traces")}>Electrophysiological Recordings</a></li>
+                  <li><a href onClick={() => this.props.updateHash("models")}>Models</a></li>
+                  <li><a href onClick={() => this.props.updateHash("other")}>Other Content</a></li>
                 </ul>
                 Live papers can be set to be password-protected, thereby
                 enabling them to be shared solely with reviewers prior to

@@ -44,7 +44,7 @@ export default class Create extends React.Component {
             paper project as we demonstrate here.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/create/lp_builder_homepage.png" width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_homepage.png"} width="95%" />
             </div>
             <br />
             Metadata about the associated publication can either be manually
@@ -54,7 +54,7 @@ export default class Create extends React.Component {
             fields.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/create/lp_builder_create_home.png" width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_create_home.png"} width="95%" />
             </div>
             <br />
             An example outcome of auto-extracting the metadata from the PDF is
@@ -65,7 +65,7 @@ export default class Create extends React.Component {
             the the output be verified, and corrections be made as required.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/create/lp_builder_pdf_extract.png" width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_pdf_extract.png"} width="95%" />
             <br /><br />
             </div>
             The data extracted from the PDF would be auto-populated into the
@@ -77,7 +77,7 @@ export default class Create extends React.Component {
             authors irrespective of the two approaches.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/create/lp_builder_main_filled.png" width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_main_filled.png"} width="95%" />
             <br /><br />
             </div>
             Once all the metadata has been inserted, authors can proceed to
@@ -87,13 +87,13 @@ export default class Create extends React.Component {
             following:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/create/lp_builder_resource_panel.png" width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_resource_panel.png"} width="95%" />
             </div>
             <ul>
-              <li><a href="./morphology.html">Morphologies</a></li>
-              <li><a href="./traces.html">Electrophysiological Recordings</a></li>
-              <li><a href="./models.html">Models</a></li>
-              <li><a href="./other.html">Other Content</a> (Generic, Custom)</li>
+              <li><a href onClick={() => this.props.updateHash("morphology")}>Morphologies</a></li>
+              <li><a href onClick={() => this.props.updateHash("traces")}>Electrophysiological Recordings</a></li>
+              <li><a href onClick={() => this.props.updateHash("models")}>Models</a></li>
+              <li><a href onClick={() => this.props.updateHash("other")}>Other Content</a> (Generic, Custom)</li>
             </ul>
             Click on the above links for more details on how to share each type
             of resource in a live paper.
@@ -110,7 +110,7 @@ export default class Create extends React.Component {
             be published on the platform.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/create/lp_builder_toolbar.png" width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_toolbar.png"} width="95%" />
             </div>
             <br />
             Live papers can be set to be password-protected, thereby enabling
@@ -121,7 +121,7 @@ export default class Create extends React.Component {
             to the scientific community.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/create/lp_builder_submit_password.png" width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_submit_password.png"} width="95%" />
             </div>
             The review process primarily involves verifying that all contained
             resources are actually accessible and that these are hosted on

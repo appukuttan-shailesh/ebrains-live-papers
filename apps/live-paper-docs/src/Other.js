@@ -37,7 +37,7 @@ export default class Other extends React.Component {
             separate entry, as shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/other/example_generic_section.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/other/example_generic_section.png"} width="85%" />
             </div>
             <br />
             <strong>Custom resource sections</strong> provides advanced users
@@ -49,7 +49,7 @@ export default class Other extends React.Component {
             to remotely run NEURON models on BlueNaaS (Blue Neuron as a Service).
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/other/example_custom_section.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/other/example_custom_section.png"} width="85%" />
             </div>
             <br />
             For general instructions on how to add info to resource sections,{" "}
@@ -66,14 +66,14 @@ export default class Other extends React.Component {
             on the 'Download' button for that entry.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/other/example_generic_output.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/other/example_generic_output.png"} width="85%" />
             </div>
             <br />
             An example of a custom listing resource section in a live paper is
             shown below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/other/example_custom_output.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/other/example_custom_output.png"} width="85%" />
             </div>
           </div>
         </div>

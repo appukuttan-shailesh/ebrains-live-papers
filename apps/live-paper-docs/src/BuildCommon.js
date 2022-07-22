@@ -30,7 +30,7 @@ export default class BuildCommon extends React.Component {
             the same resource type.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/lp_resource_toolbar.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/lp_resource_toolbar.png"} width="85%" />
             </div>
             <br />
             Just click on the required section and a new resource section will
@@ -38,7 +38,7 @@ export default class BuildCommon extends React.Component {
             chosen the morphology section in the below examples.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_example_new.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_example_new.png"} width="85%" />
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@ export default class BuildCommon extends React.Component {
             section will expand.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_title_bar_marked.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_title_bar_marked.png"} width="85%" />
             </div>
             <br />
           </div>
@@ -109,14 +109,14 @@ export default class BuildCommon extends React.Component {
             click on 'ADD ROW' button.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_add_row.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_add_row.png"} width="85%" />
             </div>
             <br />
             Authors can then enter the requested info in the cells of the newly
             added row.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_add_row_enter.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_add_row_enter.png"} width="85%" />
             </div>
             <br />
           </div>
@@ -136,7 +136,7 @@ export default class BuildCommon extends React.Component {
             importing neuronal morphologies.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_add_from_db.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_add_from_db.png"} width="85%" />
             </div>
             <br />
             Clicking on 'ADD FROM DB' button shows the user the list of
@@ -144,7 +144,7 @@ export default class BuildCommon extends React.Component {
             resources to be imported via their IDs or shortlist using filters.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_add_from_db_repos.png" width="50%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_add_from_db_repos.png"} width="50%" />
             </div>
             <br />
             Once specified, the requested resources are fetched from the
@@ -157,7 +157,7 @@ export default class BuildCommon extends React.Component {
             section.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_add_from_db_repos_expand.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_add_from_db_repos_expand.png"} width="85%" />
             </div>
             <br />
             On selecting a particular resource entry, the counter on the bottom
@@ -166,7 +166,7 @@ export default class BuildCommon extends React.Component {
             add the selected entries in the live paper resource section.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_add_from_db_repos_done.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_add_from_db_repos_done.png"} width="85%" />
             </div>
             <br />
             This will update the resource section table with details of the
@@ -175,7 +175,7 @@ export default class BuildCommon extends React.Component {
             to indicate the same.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_add_from_db_repos_added.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_add_from_db_repos_added.png"} width="85%" />
             </div>
             <br />
           </div>
@@ -191,7 +191,7 @@ export default class BuildCommon extends React.Component {
             TABLE' button to obtain a more detailed view of thes attributes.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_expand_table.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_expand_table.png"} width="85%" />
             </div>
             <br />
             This will result in an expanded view, with one attribute per line.
@@ -199,7 +199,7 @@ export default class BuildCommon extends React.Component {
             compressed view.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_add_from_db_repos_expand_show.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_add_from_db_repos_expand_show.png"} width="85%" />
             </div>
             <br />
           </div>
@@ -217,7 +217,7 @@ export default class BuildCommon extends React.Component {
             deleted, it cannot be recovered!
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_order_delete.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_order_delete.png"} width="85%" />
             </div>
             <br />
           </div>
@@ -234,7 +234,7 @@ export default class BuildCommon extends React.Component {
             contents into the live paper builder.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_edit_source.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_edit_source.png"} width="85%" />
             </div>
             <br />
             Click on 'EDIT SOURCE' to access the resource section's source code.
@@ -242,7 +242,7 @@ export default class BuildCommon extends React.Component {
             edit the source code. Clicking 'PROCEED' will save the changes.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_edit_panel.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_edit_panel.png"} width="85%" />
             </div>
             <br />
           </div>
@@ -257,14 +257,14 @@ export default class BuildCommon extends React.Component {
             for that resource section. By default it is disabled (set to 'NO').
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_use_tabs.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_use_tabs.png"} width="85%" />
             </div>
             <br />
             On enabling this, you will a new column named 'Tab Name' added to
             the table for that particular resource section:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_use_tabs_column.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_use_tabs_column.png"} width="85%" />
             </div>
             <br />
             All items to be grouped together should be assigned the exact same
@@ -274,14 +274,14 @@ export default class BuildCommon extends React.Component {
             appear in the required order.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_use_tabs_enter.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_use_tabs_enter.png"} width="85%" />
             </div>
             <br />
             This will produce an output, in the published live paper, as shown
             below:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/share_common/resource_use_tabs_enter_demo.png" width="85%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_use_tabs_enter_demo.png"} width="85%" />
             </div>
             <br />
             <b>Note: </b>Another way to categorize items is by creating multiple

@@ -67,7 +67,7 @@ export default class App extends React.Component {
                   style={{ textAlign: "center" }}
                 >
                   <img
-                    src="./imgs/General_logo_Landscape_White.svg"
+                    src={process.env.PUBLIC_URL + "./imgs/General_logo_Landscape_White.svg"}
                     alt="EBRAINS logo"
                     style={{ height: "70px", cursor: "pointer" }}
                   />

@@ -27,12 +27,12 @@ export default class Find extends React.Component {
             Published live papers are freely accessible on the live paper
             platform. The live papers are listed in reverse chronological order:
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/find/live_paper_homepage.png" width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/find/live_paper_homepage.png"} width="95%" />
             </div>
             <br />
             You can click on any entry to view that specific live paper:
             <div style={{ textAlign: "center" }}>
-              <img alt="" src="/figures/find/live_paper_migliore_2018.png" width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/find/live_paper_migliore_2018.png"} width="95%" />
             </div>
           </div>
         </div>
