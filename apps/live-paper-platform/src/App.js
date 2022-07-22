@@ -140,7 +140,7 @@ function MediaCard(props) {
       <Card
         style={{
           width: "90%",
-          backgroundColor: "#B3E5C0",
+          backgroundColor: "#DCEDC8",
           borderStyle: "solid",
           borderWidth: 2,
         }}
