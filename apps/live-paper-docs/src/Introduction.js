@@ -188,6 +188,41 @@ export default class Introduction extends React.Component {
           </div>
         </div>
 
+        <div className="block">
+          <div className="block-little-header">Know More</div>
+          <div className="block-main-header">Read our preprint article</div>
+          <div className="block-text">
+            You can access the EBRAINS Live Paper preprint article on{" "}
+            <a href="https://doi.org/10.31219/osf.io/4uvdy" target="_blank" rel="noopener noreferrer">
+              OSF preprints
+            </a>.
+            <br /><br />
+            Abstract:
+            <div style={{
+              backgroundColor: "#DCEDC8", textAlign: "justify", padding: "10px",
+              marginTop: "20px", marginBottom: "20px"
+            }}>
+              <span style={{ fontFamily: "cursive", fontWeight: "bold", fontStyle: "italic" }}>
+                We present here an online platform for sharing resources underlying publications in neuroscience.
+                It enables authors to easily upload and distribute digital resources, such as data, code, and
+                notebooks, in a structured and systematic way. Interactivity is a prominent feature of the Live Papers,
+                with features to download, visualise or simulate data, models and results presented in the corresponding
+                publications. The resources are hosted on reliable data storage servers to ensure long term availability
+                and easy accessibility. All data are managed via the EBRAINS Knowledge Graph, thereby helping maintain
+                data provenance, and enabling tight integration with tools and services offered under the EBRAINS ecosystem.
+              </span>
+            </div>
+            <div style={{ lineHeight: 1.75 }}>
+              <strong>Citation:</strong>
+              <br />
+              Appukuttan, S., Bologna, L. L., Migliore, M., Schürmann, F., & Davison, A. P. (2021, October 5).
+              EBRAINS Live Papers - Interactive resource sheets for computational studies in neuroscience.
+              https://doi.org/10.31219/osf.io/4uvdy
+            </div>
+          </div>
+          <br />
+        </div>
+
       </div>
     );
   }
