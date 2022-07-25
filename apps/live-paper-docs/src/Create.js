@@ -21,8 +21,8 @@ export default class Create extends React.Component {
         </div>
 
         <div className="block">
-          <div className="block-little-header">Live Paper Platform</div>
-          <div className="block-main-header">Collection of all public live papers</div>
+          <div className="block-little-header">Live Paper Builder</div>
+          <div className="block-main-header">Create interactive live papers online</div>
           <div className="block-text">
             The live paper builder tool has been developed with the primary
             focus on making the data sharing process as simple as possible. It
@@ -44,17 +44,20 @@ export default class Create extends React.Component {
             paper project as we demonstrate here.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_homepage.png"} width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_homepage.png"} width="90%" />
             </div>
             <br />
             Metadata about the associated publication can either be manually
             entered field by field, or users can avail of the feature to upload
             the PDF version of the manuscript and have the tool attempt to
             auto-extract all the relevant info and populate the corresponding
-            fields.
+            fields. It is also possible to specify the DOI of the published 
+            article, and the tool will fetch the associated info. Note that 
+            typically the data fetched via the DOI is more accurate but limited, 
+            as compared to the extraction from PDF method.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_create_home.png"} width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_create_home.png"} width="90%" />
             </div>
             <br />
             An example outcome of auto-extracting the metadata from the PDF is
@@ -65,7 +68,7 @@ export default class Create extends React.Component {
             the the output be verified, and corrections be made as required.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_pdf_extract.png"} width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_pdf_extract.png"} width="80%" />
             <br /><br />
             </div>
             The data extracted from the PDF would be auto-populated into the
@@ -77,7 +80,7 @@ export default class Create extends React.Component {
             authors irrespective of the two approaches.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_main_filled.png"} width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_main_filled.png"} width="90%" />
             <br /><br />
             </div>
             Once all the metadata has been inserted, authors can proceed to
@@ -87,7 +90,7 @@ export default class Create extends React.Component {
             following:
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_resource_panel.png"} width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_resource_panel.png"} width="90%" />
             </div>
             <ul>
               <li><a href onClick={() => this.props.updateHash("morphology")}>Morphologies</a></li>
@@ -110,7 +113,7 @@ export default class Create extends React.Component {
             be published on the platform.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_toolbar.png"} width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_toolbar.png"} width="90%" />
             </div>
             <br />
             Live papers can be set to be password-protected, thereby enabling
@@ -121,8 +124,9 @@ export default class Create extends React.Component {
             to the scientific community.
             <br /><br />
             <div style={{ textAlign: "center" }}>
-              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_submit_password.png"} width="95%" />
+              <img alt="" src={process.env.PUBLIC_URL + "/figures/create/lp_builder_submit_password.png"} width="65%" />
             </div>
+            <br />
             The review process primarily involves verifying that all contained
             resources are actually accessible and that these are hosted on
             reliable data storage repositories. Resources hosted on authors' or
