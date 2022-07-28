@@ -24,6 +24,7 @@ import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
 import UnfoldLessIcon from "@material-ui/icons/UnfoldLess";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AspectRatioIcon from "@material-ui/icons/AspectRatio";
+import PhotoSizeSelectSmallIcon from '@material-ui/icons/PhotoSizeSelectSmall';
 import styled from "styled-components";
 
 function HelpContentCustom() {
@@ -69,8 +70,8 @@ function HelpContentCustom() {
   return (
     <div>
       You can enter custom content using either Markdown syntax or HTML.
-      <br/>
-      <b>Note: </b>Markdown content will be automatically converted to 
+      <br />
+      <b>Note: </b>Markdown content will be automatically converted to
       equivalent HTML syntax.
       <br />
       <br />
@@ -86,26 +87,26 @@ function HelpContentCustom() {
       <pre>
         <code>{example_html}</code>
       </pre>
-      <br/>
-      <hr/>
-      <br/>
+      <br />
+      <hr />
+      <br />
       <h6>
         <b>Live Paper CSS & JS dependencies</b>
       </h6>
-      <br/>
+      <br />
       <div>
         Live Papers make use of a series of CSS and JS libraries, such as&nbsp;
-        <a href="https://materializecss.com/" 
-          target="_blank" 
+        <a href="https://materializecss.com/"
+          target="_blank"
           rel="noreferrer">Materialize CSS</a>.
-        These are imported by default in every sheet.<br/>
-        Please bear this in mind when developing your own custom Live Paper section with additional dependencies to avoid conflicts.<br/><br/>
+        These are imported by default in every sheet.<br />
+        Please bear this in mind when developing your own custom Live Paper section with additional dependencies to avoid conflicts.<br /><br />
         To view a complete list of the CSS and JS dependencies, check&nbsp;
-        <a href="https://github.com/appukuttan-shailesh/ebrains-live-papers/blob/main/apps/live-paper-platform/src/templates/LivePaper_v0.1.njk#L485-L498" 
-          target="_blank" 
-          rel="noreferrer">here</a>.  
+        <a href="https://github.com/appukuttan-shailesh/ebrains-live-papers/blob/main/apps/live-paper-platform/src/templates/LivePaper_v0.1.njk#L485-L498"
+          target="_blank"
+          rel="noreferrer">here</a>.
       </div>
-      <br/>
+      <br />
     </div>
   );
 }
@@ -276,7 +277,7 @@ export default class SectionCustom extends React.Component {
     } catch (error) {
       console.log("Error using prettier on code. Potentially invalid HTML syntax!");
     }
-    
+
     this.setState(
       {
         description: code,
@@ -447,7 +448,7 @@ export default class SectionCustom extends React.Component {
                   }}
                 >
                   <span style={{ paddingRight: "10px" }}>
-                    Click on ? icon for help on input, 
+                    Click on ? icon for help on input,
                     and for info on the existing CSS/JS dependencies.
                   </span>
                 </Grid>
@@ -512,10 +513,10 @@ export default class SectionCustom extends React.Component {
                         width: "200px",
                         backgroundColor: "#795548",
                       }}
-                      startIcon={<AspectRatioIcon />}
+                      startIcon={this.state.expandSection ? <PhotoSizeSelectSmallIcon /> : <AspectRatioIcon />}
                     >
-                    Expand Section
-                  </Button>
+                      {this.state.expandSection ? "Collapse" : "Expand"}
+                    </Button>
                   </div>
                 </Grid>
                 <br />

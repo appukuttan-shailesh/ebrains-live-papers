@@ -1,10 +1,8 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import TopNavigation from "./TopNavigation";
 import LoadingIndicator from "./LoadingIndicator";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
-import InsertDriveFileTwoToneIcon from "@material-ui/icons/InsertDriveFileTwoTone";
-import NoteAddTwoToneIcon from "@material-ui/icons/NoteAddTwoTone";
+import IconButton from "@material-ui/core/IconButton";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import BuildIcon from "@material-ui/icons/Build";
 import axios from "axios";
@@ -30,6 +28,7 @@ import LinesEllipsis from "react-lines-ellipsis";
 import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
+import { livePaperBuilderUrl, livePaperDocsUrl } from "./globals";
 import "./App.css";
 
 const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
@@ -49,12 +48,18 @@ const TABLE_COLUMNS = [
         }
       >
         {item.associated_paper_title ? (
-          <InsertDriveFileTwoToneIcon
-            style={{ color: "#FF6900", fontSize: 30, marginLeft: 10 }}
+          <img
+            className="ebrains-icon-small"
+            src="./imgs/LP_icon.png"
+            alt="Live Paper Icon"
+            style={{ height: "40px", marginLeft: 15 }}
           />
         ) : (
-          <NoteAddTwoToneIcon
-            style={{ color: "#FF6900", fontSize: 30, marginLeft: 10 }}
+          <img
+            className="ebrains-icon-small"
+            src="./imgs/LP_icon.png"
+            alt="Live Paper Icon"
+            style={{ height: "40px", marginLeft: 15 }}
           />
         )}
       </Tooltip>
@@ -135,7 +140,7 @@ function MediaCard(props) {
       <Card
         style={{
           width: "90%",
-          backgroundColor: "#FFECB3",
+          backgroundColor: "#DCEDC8",
           borderStyle: "solid",
           borderWidth: 2,
         }}
@@ -486,34 +491,75 @@ export default class App extends React.Component {
       return (
         <div className="mycontainer" style={{ textAlign: "left" }}>
           <LoadingIndicatorModal open={this.state.loadingSelectedLP} />
-          <TopNavigation />
           <div className="box rounded centered"
-            style={{ marginTop: "5px", paddingTop: "0.75em", paddingBottom: "0.75em" }}>
-            <a
-              href="https://ebrains.eu/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="waves-effect waves-light"
-              style={{ textAlign: "center", color: "black" }}
-            >
-              <table>
-                <tbody>
-                  <tr>
-                    <td
-                      style={{ paddingTop: "0px",
-                                paddingBottom: "0px" }}>
-                      <img
-                        className="ebrains-icon-small"
-                        src="./imgs/ebrains_logo.svg"
-                        alt="EBRAINS logo"
-                        style={{ height: "60px" }}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </a>
-            <h5 className="title-style">Live Papers</h5>
+            style={{ marginTop: "25px", paddingTop: "0.25em", paddingBottom: "0.25em", marginBottom: "1em" }}>
+            <div style={{ display: "flex" }}>
+              <div style={{ flex: 1, textAlign: "left", paddingLeft: "25px", alignSelf: "center" }}>
+                <Tooltip title={"Open EBRAINS Homepage"}>
+                  <a href="https://ebrains.eu/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textAlign: "center" }}
+                  >
+                    <img
+                      src="./imgs/General_logo_Landscape_White.svg"
+                      alt="EBRAINS logo"
+                      style={{ height: "70px", cursor: "pointer" }}
+                    />
+                  </a>
+                </Tooltip>
+              </div>
+              <div style={{ flex: 1, textAlign: "right", paddingRight: "25px", alignSelf: "center" }}>
+                <Tooltip title={"Open Live Paper Builder"}>
+                  <a
+                    href={livePaperBuilderUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ paddingRight: "10px" }}
+                  >
+                    <IconButton aria-label="Open Live Paper Builder">
+                      <BuildIcon fontSize="large" />
+                    </IconButton>
+                  </a>
+                </Tooltip>
+                <Tooltip title={"Open Documentation"}>
+                  <a
+                    href={livePaperDocsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <IconButton aria-label="Open Documentation">
+                      <HelpOutlineIcon fontSize="large" />
+                    </IconButton>
+                  </a>
+                </Tooltip>
+              </div>
+            </div>
+          </div>
+          <div
+            style={{
+              paddingLeft: "5%",
+              paddingRight: "5%",
+              textAlign: "justify",
+              fontSize: 16,
+              lineHeight: 1.75,
+              paddingBottom: "20px",
+            }}
+          >
+            <div className="title-solid-style" style={{ fontSize: 44 }}>EBRAINS Live Papers</div>
+            <div className="title-solid-style" style={{ fontSize: 32, color: "#00A595" }}>Interactive resource sheets for computational studies in neuroscience</div>
+          </div>
+          <div style={{ marginBottom: "40px", }}>
+            <div className="rainbow-row">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
           <div
             style={{
@@ -546,7 +592,7 @@ export default class App extends React.Component {
               alignItem: "center",
             }}
           > */}
-          <div className="box rounded centered" style={{ width: "90%" }}>
+          <div className="box rounded centered smallbox titleText" style={{ width: "90%" }}>
             <span
               style={{
                 fontWeight: "bolder",
@@ -726,13 +772,13 @@ export default class App extends React.Component {
                     fontSize="small"
                     style={{ verticalAlign: "text-bottom" }}
                   />{" "}
-                  icon on the top-left of this page. If you wish to develop a
+                  icon on the top-right of this page. If you wish to develop a
                   new live paper, please click on the{" "}
                   <BuildIcon
                     fontSize="small"
                     style={{ verticalAlign: "text-bottom" }}
                   />{" "}
-                  icon on the top-left of this page to open the live paper
+                  icon on the top-right of this page to open the live paper
                   builder tool. The documentation also contains info on how to
                   develop live papers using this tool.
                 </div>
@@ -806,7 +852,7 @@ export default class App extends React.Component {
                     options={{
                       height: "400",
                       chrome: "noheader, nofooter",
-                      borderColor: "#F44336",
+                      borderColor: "#00A595",
 
                       id: "profile:HumanBrainProj",
                     }}
@@ -818,61 +864,64 @@ export default class App extends React.Component {
           <br />
           <br />
           {this.state.loadingListing && <LoadingIndicator />}
-          {!this.state.loadingListing && (
-            <div
-              style={{
-                paddingLeft: "5%",
-                paddingRight: "5%",
-                textAlign: "justify",
-              }}
-            >
-              <ThemeProvider theme={theme}>
-                <MaterialTable
-                  title="Published Live Papers"
-                  data={this.state.lp_listing}
-                  columns={TABLE_COLUMNS}
-                  options={{
-                    search: true,
-                    paging: false,
-                    filtering: false,
-                    exportButton: false,
-                    headerStyle: {
-                      position: "sticky",
-                      top: 0,
-                      backgroundColor: "#EEEEEE",
-                      color: "#000",
-                      fontWeight: "bold",
-                      fontSize: 16,
-                    },
-                    rowStyle: {
-                      fontSize: 16,
-                      paddingLeft: "10%",
-                      marginLeft: "10%",
-                      border: "solid",
-                      borderWidth: 2,
-                      borderColor: "#999999",
-                    },
-                    // tableLayout: "fixed",
-                  }}
-                  onRowClick={(event, selectedRow) => {
-                    // console.log(selectedRow.alias);
-                    window.open("/#" + selectedRow.alias);
-                  }}
-                  components={{
-                    Toolbar: (props) => (
-                      <div
-                        style={{
-                          backgroundColor: "#FFD180",
-                        }}
-                      >
-                        <MTableToolbar {...props} />
-                      </div>
-                    ),
-                  }}
-                />
-              </ThemeProvider>
-            </div>
-          )}
+          {
+            !this.state.loadingListing && (
+              <div
+                style={{
+                  paddingLeft: "5%",
+                  paddingRight: "5%",
+                  textAlign: "justify",
+                }}
+              >
+                <ThemeProvider theme={theme}>
+                  <MaterialTable
+                    title="Published Live Papers"
+                    data={this.state.lp_listing}
+                    columns={TABLE_COLUMNS}
+                    options={{
+                      search: true,
+                      paging: false,
+                      filtering: false,
+                      exportButton: false,
+                      headerStyle: {
+                        position: "sticky",
+                        top: 0,
+                        backgroundColor: "#EEEEEE",
+                        color: "#000",
+                        fontWeight: "bold",
+                        fontSize: 16,
+                      },
+                      rowStyle: {
+                        fontSize: 16,
+                        paddingLeft: "10%",
+                        marginLeft: "10%",
+                        border: "solid",
+                        borderWidth: 2,
+                        borderColor: "#999999",
+                        backgroundColor: "#EFF7E5"
+                      },
+                      // tableLayout: "fixed",
+                    }}
+                    onRowClick={(event, selectedRow) => {
+                      // console.log(selectedRow.alias);
+                      window.open("/#" + selectedRow.alias);
+                    }}
+                    components={{
+                      Toolbar: (props) => (
+                        <div
+                          style={{
+                            backgroundColor: "#13AC8B",
+                          }}
+                        >
+                          <MTableToolbar {...props} />
+                        </div>
+                      ),
+                    }}
+                  />
+                </ThemeProvider>
+              </div>
+            )
+          }
           <br />
           <br />
           <div className="rainbow-row">
@@ -888,8 +937,9 @@ export default class App extends React.Component {
           <br />
           <br />
           {errorModal}
-        </div>
+        </div >
       );
     }
   }
 }
+

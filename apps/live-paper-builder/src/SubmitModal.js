@@ -144,7 +144,7 @@ export default class SubmitModal extends React.Component {
           fullWidth={true}
           maxWidth="md"
         >
-          <DialogTitle style={{ backgroundColor: "#ffd180" }}>
+          <DialogTitle style={{ backgroundColor: "#00A595" }}>
             <span style={{ fontWeight: "bolder", fontSize: 18 }}>
               Submit Live Paper
             </span>
@@ -244,7 +244,7 @@ export default class SubmitModal extends React.Component {
                           this.props.enqueueSnackbar,
                           this.props.closeSnackbar,
                           "Copied to clipboard!",
-                          "info"
+                          "success"
                         );
                       }}
                       style={{ cursor: "pointer" }}
@@ -261,7 +261,7 @@ export default class SubmitModal extends React.Component {
                           this.props.enqueueSnackbar,
                           this.props.closeSnackbar,
                           "Copied to clipboard!",
-                          "info"
+                          "success"
                         );
                       }}
                       style={{ cursor: "pointer" }}
@@ -280,7 +280,7 @@ export default class SubmitModal extends React.Component {
                           this.props.enqueueSnackbar,
                           this.props.closeSnackbar,
                           "Copied to clipboard!",
-                          "info"
+                          "success"
                         );
                       }}
                       style={{ cursor: "pointer" }}
@@ -294,7 +294,7 @@ export default class SubmitModal extends React.Component {
                         border: "dashed",
                         borderColor: "#000000",
                         borderWidth: "2px",
-                        backgroundColor: "#D9D9D9",
+                        backgroundColor: "#DCEDC8",
                         cursor: "pointer",
                       }}
                       ref={this.mailBodyRef}
@@ -306,7 +306,7 @@ export default class SubmitModal extends React.Component {
                           this.props.enqueueSnackbar,
                           this.props.closeSnackbar,
                           "Copied to clipboard!",
-                          "info"
+                          "success"
                         );
                       }}
                     >
@@ -347,8 +347,8 @@ export default class SubmitModal extends React.Component {
                 color="primary"
                 style={{
                   width: "20%",
-                  backgroundColor: "#FF9800",
-                  color: "#000000",
+                  backgroundColor: "#525252",
+                  color: "#FFFFFF",
                   fontWeight: "bold",
                   border: "solid",
                   borderColor: "#000000",
@@ -381,7 +381,7 @@ export default class SubmitModal extends React.Component {
                     style={{
                       width: "100%",
                       backgroundColor: this.props.data.id
-                        ? "#8BC34A"
+                        ? "#4DC26D"
                         : "#FFFFFF",
                       color: "#000000",
                       fontWeight: "bold",
@@ -402,7 +402,7 @@ export default class SubmitModal extends React.Component {
                     width: "20%",
                     backgroundColor:
                       this.state.password && this.state.password.length >= 6
-                        ? "#8BC34A"
+                        ? "#4DC26D"
                         : "#FFFFFF",
                     color: "#000000",
                     fontWeight: "bold",

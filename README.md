@@ -6,6 +6,14 @@ EBRAINS Live Paper Platform + EBRAINS Live Paper Builder Tool
 |----------|-------------------------------------------------|
 | Platform | https://live-papers.brainsimulation.eu/         |
 | Builder  | https://live-papers.brainsimulation.eu/builder/ |
+| Docs     | https://live-papers.brainsimulation.eu/docs/    |
+
+#### Staging Server:
+| <!-- --> | <!-- -->                                                |
+|----------|---------------------------------------------------------|
+| Platform | https://live-papers-staging.brainsimulation.eu/         |
+| Builder  | https://live-papers-staging.brainsimulation.eu/builder/ |
+| Docs     | https://live-papers-staging.brainsimulation.eu/docs/    |
 
 #### Dev Server:
 | <!-- --> | <!-- -->                                  |

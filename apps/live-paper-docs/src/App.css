@@ -1,0 +1,141 @@
+body {
+  font-size: 16px;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: black !important;
+}
+
+input {
+  border-bottom: 0 !important;
+}
+
+button:focus {
+  outline: none;
+  background-color: transparent;
+}
+
+.title-solid-style {
+  font-family: 'Rajdhani';
+  font-weight: bold;
+  line-height: 1.5;
+  font-size: 52px;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+}
+
+.nav-item-style {
+  font-family: 'Rajdhani';
+  line-height: 1.5;
+  font-size: 22px;
+  color: #00A595;
+  -webkit-text-fill-color: #000000;
+  -webkit-text-stroke: 0.2px;
+  padding: 5px 10px 5px 10px ;
+  cursor: "pointer";
+}
+
+.nav-item-style:hover {
+  background-color: #9CE142;
+  color: #00A595;
+  -webkit-text-fill-color: #000000;
+  -webkit-text-stroke: 0.2px;
+}
+
+.nav-item-active-style {
+  background-color: #00A595;
+  color: #000000;
+  -webkit-text-fill-color: #FFFFFF;
+  -webkit-text-stroke: 0.2px;
+}
+
+.block {
+  width: 100%;
+  padding-left: 5%;
+  padding-right: 5%;
+  border-top: solid 1px lightgray;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.block-little-header {
+  color: #00A595;
+  font-family: 'Rajdhani';
+  font-size: 20px;
+}
+
+.block-main-header {
+  color: #000000;
+  font-family: 'Rajdhani';
+  font-size: 32px;
+}
+
+.block-text {
+  color: #000000;
+  font-size: 18px;
+  padding-top: 20px;
+  text-align: justify;
+}
+
+li {
+  list-style-type: disc !important;
+  margin-left: 50px;
+}
+
+a {
+  cursor: pointer;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+}
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

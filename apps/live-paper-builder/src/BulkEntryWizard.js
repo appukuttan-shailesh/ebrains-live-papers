@@ -14,17 +14,18 @@ import "ace-builds/webpack-resolver"
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/theme-tomorrow";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import { livePaperPlatformUrl, livePaperDocsUrl } from "./globals";
 import { copyToClipboard } from "./utils";
 import { useSnackbar } from 'notistack';
 
 class BulkEntryWizardComp extends React.Component {
   constructor() {
     super();
-    // this.state = {data: [
-    //     [{ value: "Vanilla" }, { value: "Chocolate" }],
-    //     [{ value: "Strawberry" }, { value: "Cookies" }],
-    //   ]
-    // };
+
     this.state = {
       data: createEmptyMatrix(10, 3),
       data_full: createEmptyMatrix(10, 5),
@@ -37,7 +38,7 @@ class BulkEntryWizardComp extends React.Component {
     this.handleTableChange = this.handleTableChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-  
+
   componentDidMount() {
     const { location } = this.props;
     console.log(location.hash);
@@ -80,7 +81,7 @@ class BulkEntryWizardComp extends React.Component {
     // remove all empty rows
     value_cleaned = value_cleaned.filter(row => { return row.some(cell => Boolean(cell) && Boolean(cell["value"])) });
     // replace undefined and empty strings with null
-    value_cleaned = value_cleaned.map(row => { return row.map(cell => { return cell && cell["value"] && cell["value"]!=="null" ? cell["value"] : null }) });
+    value_cleaned = value_cleaned.map(row => { return row.map(cell => { return cell && cell["value"] && cell["value"] !== "null" ? cell["value"] : null }) });
 
     // method to generate JSON as required by Live Paper section
     const generateJSON = (data) => {
@@ -121,36 +122,76 @@ class BulkEntryWizardComp extends React.Component {
     console.log(this.state);
 
     return (
-      <div className="container" style={{ textAlign: "left" }}>
-        <br/>
-        <br/>
+      <div className="mycontainer" style={{ textAlign: "left" }}>
         <div className="box rounded centered"
-          style={{ marginTop: "5px", paddingTop: "0.75em", paddingBottom: "0.75em" }}>
-          <a
-            href="https://ebrains.eu/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="waves-effect waves-light"
-            style={{ textAlign: "center", color: "black" }}
-          >
-            <table>
-              <tbody>
-                <tr>
-                  <td
-                    style={{ paddingTop: "0px",
-                             paddingBottom: "0px" }}>
-                    <img
-                      className="ebrains-icon-small"
-                      src="./imgs/ebrains_logo.svg"
-                      alt="EBRAINS logo"
-                      style={{ height: "60px" }}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </a>
-          <h5 className="title-style">Live Paper Multi-Input Tool</h5>
+          style={{ marginTop: "25px", paddingTop: "0.25em", paddingBottom: "0.25em", marginBottom: "1em" }}>
+          <div style={{ display: "flex" }}>
+            <div style={{ flex: 1, textAlign: "left", paddingLeft: "25px", alignSelf: "center" }}>
+              <Tooltip title={"Open EBRAINS Homepage"}>
+                <a href="https://ebrains.eu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textAlign: "center" }}
+                >
+                  <img
+                    src="./imgs/General_logo_Landscape_White.svg"
+                    alt="EBRAINS logo"
+                    style={{ height: "70px", cursor: "pointer" }}
+                  />
+                </a>
+              </Tooltip>
+            </div>
+            <div style={{ flex: 1, textAlign: "right", paddingRight: "25px", alignSelf: "center" }}>
+              <Tooltip title={"See Live Papers"}>
+                <a
+                  href={livePaperPlatformUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ paddingRight: "10px" }}
+                >
+                  <IconButton aria-label="See Live Papers">
+                    <LibraryBooksIcon fontSize="large" />
+                  </IconButton>
+                </a>
+              </Tooltip>
+              <Tooltip title={"Open Documentation"}>
+                <a
+                  href={livePaperDocsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconButton aria-label="Open Documentation">
+                    <HelpOutlineIcon fontSize="large" />
+                  </IconButton>
+                </a>
+              </Tooltip>
+            </div>
+          </div>
+        </div>
+        <div
+          style={{
+            paddingLeft: "5%",
+            paddingRight: "5%",
+            textAlign: "justify",
+            fontSize: 16,
+            lineHeight: 1.75,
+            paddingBottom: "20px",
+          }}
+        >
+          <div className="title-solid-style" style={{ fontSize: 44 }}>EBRAINS Live Paper Builder - Input Tool</div>
+          <div className="title-solid-style" style={{ fontSize: 32, color: "#00A595" }}>Input multiple entries using spreadsheet-based interface</div>
+        </div>
+        <div style={{ marginBottom: "40px", }}>
+          <div className="rainbow-row">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
         </div>
         <div
           style={{
@@ -163,22 +204,22 @@ class BulkEntryWizardComp extends React.Component {
           You can copy-paste content from a spreadsheet or a text file below.
           'Basic' mode only displays the minimally required fields, while the
           'Advanced' mode displays all fields.
-          <br/><br/>
+          <br /><br />
 
           <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                paddingLeft: "2.5%",
-                paddingRight: "2.5%",
-                paddingTop: "20px",
-                paddingBottom: "20px",
-                width: "100%",
-              }}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingLeft: "2.5%",
+              paddingRight: "2.5%",
+              paddingTop: "20px",
+              paddingBottom: "20px",
+              width: "100%",
+            }}
           >
             <FormControl variant="filled">
-              <FormHelperText style={{color: "black", fontSize: 14, fontWeight: "bolder"}}>Section Type:</FormHelperText>
+              <FormHelperText style={{ color: "black", fontSize: 14, fontWeight: "bolder" }}>Section Type:</FormHelperText>
               <Select
                 id="section_type"
                 name="section_type"
@@ -196,7 +237,7 @@ class BulkEntryWizardComp extends React.Component {
             </FormControl>
 
             <FormControl variant="filled">
-              <FormHelperText style={{color: "black", fontSize: 14, fontWeight: "bolder"}}>Mode:</FormHelperText>
+              <FormHelperText style={{ color: "black", fontSize: 14, fontWeight: "bolder" }}>Mode:</FormHelperText>
               <Select
                 id="mode"
                 name="mode"
@@ -211,7 +252,7 @@ class BulkEntryWizardComp extends React.Component {
             </FormControl>
 
             <FormControl variant="filled">
-              <FormHelperText style={{color: "black", fontSize: 14, fontWeight: "bolder"}}>Show Rows:</FormHelperText>
+              <FormHelperText style={{ color: "black", fontSize: 14, fontWeight: "bolder" }}>Show Rows:</FormHelperText>
               <Select
                 id="num_rows"
                 name="num_rows"
@@ -229,102 +270,103 @@ class BulkEntryWizardComp extends React.Component {
               </Select>
             </FormControl>
           </div>
-          { this.state.section_type &&
+          {this.state.section_type &&
             <div>
               <strong>Note: </strong>Changing any of the above options will reset the spreadsheet.
-            If necessary, please copy the content in the spreadsheet first, then change the options, 
-            and paste the content back.
-            <br/>
-            <br/>
-            { this.state.mode === "Advanced"
-              ?
+              If necessary, please copy the content in the spreadsheet first, then change the options,
+              and paste the content back.
+              <br />
+              <br />
+              {this.state.mode === "Advanced"
+                ?
                 <div>
                   <strong>Tip: </strong>
                   'Type' and 'View URL' can be set to 'URL' and null, respectively. Alternatively, both can be set to empty strings.
                   'Tab Name' can be left empty if grouping is not required.
-                  <br/><br/>
+                  <br /><br />
                 </div>
-              :
+                :
                 <div>
                   <strong>Tip: </strong>
                   'Tab Name' can be left empty if grouping is not required.
-                  <br/><br/>
+                  <br /><br />
                 </div>
-            } 
-            <div>
-              <Spreadsheet data={this.state.data}  onChange={this.handleTableChange} 
-                HeaderRowProps={{ style: {color: "black", backgroundColor: "lightgrey"}}}
-                columnLabels={this.state.mode === "Basic" ? ["Label", "URL", "Tab Name"] : ["Type", "Label", "URL", "View URL", "Tab Name"]}
-              />
-            </div>
-            <br/>
-            <h6 style={{fontWeight:"bolder"}}>Output Code:</h6>
-            <strong>Note: </strong>Code will be auto-generated based on data in the table above.
-            This can then be copy-pasted into the "Edit Source" window of the corresponding section
-            in the live paper builder.
-            <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-            >
-              <Button
-                variant="contained"
-                color="primary"
+              }
+              <div>
+                <Spreadsheet data={this.state.data} onChange={this.handleTableChange}
+                  HeaderRowProps={{ style: { color: "black", backgroundColor: "lightgrey" } }}
+                  columnLabels={this.state.mode === "Basic" ? ["Label", "URL", "Tab Name"] : ["Type", "Label", "URL", "View URL", "Tab Name"]}
+                />
+              </div>
+              <br />
+              <h6 style={{ fontWeight: "bolder" }}>Output Code:</h6>
+              <strong>Note: </strong>Code will be auto-generated based on data in the table above.
+              This can then be copy-pasted into the "Edit Source" window of the corresponding section
+              in the live paper builder.
+              <br /><br />
+              <div
                 style={{
-                  width: "150px",
-                  backgroundColor: "#FF9800",
-                  color: "#000000",
-                  fontWeight: "bold",
-                  border: "solid",
-                  borderColor: "#000000",
-                  borderWidth: "1px",
-                  marginBottom: "20px",
+                  display: "flex",
+                  justifyContent: "flex-end",
                 }}
-                onClick={() =>
-                  copyToClipboard(
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    width: "150px",
+                    backgroundColor: "#4DC26D",
+                    color: "#000000",
+                    fontWeight: "bold",
+                    border: "solid",
+                    borderColor: "#000000",
+                    borderWidth: "1px",
+                    marginBottom: "20px",
+                  }}
+                  onClick={() =>
+                    copyToClipboard(
                       this.state.data_json,
                       this.props.enqueueSnackbar,
                       this.props.closeSnackbar,
                       "Copied to clipboard!",
                       "success"
-                  )
-                }
-              >
-                Copy
-              </Button>
+                    )
+                  }
+                >
+                  Copy
+                </Button>
+              </div>
+              <div>
+                <AceEditor
+                  // placeholder="Code will be auto-generated here based on data in the table above"
+                  mode="python"
+                  theme="tomorrow"
+                  name="description"
+                  fontSize={18}
+                  showPrintMargin={true}
+                  showGutter={true}
+                  highlightActiveLine={true}
+                  value={this.state.data_json}
+                  setOptions={{
+                    enableBasicAutocompletion: true,
+                    enableLiveAutocompletion: true,
+                    enableSnippets: false,
+                    showLineNumbers: true,
+                    tabSize: 2,
+                    useWorker: false,
+                    readOnly: true,
+                  }}
+                  width="100%"
+                  height={"500px"}
+                  style={{ border: "1px solid #000000" }}
+                />
+              </div>
             </div>
-            <div>
-              <AceEditor
-                // placeholder="Code will be auto-generated here based on data in the table above"
-                mode="python"
-                theme="tomorrow"
-                name="description"
-                fontSize={18}
-                showPrintMargin={true}
-                showGutter={true}
-                highlightActiveLine={true}
-                value={this.state.data_json}
-                setOptions={{
-                  enableBasicAutocompletion: true,
-                  enableLiveAutocompletion: true,
-                  enableSnippets: false,
-                  showLineNumbers: true,
-                  tabSize: 2,
-                  useWorker: false,
-                  readOnly: true,
-                }}
-                width="100%"
-                height={"500px"}
-                style={{border:"1px solid #000000"}}
-              />
-            </div>
-          </div>
-        }
-        <br/>
-        <br/>
-        <br/>
-        <br/>
+          }
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
       </div>
     );
@@ -336,9 +378,9 @@ class BulkEntryWizardComp extends React.Component {
 export default function BulkEntryWizard(props) {
   const location = useLocation();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  return <BulkEntryWizardComp {...props} 
-            enqueueSnackbar={enqueueSnackbar} 
-            closeSnackbar={closeSnackbar} 
-            location={location} 
-          />;
+  return <BulkEntryWizardComp {...props}
+    enqueueSnackbar={enqueueSnackbar}
+    closeSnackbar={closeSnackbar}
+    location={location}
+  />;
 }

@@ -17,7 +17,9 @@ const addLineBreaks = (string) =>
 
 function reformatErrorMessage(errorResponse) {
   let output = "Error code = " + errorResponse.status;
-  if (typeof errorResponse.data.detail === "string") {
+  if (typeof errorResponse.data === "string") {
+    output += "\n\n" + errorResponse.data;
+  } else if (typeof errorResponse.data.detail === "string") {
     output += "\n\n" + errorResponse.data.detail;
   } else {
     // presuming keys 'loc' and 'msg' exist; update func if necessary to handle other cases
@@ -41,7 +43,7 @@ export default function ErrorDialog(props) {
       // fullWidth={true}
       maxWidth="sm"
     >
-      <DialogTitle style={{ backgroundColor: "#ffd180" }}>
+      <DialogTitle style={{ backgroundColor: "#00A595" }}>
         <span style={{ fontWeight: "bolder", fontSize: 18 }}>
           There seems to be a problem...
         </span>
@@ -49,11 +51,13 @@ export default function ErrorDialog(props) {
       <DialogContent>
         <Box my={2}>
           <Typography variant="body1" gutterBottom>
-            {props.error
-              ? typeof props.error === "string"
-                ? addLineBreaks(props.error)
-                : addLineBreaks(reformatErrorMessage(props.error))
-              : "Please report this error at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"}
+            {
+              props.error
+                ? typeof props.error === "string"
+                  ? addLineBreaks(props.error)
+                  : addLineBreaks(reformatErrorMessage(props.error))
+                : "Please report this error at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"
+            }
           </Typography>
         </Box>
       </DialogContent>

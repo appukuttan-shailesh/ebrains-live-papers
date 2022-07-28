@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import parse from "html-react-parser";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const styles = (theme) => ({
   root: {
@@ -70,7 +70,7 @@ export default class DialogConfirm extends React.Component {
           <DialogTitle
             id="customized-dialog-title"
             onClose={() => this.props.handleClose(false)}
-            style={{ backgroundColor: this.props.headerBgColor || "#ffd180" }}
+            style={{ backgroundColor: this.props.headerBgColor || "#00A595" }}
           >
             <span style={{ fontWeight: "bolder", fontSize: 18 }}>
               {this.props.title}
@@ -138,7 +138,7 @@ export default class DialogConfirm extends React.Component {
               )}
               {this.props.bulkEntry && (
                 <>
-                  <Link to={{pathname: window.location.pathname + "BulkEntryWizard", hash: this.props.bulkEntry }} target="_blank" >
+                  <Link to={{ pathname: window.location.pathname + "BulkEntryWizard", hash: this.props.bulkEntry }} target="_blank" >
                     <Button
                       variant="contained"
                       color="primary"
