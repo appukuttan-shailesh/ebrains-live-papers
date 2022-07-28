@@ -10,7 +10,7 @@ import ContextMain from "./ContextMain";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import { baseUrl } from "./globals";
 
 // define the columns for the material data table
@@ -33,7 +33,7 @@ const TABLE_COLUMNS = [
   },
 ];
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiTypography: {
       h6: {

@@ -15,11 +15,20 @@ const YOUR_APP_SCOPES = 'openid team email profile clb.wiki.read clb.drive:read 
 
 export default function initAuth(main) {
     console.log('DOM content is loaded, initialising Keycloak client...');
-    keycloak
-        .init({ flow: 'standard', pkceMethod: 'S256' }) // for deployment
-        // .init({ flow: 'implicit', promiseType: 'native' }) // for local development
+    console.log(window.location.hostname);
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+        // for local development
+        keycloak
+        .init({ flow: 'implicit', promiseType: 'native' }) 
         .then(() => checkAuth(main))
         .catch(console.log);
+    } else {
+        // for deployment
+        keycloak
+        .init({ flow: 'standard', pkceMethod: 'S256' }) 
+        .then(() => checkAuth(main))
+        .catch(console.log);
+    }
 }
 
 

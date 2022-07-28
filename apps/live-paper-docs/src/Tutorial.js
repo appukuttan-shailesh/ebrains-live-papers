@@ -15,7 +15,7 @@ export default class Tutorial extends React.Component {
     this.setState({
       player: event.target
     })
-    event.target.playVideo();
+    // event.target.playVideo();
   }
 
   changeTime = (seconds) => {
@@ -69,6 +69,15 @@ export default class Tutorial extends React.Component {
                 </li>
                 <li>
                   <a href onClick={() => this.changeTime(500)}>Live Paper Builder</a>
+                  <li>
+                    <a href onClick={() => this.changeTime(500)}>EBRAINS account and the Collaboratory</a>
+                    <ul>
+                      <li><a href onClick={() => this.changeTime(600)}>Request EBRAINS account</a></li>
+                      <li><a href onClick={() => this.changeTime(600)}>Intro to Collaboratory & Collabs</a></li>
+                      <li><a href onClick={() => this.changeTime(600)}>Create a new Collab</a></li>
+                      <li><a href onClick={() => this.changeTime(600)}>Overview of Teams & Live Paper permissions</a></li>
+                    </ul>
+                  </li>
                   <ul>
                     <li>
                       <a href onClick={() => this.changeTime(600)}>Start creating a new live paper</a>
@@ -79,9 +88,11 @@ export default class Tutorial extends React.Component {
                         <li><a href onClick={() => this.changeTime(600)}>Specifying live paper author(s)</a></li>
                       </ul>
                     </li>
+                    <li><a href onClick={() => this.changeTime(600)}>Preview live papers</a></li>
                     <li>
                       <a href onClick={() => this.changeTime(600)}>Adding resource sections</a>
                       <ul>
+                        <li><a href onClick={() => this.changeTime(600)}>Generic section</a></li>
                         <li>
                           <a href onClick={() => this.changeTime(600)}>Common features</a>
                           <ul>
@@ -100,7 +111,6 @@ export default class Tutorial extends React.Component {
                             <li><a href onClick={() => this.changeTime(600)}>Deleting a live paper section</a></li>
                           </ul>
                         </li>
-                        <li><a href onClick={() => this.changeTime(600)}>Generic section</a></li>
                         <li>
                           <a href onClick={() => this.changeTime(600)}>Morphology section</a>
                           <ul>
@@ -127,17 +137,8 @@ export default class Tutorial extends React.Component {
                         </li>
                       </ul>
                     </li>
-                    <li><a href onClick={() => this.changeTime(600)}>Preview live papers</a></li>
                     <li><a href onClick={() => this.changeTime(600)}>Download live papers</a></li>
-                    <li>
-                      <a href onClick={() => this.changeTime(600)}>Save live papers</a>
-                      <ul>
-                        <li><a href onClick={() => this.changeTime(600)}>Request EBRAINS account</a></li>
-                        <li><a href onClick={() => this.changeTime(600)}>Intro to Collaboratory & Collabs</a></li>
-                        <li><a href onClick={() => this.changeTime(600)}>Create a new Collab</a></li>
-                        <li><a href onClick={() => this.changeTime(600)}>Overview of Teams & Live Paper permissions</a></li>
-                      </ul>
-                    </li>
+                    <li><a href onClick={() => this.changeTime(600)}>Save live papers</a></li>
                     <li>
                       <a href onClick={() => this.changeTime(600)}>Submit live papers</a>
                       <ul>
