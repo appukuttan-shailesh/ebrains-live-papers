@@ -19,6 +19,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import { createTheme } from '@material-ui/core/styles'
+import { ThemeProvider } from "@material-ui/styles";
 import MomentUtils from "@date-io/moment";
 import axios from "axios";
 import axiosRetry from "axios-retry";
@@ -65,6 +67,17 @@ const styles = (theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+});
+
+const defaultMaterialTheme = createTheme({
+  palette: {
+    primary: {
+      // light: will be calculated from palette.primary.main,
+      main: "#00A595",
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    }
+  }
 });
 
 const footerStyle = {
@@ -1326,26 +1339,28 @@ class CreateLivePaper extends React.Component {
                       </div>
                       <div>
                         <div>
-                          <MuiPickersUtilsProvider utils={MomentUtils}>
-                            <DatePicker
-                              label="Year"
-                              inputVariant="outlined"
-                              views={["year"]}
-                              name="year"
-                              value={new Date(this.state.year)}
-                              minDate={new Date("2010-01-01")}
-                              maxDate={new Date()}
-                              onChange={this.handleYearChange}
-                              animateYearScrolling
-                              InputProps={{
-                                style: {
-                                  borderBottom: "0px",
-                                  padding: "5px 15px 5px 15px",
-                                  width: "100px",
-                                },
-                              }}
-                            />
-                          </MuiPickersUtilsProvider>
+                          <ThemeProvider theme={defaultMaterialTheme}>
+                            <MuiPickersUtilsProvider utils={MomentUtils}>
+                              <DatePicker
+                                label="Year"
+                                inputVariant="outlined"
+                                views={["year"]}
+                                name="year"
+                                value={new Date(this.state.year)}
+                                minDate={new Date("2010-01-01")}
+                                maxDate={new Date()}
+                                onChange={this.handleYearChange}
+                                animateYearScrolling
+                                InputProps={{
+                                  style: {
+                                    borderBottom: "0px",
+                                    padding: "5px 15px 5px 15px",
+                                    width: "100px",
+                                  },
+                                }}
+                              />
+                            </MuiPickersUtilsProvider>
+                          </ThemeProvider>
                         </div>
                       </div>
                       <br />

@@ -55,6 +55,17 @@ export default class Tutorial extends React.Component {
               <YouTube videoId='azBQRXMsLPY' opts={opts} onReady={this.onReady} />
             </div>
             <br />
+            <div style={{
+              backgroundColor: "#DCEDC8", textAlign: "justify", padding: "10px",
+              marginLeft: "2.5%", marginRight: "2.5%", marginTop: "20px", marginBottom: "20px"
+            }}>
+              <strong>Note:</strong> The Live Paper platform and related tools are continuously
+              being improved, with newer features being introduced to improve the user experience.
+              This can produce changes in the visual appearance of these pages, and might vary
+              slightly from that seen in the above tutorial video. Rest assured that the functionality
+              would continue to largely remain the same.
+            </div>
+            <br />
             Click on the below links to jump to a specific topic in the video:
             <br />
             <div style={{ lineHeight: 1.75 }}>
