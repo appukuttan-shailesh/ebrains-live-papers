@@ -277,11 +277,7 @@ export class RowURLExpanded extends React.Component {
                   >
                     <Tooltip title={this.props.item["view_url"] || ""}>
                       <TextField
-                        label={
-                          this.props.type === "section_models"
-                            ? "Model Catalog URL"
-                            : "View URL"
-                        }
+                        label="View URL"
                         variant="outlined"
                         fullWidth={true}
                         name="view_url"
@@ -526,11 +522,7 @@ export class RowDBExpanded extends React.Component {
                       }
                     >
                       <TextField
-                        label={
-                          this.props.type === "section_models"
-                            ? "Model Catalog URL"
-                            : "View URL"
-                        }
+                        label="View URL"
                         variant="outlined"
                         fullWidth={true}
                         name="view_url"
@@ -816,11 +808,7 @@ export default class DynamicTableItems extends React.Component {
                 <th style={{ padding: "5px 10px" }}>Label</th>
                 <th style={{ padding: "5px 10px" }}>Download URL</th>
                 {this.props.numCols > 2 && (
-                  <th style={{ padding: "5px 10px" }}>
-                    {this.props.type === "section_models"
-                      ? "Model Catalog URL"
-                      : "View URL"}
-                  </th>
+                  <th style={{ padding: "5px 10px" }}>View URL</th>
                 )}
                 {this.props.useTabs && (
                   <th style={{ padding: "5px 10px" }}>Tab Name</th>

@@ -455,6 +455,15 @@
                                                         <span></span>
                                                     {% endif %}
                                                 </td>
+                                                <td style="width: 175px">
+                                                    {% if item["url"] != item["view_url"] %}
+                                                        <a href="javascript:openCloneDialog('{{ item["url"] }}');" class="waves-effect waves-light">
+                                                            <i class="material-icons left">open_in_browser</i>Clone
+                                                        </a>
+                                                    {% else %}
+                                                        <span></span>
+                                                    {% endif %}
+                                                </td>
                                             </tr>
                                         {% endif %}
                                     {% endfor %}
