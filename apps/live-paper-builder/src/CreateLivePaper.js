@@ -40,6 +40,7 @@ import SwitchMultiWay from "./SwitchMultiWay";
 import SaveModal from "./SaveModal";
 import SubmitModal from "./SubmitModal";
 import ModalDialog from "./ModalDialog";
+import DialogConfirm from "./DialogConfirm";
 import MarkdownLatexExample from "./MarkdownLatexExample";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
@@ -48,6 +49,7 @@ import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
 
 import nunjucks from "nunjucks";
 import LivePaper_v01 from "./templates/LivePaper_v0.1.njk";
+import LivePaper_standalone_v01 from "./templates/LivePaper_standalone_v0.1.njk";
 
 axiosRetry(axios, {
   retries: 3,
@@ -181,6 +183,7 @@ class CreateLivePaper extends React.Component {
       resources: [],
       saveOpen: false,
       submitOpen: false,
+      openCloseConfirm: false,
       showDescHelp: false,
       lastSaved: null,
     };
@@ -193,7 +196,7 @@ class CreateLivePaper extends React.Component {
     };
     // const [authContext,] = this.context.auth;
 
-    this.handleClose = this.handleClose.bind(this);
+    this.handlePageClose = this.handlePageClose.bind(this);
     this.handlePreview = this.handlePreview.bind(this);
     this.handleDownload = this.handleDownload.bind(this);
     this.handleSaveOpen = this.handleSaveOpen.bind(this);
@@ -364,7 +367,7 @@ class CreateLivePaper extends React.Component {
 
   removeExcessData() {
     let req_data = JSON.parse(JSON.stringify(this.state)); // copy by value
-    let remove_keys = ["saveOpen", "submitOpen", "lastSaved"];
+    let remove_keys = ["saveOpen", "submitOpen", "lastSaved", "openCloseConfirm", "showDescHelp"];
     remove_keys.forEach((k) => delete req_data[k]);
 
     // remove from within resources objects
@@ -427,8 +430,12 @@ class CreateLivePaper extends React.Component {
     return data;
   }
 
-  handleClose() {
-    this.props.onClose();
+  handlePageClose(flag) {
+    console.log(flag);
+    this.setState({ openCloseConfirm: false });
+    if (flag) {
+      this.props.onClose();
+    }
   }
 
   handlePreview() {
@@ -487,9 +494,9 @@ class CreateLivePaper extends React.Component {
     const lp_version = parseFloat(lp_data.lp_tool_version);
     if (lp_version > 0.1) {
       // add handling for newer templates here as required
-      LivePaper = LivePaper_v01;
+      LivePaper = LivePaper_standalone_v01;
     } else {
-      LivePaper = LivePaper_v01;
+      LivePaper = LivePaper_standalone_v01;
     }
 
     const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
@@ -1152,11 +1159,18 @@ class CreateLivePaper extends React.Component {
       <Dialog
         fullScreen
         disableEscapeKeyDown
-        onClose={this.handleClose}
+        onClose={(event) => {
+          event.stopPropagation();
+          this.setState({ openCloseConfirm: true });
+        }}
         aria-labelledby="simple-dialog-title"
         open={this.props.open || false}
       >
-        <MyDialogTitle onClose={this.handleClose} />
+        <MyDialogTitle onClose={(event) => {
+          event.stopPropagation();
+          console.log("Hi");
+          this.setState({ openCloseConfirm: true });
+        }} />
         <DialogContent>
           <div className="mycontainer" style={{ textAlign: "left" }}>
             <div className="box rounded centered"
@@ -2203,6 +2217,16 @@ class CreateLivePaper extends React.Component {
               handleClose={this.handleDescHelpClose}
             />
           ) : null}
+          <DialogConfirm
+            open={this.state.openCloseConfirm}
+            title="Please confirm to close!"
+            headerBgColor="#00A595"
+            content={
+              "Are you sure you wish to close this page?<br /><b>Note:</b> Any unsaved changes will be lost!"
+            }
+            handleClose={this.handlePageClose}
+            size="xs"
+          />
         </DialogContent>
       </Dialog>
     );

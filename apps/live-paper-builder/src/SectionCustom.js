@@ -536,9 +536,9 @@ export default class SectionCustom extends React.Component {
                 title="Please confirm to delete!"
                 headerBgColor="#ABABAB"
                 content={
-                  "Do you wish to delete the custom resource section with title: <b>" +
+                  "Do you wish to delete the custom resource section with title '<b>" +
                   this.state.title +
-                  "</b>"
+                  "</b>'?"
                 }
                 handleClose={this.handleDelete}
                 size="xs"

@@ -121,7 +121,7 @@ export default class DialogConfirm extends React.Component {
                     color="primary"
                     style={{
                       width: "150px",
-                      backgroundColor: "#01579B",
+                      backgroundColor: "#525252",
                       color: "#FFFFFF",
                       fontWeight: "bold",
                       border: "solid",
@@ -164,7 +164,7 @@ export default class DialogConfirm extends React.Component {
                 color="primary"
                 style={{
                   width: "150px",
-                  backgroundColor: "#8BC34A",
+                  backgroundColor: "#4DC26D",
                   color: "#000000",
                   fontWeight: "bold",
                   border: "solid",

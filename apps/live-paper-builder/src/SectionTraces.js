@@ -768,9 +768,9 @@ export default class SectionTraces extends React.Component {
                 title="Please confirm to delete!"
                 headerBgColor="#70BF73"
                 content={
-                  "Do you wish to delete the traces resource section with title: <b>" +
+                  "Do you wish to delete the traces resource section with title '<b>" +
                   this.state.title +
-                  "</b>"
+                  "</b>'?"
                 }
                 handleClose={this.handleDelete}
                 size="xs"

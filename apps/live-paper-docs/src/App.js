@@ -14,6 +14,7 @@ import Other from "./Other";
 import Develop from "./Develop";
 import BuildCommon from "./BuildCommon";
 import Tutorial from "./Tutorial";
+import Credits from "./Credits";
 import Footer from "./Footer";
 import "./App.css";
 import { livePaperPlatformUrl, livePaperBuilderUrl } from "./globals";
@@ -130,6 +131,7 @@ export default class App extends React.Component {
         {this.state.pageOpen === "develop" && <Develop updateHash={this.updateHash} />}
         {this.state.pageOpen === "buildCommon" && <BuildCommon updateHash={this.updateHash} />}
         {this.state.pageOpen === "tutorial" && <Tutorial updateHash={this.updateHash} />}
+        {this.state.pageOpen === "credits" && <Credits updateHash={this.updateHash} />}
 
         <Footer />
         <div className="rainbow-row">

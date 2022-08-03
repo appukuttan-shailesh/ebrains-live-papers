@@ -759,9 +759,9 @@ export default class SectionMorphology extends React.Component {
                 title="Please confirm to delete!"
                 headerBgColor="#FF9800"
                 content={
-                  "Do you wish to delete the morphology resource section with title: <b>" +
+                  "Do you wish to delete the morphology resource section with title '<b>" +
                   this.state.title +
-                  "</b>"
+                  "</b>'?"
                 }
                 handleClose={this.handleDelete}
                 size="xs"

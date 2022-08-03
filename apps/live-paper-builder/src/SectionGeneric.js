@@ -684,9 +684,9 @@ export default class SectionGeneric extends React.Component {
                 title="Please confirm to delete!"
                 headerBgColor="#AA91D7"
                 content={
-                  "Do you wish to delete the generic resource section with title: <b>" +
+                  "Do you wish to delete the generic resource section with title '<b>" +
                   this.state.title +
-                  "</b>"
+                  "</b>'?"
                 }
                 handleClose={this.handleDelete}
                 size="xs"

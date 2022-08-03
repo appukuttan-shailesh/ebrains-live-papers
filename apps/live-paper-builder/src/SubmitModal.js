@@ -13,7 +13,7 @@ import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
 import ModalDialog from "./ModalDialog";
 import Link from "@material-ui/core/Link";
-import { baseUrl, livePaperPlatformUrl } from "./globals";
+import { baseUrl } from "./globals";
 import { showNotification } from "./utils";
 import saltedMd5 from "salted-md5";
 
@@ -58,7 +58,7 @@ export default class SubmitModal extends React.Component {
     console.log(lp_id);
     if (!lp_id) {
       this.setState({
-        error: "Please 'Save' the live paper before proceeding!",
+        error: "You need to 'Save' the live paper before proceeding!",
       });
     } else if (!this.state.password || this.state.password.length < 6) {
       return;
@@ -205,6 +205,13 @@ export default class SubmitModal extends React.Component {
                     </strong>
                   </div>
                 )}
+                {!this.props.data.id &&
+                  <span style={{ color: "red" }}>
+                    <strong>
+                      You need to 'Save' the live paper before proceeding!
+                    </strong>
+                  </span>
+                }
               </>
             )}
             {this.state.mode === "Public" && (
@@ -249,7 +256,7 @@ export default class SubmitModal extends React.Component {
                       }}
                       style={{ cursor: "pointer" }}
                     >
-                      lucaleonardo.bologna@cnr.it
+                      support@ebrains.eu
                     </strong> or{" "}
                     <strong
                       ref={this.mailTo2}
@@ -267,7 +274,7 @@ export default class SubmitModal extends React.Component {
                       style={{ cursor: "pointer" }}
                     >
                       shailesh.appukuttan@cnrs.fr
-                    </strong> 
+                    </strong>
                     {" "}
                     with the following subject:{" "}
                     <strong
@@ -321,7 +328,7 @@ export default class SubmitModal extends React.Component {
                         this.props.data.id
                       ) : (
                         <span style={{ color: "red" }}>
-                          <i>Please 'Save' the live paper before proceeding!</i>
+                          <i>You need to 'Save' the live paper before proceeding!</i>
                         </span>
                       )}
                       <br />
@@ -368,10 +375,10 @@ export default class SubmitModal extends React.Component {
                   underline="none"
                   href={
                     this.props.data.id
-                      ? "mailto:lucaleonardo.bologna@cnr.it, shailesh.appukuttan@cnrs.fr?subject=Request%20to%20publish%20Live%20Paper&body=We%20would%20like%20to%20request%20the%20publication%20of%20our%20live%20paper.%0AThe%20details%20are%20as%20follows%3A%0A%0AID%3A%20" +
-                        escape(this.props.data.id) +
-                        "%0AName%3A%20" +
-                        escape(this.props.data.live_paper_title)
+                      ? "mailto:support@ebrains.eu, shailesh.appukuttan@cnrs.fr?subject=Request%20to%20publish%20Live%20Paper&body=We%20would%20like%20to%20request%20the%20publication%20of%20our%20live%20paper.%0AThe%20details%20are%20as%20follows%3A%0A%0AID%3A%20" +
+                      escape(this.props.data.id) +
+                      "%0AName%3A%20" +
+                      escape(this.props.data.live_paper_title)
                       : null
                   }
                 >
@@ -460,7 +467,7 @@ function ProtectedSummary(props) {
       <div
         onClick={() => {
           navigator.clipboard.writeText(
-            livePaperPlatformUrl + "#" + props.id
+            "https://live-papers.brainsimulation.eu/#" + props.id
           );
           showNotification(
             props.enqueueSnackbar,
@@ -473,7 +480,7 @@ function ProtectedSummary(props) {
       >
         URL:
         <h6>
-          <b>{livePaperPlatformUrl + "#" + props.id}</b>
+          <b>{"https://live-papers.brainsimulation.eu/#" + props.id}</b>
         </h6>
       </div>
       <br />
@@ -496,11 +503,11 @@ function ProtectedSummary(props) {
       </div>
       <br />
       <strong>Note: </strong>
-      <br/>
-      - The password cannot be recovered, so please note it down carefully!      
-      <br/>
+      <br />
+      - The password cannot be recovered, so please note it down carefully!
+      <br />
       - If you forget the password, simply set a new password.
-      <br/> 
+      <br />
       - You can change the password at any time by repeating this process.
       <br />
       <br />
