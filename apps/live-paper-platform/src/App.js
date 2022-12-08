@@ -315,7 +315,7 @@ export default class App extends React.Component {
       axios
         .get("/cache/" + lp_id + ".json")
         .then((res) => {
-          console.log("Found LP in server cache!");
+          console.log("Found LP in server cache.");
           console.log(res);
           this.setState((prevState) => ({
             dataLPs: {
@@ -329,8 +329,7 @@ export default class App extends React.Component {
           return
         })
         .catch((err) => {
-          console.log("Error finding LP in server cache!");
-          console.log(err);
+          console.log("LP is not in the server cache.");
 
           // 3) published: check if LP published; if yes, fetch LP, add to cache
           let context = this;
@@ -942,4 +941,3 @@ export default class App extends React.Component {
     }
   }
 }
-

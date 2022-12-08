@@ -12,6 +12,7 @@ COPY live-paper-platform/package.json ./
 COPY live-paper-platform/package-lock.json ./
 RUN npm ci --silent --legacy-peer-deps
 COPY live-paper-platform ./
+COPY live-paper-platform/src/globals-staging.js ./src/globals.js
 RUN node --max-old-space-size=4096 `which npm` run build
 
 WORKDIR /live-paper-builder
@@ -20,6 +21,7 @@ COPY live-paper-builder/package.json ./
 COPY live-paper-builder/package-lock.json ./
 RUN npm ci --silent --legacy-peer-deps
 COPY live-paper-builder ./
+COPY live-paper-builder/src/globals-staging.js ./src/globals.js
 RUN npm run build
 
 WORKDIR /live-paper-docs
