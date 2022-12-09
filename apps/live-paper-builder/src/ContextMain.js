@@ -13,6 +13,7 @@ const ContextMainProvider = (props) => {
     React.useState(null);
   const [validBioModelsFilterValues, setValidBioModelsFilterValues] =
     React.useState(null);
+  const [kgStatus, setKgStatus] = React.useState("");
 
   return (
     <ContextMain.Provider
@@ -32,6 +33,7 @@ const ContextMainProvider = (props) => {
           validBioModelsFilterValues,
           setValidBioModelsFilterValues,
         ],
+        kgStatus: [kgStatus, setKgStatus]
       }}
     >
       {props.children}

@@ -65,3 +65,7 @@ button:focus {
   color: #000000;
   text-align: center;
 }
+
+.warning {
+  background: linear-gradient(0.25turn, #ffbb00, #ffe100);
+}

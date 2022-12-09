@@ -46,6 +46,7 @@ import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import { livePaperPlatformUrl, livePaperDocsUrl, lp_tool_version, updateHash } from "./globals";
 import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
+import WarningBox from "./WarningBox";
 
 import nunjucks from "nunjucks";
 import LivePaper_v01 from "./templates/LivePaper_v0.1.njk";
@@ -1101,6 +1102,9 @@ class CreateLivePaper extends React.Component {
     // console.log(this.props.data);
     // console.log(this.context.auth[0].token);
 
+    let [kgStatus,] = this.context.kgStatus;
+    let canSave = kgStatus.includes("read-only") ? false : true;
+
     let saveModal = null;
     if (this.state.saveOpen) {
       saveModal = (
@@ -1152,6 +1156,88 @@ class CreateLivePaper extends React.Component {
         <b>
           <i>No changes saved to KG during current session.</i>
         </b>
+      );
+    }
+
+    let saveButton = (
+        <Button
+          disabled
+          variant="contained"
+          color="secondary"
+          style={{
+            width: "17.5%",
+            backgroundColor: "lightgray",
+            color: "gray",
+            fontWeight: "bold",
+            border: "solid",
+            borderColor: "gray",
+            borderWidth: "1px",
+            overflowX: "hidden"
+          }}
+        >
+          Save
+        </Button>
+    );
+
+    let submitButton = (
+      <Button
+        disabled
+        variant="contained"
+        color="secondary"
+        style={{
+          width: "17.5%",
+          backgroundColor: "lightgray",
+          color: "gray",
+          fontWeight: "bold",
+          border: "solid",
+          borderColor: "gray",
+          borderWidth: "1px",
+          overflowX: "hidden"
+        }}
+      >
+        Submit
+      </Button>
+    );
+
+
+    if (canSave) {
+      saveButton = (
+        <Button
+          variant="contained"
+          color="secondary"
+          style={{
+            width: "17.5%",
+            backgroundColor: "#61CA62",
+            color: "#000000",
+            fontWeight: "bold",
+            border: "solid",
+            borderColor: "#000000",
+            borderWidth: "1px",
+            overflowX: "hidden"
+          }}
+          onClick={this.handleSaveOpen}
+        >
+          Save
+        </Button>
+      );
+      submitButton = (
+        <Button
+          variant="contained"
+          color="secondary"
+          style={{
+            width: "17.5%",
+            backgroundColor: "#9CE142",
+            color: "#000000",
+            fontWeight: "bold",
+            border: "solid",
+            borderColor: "#000000",
+            borderWidth: "1px",
+            overflowX: "hidden"
+          }}
+          onClick={this.handleSubmitOpen}
+        >
+          Submit
+        </Button>
       );
     }
 
@@ -1250,6 +1336,7 @@ class CreateLivePaper extends React.Component {
                 textAlign: "justify",
               }}
             >
+              <WarningBox message={kgStatus} />
               <div>
                 Live papers can be developed as interactive documents
                 accompanying traditional journal publications (or manuscripts
@@ -2168,42 +2255,10 @@ class CreateLivePaper extends React.Component {
                 </Button>
                 <br />
                 <br />
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  style={{
-                    width: "17.5%",
-                    backgroundColor: "#61CA62",
-                    color: "#000000",
-                    fontWeight: "bold",
-                    border: "solid",
-                    borderColor: "#000000",
-                    borderWidth: "1px",
-                    overflowX: "hidden"
-                  }}
-                  onClick={this.handleSaveOpen}
-                >
-                  Save
-                </Button>
+                {saveButton}
                 <br />
                 <br />
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  style={{
-                    width: "17.5%",
-                    backgroundColor: "#9CE142",
-                    color: "#000000",
-                    fontWeight: "bold",
-                    border: "solid",
-                    borderColor: "#000000",
-                    borderWidth: "1px",
-                    overflowX: "hidden"
-                  }}
-                  onClick={this.handleSubmitOpen}
-                >
-                  Submit
-                </Button>
+                {submitButton}
               </div>
             </div>
           </Footer>

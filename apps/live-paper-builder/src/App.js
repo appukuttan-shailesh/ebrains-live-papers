@@ -11,6 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import { livePaperPlatformUrl, livePaperDocsUrl } from "./globals";
+import WarningBox from "./WarningBox";
 
 import "./App.css";
 
@@ -74,8 +75,13 @@ class App extends React.Component {
   componentDidMount() {
     const [, setAuthContext] = this.context.auth;
     setAuthContext(this.props.auth);
-    // console.log("Here: ", this.props.auth.token);
-    this.getCollabList();
+
+    const [, setKgStatus] = this.context.kgStatus;
+    axios.get(baseUrl).then(response => {
+      setKgStatus(response.data.status)
+    });
+
+    this.getCollabList(this.props.auth);
     this.retrieveKGFilterValidValues();
     this.retrieveModelDBFilterValidValues();
     this.retrieveNeuroMorphoFilterValidValues();
@@ -450,6 +456,8 @@ class App extends React.Component {
       );
     }
 
+    let [kgStatus,] = this.context.kgStatus;
+
     return (
       <div className="mycontainer" style={{ textAlign: "left" }}>
         <LoadingIndicatorModal open={this.state.loading} />
@@ -536,6 +544,7 @@ class App extends React.Component {
             Welcome to the EBRAINS live paper builder!
           </strong>
           <br />
+          <WarningBox message={kgStatus} />
           <br />
           Here you can start building a new live paper linked to your manuscript
           or published article. The live paper builder allows you to build the
