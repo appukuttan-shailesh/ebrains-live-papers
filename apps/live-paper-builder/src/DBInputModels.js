@@ -460,7 +460,10 @@ export class KGContentModelVersion extends React.Component {
               }}
             >
               <Typography variant="body2">
-                Model Instance ID: <span style={{ fontWeight: "bold" }}>{this.props.instance.id}</span>
+                Model Instance ID:{" "}
+                <span style={{ fontWeight: "bold" }}>
+                  {this.props.instance.id}
+                </span>
               </Typography>
               <Typography
                 variant="body2"
@@ -1035,7 +1038,10 @@ export class OSBContentModelPanel extends React.Component {
                   }}
                 >
                   <Typography variant="body2">
-                    Model ID: <span style={{ fontWeight: "bold" }}>{this.props.data.id}</span>
+                    Model ID:{" "}
+                    <span style={{ fontWeight: "bold" }}>
+                      {this.props.data.id}
+                    </span>
                   </Typography>
                 </Box>
               </Grid>
@@ -1803,7 +1809,7 @@ export class FilterPanelModelDB extends React.Component {
                   name={filterAttributeMappingModelDB[filter]}
                   value={
                     this.state.configFilters[
-                    filterAttributeMappingModelDB[filter]
+                      filterAttributeMappingModelDB[filter]
                     ] || ""
                   }
                   handleChange={this.handleFiltersChange}
@@ -2537,7 +2543,7 @@ export default class DBInputModels extends React.Component {
           </DialogTitle>
           <DialogContent dividers>
             {(!this.context.validKGFilterValues[0] && this.state.showFilters) ||
-              this.state.loading ? (
+            this.state.loading ? (
               <div
                 style={{
                   minWidth: 700,
@@ -2600,7 +2606,7 @@ export default class DBInputModels extends React.Component {
                       this.setState({
                         list_models: [],
                         model_collection: {},
-                        showFilters: true
+                        showFilters: true,
                       });
                     }}
                   >
@@ -2626,10 +2632,10 @@ export default class DBInputModels extends React.Component {
                   this.state.showFilters
                     ? this.handleProceed()
                     : this.props.handleClose(
-                      true,
-                      this.state.model_collection,
-                      this.state.sourceDB
-                    )
+                        true,
+                        this.state.model_collection,
+                        this.state.sourceDB
+                      )
                 }
               >
                 {this.state.showFilters ? "Proceed" : "Add Items"}

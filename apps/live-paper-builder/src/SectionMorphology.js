@@ -74,8 +74,9 @@ function HelpContent() {
         <b>List of dicts/objects</b>
       </h6>
       Each dict in the list should have keys named 'type', 'url', 'view_url',
-      'label', 'identifier' and 'tab_name'. For manually entered items, 'type' 'view_url'
-      and 'identifier' can be set to 'URL', null and null, respectively. <i>Example:</i>
+      'label', 'identifier' and 'tab_name'. For manually entered items, 'type'
+      'view_url' and 'identifier' can be set to 'URL', null and null,
+      respectively. <i>Example:</i>
       <br />
       <pre>
         <code>{list_of_dicts}</code>

@@ -51,41 +51,39 @@ export default function ErrorDialog(props) {
       <DialogContent>
         <Box my={2}>
           <Typography variant="body1" gutterBottom>
-            {
-              props.error
-                ? typeof props.error === "string"
-                  ? addLineBreaks(props.error)
-                  : addLineBreaks(reformatErrorMessage(props.error))
-                : "Please report this error at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"
-            }
+            {props.error
+              ? typeof props.error === "string"
+                ? addLineBreaks(props.error)
+                : addLineBreaks(reformatErrorMessage(props.error))
+              : "Please report this error at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"}
           </Typography>
           {
             // props.whileDevelop is true only via SaveModal and SubmitModal
-            (props.error === "Token verification failed" || props.error.status === 401)
-            && <div>
-              <br />
-              <hr />
-              <br />
-              Your session seems to have expired.<br /><br />
-              {
-                props.whileDevelop
-                &&
-                <span>
-                  To start a new session, please take a backup of your
-                  work by clicking 'Download' on the bottom toolbar,
-                  and then refresh this page.<br /><br />
-                  After reloading the page, you can load the downloaded
-                  '.lpp' file to resume working where you left off.
-                </span>
-              }
-              {
-                !props.whileDevelop
-                &&
-                <span>
-                  To start a new session, please refresh this page.
-                </span>
-              }
-            </div>
+            (props.error === "Token verification failed" ||
+              props.error.status === 401) && (
+              <div>
+                <br />
+                <hr />
+                <br />
+                Your session seems to have expired.
+                <br />
+                <br />
+                {props.whileDevelop && (
+                  <span>
+                    To start a new session, please take a backup of your work by
+                    clicking 'Download' on the bottom toolbar, and then refresh
+                    this page.
+                    <br />
+                    <br />
+                    After reloading the page, you can load the downloaded '.lpp'
+                    file to resume working where you left off.
+                  </span>
+                )}
+                {!props.whileDevelop && (
+                  <span>To start a new session, please refresh this page.</span>
+                )}
+              </div>
+            )
           }
         </Box>
       </DialogContent>

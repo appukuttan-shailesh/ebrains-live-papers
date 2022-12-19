@@ -8,14 +8,14 @@ export function copyToClipboard(
   // type: default, success, error, warning, info
   navigator.clipboard.writeText(value);
   const key = enqueueSnackbar(message, {
-      variant: type,
-      anchorOrigin: {
-          vertical: "bottom",
-          horizontal: "right",
-      },
-      onClick: () => {
-          closeSnackbar(key);
-      },
+    variant: type,
+    anchorOrigin: {
+      vertical: "bottom",
+      horizontal: "right",
+    },
+    onClick: () => {
+      closeSnackbar(key);
+    },
   });
 }
 

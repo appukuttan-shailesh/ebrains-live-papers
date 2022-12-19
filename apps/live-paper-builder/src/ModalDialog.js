@@ -33,7 +33,7 @@ const DialogTitle = withStyles(styles)((props) => {
           className={classes.closeButton}
           onClick={onClose}
         >
-          <CloseIcon style={{color:"#000000"}} />
+          <CloseIcon style={{ color: "#000000" }} />
         </IconButton>
       ) : null}
     </MuiDialogTitle>

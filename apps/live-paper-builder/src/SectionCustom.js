@@ -11,7 +11,7 @@ import { Converter } from "showdown";
 import prettier from "prettier/standalone";
 import html from "prettier/parser-html";
 import AceEditor from "react-ace";
-import "ace-builds/webpack-resolver"
+import "ace-builds/webpack-resolver";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/theme-tomorrow";
@@ -24,7 +24,7 @@ import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
 import UnfoldLessIcon from "@material-ui/icons/UnfoldLess";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AspectRatioIcon from "@material-ui/icons/AspectRatio";
-import PhotoSizeSelectSmallIcon from '@material-ui/icons/PhotoSizeSelectSmall';
+import PhotoSizeSelectSmallIcon from "@material-ui/icons/PhotoSizeSelectSmall";
 import styled from "styled-components";
 
 function HelpContentCustom() {
@@ -96,15 +96,24 @@ function HelpContentCustom() {
       <br />
       <div>
         Live Papers make use of a series of CSS and JS libraries, such as&nbsp;
-        <a href="https://materializecss.com/"
-          target="_blank"
-          rel="noreferrer">Materialize CSS</a>.
-        These are imported by default in every sheet.<br />
-        Please bear this in mind when developing your own custom Live Paper section with additional dependencies to avoid conflicts.<br /><br />
+        <a href="https://materializecss.com/" target="_blank" rel="noreferrer">
+          Materialize CSS
+        </a>
+        . These are imported by default in every sheet.
+        <br />
+        Please bear this in mind when developing your own custom Live Paper
+        section with additional dependencies to avoid conflicts.
+        <br />
+        <br />
         To view a complete list of the CSS and JS dependencies, check&nbsp;
-        <a href="https://github.com/appukuttan-shailesh/ebrains-live-papers/blob/main/apps/live-paper-platform/src/templates/LivePaper_v0.1.njk#L485-L498"
+        <a
+          href="https://github.com/appukuttan-shailesh/ebrains-live-papers/blob/main/apps/live-paper-platform/src/templates/LivePaper_v0.1.njk#L485-L498"
           target="_blank"
-          rel="noreferrer">here</a>.
+          rel="noreferrer"
+        >
+          here
+        </a>
+        .
       </div>
       <br />
     </div>
@@ -271,11 +280,13 @@ export default class SectionCustom extends React.Component {
     try {
       code = prettier.format(code, {
         parser: "html",
-        plugins: [html]
+        plugins: [html],
       });
       console.log(code);
     } catch (error) {
-      console.log("Error using prettier on code. Potentially invalid HTML syntax!");
+      console.log(
+        "Error using prettier on code. Potentially invalid HTML syntax!"
+      );
     }
 
     this.setState(
@@ -448,8 +459,8 @@ export default class SectionCustom extends React.Component {
                   }}
                 >
                   <span style={{ paddingRight: "10px" }}>
-                    Click on ? icon for help on input,
-                    and for info on the existing CSS/JS dependencies.
+                    Click on ? icon for help on input, and for info on the
+                    existing CSS/JS dependencies.
                   </span>
                 </Grid>
 
@@ -490,7 +501,7 @@ export default class SectionCustom extends React.Component {
                       enableSnippets: false,
                       showLineNumbers: true,
                       tabSize: 2,
-                      useWorker: false
+                      useWorker: false,
                     }}
                     width="100%"
                     height={!this.state.expandSection ? "200px" : "800px"}
@@ -513,7 +524,13 @@ export default class SectionCustom extends React.Component {
                         width: "200px",
                         backgroundColor: "#795548",
                       }}
-                      startIcon={this.state.expandSection ? <PhotoSizeSelectSmallIcon /> : <AspectRatioIcon />}
+                      startIcon={
+                        this.state.expandSection ? (
+                          <PhotoSizeSelectSmallIcon />
+                        ) : (
+                          <AspectRatioIcon />
+                        )
+                      }
                     >
                       {this.state.expandSection ? "Collapse" : "Expand"}
                     </Button>

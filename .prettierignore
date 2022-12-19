@@ -1,0 +1,3 @@
+# Ignore artifacts:
+apps/live-paper-builder/build
+apps/live-paper-platform/build

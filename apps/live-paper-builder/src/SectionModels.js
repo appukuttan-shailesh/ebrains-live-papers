@@ -79,9 +79,10 @@ function HelpContent() {
         <b>List of dicts/objects</b>
       </h6>
       Each dict in the list should have keys named 'type', 'url', 'label',
-      'view_url', 'identifier' and 'tab_name'. For manually entered items, 'type' 'view_url'
-      and 'identifier' can be set to 'URL', null and null, respectively. You may specify the 
-      model catalog URL for each model using their `view_url' field. <i>Example:</i>
+      'view_url', 'identifier' and 'tab_name'. For manually entered items,
+      'type' 'view_url' and 'identifier' can be set to 'URL', null and null,
+      respectively. You may specify the model catalog URL for each model using
+      their `view_url' field. <i>Example:</i>
       <br />
       <pre>
         <code>{list_of_dicts}</code>
