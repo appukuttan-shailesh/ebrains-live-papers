@@ -5,7 +5,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import ForwardIcon from "@material-ui/icons/Forward";
 import Tooltip from "@material-ui/core/Tooltip";
 import arrayMove from "array-move";
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 export default class DynamicTablePerson extends React.Component {
   handleAdd() {
@@ -155,14 +155,21 @@ export default class DynamicTablePerson extends React.Component {
           </thead>
           <tbody>{this.renderRows()}</tbody>
         </table>
-        <div style={{ width: "100%", display: "flex", justifyContent: "flex-end", paddingTop: "10px" }}>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+            paddingTop: "10px",
+          }}
+        >
           <Button
             variant="contained"
             color="primary"
             onClick={this.handleAdd.bind(this)}
             style={{
-              width: "110px", 
-              backgroundColor: "#61CA62", 
+              width: "110px",
+              backgroundColor: "#61CA62",
               color: "#000000",
               border: "solid",
               borderColor: "#000000",

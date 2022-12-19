@@ -21,7 +21,7 @@ export const SwitchSelection = styled.span`
   left: 0px;
   width: 200px;
   height: 40px;
-  background: #00A595;
+  background: #00a595;
   border-radius: 3px;
   transition: left 0.25s ease-out;
 `;
@@ -50,9 +50,7 @@ const titleCase = (str) =>
 
 const ClickableLabel = ({ title, onChange, id }) => (
   <SwitchLabel onClick={() => onChange(title)} className={id}>
-    <span style={{fontSize: 16 }}>
-      {titleCase(title)}
-    </span>
+    <span style={{ fontSize: 16 }}>{titleCase(title)}</span>
   </SwitchLabel>
 );
 
@@ -75,14 +73,18 @@ export default class SwitchMultiWay extends React.Component {
 
   selectionStyle = () => {
     return {
-      left: `${(this.props.values.indexOf(this.state.selected) / this.props.values.length) * 100}%`,
+      left: `${
+        (this.props.values.indexOf(this.state.selected) /
+          this.props.values.length) *
+        100
+      }%`,
     };
   };
 
   render() {
     const { selected } = this.state;
     return (
-      <Switch style={{width:this.props.values.length*200}}>
+      <Switch style={{ width: this.props.values.length * 200 }}>
         {this.props.values.map((val) => {
           return (
             <span key={val}>

@@ -356,9 +356,12 @@ export default class SaveModal extends React.Component {
                 Click here
               </a>{" "}
               to create a new Collab.
-              <br/><br/>
-              <strong>Note:</strong> Please select a <strong>private Collab</strong> to ensure that the 
-              live paper content is viewable only to Live Paper owners prior to publication.
+              <br />
+              <br />
+              <strong>Note:</strong> Please select a{" "}
+              <strong>private Collab</strong> to ensure that the live paper
+              content is viewable only to Live Paper owners prior to
+              publication.
             </Box>
             <Box my={2}>
               <SingleSelect

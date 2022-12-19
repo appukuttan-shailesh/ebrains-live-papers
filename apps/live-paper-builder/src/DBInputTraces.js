@@ -645,7 +645,10 @@ class AllenBrainContentTracePanel extends React.Component {
                   }}
                 >
                   <Typography variant="body2">
-                    Trace ID: <span style={{ fontWeight: "bold" }}>{this.props.data.specimen__id}</span>
+                    Trace ID:{" "}
+                    <span style={{ fontWeight: "bold" }}>
+                      {this.props.data.specimen__id}
+                    </span>
                   </Typography>
                 </Box>
               </Grid>
@@ -1437,7 +1440,7 @@ export default class DBInputTraces extends React.Component {
           </DialogTitle>
           <DialogContent dividers>
             {(!this.context.validKGFilterValues[0] && this.state.showFilters) ||
-              this.state.loading ? (
+            this.state.loading ? (
               <div
                 style={{
                   minWidth: 700,
@@ -1500,7 +1503,7 @@ export default class DBInputTraces extends React.Component {
                       this.setState({
                         list_traces: [],
                         trace_collection: {},
-                        showFilters: true
+                        showFilters: true,
                       });
                     }}
                   >
@@ -1526,10 +1529,10 @@ export default class DBInputTraces extends React.Component {
                   this.state.showFilters
                     ? this.handleProceed()
                     : this.props.handleClose(
-                      true,
-                      this.state.trace_collection,
-                      this.state.sourceDB
-                    )
+                        true,
+                        this.state.trace_collection,
+                        this.state.sourceDB
+                      )
                 }
               >
                 {this.state.showFilters ? "Proceed" : "Add Items"}

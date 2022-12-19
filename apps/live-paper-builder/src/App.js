@@ -25,7 +25,7 @@ import {
   filterModelDBKeys,
   filterNeuroMorphoKeys,
   filterBioModelsKeys,
-  updateHash
+  updateHash,
 } from "./globals";
 import {
   compareArrayoOfObjectsByOrder,
@@ -77,8 +77,8 @@ class App extends React.Component {
     setAuthContext(this.props.auth);
 
     const [, setKgStatus] = this.context.kgStatus;
-    axios.get(baseUrl).then(response => {
-      setKgStatus(response.data.status)
+    axios.get(baseUrl).then((response) => {
+      setKgStatus(response.data.status);
     });
 
     this.getCollabList(this.props.auth);
@@ -251,7 +251,7 @@ class App extends React.Component {
         loadData: true,
         createLivePaperOpen: true,
       });
-      updateHash(data["id"])
+      updateHash(data["id"]);
     } else {
       this.setState({
         loadProjectKGOpen: false,
@@ -456,17 +456,32 @@ class App extends React.Component {
       );
     }
 
-    let [kgStatus,] = this.context.kgStatus;
+    let [kgStatus] = this.context.kgStatus;
 
     return (
       <div className="mycontainer" style={{ textAlign: "left" }}>
         <LoadingIndicatorModal open={this.state.loading} />
-        <div className="box rounded centered"
-          style={{ marginTop: "25px", paddingTop: "0.25em", paddingBottom: "0.25em", marginBottom: "1em" }}>
+        <div
+          className="box rounded centered"
+          style={{
+            marginTop: "25px",
+            paddingTop: "0.25em",
+            paddingBottom: "0.25em",
+            marginBottom: "1em",
+          }}
+        >
           <div style={{ display: "flex" }}>
-            <div style={{ flex: 1, textAlign: "left", paddingLeft: "25px", alignSelf: "center" }}>
+            <div
+              style={{
+                flex: 1,
+                textAlign: "left",
+                paddingLeft: "25px",
+                alignSelf: "center",
+              }}
+            >
               <Tooltip title={"Open EBRAINS Homepage"}>
-                <a href="https://ebrains.eu/"
+                <a
+                  href="https://ebrains.eu/"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ textAlign: "center" }}
@@ -479,7 +494,14 @@ class App extends React.Component {
                 </a>
               </Tooltip>
             </div>
-            <div style={{ flex: 1, textAlign: "right", paddingRight: "25px", alignSelf: "center" }}>
+            <div
+              style={{
+                flex: 1,
+                textAlign: "right",
+                paddingRight: "25px",
+                alignSelf: "center",
+              }}
+            >
               <Tooltip title={"See Live Papers"}>
                 <a
                   href={livePaperPlatformUrl}
@@ -516,10 +538,17 @@ class App extends React.Component {
             paddingBottom: "20px",
           }}
         >
-          <div className="title-solid-style" style={{ fontSize: 44 }}>EBRAINS Live Paper Builder</div>
-          <div className="title-solid-style" style={{ fontSize: 32, color: "#00A595" }}>Quickly create and distribute interactive live papers</div>
+          <div className="title-solid-style" style={{ fontSize: 44 }}>
+            EBRAINS Live Paper Builder
+          </div>
+          <div
+            className="title-solid-style"
+            style={{ fontSize: 32, color: "#00A595" }}
+          >
+            Quickly create and distribute interactive live papers
+          </div>
         </div>
-        <div style={{ marginBottom: "40px", }}>
+        <div style={{ marginBottom: "40px" }}>
           <div className="rainbow-row">
             <div></div>
             <div></div>
@@ -563,7 +592,8 @@ class App extends React.Component {
           could render them unreadable by the tool. Alternatively, users also
           have the option of loading an existing project that was previously
           saved on the EBRAINS Knowledge Graph.
-          <br /><br />
+          <br />
+          <br />
           <div
             style={{
               display: "flex",

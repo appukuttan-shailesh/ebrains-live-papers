@@ -205,13 +205,13 @@ export default class SubmitModal extends React.Component {
                     </strong>
                   </div>
                 )}
-                {!this.props.data.id &&
+                {!this.props.data.id && (
                   <span style={{ color: "red" }}>
                     <strong>
                       You need to 'Save' the live paper before proceeding!
                     </strong>
                   </span>
-                }
+                )}
               </>
             )}
             {this.state.mode === "Public" && (
@@ -257,7 +257,8 @@ export default class SubmitModal extends React.Component {
                       style={{ cursor: "pointer" }}
                     >
                       support@ebrains.eu
-                    </strong> or{" "}
+                    </strong>{" "}
+                    or{" "}
                     <strong
                       ref={this.mailTo2}
                       onClick={() => {
@@ -274,8 +275,7 @@ export default class SubmitModal extends React.Component {
                       style={{ cursor: "pointer" }}
                     >
                       shailesh.appukuttan@cnrs.fr
-                    </strong>
-                    {" "}
+                    </strong>{" "}
                     with the following subject:{" "}
                     <strong
                       ref={this.mailSubject}
@@ -328,7 +328,9 @@ export default class SubmitModal extends React.Component {
                         this.props.data.id
                       ) : (
                         <span style={{ color: "red" }}>
-                          <i>You need to 'Save' the live paper before proceeding!</i>
+                          <i>
+                            You need to 'Save' the live paper before proceeding!
+                          </i>
                         </span>
                       )}
                       <br />
@@ -376,9 +378,9 @@ export default class SubmitModal extends React.Component {
                   href={
                     this.props.data.id
                       ? "mailto:support@ebrains.eu, shailesh.appukuttan@cnrs.fr?subject=Request%20to%20publish%20Live%20Paper&body=We%20would%20like%20to%20request%20the%20publication%20of%20our%20live%20paper.%0AThe%20details%20are%20as%20follows%3A%0A%0AID%3A%20" +
-                      escape(this.props.data.id) +
-                      "%0AName%3A%20" +
-                      escape(this.props.data.live_paper_title)
+                        escape(this.props.data.id) +
+                        "%0AName%3A%20" +
+                        escape(this.props.data.live_paper_title)
                       : null
                   }
                 >

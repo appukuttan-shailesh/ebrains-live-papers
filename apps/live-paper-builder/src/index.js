@@ -15,7 +15,7 @@ function initLoad() {
   if (window.location.pathname.includes("BulkEntryWizard")) {
     renderApp(null);
   } else {
-    initAuth(renderApp)
+    initAuth(renderApp);
   }
 }
 
@@ -26,30 +26,34 @@ function renderApp(auth) {
       <Routes>
         {["/BulkEntryWizard", "/builder/BulkEntryWizard"].map((path, index) => {
           return (
-            <Route path={path} element={
-              <React.StrictMode>
-                <SnackbarProvider maxSnack={3}>
-                  <ContextMainProvider>
-                    <BulkEntryWizard />
-                  </ContextMainProvider>
-                </SnackbarProvider>
-              </React.StrictMode>
-            }
+            <Route
+              path={path}
+              element={
+                <React.StrictMode>
+                  <SnackbarProvider maxSnack={3}>
+                    <ContextMainProvider>
+                      <BulkEntryWizard />
+                    </ContextMainProvider>
+                  </SnackbarProvider>
+                </React.StrictMode>
+              }
               key={index}
             />
           );
         })}
         {["/", "/builder/", "*"].map((path, index) => {
           return (
-            <Route path={path} element={
-              <React.StrictMode>
-                <SnackbarProvider maxSnack={3}>
-                  <ContextMainProvider>
-                    <App auth={auth} />
-                  </ContextMainProvider>
-                </SnackbarProvider>
-              </React.StrictMode>
-            }
+            <Route
+              path={path}
+              element={
+                <React.StrictMode>
+                  <SnackbarProvider maxSnack={3}>
+                    <ContextMainProvider>
+                      <App auth={auth} />
+                    </ContextMainProvider>
+                  </SnackbarProvider>
+                </React.StrictMode>
+              }
               key={index}
             />
           );

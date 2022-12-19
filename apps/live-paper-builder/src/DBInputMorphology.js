@@ -425,7 +425,10 @@ class NeuroMorphoContentMorphologyPanel extends React.Component {
                   }}
                 >
                   <Typography variant="body2">
-                    Morphology ID: <span style={{ fontWeight: "bold" }}>{this.props.data.neuron_id}</span>
+                    Morphology ID:{" "}
+                    <span style={{ fontWeight: "bold" }}>
+                      {this.props.data.neuron_id}
+                    </span>
                   </Typography>
                 </Box>
               </Grid>
@@ -692,7 +695,10 @@ class AllenBrainContentMorphologyPanel extends React.Component {
                   }}
                 >
                   <Typography variant="body2">
-                    Morphology ID: <span style={{ fontWeight: "bold" }}>{this.props.data.specimen__id}</span>
+                    Morphology ID:{" "}
+                    <span style={{ fontWeight: "bold" }}>
+                      {this.props.data.specimen__id}
+                    </span>
                   </Typography>
                 </Box>
               </Grid>
@@ -939,9 +945,7 @@ export class FilterPanelNeuroMorpho extends React.Component {
 
       list_morphology_ids.forEach(function (morphology_id, i) {
         let url =
-          neuromorpho_baseUrl +
-          "/neuron/id/" +
-          parseInt(morphology_id, 10);
+          neuromorpho_baseUrl + "/neuron/id/" + parseInt(morphology_id, 10);
         neuroMorphoreqs.push(axios.get(url));
       });
 
@@ -986,8 +990,8 @@ export class FilterPanelNeuroMorpho extends React.Component {
                 cell_type_3: item.cell_type
                   ? item.cell_type.length > 2
                     ? item.cell_type
-                      .splice(0, item.cell_type.length - 2)
-                      .join(", ")
+                        .splice(0, item.cell_type.length - 2)
+                        .join(", ")
                     : null
                   : null,
                 deposition_date: item.deposition_date,
@@ -1035,8 +1039,7 @@ export class FilterPanelNeuroMorpho extends React.Component {
         },
       };
       let query = buildQuery(this.state.configFilters, "NeuroMorpho");
-      let url =
-        neuromorpho_baseUrl + "/neuron/select?" + encodeURI(query);
+      let url = neuromorpho_baseUrl + "/neuron/select?" + encodeURI(query);
       this.setState({ loading: true });
       let results = [];
       const context = this;
@@ -1105,8 +1108,8 @@ export class FilterPanelNeuroMorpho extends React.Component {
                   cell_type_3: item.cell_type
                     ? item.cell_type.length > 2
                       ? item.cell_type
-                        .splice(0, item.cell_type.length - 2)
-                        .join(", ")
+                          .splice(0, item.cell_type.length - 2)
+                          .join(", ")
                       : null
                     : null,
                   deposition_date: item.deposition_date,
@@ -1306,7 +1309,7 @@ export class FilterPanelAllenBrain extends React.Component {
               res[ind].status === "fulfilled" &&
               (res[ind].value.data.msg[0].nr__reconstruction_type === "full" ||
                 res[ind].value.data.msg[0].nr__reconstruction_type ===
-                "dendrite-only")
+                  "dendrite-only")
             ) {
               let item = res[ind].value.data.msg[0];
               morphology_list.push({
@@ -1429,8 +1432,9 @@ export class FilterPanelAllenBrain extends React.Component {
     return (
       <div>
         <Grid item xs={12} style={{ paddingBottom: "10px" }}>
-          <div style={{ "color": "red", paddingBottom: "10px" }}>
-            <strong>Note: </strong> Currently unavailable as files have some compatibility issues with PyNWB and Neo.
+          <div style={{ color: "red", paddingBottom: "10px" }}>
+            <strong>Note: </strong> Currently unavailable as files have some
+            compatibility issues with PyNWB and Neo.
           </div>
           <h6>
             Allen Brain Atlas:{" "}
@@ -1772,7 +1776,7 @@ export default class DBInputMorphology extends React.Component {
           <DialogContent dividers>
             {(!this.context.validNeuroMorphoFilterValues[0] &&
               this.state.showFilters) ||
-              this.state.loading ? (
+            this.state.loading ? (
               <div
                 style={{
                   minWidth: 700,
@@ -1835,7 +1839,7 @@ export default class DBInputMorphology extends React.Component {
                       this.setState({
                         list_morphologies: [],
                         morphology_collection: {},
-                        showFilters: true
+                        showFilters: true,
                       });
                     }}
                   >
@@ -1861,10 +1865,10 @@ export default class DBInputMorphology extends React.Component {
                   this.state.showFilters
                     ? this.handleProceed()
                     : this.props.handleClose(
-                      true,
-                      this.state.morphology_collection,
-                      this.state.sourceDB
-                    )
+                        true,
+                        this.state.morphology_collection,
+                        this.state.sourceDB
+                      )
                 }
               >
                 {this.state.showFilters ? "Proceed" : "Add Items"}

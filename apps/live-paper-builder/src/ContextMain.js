@@ -33,7 +33,7 @@ const ContextMainProvider = (props) => {
           validBioModelsFilterValues,
           setValidBioModelsFilterValues,
         ],
-        kgStatus: [kgStatus, setKgStatus]
+        kgStatus: [kgStatus, setKgStatus],
       }}
     >
       {props.children}

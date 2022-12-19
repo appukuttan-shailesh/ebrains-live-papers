@@ -138,7 +138,13 @@ export default class DialogConfirm extends React.Component {
               )}
               {this.props.bulkEntry && (
                 <>
-                  <Link to={{ pathname: window.location.pathname + "BulkEntryWizard", hash: this.props.bulkEntry }} target="_blank" >
+                  <Link
+                    to={{
+                      pathname: window.location.pathname + "BulkEntryWizard",
+                      hash: this.props.bulkEntry,
+                    }}
+                    target="_blank"
+                  >
                     <Button
                       variant="contained"
                       color="primary"

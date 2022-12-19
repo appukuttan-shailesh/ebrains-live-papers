@@ -1,4 +1,3 @@
-
 stages:
   - build
 
@@ -8,7 +7,7 @@ build_production:
     variables:
       - $CI_COMMIT_BRANCH == "main"
   script:
-    - export  # debugging environment variables
+    - export # debugging environment variables
     - cd apps
     - docker build -f deployment/Dockerfile.prod -t docker-registry.ebrains.eu/live-papers/live-papers-apps:prod .
     - echo $DOCKER_REGISTRY_USER

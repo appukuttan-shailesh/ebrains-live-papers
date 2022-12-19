@@ -260,7 +260,7 @@ export default class LoadKGProjects extends React.Component {
                   width: "20%",
                   backgroundColor:
                     (this.state.selectedRow || this.state.selectedRow === 0) &&
-                      this.state.selectedRow >= 0
+                    this.state.selectedRow >= 0
                       ? "#4DC26D"
                       : "#FFFFFF",
                   color: "#000000",

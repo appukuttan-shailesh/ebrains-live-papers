@@ -51,13 +51,11 @@ export default function ErrorDialog(props) {
       <DialogContent>
         <Box my={2}>
           <Typography variant="body1" gutterBottom>
-            {
-              props.error
-                ? typeof props.error === "string"
-                  ? addLineBreaks(props.error)
-                  : addLineBreaks(reformatErrorMessage(props.error))
-                : "Please report this error at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"
-            }
+            {props.error
+              ? typeof props.error === "string"
+                ? addLineBreaks(props.error)
+                : addLineBreaks(reformatErrorMessage(props.error))
+              : "Please report this error at:\nhttps://github.com/appukuttan-shailesh/live-paper-builder/issues"}
           </Typography>
         </Box>
       </DialogContent>

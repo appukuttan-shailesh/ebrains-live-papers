@@ -19,7 +19,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import MomentUtils from "@date-io/moment";
 import axios from "axios";
@@ -44,7 +44,12 @@ import DialogConfirm from "./DialogConfirm";
 import MarkdownLatexExample from "./MarkdownLatexExample";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
-import { livePaperPlatformUrl, livePaperDocsUrl, lp_tool_version, updateHash } from "./globals";
+import {
+  livePaperPlatformUrl,
+  livePaperDocsUrl,
+  lp_tool_version,
+  updateHash,
+} from "./globals";
 import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
 import WarningBox from "./WarningBox";
 
@@ -79,8 +84,8 @@ const defaultMaterialTheme = createTheme({
       main: "#00A595",
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
-    }
-  }
+    },
+  },
 });
 
 const footerStyle = {
@@ -368,7 +373,13 @@ class CreateLivePaper extends React.Component {
 
   removeExcessData() {
     let req_data = JSON.parse(JSON.stringify(this.state)); // copy by value
-    let remove_keys = ["saveOpen", "submitOpen", "lastSaved", "openCloseConfirm", "showDescHelp"];
+    let remove_keys = [
+      "saveOpen",
+      "submitOpen",
+      "lastSaved",
+      "openCloseConfirm",
+      "showDescHelp",
+    ];
     remove_keys.forEach((k) => delete req_data[k]);
 
     // remove from within resources objects
@@ -755,8 +766,7 @@ class CreateLivePaper extends React.Component {
       this.setState({
         license: value === "None" ? null : value,
       });
-    }
-    else {
+    } else {
       this.setState({
         [name]: value,
       });
@@ -793,17 +803,17 @@ class CreateLivePaper extends React.Component {
       year:
         value === "Published"
           ? new Date()
-            .toISOString()
-            .replace(
-              /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
-              "$<year>-$<month>-$<day>"
-            )
+              .toISOString()
+              .replace(
+                /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
+                "$<year>-$<month>-$<day>"
+              )
           : new Date("9999-01-01")
-            .toISOString()
-            .replace(
-              /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
-              "$<year>-$<month>-$<day>"
-            ),
+              .toISOString()
+              .replace(
+                /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
+                "$<year>-$<month>-$<day>"
+              ),
     });
   }
 
@@ -1095,14 +1105,14 @@ class CreateLivePaper extends React.Component {
     });
   }
 
-  verifyDataBeforeSubmit() { }
+  verifyDataBeforeSubmit() {}
 
   render() {
     console.log(this.state);
     // console.log(this.props.data);
     // console.log(this.context.auth[0].token);
 
-    let [kgStatus,] = this.context.kgStatus;
+    let [kgStatus] = this.context.kgStatus;
     let canSave = kgStatus.includes("read-only") ? false : true;
 
     let saveModal = null;
@@ -1160,23 +1170,23 @@ class CreateLivePaper extends React.Component {
     }
 
     let saveButton = (
-        <Button
-          disabled
-          variant="contained"
-          color="secondary"
-          style={{
-            width: "17.5%",
-            backgroundColor: "lightgray",
-            color: "gray",
-            fontWeight: "bold",
-            border: "solid",
-            borderColor: "gray",
-            borderWidth: "1px",
-            overflowX: "hidden"
-          }}
-        >
-          Save
-        </Button>
+      <Button
+        disabled
+        variant="contained"
+        color="secondary"
+        style={{
+          width: "17.5%",
+          backgroundColor: "lightgray",
+          color: "gray",
+          fontWeight: "bold",
+          border: "solid",
+          borderColor: "gray",
+          borderWidth: "1px",
+          overflowX: "hidden",
+        }}
+      >
+        Save
+      </Button>
     );
 
     let submitButton = (
@@ -1192,13 +1202,12 @@ class CreateLivePaper extends React.Component {
           border: "solid",
           borderColor: "gray",
           borderWidth: "1px",
-          overflowX: "hidden"
+          overflowX: "hidden",
         }}
       >
         Submit
       </Button>
     );
-
 
     if (canSave) {
       saveButton = (
@@ -1213,7 +1222,7 @@ class CreateLivePaper extends React.Component {
             border: "solid",
             borderColor: "#000000",
             borderWidth: "1px",
-            overflowX: "hidden"
+            overflowX: "hidden",
           }}
           onClick={this.handleSaveOpen}
         >
@@ -1232,7 +1241,7 @@ class CreateLivePaper extends React.Component {
             border: "solid",
             borderColor: "#000000",
             borderWidth: "1px",
-            overflowX: "hidden"
+            overflowX: "hidden",
           }}
           onClick={this.handleSubmitOpen}
         >
@@ -1252,19 +1261,36 @@ class CreateLivePaper extends React.Component {
         aria-labelledby="simple-dialog-title"
         open={this.props.open || false}
       >
-        <MyDialogTitle onClose={(event) => {
-          event.stopPropagation();
-          console.log("Hi");
-          this.setState({ openCloseConfirm: true });
-        }} />
+        <MyDialogTitle
+          onClose={(event) => {
+            event.stopPropagation();
+            console.log("Hi");
+            this.setState({ openCloseConfirm: true });
+          }}
+        />
         <DialogContent>
           <div className="mycontainer" style={{ textAlign: "left" }}>
-            <div className="box rounded centered"
-              style={{ marginTop: "0px", paddingTop: "0.25em", paddingBottom: "0.25em", marginBottom: "1em" }}>
+            <div
+              className="box rounded centered"
+              style={{
+                marginTop: "0px",
+                paddingTop: "0.25em",
+                paddingBottom: "0.25em",
+                marginBottom: "1em",
+              }}
+            >
               <div style={{ display: "flex" }}>
-                <div style={{ flex: 1, textAlign: "left", paddingLeft: "25px", alignSelf: "center" }}>
+                <div
+                  style={{
+                    flex: 1,
+                    textAlign: "left",
+                    paddingLeft: "25px",
+                    alignSelf: "center",
+                  }}
+                >
                   <Tooltip title={"Open EBRAINS Homepage"}>
-                    <a href="https://ebrains.eu/"
+                    <a
+                      href="https://ebrains.eu/"
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ textAlign: "center" }}
@@ -1277,7 +1303,14 @@ class CreateLivePaper extends React.Component {
                     </a>
                   </Tooltip>
                 </div>
-                <div style={{ flex: 1, textAlign: "right", paddingRight: "25px", alignSelf: "center" }}>
+                <div
+                  style={{
+                    flex: 1,
+                    textAlign: "right",
+                    paddingRight: "25px",
+                    alignSelf: "center",
+                  }}
+                >
                   <Tooltip title={"See Live Papers"}>
                     <a
                       href={livePaperPlatformUrl}
@@ -1314,10 +1347,17 @@ class CreateLivePaper extends React.Component {
                 paddingBottom: "20px",
               }}
             >
-              <div className="title-solid-style" style={{ fontSize: 44 }}>EBRAINS Live Paper Builder</div>
-              <div className="title-solid-style" style={{ fontSize: 32, color: "#00A595" }}>Quickly create and distribute interactive live papers</div>
+              <div className="title-solid-style" style={{ fontSize: 44 }}>
+                EBRAINS Live Paper Builder
+              </div>
+              <div
+                className="title-solid-style"
+                style={{ fontSize: 32, color: "#00A595" }}
+              >
+                Quickly create and distribute interactive live papers
+              </div>
             </div>
-            <div style={{ marginBottom: "40px", }}>
+            <div style={{ marginBottom: "40px" }}>
               <div className="rainbow-row">
                 <div></div>
                 <div></div>
@@ -1587,10 +1627,10 @@ class CreateLivePaper extends React.Component {
                   itemNames={
                     this.state.authors
                       ? this.state.authors
-                        .map(function (author) {
-                          return author.firstname + " " + author.lastname;
-                        })
-                        .concat("-- Other --") // for an external creating author
+                          .map(function (author) {
+                            return author.firstname + " " + author.lastname;
+                          })
+                          .concat("-- Other --") // for an external creating author
                       : []
                   }
                   label="Created By"
@@ -1604,8 +1644,8 @@ class CreateLivePaper extends React.Component {
                     )
                       ? "-- Other --"
                       : this.state.created_author[0].firstname +
-                      " " +
-                      this.state.created_author[0].lastname
+                        " " +
+                        this.state.created_author[0].lastname
                   }
                   handleChange={this.handleFieldChange}
                 />
@@ -1615,62 +1655,62 @@ class CreateLivePaper extends React.Component {
                 this.state.created_author.length === 1 &&
                 this.checkPersonInStateAuthors(this.state.created_author[0])
               ) && (
-                  <div>
-                    <DynamicTablePerson
-                      items={this.state.created_author}
-                      onChangeValue={this.handleCreatedAuthorChange}
-                    />
-                  </div>
+                <div>
+                  <DynamicTablePerson
+                    items={this.state.created_author}
+                    onChangeValue={this.handleCreatedAuthorChange}
+                  />
+                </div>
 
-                  // // ------------------------------------
-                  // <div>
-                  //   <TextField
-                  //     label="Creating Author First Name"
-                  //     variant="outlined"
-                  //     fullWidth={true}
-                  //     name="created_author_other_firstname"
-                  //     value={this.state.created_author[0].firstname}
-                  //     onChange={this.handleFieldChange}
-                  //     InputProps={{
-                  //       style: {
-                  //         padding: "5px 15px",
-                  //       },
-                  //     }}
-                  //     style={{ width: "45%", marginRight: "2.5%" }}
-                  //   />
-                  //   <TextField
-                  //     label="Creating Author Last Name"
-                  //     variant="outlined"
-                  //     fullWidth={true}
-                  //     name="created_author_other_lastname"
-                  //     value={this.state.created_author[0].lastname}
-                  //     onChange={this.handleFieldChange}
-                  //     InputProps={{
-                  //       style: {
-                  //         padding: "5px 15px",
-                  //       },
-                  //     }}
-                  //     style={{ width: "45%" }}
-                  //   />
-                  //   <br />
-                  //   <br />
-                  //   <TextField
-                  //     label="Creating Author Affiliation"
-                  //     variant="outlined"
-                  //     fullWidth={true}
-                  //     name="created_author_other_affiliation"
-                  //     value={this.state.created_author[0].affiliation}
-                  //     onChange={this.handleFieldChange}
-                  //     InputProps={{
-                  //       style: {
-                  //         padding: "5px 15px",
-                  //       },
-                  //     }}
-                  //     style={{ width: "92.5%" }}
-                  //   />
-                  // </div>
-                  // // -------------------------------------
-                )}
+                // // ------------------------------------
+                // <div>
+                //   <TextField
+                //     label="Creating Author First Name"
+                //     variant="outlined"
+                //     fullWidth={true}
+                //     name="created_author_other_firstname"
+                //     value={this.state.created_author[0].firstname}
+                //     onChange={this.handleFieldChange}
+                //     InputProps={{
+                //       style: {
+                //         padding: "5px 15px",
+                //       },
+                //     }}
+                //     style={{ width: "45%", marginRight: "2.5%" }}
+                //   />
+                //   <TextField
+                //     label="Creating Author Last Name"
+                //     variant="outlined"
+                //     fullWidth={true}
+                //     name="created_author_other_lastname"
+                //     value={this.state.created_author[0].lastname}
+                //     onChange={this.handleFieldChange}
+                //     InputProps={{
+                //       style: {
+                //         padding: "5px 15px",
+                //       },
+                //     }}
+                //     style={{ width: "45%" }}
+                //   />
+                //   <br />
+                //   <br />
+                //   <TextField
+                //     label="Creating Author Affiliation"
+                //     variant="outlined"
+                //     fullWidth={true}
+                //     name="created_author_other_affiliation"
+                //     value={this.state.created_author[0].affiliation}
+                //     onChange={this.handleFieldChange}
+                //     InputProps={{
+                //       style: {
+                //         padding: "5px 15px",
+                //       },
+                //     }}
+                //     style={{ width: "92.5%" }}
+                //   />
+                // </div>
+                // // -------------------------------------
+              )}
               {/* <br />
               <div>
                 <TextField
@@ -1694,40 +1734,40 @@ class CreateLivePaper extends React.Component {
                 this.state.created_author.length === 1 &&
                 this.checkPersonInStateAuthors(this.state.created_author[0])
               ) && (
+                <div>
                   <div>
-                    <div>
-                      <p>
-                        <strong>
-                          Since the live paper is being created by persons who are
-                          not authors on the article (as indicated above), the
-                          live paper needs to be approved by one of the original
-                          authors. Specify the authorising author:{" "}
-                          {/* , along with their email address: */}
-                        </strong>
-                      </p>
-                    </div>
-                    <div>
-                      <SingleSelect
-                        itemNames={
-                          this.state.authors
-                            ? this.state.authors.map(function (author) {
+                    <p>
+                      <strong>
+                        Since the live paper is being created by persons who are
+                        not authors on the article (as indicated above), the
+                        live paper needs to be approved by one of the original
+                        authors. Specify the authorising author:{" "}
+                        {/* , along with their email address: */}
+                      </strong>
+                    </p>
+                  </div>
+                  <div>
+                    <SingleSelect
+                      itemNames={
+                        this.state.authors
+                          ? this.state.authors.map(function (author) {
                               return author.firstname + " " + author.lastname;
                             })
-                            : []
-                        }
-                        label="Approved By"
-                        name="approved_author"
-                        value={
-                          this.state.approved_author.firstname
-                            ? this.state.approved_author.firstname +
+                          : []
+                      }
+                      label="Approved By"
+                      name="approved_author"
+                      value={
+                        this.state.approved_author.firstname
+                          ? this.state.approved_author.firstname +
                             " " +
                             this.state.approved_author.lastname
-                            : ""
-                        }
-                        handleChange={this.handleFieldChange}
-                      />
-                    </div>
-                    {/* <br />
+                          : ""
+                      }
+                      handleChange={this.handleFieldChange}
+                    />
+                  </div>
+                  {/* <br />
                   <div>
                     <TextField
                       label="Approving Author Email"
@@ -1744,8 +1784,8 @@ class CreateLivePaper extends React.Component {
                       style={{ width: "92.5%" }}
                     />
                   </div> */}
-                  </div>
-                )}
+                </div>
+              )}
               {!this.state.standalone && (
                 <>
                   <div>
@@ -1774,9 +1814,7 @@ class CreateLivePaper extends React.Component {
                   <br />
                   <div>
                     <p>
-                      <strong>
-                        Specify the journal volume:
-                      </strong>
+                      <strong>Specify the journal volume:</strong>
                     </p>
                   </div>
                   <div>
@@ -1797,9 +1835,7 @@ class CreateLivePaper extends React.Component {
                   <br />
                   <div>
                     <p>
-                      <strong>
-                        Specify the journal issue:
-                      </strong>
+                      <strong>Specify the journal issue:</strong>
                     </p>
                   </div>
                   <div>
@@ -1845,8 +1881,8 @@ class CreateLivePaper extends React.Component {
                     <p>
                       <strong>
                         Provide the URL to access article (leave empty if
-                        awaiting publication or link to publicly accessible preprint
-                        repositories, such as bioRxiv, if available):
+                        awaiting publication or link to publicly accessible
+                        preprint repositories, such as bioRxiv, if available):
                       </strong>
                     </p>
                   </div>
@@ -2013,87 +2049,87 @@ class CreateLivePaper extends React.Component {
 
               {Object.keys(this.state.resources).length > 0
                 ? Object.values(this.state.resources).map((item, index) => {
-                  // console.log(item);
-                  if (item["type"] === "section_morphology") {
-                    return (
-                      <SectionMorphology
-                        key={index}
-                        storeSectionInfo={this.storeSectionInfo}
-                        data={item}
-                        numResources={
-                          Object.keys(this.state.resources).length
-                        }
-                        handleDelete={this.deleteResourceSection}
-                        handleMoveDown={this.moveDownResourceSection}
-                        handleMoveUp={this.moveUpResourceSection}
-                        enqueueSnackbar={this.props.enqueueSnackbar}
-                        closeSnackbar={this.props.closeSnackbar}
-                      />
-                    );
-                  } else if (item["type"] === "section_traces") {
-                    return (
-                      <SectionTraces
-                        key={index}
-                        storeSectionInfo={this.storeSectionInfo}
-                        data={item}
-                        numResources={
-                          Object.keys(this.state.resources).length
-                        }
-                        handleDelete={this.deleteResourceSection}
-                        handleMoveDown={this.moveDownResourceSection}
-                        handleMoveUp={this.moveUpResourceSection}
-                        enqueueSnackbar={this.props.enqueueSnackbar}
-                        closeSnackbar={this.props.closeSnackbar}
-                      />
-                    );
-                  } else if (item["type"] === "section_models") {
-                    return (
-                      <SectionModels
-                        key={index}
-                        storeSectionInfo={this.storeSectionInfo}
-                        data={item}
-                        numResources={
-                          Object.keys(this.state.resources).length
-                        }
-                        handleDelete={this.deleteResourceSection}
-                        handleMoveDown={this.moveDownResourceSection}
-                        handleMoveUp={this.moveUpResourceSection}
-                        enqueueSnackbar={this.props.enqueueSnackbar}
-                        closeSnackbar={this.props.closeSnackbar}
-                      />
-                    );
-                  } else if (item["type"] === "section_generic") {
-                    return (
-                      <SectionGeneric
-                        key={index}
-                        storeSectionInfo={this.storeSectionInfo}
-                        data={item}
-                        numResources={
-                          Object.keys(this.state.resources).length
-                        }
-                        handleDelete={this.deleteResourceSection}
-                        handleMoveDown={this.moveDownResourceSection}
-                        handleMoveUp={this.moveUpResourceSection}
-                      />
-                    );
-                  } else if (item["type"] === "section_custom") {
-                    return (
-                      <SectionCustom
-                        key={index}
-                        storeSectionInfo={this.storeSectionInfo}
-                        data={item}
-                        numResources={
-                          Object.keys(this.state.resources).length
-                        }
-                        handleDelete={this.deleteResourceSection}
-                        handleMoveDown={this.moveDownResourceSection}
-                        handleMoveUp={this.moveUpResourceSection}
-                      />
-                    );
-                  } else {
-                    return null;
-                  }
-                })
+                    // console.log(item);
+                    if (item["type"] === "section_morphology") {
+                      return (
+                        <SectionMorphology
+                          key={index}
+                          storeSectionInfo={this.storeSectionInfo}
+                          data={item}
+                          numResources={
+                            Object.keys(this.state.resources).length
+                          }
+                          handleDelete={this.deleteResourceSection}
+                          handleMoveDown={this.moveDownResourceSection}
+                          handleMoveUp={this.moveUpResourceSection}
+                          enqueueSnackbar={this.props.enqueueSnackbar}
+                          closeSnackbar={this.props.closeSnackbar}
+                        />
+                      );
+                    } else if (item["type"] === "section_traces") {
+                      return (
+                        <SectionTraces
+                          key={index}
+                          storeSectionInfo={this.storeSectionInfo}
+                          data={item}
+                          numResources={
+                            Object.keys(this.state.resources).length
+                          }
+                          handleDelete={this.deleteResourceSection}
+                          handleMoveDown={this.moveDownResourceSection}
+                          handleMoveUp={this.moveUpResourceSection}
+                          enqueueSnackbar={this.props.enqueueSnackbar}
+                          closeSnackbar={this.props.closeSnackbar}
+                        />
+                      );
+                    } else if (item["type"] === "section_models") {
+                      return (
+                        <SectionModels
+                          key={index}
+                          storeSectionInfo={this.storeSectionInfo}
+                          data={item}
+                          numResources={
+                            Object.keys(this.state.resources).length
+                          }
+                          handleDelete={this.deleteResourceSection}
+                          handleMoveDown={this.moveDownResourceSection}
+                          handleMoveUp={this.moveUpResourceSection}
+                          enqueueSnackbar={this.props.enqueueSnackbar}
+                          closeSnackbar={this.props.closeSnackbar}
+                        />
+                      );
+                    } else if (item["type"] === "section_generic") {
+                      return (
+                        <SectionGeneric
+                          key={index}
+                          storeSectionInfo={this.storeSectionInfo}
+                          data={item}
+                          numResources={
+                            Object.keys(this.state.resources).length
+                          }
+                          handleDelete={this.deleteResourceSection}
+                          handleMoveDown={this.moveDownResourceSection}
+                          handleMoveUp={this.moveUpResourceSection}
+                        />
+                      );
+                    } else if (item["type"] === "section_custom") {
+                      return (
+                        <SectionCustom
+                          key={index}
+                          storeSectionInfo={this.storeSectionInfo}
+                          data={item}
+                          numResources={
+                            Object.keys(this.state.resources).length
+                          }
+                          handleDelete={this.deleteResourceSection}
+                          handleMoveDown={this.moveDownResourceSection}
+                          handleMoveUp={this.moveUpResourceSection}
+                        />
+                      );
+                    } else {
+                      return null;
+                    }
+                  })
                 : null}
               <br />
             </div>
@@ -2152,7 +2188,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
-                    overflowX: "hidden"
+                    overflowX: "hidden",
                   }}
                   startIcon={<AcUnitIcon style={{ width: 30, height: 30 }} />}
                   onClick={() => this.handleAddSection("section_morphology")}
@@ -2172,7 +2208,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
-                    overflowX: "hidden"
+                    overflowX: "hidden",
                   }}
                   startIcon={<TimelineIcon style={{ width: 30, height: 30 }} />}
                   onClick={() => this.handleAddSection("section_traces")}
@@ -2192,7 +2228,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
-                    overflowX: "hidden"
+                    overflowX: "hidden",
                   }}
                   startIcon={
                     <LocalPlayIcon style={{ width: 30, height: 30 }} />
@@ -2214,7 +2250,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
-                    overflowX: "hidden"
+                    overflowX: "hidden",
                   }}
                   startIcon={
                     <FormatListBulletedIcon style={{ width: 30, height: 30 }} />
@@ -2236,7 +2272,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
-                    overflowX: "hidden"
+                    overflowX: "hidden",
                   }}
                   startIcon={
                     <CheckBoxOutlineBlankIcon
@@ -2255,7 +2291,7 @@ class CreateLivePaper extends React.Component {
                 width: "50%",
                 fontSize: 16,
                 lineHeight: 1.75,
-                textAlign: "center"
+                textAlign: "center",
               }}
             >
               {lastSaveInfo}
@@ -2297,7 +2333,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
-                    overflowX: "hidden"
+                    overflowX: "hidden",
                   }}
                   onClick={this.handlePreview}
                 >
@@ -2316,7 +2352,7 @@ class CreateLivePaper extends React.Component {
                     border: "solid",
                     borderColor: "#000000",
                     borderWidth: "1px",
-                    overflowX: "hidden"
+                    overflowX: "hidden",
                   }}
                   onClick={this.handleDownload}
                 >

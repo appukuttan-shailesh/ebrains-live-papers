@@ -9,7 +9,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import StorageIcon from "@material-ui/icons/Storage";
 import EditIcon from "@material-ui/icons/Edit";
 import AspectRatioIcon from "@material-ui/icons/AspectRatio";
-import PhotoSizeSelectSmallIcon from '@material-ui/icons/PhotoSizeSelectSmall';
+import PhotoSizeSelectSmallIcon from "@material-ui/icons/PhotoSizeSelectSmall";
 import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
 import TextField from "@material-ui/core/TextField";
@@ -143,8 +143,8 @@ export class RowURL extends React.Component {
                   ? "27.5"
                   : "30%"
                 : this.props.useTabs
-                  ? "55%"
-                  : "60%",
+                ? "55%"
+                : "60%",
             padding: "5px 10px 5px 0px",
           }}
         >
@@ -367,8 +367,8 @@ export class RowDB extends React.Component {
                   ? "27.5"
                   : "30%"
                 : this.props.useTabs
-                  ? "55%"
-                  : "60%",
+                ? "55%"
+                : "60%",
             padding: "5px 10px 5px 0px",
           }}
         >
@@ -840,7 +840,13 @@ export default class DynamicTableItems extends React.Component {
               marginRight: "25px",
               backgroundColor: "#795548",
             }}
-            startIcon={this.state.expandTable ? <PhotoSizeSelectSmallIcon /> : <AspectRatioIcon />}
+            startIcon={
+              this.state.expandTable ? (
+                <PhotoSizeSelectSmallIcon />
+              ) : (
+                <AspectRatioIcon />
+              )
+            }
           >
             {this.state.expandTable ? "Collapse" : "Expand"}
           </Button>
