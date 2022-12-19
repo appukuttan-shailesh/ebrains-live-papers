@@ -1775,6 +1775,75 @@ class CreateLivePaper extends React.Component {
                   <div>
                     <p>
                       <strong>
+                        Specify the journal volume:
+                      </strong>
+                    </p>
+                  </div>
+                  <div>
+                    <TextField
+                      label="Volume"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="associated_paper_volume"
+                      value={this.state.associated_paper_volume}
+                      onChange={this.handleFieldChange}
+                      InputProps={{
+                        style: {
+                          padding: "5px 15px",
+                        },
+                      }}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <p>
+                      <strong>
+                        Specify the journal issue:
+                      </strong>
+                    </p>
+                  </div>
+                  <div>
+                    <TextField
+                      label="Issue"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="associated_paper_issue"
+                      value={this.state.associated_paper_issue}
+                      onChange={this.handleFieldChange}
+                      InputProps={{
+                        style: {
+                          padding: "5px 15px",
+                        },
+                      }}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <p>
+                      <strong>
+                        Specify the article page range or other identifier:
+                      </strong>
+                    </p>
+                  </div>
+                  <div>
+                    <TextField
+                      label="Pages"
+                      variant="outlined"
+                      fullWidth={true}
+                      name="associated_paper_pagination"
+                      value={this.state.associated_paper_pagination}
+                      onChange={this.handleFieldChange}
+                      InputProps={{
+                        style: {
+                          padding: "5px 15px",
+                        },
+                      }}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <p>
+                      <strong>
                         Provide the URL to access article (leave empty if
                         awaiting publication or link to publicly accessible preprint
                         repositories, such as bioRxiv, if available):
