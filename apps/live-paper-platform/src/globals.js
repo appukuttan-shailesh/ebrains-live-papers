@@ -1,6 +1,6 @@
 export const livePaperBuilderUrl = "/builder";
 export const livePaperDocsUrl = "/docs";
-export const baseUrl = "https://validation-v2.brainsimulation.eu";
+export const baseUrl = "https://validation.brainsimulation.eu";
 // export const querySizeLimit = 10;
 export const querySizeLimit = 1000000;
 export const separator = "#-#";

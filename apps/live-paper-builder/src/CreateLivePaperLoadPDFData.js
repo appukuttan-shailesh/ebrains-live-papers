@@ -162,6 +162,9 @@ class CreateLivePaperLoadPDFData extends React.Component {
           data["authors"] = author_data;
 
           data["journal"] = result["container-title"][0];
+          data["associated_paper_volume"] = result["volume"];
+          data["associated_paper_issue"] = result["issue"];
+          data["associated_paper_pagination"] = result["page"];
 
           data["year"] = result["created"]["date-time"];
 
@@ -333,6 +336,15 @@ class CreateLivePaperLoadPDFData extends React.Component {
                 )["_"];
               }
 
+              // volume, issue
+              let vol_iss_page =
+                result["TEI"]["teiHeader"][0]["fileDesc"][0]["sourceDesc"][0][
+                  "biblStruct"
+                ][0]["monogr"][0]["imprint"][0]["biblScope"];
+              data["associated_paper_volume"] = vol_iss_page[0];
+              data["associated_paper_issue"] = vol_iss_page[1];
+              data["associated_paper_pagination"] = vol_iss_page[2];
+
               try {
                 //   date also available at:
                 // result["TEI"]["teiHeader"][0]["fileDesc"][0]["sourceDesc"][0][
@@ -502,6 +514,33 @@ class CreateLivePaperLoadPDFData extends React.Component {
               <strong>Journal: </strong>
               <br />
               {this.state.dataExtracted["journal"]}
+              <br />
+              <br />
+            </div>
+          )}
+          {"associated_paper_volume" in this.state.dataExtracted && (
+            <div>
+              <strong>Volume: </strong>
+              <br />
+              {this.state.dataExtracted["associated_paper_volume"]}
+              <br />
+              <br />
+            </div>
+          )}
+          {"associated_paper_issue" in this.state.dataExtracted && (
+            <div>
+              <strong>Issue: </strong>
+              <br />
+              {this.state.dataExtracted["associated_paper_issue"]}
+              <br />
+              <br />
+            </div>
+          )}
+          {"associated_paper_pagination" in this.state.dataExtracted && (
+            <div>
+              <strong>Pagination: </strong>
+              <br />
+              {this.state.dataExtracted["associated_paper_pagination"]}
               <br />
               <br />
             </div>

@@ -33,7 +33,7 @@ export default class Develop extends React.Component {
           <div className="block-text">
             Content of Live Papers can be accessed through a{" "}
             <a
-              href="https://validation-v2.brainsimulation.eu/docs#/Live%20Papers"
+              href="https://validation.brainsimulation.eu/docs#/Live%20Papers"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -41,7 +41,7 @@ export default class Develop extends React.Component {
             </a>{" "}
             (
             <a
-              href="https://validation-v2.brainsimulation.eu/redoc#tag/Live-Papers"
+              href="https://validation.brainsimulation.eu/redoc#tag/Live-Papers"
               target="_blank"
               rel="noopener noreferrer"
             >
