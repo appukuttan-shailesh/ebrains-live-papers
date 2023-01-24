@@ -304,26 +304,27 @@ class App extends React.Component {
     this.setState({ error: false });
   }
 
-  getCollabList(attempt = 0) {
-    const url = baseUrl + "/projects";
+  getCollabList(auth, attempt = 0) {
+    const url = baseUrl + "/projects?only_editable=true";
+    console.log(auth);
+    if (!auth.token) {
+      console.log("ERROR: auth token not available!");
+    }
     const config = {
       cancelToken: this.signal.token,
-      headers: { Authorization: "Bearer " + this.context.auth[0].token },
+      headers: { Authorization: "Bearer " + auth.token },
     };
     axios
       .get(url, config)
       .then((res) => {
         if (res.data.length === 0 && attempt < 3) {
           // API Workaround: due to erratic API behavior
-          this.getCollabList(attempt + 1);
+          this.getCollabList(auth, attempt + 1);
         } else {
           let editableProjects = [];
           res.data.forEach((proj) => {
-            if (proj.permissions.UPDATE) {
-              editableProjects.push(proj.project_id);
-            }
+            editableProjects.push(proj.project_id);
           });
-          editableProjects.sort();
           const [, setCollabList] = this.context.collabList;
           setCollabList(editableProjects);
           // console.log(editableProjects);
