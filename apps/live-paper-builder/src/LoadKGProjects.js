@@ -39,16 +39,17 @@ const theme = createTheme({
       h6: {
         fontWeight: "bolder !important",
         color: "#000000",
-      },
-      MuiTableRow: {
-        hover: {
-          "&:hover": {
-            backgroundColor: "#FFECB3 !important",
-          },
-        },
-      },
-    },
-  },
+      }
+      //},
+      // MuiTableRow: {
+      //   hover: {
+      //     "&:hover": {
+      //       backgroundColor: "#FFECB3 !important",
+      //     },
+      //   },
+      //},
+    }
+  }
 });
 
 export default class LoadKGProjects extends React.Component {
@@ -100,10 +101,7 @@ export default class LoadKGProjects extends React.Component {
 
   handleSelectProject() {
     this.setState({ loading: true }, () => {
-      let url =
-        baseUrl +
-        "/livepapers/" +
-        this.props.kg_project_list[this.state.selectedRow].id;
+      let url = baseUrl + "/livepapers/" + this.state.selectedRow;
       let config = {
         cancelToken: this.signal.token,
         headers: {
@@ -258,11 +256,7 @@ export default class LoadKGProjects extends React.Component {
                 color="primary"
                 style={{
                   width: "20%",
-                  backgroundColor:
-                    (this.state.selectedRow || this.state.selectedRow === 0) &&
-                    this.state.selectedRow >= 0
-                      ? "#4DC26D"
-                      : "#FFFFFF",
+                  backgroundColor: this.state.selectedRow ? "#4DC26D" : "#FFFFFF",
                   color: "#000000",
                   fontWeight: "bold",
                   border: "solid",
@@ -271,10 +265,7 @@ export default class LoadKGProjects extends React.Component {
                 }}
                 onClick={this.handleSelectProject}
                 disabled={
-                  !(
-                    (this.state.selectedRow || this.state.selectedRow === 0) &&
-                    this.state.selectedRow >= 0
-                  )
+                  !this.state.selectedRow
                 }
               >
                 Load Project

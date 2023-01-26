@@ -219,6 +219,9 @@ class App extends React.Component {
       // replace null values with empty strings
       // avoids errors, e.g. `value` prop on `textarea` should not be null
       data = replaceNullWithEmptyStrings(data);
+      if (data.corresponding_author === "") {
+        data.corresponding_author = [];
+      }
 
       // sort resource sections by order #
       data.resources.sort(compareArrayoOfObjectsByOrder);
