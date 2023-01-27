@@ -1,7 +1,7 @@
 import React from "react";
 import "./StylesIconSelector.css";
-import CloseIcon from "@material-ui/icons/Close";
-import Tooltip from "@material-ui/core/Tooltip";
+import CloseIcon from "@mui/icons-material/Close";
+import Tooltip from "@mui/material/Tooltip";
 
 const material_icons = [
   "3d_rotation",

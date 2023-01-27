@@ -1,11 +1,11 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import CancelIcon from "@material-ui/icons/Cancel";
-import ForwardIcon from "@material-ui/icons/Forward";
-import Tooltip from "@material-ui/core/Tooltip";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import CancelIcon from "@mui/icons-material/Cancel";
+import ForwardIcon from "@mui/icons-material/Forward";
+import Tooltip from "@mui/material/Tooltip";
 import arrayMove from "array-move";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 export default class DynamicTablePerson extends React.Component {
   handleAdd() {

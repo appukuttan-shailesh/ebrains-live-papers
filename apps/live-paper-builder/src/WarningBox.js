@@ -1,7 +1,7 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import WarningIcon from "@material-ui/icons/Warning";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import WarningIcon from "@mui/icons-material/Warning";
 
 function WarningBox(props) {
   if (props.message && props.message !== "ok") {

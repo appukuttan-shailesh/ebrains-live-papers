@@ -1,27 +1,24 @@
 import React from "react";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import Grid from "@material-ui/core/Grid";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import Grid from "@mui/material/Grid";
 import { withSnackbar } from "notistack";
 
-import { withStyles } from "@material-ui/core/styles";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import HelpIcon from "@material-ui/icons/Help";
-import IconButton from "@material-ui/core/IconButton";
-import AcUnitIcon from "@material-ui/icons/AcUnit";
-import TimelineIcon from "@material-ui/icons/Timeline";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import LocalPlayIcon from "@material-ui/icons/LocalPlay";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import CloseIcon from "@material-ui/icons/Close";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
-import { createTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
-import MomentUtils from "@date-io/moment";
+import { withStyles } from "@mui/styles";
+import MuiDialogTitle from "@mui/material/DialogTitle";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import HelpIcon from "@mui/icons-material/Help";
+import IconButton from "@mui/material/IconButton";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
+import TimelineIcon from "@mui/icons-material/Timeline";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import LocalPlayIcon from "@mui/icons-material/LocalPlay";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CloseIcon from "@mui/icons-material/Close";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { createTheme } from "@mui/material/styles";
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import showdown from "showdown";
@@ -42,8 +39,8 @@ import SubmitModal from "./SubmitModal";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import MarkdownLatexExample from "./MarkdownLatexExample";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import {
   livePaperPlatformUrl,
   livePaperDocsUrl,
@@ -1480,28 +1477,19 @@ class CreateLivePaper extends React.Component {
                       </div>
                       <div>
                         <div>
-                          <ThemeProvider theme={defaultMaterialTheme}>
-                            <MuiPickersUtilsProvider utils={MomentUtils}>
-                              <DatePicker
-                                label="Year"
-                                inputVariant="outlined"
-                                views={["year"]}
-                                name="year"
-                                value={new Date(this.state.year)}
-                                minDate={new Date("2010-01-01")}
-                                maxDate={new Date()}
-                                onChange={this.handleYearChange}
-                                animateYearScrolling
-                                InputProps={{
-                                  style: {
-                                    borderBottom: "0px",
-                                    padding: "5px 15px 5px 15px",
-                                    width: "100px",
-                                  },
-                                }}
-                              />
-                            </MuiPickersUtilsProvider>
-                          </ThemeProvider>
+                        <TextField
+                          label="Year of publication"
+                          variant="outlined"
+                          fullWidth={false}
+                          name="year_of_publication"
+                          value={this.state.year}
+                          onChange={this.handleYearChange}
+                          InputProps={{
+                            style: {
+                              padding: "5px 15px",
+                            },
+                          }}
+                        />
                         </div>
                       </div>
                       <br />

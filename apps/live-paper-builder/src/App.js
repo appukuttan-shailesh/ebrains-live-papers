@@ -1,15 +1,15 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import axios from "axios";
 import ContextMain from "./ContextMain";
 import CreateLivePaperLoadPDFData from "./CreateLivePaperLoadPDFData";
 import LoadKGProjects from "./LoadKGProjects";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { livePaperPlatformUrl, livePaperDocsUrl } from "./globals";
 import WarningBox from "./WarningBox";
 

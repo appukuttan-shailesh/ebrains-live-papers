@@ -1,19 +1,19 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import CancelIcon from "@material-ui/icons/Cancel";
-import ForwardIcon from "@material-ui/icons/Forward";
-import Tooltip from "@material-ui/core/Tooltip";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import CancelIcon from "@mui/icons-material/Cancel";
+import ForwardIcon from "@mui/icons-material/Forward";
+import Tooltip from "@mui/material/Tooltip";
 import arrayMove from "array-move";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import StorageIcon from "@material-ui/icons/Storage";
-import EditIcon from "@material-ui/icons/Edit";
-import AspectRatioIcon from "@material-ui/icons/AspectRatio";
-import PhotoSizeSelectSmallIcon from "@material-ui/icons/PhotoSizeSelectSmall";
-import Avatar from "@material-ui/core/Avatar";
-import Badge from "@material-ui/core/Badge";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import StorageIcon from "@mui/icons-material/Storage";
+import EditIcon from "@mui/icons-material/Edit";
+import AspectRatioIcon from "@mui/icons-material/AspectRatio";
+import PhotoSizeSelectSmallIcon from "@mui/icons-material/PhotoSizeSelectSmall";
+import Avatar from "@mui/material/Avatar";
+import Badge from "@mui/material/Badge";
+import TextField from "@mui/material/TextField";
+import { withStyles } from "@mui/styles";
 
 const resourseTypeBadgeMappings = {
   URL: ["", "Manual Entry"],

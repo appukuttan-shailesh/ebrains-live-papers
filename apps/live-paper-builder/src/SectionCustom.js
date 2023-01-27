@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 import MaterialIconSelector from "./MaterialIconSelector";
-import HelpIcon from "@material-ui/icons/Help";
-import TextField from "@material-ui/core/TextField";
-import Tooltip from "@material-ui/core/Tooltip";
+import HelpIcon from "@mui/icons-material/Help";
+import TextField from "@mui/material/TextField";
+import Tooltip from "@mui/material/Tooltip";
 import ModalDialog from "./ModalDialog";
 import DialogConfirm from "./DialogConfirm";
 import { Converter } from "showdown";
@@ -16,15 +16,15 @@ import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/theme-tomorrow";
 
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ForwardIcon from "@material-ui/icons/Forward";
-import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
-import UnfoldLessIcon from "@material-ui/icons/UnfoldLess";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import AspectRatioIcon from "@material-ui/icons/AspectRatio";
-import PhotoSizeSelectSmallIcon from "@material-ui/icons/PhotoSizeSelectSmall";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ForwardIcon from "@mui/icons-material/Forward";
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
+import UnfoldLessIcon from "@mui/icons-material/UnfoldLess";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import AspectRatioIcon from "@mui/icons-material/AspectRatio";
+import PhotoSizeSelectSmallIcon from "@mui/icons-material/PhotoSizeSelectSmall";
 import styled from "styled-components";
 
 function HelpContentCustom() {

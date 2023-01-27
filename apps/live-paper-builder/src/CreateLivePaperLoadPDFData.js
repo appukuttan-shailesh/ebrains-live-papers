@@ -1,22 +1,22 @@
 import React from "react";
 import axios from "axios";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import Paper from "@material-ui/core/Paper";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import Paper from "@mui/material/Paper";
 import { withSnackbar } from "notistack";
-import { withStyles } from "@material-ui/core/styles";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import { withStyles } from "@mui/styles";
+import MuiDialogTitle from "@mui/material/DialogTitle";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import CreateLivePaper from "./CreateLivePaper";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
 import ErrorDialog from "./ErrorDialog";
-import Tooltip from "@material-ui/core/Tooltip";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import Tooltip from "@mui/material/Tooltip";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { livePaperPlatformUrl, livePaperDocsUrl } from "./globals";
 
 const styles = (theme) => ({
