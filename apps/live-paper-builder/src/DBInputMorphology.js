@@ -510,6 +510,7 @@ export class NeuroMorphoContent extends React.Component {
       selectedRows: [],
       filtering: false,
     };
+    console.log(this.props);
   }
 
   render() {
@@ -567,10 +568,10 @@ export class NeuroMorphoContent extends React.Component {
               tooltip: "Show Filters",
             },
           ]}
-          detailPanel={(rowData) => {
+          detailPanel={(rowObj) => {
             return (
               <NeuroMorphoContentMorphologyPanel
-                data={rowData}
+                data={rowObj.rowData}
                 addInstanceCollection={this.props.addInstanceCollection}
                 removeInstanceCollection={this.props.removeInstanceCollection}
                 checkInstanceInCollection={this.props.checkInstanceInCollection}
@@ -847,10 +848,10 @@ export class AllenBrainContent extends React.Component {
               tooltip: "Show Filters",
             },
           ]}
-          detailPanel={(rowData) => {
+          detailPanel={(rowObj) => {
             return (
               <AllenBrainContentMorphologyPanel
-                data={rowData}
+                data={rowObj.rowData}
                 addInstanceCollection={this.props.addInstanceCollection}
                 removeInstanceCollection={this.props.removeInstanceCollection}
                 checkInstanceInCollection={this.props.checkInstanceInCollection}
@@ -908,7 +909,7 @@ export class FilterPanelNeuroMorpho extends React.Component {
     };
 
     this.getListMorphologyNeuroMorpho =
-      this.getListMorphologyNeuroMorpho.bind(this);
+    this.getListMorphologyNeuroMorpho.bind(this);
     this.handleFiltersChange = this.handleFiltersChange.bind(this);
     this.toggleSearchByID = this.toggleSearchByID.bind(this);
     this.handleIDsChange = this.handleIDsChange.bind(this);
