@@ -4,7 +4,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import Paper from "@mui/material/Paper";
 import { withSnackbar } from "notistack";
-import { withStyles } from "@mui/styles";
 import MuiDialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -19,28 +18,21 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { livePaperPlatformUrl, livePaperDocsUrl } from "./globals";
 
-const styles = (theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-  },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
 
-const MyDialogTitle = withStyles(styles)((props) => {
+const MyDialogTitle = (props) => {
   const { children, classes, onClose, ...other } = props;
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+    <MuiDialogTitle disableTypography sx={{ margin: 0, padding: 2 }} {...other}>
       <Typography variant="h6">{children}</Typography>
       {onClose ? (
         <IconButton
           aria-label="close"
-          className={classes.closeButton}
+          sx={{
+            position: "absolute",
+            right: 1,
+            top: 1,
+            //color: theme.palette.grey[500]
+          }}
           onClick={onClose}
         >
           <CloseIcon />
@@ -48,7 +40,7 @@ const MyDialogTitle = withStyles(styles)((props) => {
       ) : null}
     </MuiDialogTitle>
   );
-});
+};
 
 class CreateLivePaperLoadPDFData extends React.Component {
   signal = axios.CancelToken.source();

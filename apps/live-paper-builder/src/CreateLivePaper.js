@@ -3,8 +3,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import { withSnackbar } from "notistack";
-
-import { withStyles } from "@mui/styles";
 import MuiDialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
@@ -18,7 +16,6 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { createTheme } from "@mui/material/styles";
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import showdown from "showdown";
@@ -61,30 +58,6 @@ axiosRetry(axios, {
   },
 });
 
-const styles = (theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-  },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
-
-const defaultMaterialTheme = createTheme({
-  palette: {
-    primary: {
-      // light: will be calculated from palette.primary.main,
-      main: "#00A595",
-      // dark: will be calculated from palette.primary.main,
-      // contrastText: will be calculated to contrast with palette.primary.main
-    },
-  },
-});
-
 const footerStyle = {
   backgroundColor: "#DCEDC8",
   fontSize: "20px",
@@ -116,23 +89,28 @@ function Footer({ children }) {
   );
 }
 
-const MyDialogTitle = withStyles(styles)((props) => {
+const MyDialogTitle = (props) => {
   const { children, classes, onClose, ...other } = props;
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+    <MuiDialogTitle disableTypography sx={{ margin: 0, padding: 2 }} {...other}>
       <Typography variant="h6">{children}</Typography>
       {onClose ? (
         <IconButton
           aria-label="close"
-          className={classes.closeButton}
           onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 1,
+            top: 1
+            //color: theme.palette.grey[500],
+          }}
         >
           <CloseIcon />
         </IconButton>
       ) : null}
     </MuiDialogTitle>
   );
-});
+};
 
 const popular_licenses = [
   "None",

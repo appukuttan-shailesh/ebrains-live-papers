@@ -236,7 +236,7 @@ export default class LoadKGProjects extends React.Component {
               <Button
                 variant="contained"
                 color="primary"
-                style={{
+                sx={{
                   width: "20%",
                   backgroundColor: "#525252",
                   color: "#FFFFFF",
@@ -254,7 +254,7 @@ export default class LoadKGProjects extends React.Component {
               <Button
                 variant="contained"
                 color="primary"
-                style={{
+                sx={{
                   width: "20%",
                   backgroundColor: this.state.selectedRow ? "#4DC26D" : "#FFFFFF",
                   color: "#000000",

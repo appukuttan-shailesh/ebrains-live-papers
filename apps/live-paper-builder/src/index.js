@@ -7,7 +7,21 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { SnackbarProvider } from "notistack";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import BulkEntryWizard from "./BulkEntryWizard";
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      // light: will be calculated from palette.primary.main,
+      main: "#00A595",
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    },
+  },
+});
+
 
 function initLoad() {
   // to avoid authentication when opening BulkEntryWizard
@@ -30,11 +44,13 @@ function renderApp(auth) {
               path={path}
               element={
                 <React.StrictMode>
-                  <SnackbarProvider maxSnack={3}>
-                    <ContextMainProvider>
-                      <BulkEntryWizard />
-                    </ContextMainProvider>
-                  </SnackbarProvider>
+                  <ThemeProvider theme={theme}>
+                    <SnackbarProvider maxSnack={3}>
+                      <ContextMainProvider>
+                        <BulkEntryWizard />
+                      </ContextMainProvider>
+                    </SnackbarProvider>
+                  </ThemeProvider>
                 </React.StrictMode>
               }
               key={index}
@@ -47,11 +63,13 @@ function renderApp(auth) {
               path={path}
               element={
                 <React.StrictMode>
-                  <SnackbarProvider maxSnack={3}>
-                    <ContextMainProvider>
-                      <App auth={auth} />
-                    </ContextMainProvider>
-                  </SnackbarProvider>
+                  <ThemeProvider theme={theme}>
+                    <SnackbarProvider maxSnack={3}>
+                      <ContextMainProvider>
+                        <App auth={auth} />
+                      </ContextMainProvider>
+                    </SnackbarProvider>
+                  </ThemeProvider>
                 </React.StrictMode>
               }
               key={index}

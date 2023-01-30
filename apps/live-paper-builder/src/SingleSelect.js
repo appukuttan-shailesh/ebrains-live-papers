@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@mui/styles";
 import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,16 +7,6 @@ import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import Select from "@mui/material/Select";
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 700,
-    maxWidth: 900,
-  },
-  noLabel: {
-    marginTop: theme.spacing(3),
-  },
-}));
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,7 +20,6 @@ const MenuProps = {
 };
 
 export default function SingleSelect(props) {
-  const classes = useStyles();
   const fieldId = "select-" + props.label.replace(" ", "-");
   const fieldLabelId = fieldId + "-label";
   const fieldName = props.name.replace(" ", "_");
@@ -39,8 +27,8 @@ export default function SingleSelect(props) {
   return (
     <div>
       <FormControl
-        className={classes.formControl}
         disabled={props.disabled || false}
+        sx={{ margin: 1, minWidth: 700, maxWidth: 900 }}
       >
         <InputLabel id={fieldLabelId}>{props.label}</InputLabel>
         <Select

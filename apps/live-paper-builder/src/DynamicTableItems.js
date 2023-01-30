@@ -13,7 +13,6 @@ import PhotoSizeSelectSmallIcon from "@mui/icons-material/PhotoSizeSelectSmall";
 import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
 import TextField from "@mui/material/TextField";
-import { withStyles } from "@mui/styles";
 
 const resourseTypeBadgeMappings = {
   URL: ["", "Manual Entry"],
@@ -26,56 +25,24 @@ const resourseTypeBadgeMappings = {
   BioModels: ["BM", "BioModels Entry"],
 };
 
-const styles = () => ({
-  customBadge_KG: {
-    backgroundColor: "#388E3C",
-    color: "white",
-    fontSize: 10,
-  },
-  customBadge_MDB: {
-    backgroundColor: "#F57C00",
-    color: "white",
-    fontSize: 10,
-  },
-  customBadge_OSB: {
-    backgroundColor: "#03A9F4",
-    color: "white",
-    fontSize: 10,
-  },
-  customBadge_NMO: {
-    backgroundColor: "#B7BF40",
-    color: "white",
-    fontSize: 10,
-  },
-  customBadge_AB: {
-    backgroundColor: "#0A3474",
-    color: "white",
-    fontSize: 10,
-  },
-  customBadge_BM: {
-    backgroundColor: "#194D44",
-    color: "white",
-    fontSize: 10,
-  },
-});
 
-function setBadgeClass(type, classes) {
+function getBadgeColor(type) {
   if (type === "ModelDB") {
-    return classes.customBadge_MDB;
+    return "#F57C00";
   } else if (type === "Open Source Brain") {
-    return classes.customBadge_OSB;
+    return "#03A9F4";
   } else if (type === "NeuroMorpho") {
-    return classes.customBadge_NMO;
+    return "#B7BF40";
   } else if (type === "AllenBrain") {
-    return classes.customBadge_AB;
+    return "#0A3474";
   } else if (type === "BioModels") {
-    return classes.customBadge_BM;
+    return "#194D44";
   } else {
-    return classes.customBadge_KG;
+    return "#388E3C";
   }
 }
 
-const RowIndex = withStyles(styles)((props) => {
+const RowIndex = (props) => {
   return (
     <td
       style={{
@@ -96,7 +63,11 @@ const RowIndex = withStyles(styles)((props) => {
             vertical: "top",
             horizontal: "left",
           }}
-          classes={{ badge: setBadgeClass(props.type, props.classes) }}
+          sx={{
+            color: "white",
+            fontSize: 10,
+            backgroundColor: getBadgeColor(props.type)
+          }}
         >
           <Avatar
             style={{
@@ -114,7 +85,8 @@ const RowIndex = withStyles(styles)((props) => {
       </Tooltip>
     </td>
   );
-});
+};
+
 
 export class RowURL extends React.Component {
   render() {

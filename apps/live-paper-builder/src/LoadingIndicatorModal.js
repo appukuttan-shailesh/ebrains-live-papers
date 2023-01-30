@@ -1,6 +1,6 @@
 import Dialog from "@mui/material/Dialog";
 import React from "react";
-import ColoredCircularProgress from "./ColoredCircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function LoadingIndicatorModal(props) {
   return (
@@ -25,7 +25,7 @@ export default function LoadingIndicatorModal(props) {
           marginBottom: "100px",
         }}
       >
-        <ColoredCircularProgress thickness={5.0} />
+        <CircularProgress thickness={5.0} />
       </div>
     </Dialog>
   );
