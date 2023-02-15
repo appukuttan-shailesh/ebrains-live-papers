@@ -50,6 +50,7 @@ import WarningBox from "./WarningBox";
 import nunjucks from "nunjucks";
 import LivePaper_v01 from "./templates/LivePaper_v0.1.njk";
 import LivePaper_standalone_v01 from "./templates/LivePaper_standalone_v0.1.njk";
+import RainbowRow from "./RainbowRow";
 
 axiosRetry(axios, {
   retries: 3,
@@ -1333,16 +1334,7 @@ class CreateLivePaper extends React.Component {
               </div>
             </div>
             <div style={{ marginBottom: "40px" }}>
-              <div className="rainbow-row">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
+             <RainbowRow />
             </div>
             <div
               style={{
@@ -2267,19 +2259,7 @@ class CreateLivePaper extends React.Component {
           <Footer>
             <div style={{ height: "10px", backgroundColor: "#FFFFFF" }}></div>
             <div style={{ border: "1px solid #000000" }}>
-              <div
-                className="rainbow-row"
-                style={{ borderBottom: "1px solid #000000" }}
-              >
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
+              <RainbowRow />
               <div
                 style={{
                   display: "flex",
