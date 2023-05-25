@@ -6,12 +6,12 @@ import DialogContent from "@mui/material/DialogContent";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import ContextMain from "./ContextMain";
-import LoadingIndicatorModal from "./LoadingIndicatorModal";
-import ErrorDialog from "./ErrorDialog";
+import ContextMain from "../../ContextMain";
+import LoadingIndicatorModal from "../../Form/LoadingIndicatorModal";
+import ErrorDialog from "../../HandleErrorsWarnings/ErrorDialog";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { baseUrl } from "./globals";
+import { baseUrl } from "../../globals";
 
 // define the columns for the material data table
 const TABLE_COLUMNS = [

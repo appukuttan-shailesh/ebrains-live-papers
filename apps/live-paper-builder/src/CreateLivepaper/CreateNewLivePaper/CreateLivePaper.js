@@ -21,21 +21,21 @@ import axiosRetry from "axios-retry";
 import showdown from "showdown";
 import showdownKatex from "showdown-katex";
 
-import ContextMain from "./ContextMain";
+import ContextMain from "../../ContextMain";
 import DynamicTablePerson from "./DynamicTablePerson";
-import SingleSelect from "./SingleSelect";
-import MultipleSelect from "./MultipleSelect";
-import SectionMorphology from "./SectionMorphology";
-import SectionTraces from "./SectionTraces";
-import SectionModels from "./SectionModels";
-import SectionGeneric from "./SectionGeneric";
-import SectionCustom from "./SectionCustom";
-import SwitchMultiWay from "./SwitchMultiWay";
+import SingleSelect from "../../Form/SingleSelect";
+import MultipleSelect from "../../Form/MultipleSelect";
+import SectionMorphology from "../AddResources/section/SectionMorphology";
+import SectionTraces from "../AddResources/section/SectionTraces";
+import SectionModels from "../AddResources/section/SectionModels";
+import SectionGeneric from "../AddResources/section/SectionGeneric";
+import SectionCustom from "../AddResources/section/SectionCustom";
+import SwitchMultiWay from "../../Form/SwitchMultiWay";
 import SaveModal from "./SaveModal";
 import SubmitModal from "./SubmitModal";
-import ModalDialog from "./ModalDialog";
-import DialogConfirm from "./DialogConfirm";
-import MarkdownLatexExample from "./MarkdownLatexExample";
+import ModalDialog from "../../Form/ModalDialog";
+import DialogConfirm from "../../DialogConfirm";
+import MarkdownLatexExample from "../../MarkdownLatexExample";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import {
@@ -43,14 +43,14 @@ import {
   livePaperDocsUrl,
   lp_tool_version,
   updateHash,
-} from "./globals";
-import { showNotification, compareArrayoOfObjectsByOrder } from "./utils";
-import WarningBox from "./WarningBox";
+} from "../../globals";
+import { showNotification, compareArrayoOfObjectsByOrder } from "../../utils";
+import WarningBox from "../../HandleErrorsWarnings/WarningBox";
 
 import nunjucks from "nunjucks";
-import LivePaper_v01 from "./templates/LivePaper_v0.1.njk";
-import LivePaper_standalone_v01 from "./templates/LivePaper_standalone_v0.1.njk";
-import RainbowRow from "./RainbowRow";
+import LivePaper_v01 from "../../templates/LivePaper_v0.1.njk";
+import LivePaper_standalone_v01 from "../../templates/LivePaper_standalone_v0.1.njk";
+import RainbowRow from "../../RainbowRow";
 
 axiosRetry(axios, {
   retries: 3,

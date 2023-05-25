@@ -2,16 +2,16 @@ import React from "react";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import ContextMain from "./ContextMain";
-import CreateLivePaperLoadPDFData from "./CreateLivePaperLoadPDFData";
-import LoadKGProjects from "./LoadKGProjects";
-import LoadingIndicatorModal from "./LoadingIndicatorModal";
-import ErrorDialog from "./ErrorDialog";
+import CreateLivePaperLoadPDFData from "./CreateLivepaper/CreateNewLivePaper/CreateLivePaperLoadPDFData";
+import LoadKGProjects from "./CreateLivepaper/CreateNewLivePaper/LoadKGProjects";
+import LoadingIndicatorModal from "./Form/LoadingIndicatorModal";
+import ErrorDialog from "./HandleErrorsWarnings/ErrorDialog";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { livePaperPlatformUrl, livePaperDocsUrl } from "./globals";
-import WarningBox from "./WarningBox";
+import WarningBox from "./HandleErrorsWarnings/WarningBox";
 import { WideButton } from "./Buttons";
 
 

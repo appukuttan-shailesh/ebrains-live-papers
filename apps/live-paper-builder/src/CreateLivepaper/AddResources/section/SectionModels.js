@@ -1,14 +1,15 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import MaterialIconSelector from "./MaterialIconSelector";
+import MaterialIconSelector from "../../../Form/MaterialIconSelector";
 import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
-import ModalDialog from "./ModalDialog";
-import DialogConfirm from "./DialogConfirm";
-import DynamicTableItems from "./DynamicTableItems";
-import ToggleSwitch from "./ToggleSwitch";
-import MarkdownLatexExample from "./MarkdownLatexExample";
+import ModalDialog from "../../../Form/ModalDialog";
+import DialogConfirm from "../../../DialogConfirm";
+import DynamicTableItems from "../DBs/DynamicTableItems";
+import DBInputModels from "../DBs/DBInputModels";
+import ToggleSwitch from "../../../Form/ToggleSwitch";
+import MarkdownLatexExample from "../../../MarkdownLatexExample";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -24,41 +25,46 @@ function HelpContent() {
     [
       {
         "type": "URL",
-        "url": "https://www.datasource.com/listing/file_idB.dat",
-        "view_url": null,
         "label": "file_A",
+        "url": "https://www.datasource.com/models/model_1.zip",
+        "view_url":
+            "https://model-catalog.brainsimulation.eu/#model_id.00f2e856-27a8-4b8d-9ec3-4e2581c546e4",
         "identifier": null,
         "tab_name": "Group A"
       },
       {
         "type": "URL",
-        "url": "https://www.datasource.com/listing/file_idC.dat",
-        "view_url": null,
         "label": "file_B",
+        "url": "https://www.datasource.com/models/model_2.zip",
+        "view_url":
+            "https://model-catalog.brainsimulation.eu/#model_id.01006de7-e861-45fb-abf4-3c84e609d33b",
         "identifier": null,
         "tab_name": "Group A"
       },
       {
         "type": "URL",
-        "url": "https://www.datasource.com/listing/file_idF.dat",
-        "view_url": null,
         "label": "file_C",
+        "url": "https://www.datasource.com/models/model_3.zip",
+        "view_url":
+            "https://model-catalog.brainsimulation.eu/#model_id.01afb341-7ca2-4694-9968-16fc7d8fc765",
         "identifier": null,
         "tab_name": "Group A"
       },
       {
         "type": "URL",
-        "url": "https://www.datasource.com/listing/file_idG.dat",
-        "view_url": null,
         "label": "file_D",
+        "url": "https://www.datasource.com/models/model_4.zip",
+        "view_url":
+            "https://model-catalog.brainsimulation.eu/#model_id.01da73a6-8715-431b-aaa7-efcd9358c786",
         "identifier": null,
         "tab_name": "Group A"
       },
       {
         "type": "URL",
-        "url": "https://www.datasource.com/listing/file_idH.dat",
-        "view_url": null,
         "label": "file_E",
+        "url": "https://www.datasource.com/models/model_5.zip",
+        "view_url":
+            "https://model-catalog.brainsimulation.eu/#model_id.01f49d73-e8a1-4f23-be30-d01bd52f89a2",
         "identifier": null,
         "tab_name": "Group A"
       }
@@ -66,16 +72,17 @@ function HelpContent() {
 
   return (
     <div>
-      The listing data can be input in the following format:
+      The morphology data can be input in the following format:
       <br />
       <br />
       <h6>
         <b>List of dicts/objects</b>
       </h6>
-      Each dict in the list should have keys named 'type', 'url', 'view_url',
-      'label', 'identifier' and 'tab_name'. For manually entered items, 'type'
-      'view_url' and 'identifier' can be set to 'URL', null and null,
-      respectively. <i>Example:</i>
+      Each dict in the list should have keys named 'type', 'url', 'label',
+      'view_url', 'identifier' and 'tab_name'. For manually entered items,
+      'type' 'view_url' and 'identifier' can be set to 'URL', null and null,
+      respectively. You may specify the model catalog URL for each model using
+      their `view_url' field. <i>Example:</i>
       <br />
       <pre>
         <code>{list_of_dicts}</code>
@@ -84,7 +91,7 @@ function HelpContent() {
   );
 }
 
-export class SectionGenericEdit extends React.Component {
+export class SectionModelsEdit extends React.Component {
   constructor(props) {
     super(props);
 
@@ -215,7 +222,7 @@ export class SectionGenericEdit extends React.Component {
           <ModalDialog
             open={this.state.showHelp}
             title="Data Input"
-            headerBgColor="#AA91D7"
+            headerBgColor="#FF8A65"
             content={<HelpContent />}
             handleClose={this.handleHelpClose}
           />
@@ -230,11 +237,11 @@ export class SectionGenericEdit extends React.Component {
       <DialogConfirm
         open={this.props.open}
         title={"Edit Source: " + this.props.title}
-        headerBgColor="#AA91D7"
+        headerBgColor="#FF8A65"
         content={this.renderContent()}
         handleClose={this.handleSaveData}
         clickHelp={this.clickHelp}
-        bulkEntry="Generic"
+        bulkEntry="Models"
       />
     );
   }
@@ -268,19 +275,20 @@ const Icon = styled((props) => (
   }
 `;
 
-export default class SectionGeneric extends React.Component {
+export default class SectionModels extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       order: null,
-      type: "section_generic",
-      title: "Listing Title",
-      icon: "format_list_bulleted",
+      type: "section_models",
+      title: "Model Collection",
+      icon: "local_play",
       description: "",
       dataOk: true,
       data: [],
       showEdit: false,
+      showDBInput: false,
       deleteOpen: false,
       expanded: true,
       useTabs: false,
@@ -291,6 +299,8 @@ export default class SectionGeneric extends React.Component {
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.clickEdit = this.clickEdit.bind(this);
     this.handleEditClose = this.handleEditClose.bind(this);
+    this.clickDB = this.clickDB.bind(this);
+    this.handleDBClose = this.handleDBClose.bind(this);
     this.setIcon = this.setIcon.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleMoveDown = this.handleMoveDown.bind(this);
@@ -426,6 +436,60 @@ export default class SectionGeneric extends React.Component {
     });
   }
 
+  clickDB() {
+    this.setState({
+      showDBInput: true,
+    });
+  }
+
+  handleDBClose(flag, items, sourceDB) {
+    if (flag) {
+      console.log(items);
+      let new_items = [];
+      for (const model_id in items) {
+        for (const instance_id in items[model_id]) {
+          new_items.push({
+            type:
+              sourceDB === "Knowledge Graph"
+                ? "ModelInstance"
+                : sourceDB === "Open Source Brain"
+                ? "OSB"
+                : sourceDB === "ModelDB"
+                ? "ModelDB"
+                : "BioModels",
+            label: items[model_id][instance_id]["label"] || "",
+            url: items[model_id][instance_id]["source_url"] || "",
+            view_url: items[model_id][instance_id]["view_url"] || "",
+            tab_name: "",
+            identifier: null,
+          });
+        }
+      }
+      console.log(new_items);
+
+      this.setState(
+        (prevState) => ({
+          data:
+            prevState.data.length === 1 &&
+            prevState.data[0].type === "URL" &&
+            prevState.data[0].label === "" &&
+            prevState.data[0].url === "" &&
+            prevState.data[0].view_url === ""
+              ? new_items
+              : prevState.data.concat(new_items),
+          showDBInput: false,
+        }),
+        () => {
+          this.props.storeSectionInfo(this.state);
+        }
+      );
+    } else {
+      this.setState({
+        showDBInput: false,
+      });
+    }
+  }
+
   toggleUseTabs() {
     if (this.state.useTabs) {
       // if turning off, then erase all tabs data
@@ -470,9 +534,9 @@ export default class SectionGeneric extends React.Component {
               display: "flex",
               justifyContent: "space-between",
               borderStyle: "solid",
-              borderColor: "#311B92",
+              borderColor: "#86362D",
               borderWidth: "2px",
-              backgroundColor: "#AA91D7",
+              backgroundColor: "#FF8A65",
               fontWeight: "bold",
               color: "#000000",
               width: "100%",
@@ -495,7 +559,7 @@ export default class SectionGeneric extends React.Component {
                 }}
               >
                 <span style={{ verticalAlign: "middle" }}>
-                  Section: Generic Listing
+                  Section: Model Collection
                 </span>
               </div>
               <div>
@@ -551,7 +615,7 @@ export default class SectionGeneric extends React.Component {
           >
             <div
               style={{
-                backgroundColor: "#EAE3F5",
+                backgroundColor: "#FFE8E0",
                 width: "100%",
               }}
             >
@@ -609,7 +673,7 @@ export default class SectionGeneric extends React.Component {
                   <TextField
                     multiline
                     rows="4"
-                    label="Description (optional)"
+                    label="Description of models (optional)"
                     variant="outlined"
                     fullWidth={true}
                     helperText="The description may be formatted with Markdown, LaTeX math and/or AsciiMath. Click on ? icon for help."
@@ -634,7 +698,7 @@ export default class SectionGeneric extends React.Component {
                     Do you wish to use tabs to group items in this section?
                   </span>
                   <ToggleSwitch
-                    id="genericTabs"
+                    id="modelsTabs"
                     checked={this.state.useTabs}
                     onChange={this.toggleUseTabs}
                   />
@@ -655,14 +719,15 @@ export default class SectionGeneric extends React.Component {
                   items={this.state.data}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
+                  handleDB={this.clickDB}
                   numCols={3}
                   useTabs={this.state.useTabs}
-                  type={"section_generic"}
+                  type={"section_models"}
                 />
                 <br />
                 <br />
                 {this.state.showEdit ? (
-                  <SectionGenericEdit
+                  <SectionModelsEdit
                     open={this.state.showEdit}
                     title={this.state.title}
                     data={this.state.data}
@@ -674,18 +739,26 @@ export default class SectionGeneric extends React.Component {
                   <ModalDialog
                     open={this.state.showDescHelp}
                     title="Markdown / Latex Description Input Format"
-                    headerBgColor="#AA91D7"
+                    headerBgColor="#FF8A65"
                     content={<MarkdownLatexExample />}
                     handleClose={this.handleDescHelpClose}
+                  />
+                ) : null}
+                {this.state.showDBInput ? (
+                  <DBInputModels
+                    open={this.state.showDBInput}
+                    handleClose={this.handleDBClose}
+                    enqueueSnackbar={this.props.enqueueSnackbar}
+                    closeSnackbar={this.props.closeSnackbar}
                   />
                 ) : null}
               </div>
               <DialogConfirm
                 open={this.state.deleteOpen}
                 title="Please confirm to delete!"
-                headerBgColor="#AA91D7"
+                headerBgColor="#FF8A65"
                 content={
-                  "Do you wish to delete the generic resource section with title '<b>" +
+                  "Do you wish to delete the models resource section with title '<b>" +
                   this.state.title +
                   "</b>'?"
                 }

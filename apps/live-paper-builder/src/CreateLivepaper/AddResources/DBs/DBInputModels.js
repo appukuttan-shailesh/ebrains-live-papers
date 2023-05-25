@@ -16,17 +16,17 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import Typography from "@mui/material/Typography";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
-import ErrorDialog from "./ErrorDialog";
-import LoadingIndicator from "./LoadingIndicator";
-import ContextMain from "./ContextMain";
+import ErrorDialog from "../../../HandleErrorsWarnings/ErrorDialog";
+import LoadingIndicator from "../../../Form/LoadingIndicator";
+import ContextMain from "../../../ContextMain";
 import TextField from "@mui/material/TextField";
-import SingleSelect from "./SingleSelect";
-import MultipleSelect from "./MultipleSelect";
+import SingleSelect from "../../../Form/SingleSelect";
+import MultipleSelect from "../../../Form/MultipleSelect";
 import axios from "axios";
 import Tooltip from "@mui/material/Tooltip";
 import Link from "@mui/material/Link";
-import SwitchMultiWay from "./SwitchMultiWay";
-import ToggleSwitch from "./ToggleSwitch";
+import SwitchMultiWay from "../../../Form/SwitchMultiWay";
+import ToggleSwitch from "../../../Form/ToggleSwitch";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ViewColumnIcon from "@mui/icons-material/ViewColumn";
 import {
@@ -41,14 +41,14 @@ import {
   biomodels_baseUrl,
   corsProxy,
   osb_baseUrl,
-} from "./globals";
+} from "../../../globals";
 import {
   formatAuthors,
   formatTimeStampToLongString,
   buildQuery,
   showNotification,
   formatLabel,
-} from "./utils";
+} from "../../../utils";
 
 const labelsModelDBKeys = {
   regions: "Brain Region",

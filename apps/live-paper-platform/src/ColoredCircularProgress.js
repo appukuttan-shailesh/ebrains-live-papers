@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { withStyles } from "@mui/styles";
+import CircularProgress from "@mui/material/CircularProgress";
 
 class ColoredCircularProgress extends Component {
   render() {

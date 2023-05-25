@@ -11,14 +11,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import CreateLivePaper from "./CreateLivePaper";
-import LoadingIndicatorModal from "./LoadingIndicatorModal";
-import ErrorDialog from "./ErrorDialog";
+import LoadingIndicatorModal from "../../Form/LoadingIndicatorModal";
+import ErrorDialog from "../../HandleErrorsWarnings/ErrorDialog";
 import Tooltip from "@mui/material/Tooltip";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import { livePaperPlatformUrl, livePaperDocsUrl } from "./globals";
-import RainbowRow from "./RainbowRow";
-import { StandardButton, WideButton } from "./Buttons";
+import { livePaperPlatformUrl, livePaperDocsUrl } from "../../globals";
+import RainbowRow from "../../RainbowRow";
+import { StandardButton, WideButton, InvertedButton } from "../../Buttons";
 
 
 const MyDialogTitle = (props) => {
@@ -176,6 +176,11 @@ class CreateLivePaperLoadPDFData extends React.Component {
           }
           this.setState({ loading: false });
         });
+    });
+  }
+  proceed() {
+    this.setState({
+      loadData: true,
     });
   }
 
@@ -590,7 +595,7 @@ class CreateLivePaperLoadPDFData extends React.Component {
               <StandardButton
                 backgroundColor="#4DC26D"
                 onClick={this.proceed}
-                label={Proceed}
+                label={'proceed'}
               />
             </div>
           </div>

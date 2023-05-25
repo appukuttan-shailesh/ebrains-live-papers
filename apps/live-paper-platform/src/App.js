@@ -1,13 +1,13 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import LoadingIndicator from "./LoadingIndicator";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
-import IconButton from "@material-ui/core/IconButton";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import BuildIcon from "@material-ui/icons/Build";
+import IconButton from "@mui/material/IconButton";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import BuildIcon from '@mui/icons-material/Build';
 import axios from "axios";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme, ThemeProvider } from "@mui/material/styles";
 import ErrorDialog from "./ErrorDialog";
 import LivePaperViewer from "./LivePaperViewer";
 import { baseUrl, updateHash } from "./globals";
@@ -18,16 +18,16 @@ import { Timeline } from "react-twitter-widgets";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { makeStyles } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
+import { makeStyles } from "@mui/styles";
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
 import LinesEllipsis from "react-lines-ellipsis";
 import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
-import Grid from "@material-ui/core/Grid";
-import Tooltip from "@material-ui/core/Tooltip";
+import Grid from "@mui/material/Grid";
+import Tooltip from "@mui/material/Tooltip";
 import { livePaperBuilderUrl, livePaperDocsUrl } from "./globals";
 import "./App.css";
 
@@ -455,9 +455,9 @@ export default class App extends React.Component {
           open={this.state.lp_open_id !== false}
           data={
             this.state.dataLPs[
-              isUUID(this.state.lp_open_id)
-                ? this.state.lp_open_id
-                : this.state.dataLPs[this.state.lp_open_id]
+            isUUID(this.state.lp_open_id)
+              ? this.state.lp_open_id
+              : this.state.dataLPs[this.state.lp_open_id]
             ]
           }
           onClose={this.handleCloseLP}

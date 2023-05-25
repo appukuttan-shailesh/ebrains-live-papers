@@ -6,14 +6,14 @@ import DialogContent from "@mui/material/DialogContent";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import SwitchMultiWay from "./SwitchMultiWay";
-import ContextMain from "./ContextMain";
-import LoadingIndicatorModal from "./LoadingIndicatorModal";
+import SwitchMultiWay from "../../Form/SwitchMultiWay";
+import ContextMain from "../../ContextMain";
+import LoadingIndicatorModal from "../../Form/LoadingIndicatorModal";
 import TextField from "@mui/material/TextField";
-import SingleSelect from "./SingleSelect";
-import ErrorDialog from "./ErrorDialog";
-import { baseUrl, separator } from "./globals";
-import { replaceEmptyStringsWithNull, showNotification } from "./utils";
+import SingleSelect from "../../Form/SingleSelect";
+import ErrorDialog from "../../HandleErrorsWarnings/ErrorDialog";
+import { baseUrl, separator } from "../../globals";
+import { replaceEmptyStringsWithNull, showNotification } from "../../utils";
 
 export default class SaveModal extends React.Component {
   signal = axios.CancelToken.source();

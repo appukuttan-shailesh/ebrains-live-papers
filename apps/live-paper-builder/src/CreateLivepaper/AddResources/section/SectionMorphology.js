@@ -1,15 +1,15 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import MaterialIconSelector from "./MaterialIconSelector";
+import MaterialIconSelector from "../../../Form/MaterialIconSelector";
 import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
-import ModalDialog from "./ModalDialog";
-import DialogConfirm from "./DialogConfirm";
-import DynamicTableItems from "./DynamicTableItems";
-import DBInputModels from "./DBInputModels";
-import ToggleSwitch from "./ToggleSwitch";
-import MarkdownLatexExample from "./MarkdownLatexExample";
+import ModalDialog from "../../../Form/ModalDialog";
+import DialogConfirm from "../../../DialogConfirm";
+import DynamicTableItems from "../DBs/DynamicTableItems";
+import DBInputMorphology from "../DBs/DBInputMorphology";
+import ToggleSwitch from "../../../Form/ToggleSwitch";
+import MarkdownLatexExample from "../../../MarkdownLatexExample";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -26,47 +26,42 @@ function HelpContent() {
       {
         "type": "URL",
         "label": "file_A",
-        "url": "https://www.datasource.com/models/model_1.zip",
-        "view_url":
-            "https://model-catalog.brainsimulation.eu/#model_id.00f2e856-27a8-4b8d-9ec3-4e2581c546e4",
+        "url": "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
+        "view_url": null,
         "identifier": null,
         "tab_name": "Group A"
       },
       {
         "type": "URL",
         "label": "file_B",
-        "url": "https://www.datasource.com/models/model_2.zip",
-        "view_url":
-            "https://model-catalog.brainsimulation.eu/#model_id.01006de7-e861-45fb-abf4-3c84e609d33b",
+        "url": "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
+        "view_url": null,
         "identifier": null,
         "tab_name": "Group A"
       },
       {
         "type": "URL",
         "label": "file_C",
-        "url": "https://www.datasource.com/models/model_3.zip",
-        "view_url":
-            "https://model-catalog.brainsimulation.eu/#model_id.01afb341-7ca2-4694-9968-16fc7d8fc765",
+        "url": "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
+        "view_url": null,
         "identifier": null,
         "tab_name": "Group A"
       },
       {
         "type": "URL",
         "label": "file_D",
-        "url": "https://www.datasource.com/models/model_4.zip",
-        "view_url":
-            "https://model-catalog.brainsimulation.eu/#model_id.01da73a6-8715-431b-aaa7-efcd9358c786",
+        "url": "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
+        "view_url": null,
         "identifier": null,
-        "tab_name": "Group A"
+        "tab_name": "Group B"
       },
       {
         "type": "URL",
         "label": "file_E",
-        "url": "https://www.datasource.com/models/model_5.zip",
-        "view_url":
-            "https://model-catalog.brainsimulation.eu/#model_id.01f49d73-e8a1-4f23-be30-d01bd52f89a2",
+        "url": "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
+        "view_url": null,
         "identifier": null,
-        "tab_name": "Group A"
+        "tab_name": "Group B"
       }
     ]`;
 
@@ -78,11 +73,10 @@ function HelpContent() {
       <h6>
         <b>List of dicts/objects</b>
       </h6>
-      Each dict in the list should have keys named 'type', 'url', 'label',
-      'view_url', 'identifier' and 'tab_name'. For manually entered items,
-      'type' 'view_url' and 'identifier' can be set to 'URL', null and null,
-      respectively. You may specify the model catalog URL for each model using
-      their `view_url' field. <i>Example:</i>
+      Each dict in the list should have keys named 'type', 'url', 'view_url',
+      'label', 'identifier' and 'tab_name'. For manually entered items, 'type'
+      'view_url' and 'identifier' can be set to 'URL', null and null,
+      respectively. <i>Example:</i>
       <br />
       <pre>
         <code>{list_of_dicts}</code>
@@ -91,7 +85,7 @@ function HelpContent() {
   );
 }
 
-export class SectionModelsEdit extends React.Component {
+export class SectionMorphologyEdit extends React.Component {
   constructor(props) {
     super(props);
 
@@ -222,7 +216,7 @@ export class SectionModelsEdit extends React.Component {
           <ModalDialog
             open={this.state.showHelp}
             title="Data Input"
-            headerBgColor="#FF8A65"
+            headerBgColor="#FF9800"
             content={<HelpContent />}
             handleClose={this.handleHelpClose}
           />
@@ -237,11 +231,11 @@ export class SectionModelsEdit extends React.Component {
       <DialogConfirm
         open={this.props.open}
         title={"Edit Source: " + this.props.title}
-        headerBgColor="#FF8A65"
+        headerBgColor="#FF9800"
         content={this.renderContent()}
         handleClose={this.handleSaveData}
         clickHelp={this.clickHelp}
-        bulkEntry="Models"
+        bulkEntry="Morphology"
       />
     );
   }
@@ -275,15 +269,15 @@ const Icon = styled((props) => (
   }
 `;
 
-export default class SectionModels extends React.Component {
+export default class SectionMorphology extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       order: null,
-      type: "section_models",
-      title: "Model Collection",
-      icon: "local_play",
+      type: "section_morphology",
+      title: "Morphologies",
+      icon: "settings_input_antenna",
       description: "",
       dataOk: true,
       data: [],
@@ -446,20 +440,13 @@ export default class SectionModels extends React.Component {
     if (flag) {
       console.log(items);
       let new_items = [];
-      for (const model_id in items) {
-        for (const instance_id in items[model_id]) {
+      for (const morph_id in items) {
+        for (const instance_id in items[morph_id]) {
           new_items.push({
-            type:
-              sourceDB === "Knowledge Graph"
-                ? "ModelInstance"
-                : sourceDB === "Open Source Brain"
-                ? "OSB"
-                : sourceDB === "ModelDB"
-                ? "ModelDB"
-                : "BioModels",
-            label: items[model_id][instance_id]["label"] || "",
-            url: items[model_id][instance_id]["source_url"] || "",
-            view_url: items[model_id][instance_id]["view_url"] || "",
+            type: sourceDB === "NeuroMorpho" ? "NeuroMorpho" : "AllenBrain",
+            label: items[morph_id][instance_id]["label"] || "",
+            url: items[morph_id][instance_id]["source_url"] || "",
+            view_url: items[morph_id][instance_id]["view_url"] || "",
             tab_name: "",
             identifier: null,
           });
@@ -534,9 +521,9 @@ export default class SectionModels extends React.Component {
               display: "flex",
               justifyContent: "space-between",
               borderStyle: "solid",
-              borderColor: "#86362D",
+              borderColor: "#E65100",
               borderWidth: "2px",
-              backgroundColor: "#FF8A65",
+              backgroundColor: "#FF9800",
               fontWeight: "bold",
               color: "#000000",
               width: "100%",
@@ -559,7 +546,7 @@ export default class SectionModels extends React.Component {
                 }}
               >
                 <span style={{ verticalAlign: "middle" }}>
-                  Section: Model Collection
+                  Section: Neuronal Morphology
                 </span>
               </div>
               <div>
@@ -615,7 +602,7 @@ export default class SectionModels extends React.Component {
           >
             <div
               style={{
-                backgroundColor: "#FFE8E0",
+                backgroundColor: "#FFECD1",
                 width: "100%",
               }}
             >
@@ -673,7 +660,7 @@ export default class SectionModels extends React.Component {
                   <TextField
                     multiline
                     rows="4"
-                    label="Description of models (optional)"
+                    label="Description of morphologies (optional)"
                     variant="outlined"
                     fullWidth={true}
                     helperText="The description may be formatted with Markdown, LaTeX math and/or AsciiMath. Click on ? icon for help."
@@ -698,10 +685,25 @@ export default class SectionModels extends React.Component {
                     Do you wish to use tabs to group items in this section?
                   </span>
                   <ToggleSwitch
-                    id="modelsTabs"
+                    id="morphologiesTabs"
                     checked={this.state.useTabs}
                     onChange={this.toggleUseTabs}
                   />
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    paddingBottom: "20px",
+                  }}
+                >
+                  <span style={{ paddingRight: "10px" }}>
+                    <strong>Note:</strong> 'View URL' can be left empty for SWC,
+                    neurolucida-ASC, neurolucida-XML or neurolucida-DAT/NRX
+                    files to make use of intergrated 3D visualization tool.
+                  </span>
                 </Grid>
                 {this.state.useTabs && (
                   <Grid
@@ -722,12 +724,12 @@ export default class SectionModels extends React.Component {
                   handleDB={this.clickDB}
                   numCols={3}
                   useTabs={this.state.useTabs}
-                  type={"section_models"}
+                  type={"section_morphology"}
                 />
                 <br />
                 <br />
                 {this.state.showEdit ? (
-                  <SectionModelsEdit
+                  <SectionMorphologyEdit
                     open={this.state.showEdit}
                     title={this.state.title}
                     data={this.state.data}
@@ -739,13 +741,13 @@ export default class SectionModels extends React.Component {
                   <ModalDialog
                     open={this.state.showDescHelp}
                     title="Markdown / Latex Description Input Format"
-                    headerBgColor="#FF8A65"
+                    headerBgColor="#FF9800"
                     content={<MarkdownLatexExample />}
                     handleClose={this.handleDescHelpClose}
                   />
                 ) : null}
                 {this.state.showDBInput ? (
-                  <DBInputModels
+                  <DBInputMorphology
                     open={this.state.showDBInput}
                     handleClose={this.handleDBClose}
                     enqueueSnackbar={this.props.enqueueSnackbar}
@@ -756,9 +758,9 @@ export default class SectionModels extends React.Component {
               <DialogConfirm
                 open={this.state.deleteOpen}
                 title="Please confirm to delete!"
-                headerBgColor="#FF8A65"
+                headerBgColor="#FF9800"
                 content={
-                  "Do you wish to delete the models resource section with title '<b>" +
+                  "Do you wish to delete the morphology resource section with title '<b>" +
                   this.state.title +
                   "</b>'?"
                 }

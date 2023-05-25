@@ -1,15 +1,14 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import MaterialIconSelector from "./MaterialIconSelector";
+import MaterialIconSelector from "../../../Form/MaterialIconSelector";
 import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
-import ModalDialog from "./ModalDialog";
-import DialogConfirm from "./DialogConfirm";
-import DynamicTableItems from "./DynamicTableItems";
-import DBInputMorphology from "./DBInputMorphology";
-import ToggleSwitch from "./ToggleSwitch";
-import MarkdownLatexExample from "./MarkdownLatexExample";
+import ModalDialog from "../../../Form/ModalDialog";
+import DialogConfirm from "../../../DialogConfirm";
+import DynamicTableItems from "../DBs/DynamicTableItems";
+import ToggleSwitch from "../../../Form/ToggleSwitch";
+import MarkdownLatexExample from "../../../MarkdownLatexExample";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -25,49 +24,49 @@ function HelpContent() {
     [
       {
         "type": "URL",
+        "url": "https://www.datasource.com/listing/file_idB.dat",
+        "view_url": null,
         "label": "file_A",
-        "url": "https://www.datasource.com/morphologies/oh140807_A0_idB.asc",
-        "view_url": null,
         "identifier": null,
         "tab_name": "Group A"
       },
       {
         "type": "URL",
+        "url": "https://www.datasource.com/listing/file_idC.dat",
+        "view_url": null,
         "label": "file_B",
-        "url": "https://www.datasource.com/morphologies/oh140807_A0_idC.asc",
-        "view_url": null,
         "identifier": null,
         "tab_name": "Group A"
       },
       {
         "type": "URL",
+        "url": "https://www.datasource.com/listing/file_idF.dat",
+        "view_url": null,
         "label": "file_C",
-        "url": "https://www.datasource.com/morphologies/oh140807_A0_idF.asc",
-        "view_url": null,
         "identifier": null,
         "tab_name": "Group A"
       },
       {
         "type": "URL",
-        "label": "file_D",
-        "url": "https://www.datasource.com/morphologies/oh140807_A0_idG.asc",
+        "url": "https://www.datasource.com/listing/file_idG.dat",
         "view_url": null,
+        "label": "file_D",
         "identifier": null,
-        "tab_name": "Group B"
+        "tab_name": "Group A"
       },
       {
         "type": "URL",
-        "label": "file_E",
-        "url": "https://www.datasource.com/morphologies/oh140807_A0_idH.asc",
+        "url": "https://www.datasource.com/listing/file_idH.dat",
         "view_url": null,
+        "label": "file_E",
         "identifier": null,
-        "tab_name": "Group B"
+        "tab_name": "Group A"
       }
     ]`;
 
   return (
     <div>
-      The morphology data can be input in the following format:
+      The listing data can be input in the following format:
       <br />
       <br />
       <h6>
@@ -85,7 +84,7 @@ function HelpContent() {
   );
 }
 
-export class SectionMorphologyEdit extends React.Component {
+export class SectionGenericEdit extends React.Component {
   constructor(props) {
     super(props);
 
@@ -216,7 +215,7 @@ export class SectionMorphologyEdit extends React.Component {
           <ModalDialog
             open={this.state.showHelp}
             title="Data Input"
-            headerBgColor="#FF9800"
+            headerBgColor="#AA91D7"
             content={<HelpContent />}
             handleClose={this.handleHelpClose}
           />
@@ -231,11 +230,11 @@ export class SectionMorphologyEdit extends React.Component {
       <DialogConfirm
         open={this.props.open}
         title={"Edit Source: " + this.props.title}
-        headerBgColor="#FF9800"
+        headerBgColor="#AA91D7"
         content={this.renderContent()}
         handleClose={this.handleSaveData}
         clickHelp={this.clickHelp}
-        bulkEntry="Morphology"
+        bulkEntry="Generic"
       />
     );
   }
@@ -269,20 +268,19 @@ const Icon = styled((props) => (
   }
 `;
 
-export default class SectionMorphology extends React.Component {
+export default class SectionGeneric extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       order: null,
-      type: "section_morphology",
-      title: "Morphologies",
-      icon: "settings_input_antenna",
+      type: "section_generic",
+      title: "Listing Title",
+      icon: "format_list_bulleted",
       description: "",
       dataOk: true,
       data: [],
       showEdit: false,
-      showDBInput: false,
       deleteOpen: false,
       expanded: true,
       useTabs: false,
@@ -293,8 +291,6 @@ export default class SectionMorphology extends React.Component {
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.clickEdit = this.clickEdit.bind(this);
     this.handleEditClose = this.handleEditClose.bind(this);
-    this.clickDB = this.clickDB.bind(this);
-    this.handleDBClose = this.handleDBClose.bind(this);
     this.setIcon = this.setIcon.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleMoveDown = this.handleMoveDown.bind(this);
@@ -430,53 +426,6 @@ export default class SectionMorphology extends React.Component {
     });
   }
 
-  clickDB() {
-    this.setState({
-      showDBInput: true,
-    });
-  }
-
-  handleDBClose(flag, items, sourceDB) {
-    if (flag) {
-      console.log(items);
-      let new_items = [];
-      for (const morph_id in items) {
-        for (const instance_id in items[morph_id]) {
-          new_items.push({
-            type: sourceDB === "NeuroMorpho" ? "NeuroMorpho" : "AllenBrain",
-            label: items[morph_id][instance_id]["label"] || "",
-            url: items[morph_id][instance_id]["source_url"] || "",
-            view_url: items[morph_id][instance_id]["view_url"] || "",
-            tab_name: "",
-            identifier: null,
-          });
-        }
-      }
-      console.log(new_items);
-
-      this.setState(
-        (prevState) => ({
-          data:
-            prevState.data.length === 1 &&
-            prevState.data[0].type === "URL" &&
-            prevState.data[0].label === "" &&
-            prevState.data[0].url === "" &&
-            prevState.data[0].view_url === ""
-              ? new_items
-              : prevState.data.concat(new_items),
-          showDBInput: false,
-        }),
-        () => {
-          this.props.storeSectionInfo(this.state);
-        }
-      );
-    } else {
-      this.setState({
-        showDBInput: false,
-      });
-    }
-  }
-
   toggleUseTabs() {
     if (this.state.useTabs) {
       // if turning off, then erase all tabs data
@@ -521,9 +470,9 @@ export default class SectionMorphology extends React.Component {
               display: "flex",
               justifyContent: "space-between",
               borderStyle: "solid",
-              borderColor: "#E65100",
+              borderColor: "#311B92",
               borderWidth: "2px",
-              backgroundColor: "#FF9800",
+              backgroundColor: "#AA91D7",
               fontWeight: "bold",
               color: "#000000",
               width: "100%",
@@ -546,7 +495,7 @@ export default class SectionMorphology extends React.Component {
                 }}
               >
                 <span style={{ verticalAlign: "middle" }}>
-                  Section: Neuronal Morphology
+                  Section: Generic Listing
                 </span>
               </div>
               <div>
@@ -602,7 +551,7 @@ export default class SectionMorphology extends React.Component {
           >
             <div
               style={{
-                backgroundColor: "#FFECD1",
+                backgroundColor: "#EAE3F5",
                 width: "100%",
               }}
             >
@@ -660,7 +609,7 @@ export default class SectionMorphology extends React.Component {
                   <TextField
                     multiline
                     rows="4"
-                    label="Description of morphologies (optional)"
+                    label="Description (optional)"
                     variant="outlined"
                     fullWidth={true}
                     helperText="The description may be formatted with Markdown, LaTeX math and/or AsciiMath. Click on ? icon for help."
@@ -685,25 +634,10 @@ export default class SectionMorphology extends React.Component {
                     Do you wish to use tabs to group items in this section?
                   </span>
                   <ToggleSwitch
-                    id="morphologiesTabs"
+                    id="genericTabs"
                     checked={this.state.useTabs}
                     onChange={this.toggleUseTabs}
                   />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  style={{
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
-                    paddingBottom: "20px",
-                  }}
-                >
-                  <span style={{ paddingRight: "10px" }}>
-                    <strong>Note:</strong> 'View URL' can be left empty for SWC,
-                    neurolucida-ASC, neurolucida-XML or neurolucida-DAT/NRX
-                    files to make use of intergrated 3D visualization tool.
-                  </span>
                 </Grid>
                 {this.state.useTabs && (
                   <Grid
@@ -721,15 +655,14 @@ export default class SectionMorphology extends React.Component {
                   items={this.state.data}
                   onChangeValue={this.handleItemsChange}
                   handleEdit={this.clickEdit}
-                  handleDB={this.clickDB}
                   numCols={3}
                   useTabs={this.state.useTabs}
-                  type={"section_morphology"}
+                  type={"section_generic"}
                 />
                 <br />
                 <br />
                 {this.state.showEdit ? (
-                  <SectionMorphologyEdit
+                  <SectionGenericEdit
                     open={this.state.showEdit}
                     title={this.state.title}
                     data={this.state.data}
@@ -741,26 +674,18 @@ export default class SectionMorphology extends React.Component {
                   <ModalDialog
                     open={this.state.showDescHelp}
                     title="Markdown / Latex Description Input Format"
-                    headerBgColor="#FF9800"
+                    headerBgColor="#AA91D7"
                     content={<MarkdownLatexExample />}
                     handleClose={this.handleDescHelpClose}
-                  />
-                ) : null}
-                {this.state.showDBInput ? (
-                  <DBInputMorphology
-                    open={this.state.showDBInput}
-                    handleClose={this.handleDBClose}
-                    enqueueSnackbar={this.props.enqueueSnackbar}
-                    closeSnackbar={this.props.closeSnackbar}
                   />
                 ) : null}
               </div>
               <DialogConfirm
                 open={this.state.deleteOpen}
                 title="Please confirm to delete!"
-                headerBgColor="#FF9800"
+                headerBgColor="#AA91D7"
                 content={
-                  "Do you wish to delete the morphology resource section with title '<b>" +
+                  "Do you wish to delete the generic resource section with title '<b>" +
                   this.state.title +
                   "</b>'?"
                 }
