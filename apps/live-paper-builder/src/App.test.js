@@ -12,7 +12,7 @@ import CreateLivePaperLoadPDFData from './CreateLivePaperLoadPDFData';
 //import { SnackbarProvider, enqueueSnackbar } from 'notistack'
 
 
-//const user = userEvent.setup({delay:null});
+const user = userEvent.setup({delay:null});
 const Button = ({onClick, children}) => (
   <button onClick={onClick}>{children}</button>
 )
@@ -29,7 +29,7 @@ test('renders learn react link', async () => {
           
    
     );
-  //const user = userEvent.setup();
+  
   const linkElement = screen.getByText(/Skip/i);
   await expect (linkElement).toBeInTheDocument();
   
