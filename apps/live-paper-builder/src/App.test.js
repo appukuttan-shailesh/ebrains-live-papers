@@ -8,7 +8,8 @@ import userEvent  from "@testing-library/user-event";
 import App from "./App";
 import {BrowserRouter, MemoryRouter, Router} from 'react-router-dom';
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom'
-import CreateLivePaperLoadPDFData from './CreateLivePaperLoadPDFData';
+
+import CreateLivePaper from './CreateLivePaper/CreateNewLivePaper/CreateLivePaper';
 //import { SnackbarProvider, enqueueSnackbar } from 'notistack'
 
 
