@@ -54,7 +54,7 @@ export default class BuildCommon extends React.Component {
                 title corresponding to its reource type, but authors can replace
                 with more informative/relevant titles corresponding to their
                 study. Only the 'Custom' resource section does not offer an
-                explicit field for description, as it can easily be accomodated
+                explicit field for description, as it can easily be accommodated
                 within the custom content.
                 <br /><br />
                 To change the existing icon, simply click on it. A variety of
@@ -188,7 +188,7 @@ export default class BuildCommon extends React.Component {
             As the values for each attribute (cell) of a resource can be quite
             lengthy, it is often difficult to view it in its entirety easily. To
             assist with this, when required, users may click on the 'EXPAND
-            TABLE' button to obtain a more detailed view of thes attributes.
+            TABLE' button to obtain a more detailed view of these attributes.
             <br /><br />
             <div style={{ textAlign: "center" }}>
               <img alt="" src={process.env.PUBLIC_URL + "/figures/share_common/resource_expand_table.png"} width="85%" />
