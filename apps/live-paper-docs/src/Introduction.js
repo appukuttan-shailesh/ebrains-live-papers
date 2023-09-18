@@ -26,7 +26,7 @@ export default class Introduction extends React.Component {
               <div className="block-little-header">The Problem</div>
               <div className="block-main-header">Where to find underlying data?</div>
               <div className="block-text">
-                Consider that you came across a scientfic publication that piqued your interest.
+                Consider that you came across a scientific publication that piqued your interest.
                 It might be because:
                 <ul>
                   <li>the experimental data produced by the authors could aid your own scientific work, or</li>

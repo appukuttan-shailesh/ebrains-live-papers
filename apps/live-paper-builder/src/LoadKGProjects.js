@@ -177,7 +177,7 @@ export default class LoadKGProjects extends React.Component {
             <LoadingIndicatorModal open={this.state.loading} />
             <Box my={2}>
               To have edit permissions on a live paper, you must be a member of
-              the live paper's host Collab. You currrently have permissions to
+              the live paper's host Collab. You currently have permissions to
               edit the below listed live paper projects on the Knowledge Graph.
             </Box>
             <Box my={2}>

@@ -20,7 +20,7 @@ export function compareArrayoOfObjectsByOrder(a, b) {
 
 export function replaceNullWithEmptyStrings(param) {
   if (param === null) {
-    // Note: null is also object, but explictly comared before testing for object below
+    // Note: null is also object, but explicitly comared before testing for object below
     return "";
   } else if (typeof param === "string") {
     return param;

@@ -701,7 +701,7 @@ export default class SectionMorphology extends React.Component {
                   <span style={{ paddingRight: "10px" }}>
                     <strong>Note:</strong> 'View URL' can be left empty for SWC,
                     neurolucida-ASC, neurolucida-XML or neurolucida-DAT/NRX
-                    files to make use of intergrated 3D visualization tool.
+                    files to make use of integrated 3D visualization tool.
                   </span>
                 </Grid>
                 {this.state.useTabs && (
