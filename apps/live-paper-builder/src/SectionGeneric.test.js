@@ -1,7 +1,7 @@
 import { render, screen, waitFor, wait } from '@testing-library/react';
 
 import  SectionGeneric from "../CreateLivepaper/AddResources/section/SectionGeneric";
-test('renders the component with props', async () => {
+test('tes if we can create generic resources', async () => {
 
  
   const MockCallBack = jest.fn();
