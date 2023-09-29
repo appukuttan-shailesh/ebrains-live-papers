@@ -1,7 +1,7 @@
 import { render, screen, waitFor, wait } from '@testing-library/react';
 import fireEvent from '@testing-library/react';
 import  SectionModels from "../CreateLivepaper/AddResources/section/SectionModels";
-test('renders the component with props', async () => {
+test('test if we can create model resources', async () => {
 
  
   const MockCallBack = jest.fn();
