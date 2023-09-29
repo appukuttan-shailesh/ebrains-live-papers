@@ -1,7 +1,7 @@
 import { render, screen, waitFor, wait } from '@testing-library/react';
 import fireEvent from '@testing-library/react';
 import  SectionTraces from "../CreateLivepaper/AddResources/section/SectionTraces";
-test('renders the component with props', async () => {
+test('test if we can create trces resources', async () => {
 
  
   const MockCallBack = jest.fn();
