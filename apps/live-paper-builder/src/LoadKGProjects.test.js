@@ -9,7 +9,7 @@ const defaultProps = {
   onClose: jest.fn(),
 };
 
-test('renders the component with props', () => {
+test('test if we can load projects', () => {
   render(<LoadKGProjects {...defaultProps} />);
   
   
