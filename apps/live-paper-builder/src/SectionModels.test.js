@@ -1,6 +1,6 @@
 import { render, screen, waitFor, wait } from '@testing-library/react';
 import fireEvent from '@testing-library/react';
-import  SectionModels from "../CreateLivepaper/AddResources/section/SectionModels";
+import  SectionModels from "./CreateLivepaper/AddResources/section/SectionModels";
 test('test if we can create model resources', async () => {
 
  
