@@ -1,6 +1,6 @@
 import { render, screen, waitFor, wait } from '@testing-library/react';
 import fireEvent from '@testing-library/react';
-import  SectionCustom from "../CreateLivepaper/AddResources/section/SectionCustom";
+import  SectionCustom from "./CreateLivepaper/AddResources/section/SectionCustom";
 test('test if we can create custom resources', async () => {
 
  
