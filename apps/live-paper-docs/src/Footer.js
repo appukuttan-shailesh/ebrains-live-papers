@@ -8,8 +8,8 @@ export default class Footer extends React.Component {
         <div className="block-little-header">Contact</div>
         <div className="block-main-header">Any questions?</div>
         <div className="block-text">
-          If you have questions that are not answered here, contact us by e-mail:
-          {" "}<a href="mailto:support@ebrains.eu">support@ebrains.eu</a>
+          If you have questions that are not answered here, contact us by
+          e-mail: <a href="mailto:support@ebrains.eu">support@ebrains.eu</a>
         </div>
         <br />
       </div>

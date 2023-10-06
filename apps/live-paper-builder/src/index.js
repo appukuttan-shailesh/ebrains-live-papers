@@ -7,7 +7,21 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { SnackbarProvider } from "notistack";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider, createTheme } from '@mui/material';
 import BulkEntryWizard from "./BulkEntryWizard";
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      // light: will be calculated from palette.primary.main,
+      main: "#00A595",
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    },
+  },
+});
+
 
 function initLoad() {
   // to avoid authentication when opening BulkEntryWizard
@@ -15,7 +29,7 @@ function initLoad() {
   if (window.location.pathname.includes("BulkEntryWizard")) {
     renderApp(null);
   } else {
-    initAuth(renderApp)
+    initAuth(renderApp);
   }
 }
 
@@ -26,30 +40,38 @@ function renderApp(auth) {
       <Routes>
         {["/BulkEntryWizard", "/builder/BulkEntryWizard"].map((path, index) => {
           return (
-            <Route path={path} element={
-              <React.StrictMode>
-                <SnackbarProvider maxSnack={3}>
-                  <ContextMainProvider>
-                    <BulkEntryWizard />
-                  </ContextMainProvider>
-                </SnackbarProvider>
-              </React.StrictMode>
-            }
+            <Route
+              path={path}
+              element={
+                <React.StrictMode>
+                  <ThemeProvider theme={theme}>
+                    <SnackbarProvider maxSnack={3}>
+                      <ContextMainProvider>
+                        <BulkEntryWizard />
+                      </ContextMainProvider>
+                    </SnackbarProvider>
+                  </ThemeProvider>
+                </React.StrictMode>
+              }
               key={index}
             />
           );
         })}
         {["/", "/builder/", "*"].map((path, index) => {
           return (
-            <Route path={path} element={
-              <React.StrictMode>
-                <SnackbarProvider maxSnack={3}>
-                  <ContextMainProvider>
-                    <App auth={auth} />
-                  </ContextMainProvider>
-                </SnackbarProvider>
-              </React.StrictMode>
-            }
+            <Route
+              path={path}
+              element={
+                <React.StrictMode>
+                  <ThemeProvider theme={theme}>
+                    <SnackbarProvider maxSnack={3}>
+                      <ContextMainProvider>
+                        <App auth={auth} />
+                      </ContextMainProvider>
+                    </SnackbarProvider>
+                  </ThemeProvider>
+                </React.StrictMode>
+              }
               key={index}
             />
           );

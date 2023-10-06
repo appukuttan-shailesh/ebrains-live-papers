@@ -2,7 +2,7 @@
 export const livePaperPlatformUrl = "/";
 export const livePaperBuilderUrl = "/builder";
 export const livePaperDocsUrl = "/docs";
-export const baseUrl = "https://validation-v2.brainsimulation.eu";
+export const baseUrl = "https://validation.brainsimulation.eu";
 export const mc_baseUrl = "https://model-catalog.brainsimulation.eu";
 export const nar_baseUrl =
   "https://neural-activity-resource.brainsimulation.eu";
@@ -76,6 +76,6 @@ export const updateHash = (value) => {
 
 // To access certain APIs that give CORS related issues
 export const corsProxy = "https://corsproxy.hbpneuromorphic.eu/";
-// previously used https://corsproxy-sa.herokuapp.com/ 
-// other options: https://cors-clear.herokuapp.com/, https://cors-fixer.herokuapp.com/, 
+// previously used https://corsproxy-sa.herokuapp.com/
+// other options: https://cors-clear.herokuapp.com/, https://cors-fixer.herokuapp.com/,
 // https://cors-handler.herokuapp.com/, https://cors-anywhere.herokuapp.com/ - latter now has request limits

@@ -1,38 +1,30 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import MuiDialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Typography from "@mui/material/Typography";
 import parse from "html-react-parser";
 import { Link } from "react-router-dom";
 
-const styles = (theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-  },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
 
-const DialogTitle = withStyles(styles)((props) => {
+const DialogTitle = (props) => {
   const { children, classes, onClose, ...other } = props;
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+    <MuiDialogTitle disableTypography sx={{ margin: 0, padding: 2 }} {...other}>
       <Typography variant="h6">{children}</Typography>
       {onClose ? (
         <IconButton
           aria-label="close"
-          className={classes.closeButton}
+          sx={{
+            position: "absolute",
+            right: 1,
+            top: 1,
+            //color: theme.palette.grey[500],
+          }}
           onClick={onClose}
         >
           <CloseIcon style={{ color: "#000000" }} />
@@ -40,20 +32,8 @@ const DialogTitle = withStyles(styles)((props) => {
       ) : null}
     </MuiDialogTitle>
   );
-});
+};
 
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
 
 export default class DialogConfirm extends React.Component {
   render() {
@@ -138,7 +118,13 @@ export default class DialogConfirm extends React.Component {
               )}
               {this.props.bulkEntry && (
                 <>
-                  <Link to={{ pathname: window.location.pathname + "BulkEntryWizard", hash: this.props.bulkEntry }} target="_blank" >
+                  <Link
+                    to={{
+                      pathname: window.location.pathname + "BulkEntryWizard",
+                      hash: this.props.bulkEntry,
+                    }}
+                    target="_blank"
+                  >
                     <Button
                       variant="contained"
                       color="primary"

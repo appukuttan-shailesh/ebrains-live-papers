@@ -1,13 +1,13 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import LoadingIndicator from "./LoadingIndicator";
 import LoadingIndicatorModal from "./LoadingIndicatorModal";
-import IconButton from "@material-ui/core/IconButton";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import BuildIcon from "@material-ui/icons/Build";
+import IconButton from "@mui/material/IconButton";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import BuildIcon from '@mui/icons-material/Build';
 import axios from "axios";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme, ThemeProvider } from "@mui/material/styles";
 import ErrorDialog from "./ErrorDialog";
 import LivePaperViewer from "./LivePaperViewer";
 import { baseUrl, updateHash } from "./globals";
@@ -18,16 +18,16 @@ import { Timeline } from "react-twitter-widgets";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { makeStyles } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
+import { makeStyles } from "@mui/styles";
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
 import LinesEllipsis from "react-lines-ellipsis";
 import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
-import Grid from "@material-ui/core/Grid";
-import Tooltip from "@material-ui/core/Tooltip";
+import Grid from "@mui/material/Grid";
+import Tooltip from "@mui/material/Tooltip";
 import { livePaperBuilderUrl, livePaperDocsUrl } from "./globals";
 import "./App.css";
 
@@ -145,9 +145,7 @@ function MediaCard(props) {
           borderWidth: 2,
         }}
       >
-        <CardActionArea
-          onClick={() => window.open("/#" + props.alias)}
-        >
+        <CardActionArea onClick={() => window.open("/#" + props.alias)}>
           <CardMedia
             className={classes.media}
             image={props.image_url}
@@ -242,7 +240,7 @@ export default class App extends React.Component {
             loadingListing: false,
             error: null,
           });
-          return
+          return;
         })
         .catch((err) => {
           console.log("Error finding listing in server cache!");
@@ -282,7 +280,7 @@ export default class App extends React.Component {
                 loadingListing: false,
               });
             });
-        })
+        });
     });
   }
 
@@ -296,7 +294,6 @@ export default class App extends React.Component {
     // Note: does not handle
 
     this.setState({ loadingSelectedLP: true }, () => {
-
       // 1) check if LP in local cache
       if (
         Object.keys(this.state.dataLPs).includes(lp_id) &&
@@ -315,7 +312,7 @@ export default class App extends React.Component {
       axios
         .get("/cache/" + lp_id + ".json")
         .then((res) => {
-          console.log("Found LP in server cache!");
+          console.log("Found LP in server cache.");
           console.log(res);
           this.setState((prevState) => ({
             dataLPs: {
@@ -326,11 +323,10 @@ export default class App extends React.Component {
             loadingSelectedLP: false,
             lp_open_id: open ? lp_id : false,
           }));
-          return
+          return;
         })
         .catch((err) => {
-          console.log("Error finding LP in server cache!");
-          console.log(err);
+          console.log("LP is not in the server cache.");
 
           // 3) published: check if LP published; if yes, fetch LP, add to cache
           let context = this;
@@ -408,10 +404,12 @@ export default class App extends React.Component {
                             console.log(err);
                             let error_message = err.message;
                             if (err.response.status === 401) {
-                              error_message = "Live Paper password is incorrect!";
+                              error_message =
+                                "Live Paper password is incorrect!";
                             }
                             if (err.response.status === 404) {
-                              error_message = "You have requested a non-existent Live Paper!";
+                              error_message =
+                                "You have requested a non-existent Live Paper!";
                             }
                             context.setState({
                               error: error_message,
@@ -434,7 +432,7 @@ export default class App extends React.Component {
                   });
               }
             });
-        })
+        });
     });
   }
 
@@ -491,12 +489,27 @@ export default class App extends React.Component {
       return (
         <div className="mycontainer" style={{ textAlign: "left" }}>
           <LoadingIndicatorModal open={this.state.loadingSelectedLP} />
-          <div className="box rounded centered"
-            style={{ marginTop: "25px", paddingTop: "0.25em", paddingBottom: "0.25em", marginBottom: "1em" }}>
+          <div
+            className="box rounded centered"
+            style={{
+              marginTop: "25px",
+              paddingTop: "0.25em",
+              paddingBottom: "0.25em",
+              marginBottom: "1em",
+            }}
+          >
             <div style={{ display: "flex" }}>
-              <div style={{ flex: 1, textAlign: "left", paddingLeft: "25px", alignSelf: "center" }}>
+              <div
+                style={{
+                  flex: 1,
+                  textAlign: "left",
+                  paddingLeft: "25px",
+                  alignSelf: "center",
+                }}
+              >
                 <Tooltip title={"Open EBRAINS Homepage"}>
-                  <a href="https://ebrains.eu/"
+                  <a
+                    href="https://ebrains.eu/"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ textAlign: "center" }}
@@ -509,7 +522,14 @@ export default class App extends React.Component {
                   </a>
                 </Tooltip>
               </div>
-              <div style={{ flex: 1, textAlign: "right", paddingRight: "25px", alignSelf: "center" }}>
+              <div
+                style={{
+                  flex: 1,
+                  textAlign: "right",
+                  paddingRight: "25px",
+                  alignSelf: "center",
+                }}
+              >
                 <Tooltip title={"Open Live Paper Builder"}>
                   <a
                     href={livePaperBuilderUrl}
@@ -546,10 +566,18 @@ export default class App extends React.Component {
               paddingBottom: "20px",
             }}
           >
-            <div className="title-solid-style" style={{ fontSize: 44 }}>EBRAINS Live Papers</div>
-            <div className="title-solid-style" style={{ fontSize: 32, color: "#00A595" }}>Interactive resource sheets for computational studies in neuroscience</div>
+            <div className="title-solid-style" style={{ fontSize: 44 }}>
+              EBRAINS Live Papers
+            </div>
+            <div
+              className="title-solid-style"
+              style={{ fontSize: 32, color: "#00A595" }}
+            >
+              Interactive resource sheets for computational studies in
+              neuroscience
+            </div>
           </div>
-          <div style={{ marginBottom: "40px", }}>
+          <div style={{ marginBottom: "40px" }}>
             <div className="rainbow-row">
               <div></div>
               <div></div>
@@ -592,7 +620,10 @@ export default class App extends React.Component {
               alignItem: "center",
             }}
           > */}
-          <div className="box rounded centered smallbox titleText" style={{ width: "90%" }}>
+          <div
+            className="box rounded centered smallbox titleText"
+            style={{ width: "90%" }}
+          >
             <span
               style={{
                 fontWeight: "bolder",
@@ -864,64 +895,62 @@ export default class App extends React.Component {
           <br />
           <br />
           {this.state.loadingListing && <LoadingIndicator />}
-          {
-            !this.state.loadingListing && (
-              <div
-                style={{
-                  paddingLeft: "5%",
-                  paddingRight: "5%",
-                  textAlign: "justify",
-                }}
-              >
-                <ThemeProvider theme={theme}>
-                  <MaterialTable
-                    title="Published Live Papers"
-                    data={this.state.lp_listing}
-                    columns={TABLE_COLUMNS}
-                    options={{
-                      search: true,
-                      paging: false,
-                      filtering: false,
-                      exportButton: false,
-                      headerStyle: {
-                        position: "sticky",
-                        top: 0,
-                        backgroundColor: "#EEEEEE",
-                        color: "#000",
-                        fontWeight: "bold",
-                        fontSize: 16,
-                      },
-                      rowStyle: {
-                        fontSize: 16,
-                        paddingLeft: "10%",
-                        marginLeft: "10%",
-                        border: "solid",
-                        borderWidth: 2,
-                        borderColor: "#999999",
-                        backgroundColor: "#EFF7E5"
-                      },
-                      // tableLayout: "fixed",
-                    }}
-                    onRowClick={(event, selectedRow) => {
-                      // console.log(selectedRow.alias);
-                      window.open("/#" + selectedRow.alias);
-                    }}
-                    components={{
-                      Toolbar: (props) => (
-                        <div
-                          style={{
-                            backgroundColor: "#13AC8B",
-                          }}
-                        >
-                          <MTableToolbar {...props} />
-                        </div>
-                      ),
-                    }}
-                  />
-                </ThemeProvider>
-              </div>
-            )
-          }
+          {!this.state.loadingListing && (
+            <div
+              style={{
+                paddingLeft: "5%",
+                paddingRight: "5%",
+                textAlign: "justify",
+              }}
+            >
+              <ThemeProvider theme={theme}>
+                <MaterialTable
+                  title="Published Live Papers"
+                  data={this.state.lp_listing}
+                  columns={TABLE_COLUMNS}
+                  options={{
+                    search: true,
+                    paging: false,
+                    filtering: false,
+                    exportButton: false,
+                    headerStyle: {
+                      position: "sticky",
+                      top: 0,
+                      backgroundColor: "#EEEEEE",
+                      color: "#000",
+                      fontWeight: "bold",
+                      fontSize: 16,
+                    },
+                    rowStyle: {
+                      fontSize: 16,
+                      paddingLeft: "10%",
+                      marginLeft: "10%",
+                      border: "solid",
+                      borderWidth: 2,
+                      borderColor: "#999999",
+                      backgroundColor: "#EFF7E5",
+                    },
+                    // tableLayout: "fixed",
+                  }}
+                  onRowClick={(event, selectedRow) => {
+                    // console.log(selectedRow.alias);
+                    window.open("/#" + selectedRow.alias);
+                  }}
+                  components={{
+                    Toolbar: (props) => (
+                      <div
+                        style={{
+                          backgroundColor: "#13AC8B",
+                        }}
+                      >
+                        <MTableToolbar {...props} />
+                      </div>
+                    ),
+                  }}
+                />
+              </ThemeProvider>
+            </div>
+          )}
           <br />
           <br />
           <div className="rainbow-row">
@@ -937,9 +966,8 @@ export default class App extends React.Component {
           <br />
           <br />
           {errorModal}
-        </div >
+        </div>
       );
     }
   }
 }
-
