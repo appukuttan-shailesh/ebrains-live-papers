@@ -1,6 +1,6 @@
 import { render, screen, waitFor, wait } from '@testing-library/react';
 import fireEvent from '@testing-library/react';
-import  SectionTraces from "../CreateLivepaper/AddResources/section/SectionTraces";
+import  SectionTraces from "./CreateLivepaper/AddResources/section/SectionTraces";
 test('test if we can create trces resources', async () => {
 
  
