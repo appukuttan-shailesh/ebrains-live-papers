@@ -1,6 +1,6 @@
 import { render, screen, waitFor, wait } from '@testing-library/react';
 
-import  SectionGeneric from "../CreateLivepaper/AddResources/section/SectionGeneric";
+import  SectionGeneric from "./CreateLivepaper/AddResources/section/SectionGeneric";
 test('tes if we can create generic resources', async () => {
 
  
